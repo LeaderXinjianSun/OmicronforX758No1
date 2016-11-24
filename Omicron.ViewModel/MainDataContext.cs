@@ -18,7 +18,17 @@ namespace Omicron.ViewModel
         public virtual string HomePageVisibility { set; get; } = "Visible";
         public virtual bool IsPLCConnect { set; get; } = false;
         public virtual bool IsTCPConnect { set; get; } = false;
+        public virtual bool IsShieldTheDoor { set; get; } = true;
         public virtual string Msg { set; get; } = "";
+        public virtual bool EpsonStatusAuto { set; get; } = true;
+        public virtual bool EpsonStatusWarning { set; get; } = true;
+        public virtual bool EpsonStatusSError { set; get; } = true;
+        public virtual bool EpsonStatusSafeGuard { set; get; } = true;
+        public virtual bool EpsonStatusEStop { set; get; } = true;
+        public virtual bool EpsonStatusError { set; get; } = true;
+        public virtual bool EpsonStatusPaused { set; get; } = true;
+        public virtual bool EpsonStatusRunning { set; get; } = true;
+        public virtual bool EpsonStatusReady { set; get; } = true;
         private MessagePrint messagePrint = new MessagePrint();
         private dialog mydialog = new dialog();
         public void ChoseHomePage()
@@ -31,6 +41,22 @@ namespace Omicron.ViewModel
         {
             AboutPageVisibility = "Visible";
             HomePageVisibility = "Collapsed";
+        }
+        public void FunctionTest()
+        {
+
+        }
+        public void ShieldDoorFunction()
+        {
+            IsShieldTheDoor = !IsShieldTheDoor;
+        }
+        public void EpsonOpetate(object p)
+        {
+
+        }
+        public void NoiseReduce()
+        {
+
         }
         [Export(MEF.Contracts.ActionMessage)]
         [ExportMetadata(MEF.Key, "winclose")]

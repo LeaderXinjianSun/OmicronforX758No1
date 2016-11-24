@@ -22,7 +22,9 @@
                     <ImageBrush ImageSource="pictures/849378245772160706.jpg"></ImageBrush>
                 </Grid.Background>
             </Grid>
-            
+            <Grid Grid.Column="1">
+                <local:OperatePage></local:OperatePage>
+            </Grid>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
