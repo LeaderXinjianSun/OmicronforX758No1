@@ -30,6 +30,9 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <sxj:MessagePrintControl MsgText="{Binding Msg}"></sxj:MessagePrintControl>
+            <Grid Grid.Column="1">
+                
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

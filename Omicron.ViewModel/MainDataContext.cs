@@ -16,6 +16,8 @@ namespace Omicron.ViewModel
     {
         public virtual string AboutPageVisibility { set; get; } = "Collapsed";
         public virtual string HomePageVisibility { set; get; } = "Visible";
+        public virtual bool IsPLCConnect { set; get; } = false;
+        public virtual bool IsTCPConnect { set; get; } = false;
         public virtual string Msg { set; get; } = "";
         private MessagePrint messagePrint = new MessagePrint();
         private dialog mydialog = new dialog();

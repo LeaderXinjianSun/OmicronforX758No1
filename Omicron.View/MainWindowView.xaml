@@ -7,6 +7,13 @@
              xmlns:mvvm="clr-namespace:BingLibrary.hjb;assembly=BingLibrary"
              mc:Ignorable="d" 
              d:DesignHeight="738" d:DesignWidth="1024">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="SxjDictionary.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid  DataContext="{mvvm:Data md}">
         <Grid.RowDefinitions>
             <RowDefinition Height="4*"></RowDefinition>
@@ -30,7 +37,16 @@
         
         <StatusBar Grid.Row="3">
             <StatusBarItem>
-                <Ellipse Width="10" Height="10" Fill="Green"></Ellipse>
+                <TextBlock>PLC</TextBlock>
+            </StatusBarItem>
+            <StatusBarItem>
+                <Ellipse Style="{StaticResource PLCConnectStatus}"></Ellipse>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock>TCP</TextBlock>
+            </StatusBarItem>
+            <StatusBarItem>
+                <Ellipse Style="{StaticResource TCPConnectStatus}"></Ellipse>
             </StatusBarItem>
         </StatusBar>
     </Grid>

@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style TargetType="Ellipse" x:Key="EllipseBase">
+        <Setter Property="Fill" Value="Red"></Setter>
+        <Setter Property="Width" Value="20"></Setter>
+        <Setter Property="Height" Value="20"></Setter>
+    </Style>
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseBase}" x:Key="PLCConnectStatus">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsPLCConnect}" Value="true">
+                <Setter Property="Fill" Value="Green"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseBase}" x:Key="TCPConnectStatus">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsTCPConnect}" Value="true">
+                <Setter Property="Fill" Value="Green"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>
