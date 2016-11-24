@@ -30,14 +30,42 @@
                 </Grid.RowDefinitions>
                 <Grid>
                     <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Style="{StaticResource TextBlockBase}" Text="串口"></TextBlock>
+                        <StackPanel Style="{StaticResource ParameterHorizontalStackPanel}">
+                            <TextBlock Style="{StaticResource TextBlockParameterName}" Text="串口"></TextBlock>
                             <ComboBox Style="{StaticResource ComboBoxBase}" x:Name="Com" Text="{Binding SerialPortCom}" DropDownOpened="ComboBox_DropDownOpened" IsEditable="True" IsReadOnly="True"></ComboBox>
                         </StackPanel>
-                        <TextBlock Text="波特率： 19200&#13;数据位： 8&#13;停止位： 1&#13;奇偶校验： Even"></TextBlock>
+                        <TextBlock Style="{StaticResource TextBlockBase}" Text="波特率： 19200&#13;数据位： 8&#13;停止位： 1&#13;奇偶校验： Even"></TextBlock>
                     </StackPanel>
                 </Grid>
             </Grid>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Header="Epson机械手">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Style="{StaticResource ParameterHorizontalStackPanel}">
+                    <TextBlock Style="{StaticResource TextBlockParameterName}">IP:</TextBlock>
+                    <TextBox Style="{StaticResource TextBoxIp}" Text="{Binding EpsonIp}"></TextBox>
+                </StackPanel>
+                <StackPanel Style="{StaticResource ParameterHorizontalStackPanel}">
+                    <Ellipse Style="{StaticResource EllipseTestSend}"></Ellipse>
+                    <TextBlock Style="{StaticResource TextBlockParameterLoneName}">测试发Port:</TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding EpsonTestSendPort}"></TextBox>
+                </StackPanel>
+                <StackPanel Style="{StaticResource ParameterHorizontalStackPanel}">
+                    <Ellipse Style="{StaticResource EllipseTestRev}"></Ellipse>
+                    <TextBlock Style="{StaticResource TextBlockParameterLoneName}">测试收Port:</TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding EpsonTestReceivePort}"></TextBox>
+                </StackPanel>
+                <StackPanel Style="{StaticResource ParameterHorizontalStackPanel}">
+                    <Ellipse Style="{StaticResource EllipseMsgRev}"></Ellipse>
+                    <TextBlock Style="{StaticResource TextBlockParameterLoneName}">信息收Port:</TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding EpsonMsgReceivePort}"></TextBox>
+                </StackPanel>
+                <StackPanel Style="{StaticResource ParameterHorizontalStackPanel}">
+                    <Ellipse Style="{StaticResource EllipseCtrl}"></Ellipse>
+                    <TextBlock Style="{StaticResource TextBlockParameterLoneName}">远程Port:</TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding EpsonRemoteControlPort}"></TextBox>
+                </StackPanel>
+            </StackPanel>
         </GroupBox>
     </Grid>
 </UserControl>

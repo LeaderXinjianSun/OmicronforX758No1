@@ -30,72 +30,106 @@
         <Setter Property="Orientation" Value="Vertical"></Setter>
         <Setter Property="Width" Value="37"></Setter>
     </Style>
-    <Style TargetType="Ellipse" x:Key="EllipseBase">
+    <Style TargetType="Ellipse" x:Key="EpsonEllipseBase">
         <Setter Property="Height" Value="25" ></Setter>
         <Setter Property="Width" Value="25" ></Setter>
         <Setter Property="Fill" Value="Gray"></Setter>
         <Setter Property="Margin" Value="0,5"></Setter>
     </Style>
-    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseBase}" x:Key="EpsonStatusAutoColor">
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EpsonEllipseBase}" x:Key="EpsonStatusAutoColor">
         <Style.Triggers>
             <DataTrigger Binding="{Binding EpsonStatusAuto}" Value="true">
                 <Setter Property="Fill" Value="Yellow"></Setter>
             </DataTrigger>
         </Style.Triggers>
     </Style>
-    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseBase}" x:Key="EpsonStatusWarningColor">
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EpsonEllipseBase}" x:Key="EpsonStatusWarningColor">
         <Style.Triggers>
             <DataTrigger Binding="{Binding EpsonStatusWarning}" Value="true">
                 <Setter Property="Fill" Value="Yellow"></Setter>
             </DataTrigger>
         </Style.Triggers>
     </Style>
-    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseBase}" x:Key="EpsonStatusSErrorColor">
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EpsonEllipseBase}" x:Key="EpsonStatusSErrorColor">
         <Style.Triggers>
             <DataTrigger Binding="{Binding EpsonStatusSError}" Value="true">
                 <Setter Property="Fill" Value="Yellow"></Setter>
             </DataTrigger>
         </Style.Triggers>
     </Style>
-    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseBase}" x:Key="EpsonStatusSafeGuardColor">
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EpsonEllipseBase}" x:Key="EpsonStatusSafeGuardColor">
         <Style.Triggers>
             <DataTrigger Binding="{Binding EpsonStatusSafeGuard}" Value="true">
                 <Setter Property="Fill" Value="Yellow"></Setter>
             </DataTrigger>
         </Style.Triggers>
     </Style>
-    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseBase}" x:Key="EpsonStatusEStopColor">
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EpsonEllipseBase}" x:Key="EpsonStatusEStopColor">
         <Style.Triggers>
             <DataTrigger Binding="{Binding EpsonStatusEStop}" Value="true">
                 <Setter Property="Fill" Value="Yellow"></Setter>
             </DataTrigger>
         </Style.Triggers>
     </Style>
-    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseBase}" x:Key="EpsonStatusErrorColor">
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EpsonEllipseBase}" x:Key="EpsonStatusErrorColor">
         <Style.Triggers>
             <DataTrigger Binding="{Binding EpsonStatusError}" Value="true">
                 <Setter Property="Fill" Value="Yellow"></Setter>
             </DataTrigger>
         </Style.Triggers>
     </Style>
-    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseBase}" x:Key="EpsonStatusPausedColor">
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EpsonEllipseBase}" x:Key="EpsonStatusPausedColor">
         <Style.Triggers>
             <DataTrigger Binding="{Binding EpsonStatusPaused}" Value="true">
                 <Setter Property="Fill" Value="Yellow"></Setter>
             </DataTrigger>
         </Style.Triggers>
     </Style>
-    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseBase}" x:Key="EpsonStatusRunningColor">
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EpsonEllipseBase}" x:Key="EpsonStatusRunningColor">
         <Style.Triggers>
             <DataTrigger Binding="{Binding EpsonStatusRunning}" Value="true">
                 <Setter Property="Fill" Value="Yellow"></Setter>
             </DataTrigger>
         </Style.Triggers>
     </Style>
-    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseBase}" x:Key="EpsonStatusReadyColor">
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EpsonEllipseBase}" x:Key="EpsonStatusReadyColor">
         <Style.Triggers>
             <DataTrigger Binding="{Binding EpsonStatusReady}" Value="true">
                 <Setter Property="Fill" Value="Yellow"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="{x:Type Ellipse}" x:Key="EllipseBase">
+        <Setter Property="Fill" Value="Red"></Setter>
+        <Setter Property="Width" Value="20"></Setter>
+        <Setter Property="Height" Value="20"></Setter>
+        <Setter Property="Margin" Value="5,0,5,0"></Setter>
+    </Style>
+    <Style TargetType="{x:Type Ellipse}" BasedOn="{StaticResource EllipseBase}" x:Key="EllipseTestSend">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding TestSendPortStatus}" Value="true">
+                <Setter Property="Fill" Value="Green"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="{x:Type Ellipse}" BasedOn="{StaticResource EllipseBase}" x:Key="EllipseTestRev">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding TestRevPortStatus}" Value="true">
+                <Setter Property="Fill" Value="Green"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="{x:Type Ellipse}" BasedOn="{StaticResource EllipseBase}" x:Key="EllipseMsgRev">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding MsgRevPortStatus}" Value="true">
+                <Setter Property="Fill" Value="Green"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="{x:Type Ellipse}" BasedOn="{StaticResource EllipseBase}" x:Key="EllipseCtrl">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding CtrlPortStatus}" Value="true">
+                <Setter Property="Fill" Value="Green"></Setter>
             </DataTrigger>
         </Style.Triggers>
     </Style>
@@ -125,6 +159,30 @@
     </Style>
     <Style TargetType="TextBlock" x:Key="TextBlockBase">
         <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        <Setter Property="FontSize" Value="18"></Setter>
+    </Style>
+    <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}" x:Key="TextBlockParameterName">
         <Setter Property="Width" Value="50"></Setter>
+    </Style>
+    <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}" x:Key="TextBlockParameterLoneName">
+        <Setter Property="Width" Value="100"></Setter>
+    </Style>
+    <Style TargetType="{x:Type TextBox}" x:Key="TextBoxBase">
+        <Setter Property="FontSize" Value="18"></Setter>
+        <Setter Property="Margin" Value="5,0,5,0"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+    </Style>
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxBase}" x:Key="TextBoxIp">
+        <Setter Property="Width" Value="170"></Setter>
+    </Style>
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxBase}" x:Key="TextBoxPort">
+        <Setter Property="Width" Value="70"></Setter>
+    </Style>
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxBase}" x:Key="TextBoxPath">
+        <Setter Property="Width" Value="280"></Setter>
+    </Style>
+    <Style TargetType="StackPanel" x:Key="ParameterHorizontalStackPanel">
+        <Setter Property="Orientation" Value="Horizontal"></Setter>
+        <Setter Property="Margin" Value="5,5,0,0"></Setter>
     </Style>
 </ResourceDictionary>

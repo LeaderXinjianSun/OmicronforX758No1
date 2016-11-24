@@ -22,16 +22,25 @@ namespace Omicron.ViewModel
         public virtual bool IsTCPConnect { set; get; } = false;
         public virtual bool IsShieldTheDoor { set; get; } = true;
         public virtual string Msg { set; get; } = "";
-        public virtual bool EpsonStatusAuto { set; get; } = true;
-        public virtual bool EpsonStatusWarning { set; get; } = true;
-        public virtual bool EpsonStatusSError { set; get; } = true;
-        public virtual bool EpsonStatusSafeGuard { set; get; } = true;
-        public virtual bool EpsonStatusEStop { set; get; } = true;
-        public virtual bool EpsonStatusError { set; get; } = true;
-        public virtual bool EpsonStatusPaused { set; get; } = true;
-        public virtual bool EpsonStatusRunning { set; get; } = true;
-        public virtual bool EpsonStatusReady { set; get; } = true;
-        public virtual string SerialPortCom { set; get; }
+        public virtual bool EpsonStatusAuto { set; get; } = false;
+        public virtual bool EpsonStatusWarning { set; get; } = false;
+        public virtual bool EpsonStatusSError { set; get; } = false;
+        public virtual bool EpsonStatusSafeGuard { set; get; } = false;
+        public virtual bool EpsonStatusEStop { set; get; } = false;
+        public virtual bool EpsonStatusError { set; get; } = false;
+        public virtual bool EpsonStatusPaused { set; get; } = false;
+        public virtual bool EpsonStatusRunning { set; get; } = false;
+        public virtual bool EpsonStatusReady { set; get; } = false;
+        public virtual string SerialPortCom { set; get; } = "";
+        public virtual bool EllipseTestSend { set; get; } = false;
+        public virtual bool EllipseTestRev { set; get; } = false;
+        public virtual bool EllipseMsgRev { set; get; } = false;
+        public virtual bool EllipseCtrl { set; get; } = false;
+        public virtual string EpsonIp { set; get; } = "192.168.1.2";
+        public virtual int EpsonTestSendPort { set; get; } = 2000;
+        public virtual int EpsonTestReceivePort { set; get; } = 2001;
+        public virtual int EpsonMsgReceivePort { set; get; } = 2002;
+        public virtual int EpsonRemoteControlPort { set; get; } = 5000;
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
