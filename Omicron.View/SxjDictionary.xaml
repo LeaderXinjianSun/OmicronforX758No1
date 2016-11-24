@@ -118,4 +118,13 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
+    <Style TargetType="ComboBox" x:Key="ComboBoxBase">
+        <Setter Property="Width" Value="100"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        <Setter Property="Margin" Value="5,2,0,2"></Setter>
+    </Style>
+    <Style TargetType="TextBlock" x:Key="TextBlockBase">
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        <Setter Property="Width" Value="50"></Setter>
+    </Style>
 </ResourceDictionary>
