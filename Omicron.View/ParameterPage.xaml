@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mvvm="clr-namespace:BingLibrary.hjb;assembly=BingLibrary"
              xmlns:local="clr-namespace:Omicron.View"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024">
@@ -29,6 +30,10 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Style="{StaticResource ParameterHorizontalStackPanel}">
                             <TextBlock Style="{StaticResource TextBlockParameterName}" Text="串口"></TextBlock>
@@ -36,6 +41,7 @@
                         </StackPanel>
                         <TextBlock Style="{StaticResource TextBlockBase}" Text="波特率： 19200&#13;数据位： 8&#13;停止位： 1&#13;奇偶校验： Even"></TextBlock>
                     </StackPanel>
+                    <Button Grid.Column="1" Content="保存" Command="{mvvm:ActionAuto SaveParameter}"></Button>
                 </Grid>
             </Grid>
         </GroupBox>

@@ -31,7 +31,7 @@ namespace Omicron.ViewModel
         public virtual bool EpsonStatusPaused { set; get; } = false;
         public virtual bool EpsonStatusRunning { set; get; } = false;
         public virtual bool EpsonStatusReady { set; get; } = false;
-        public virtual string SerialPortCom { set; get; } = "";
+        public virtual string SerialPortCom { set; get; } 
         public virtual bool EllipseTestSend { set; get; } = false;
         public virtual bool EllipseTestRev { set; get; } = false;
         public virtual bool EllipseMsgRev { set; get; } = false;
@@ -80,6 +80,18 @@ namespace Omicron.ViewModel
         {
 
         }
+        public void SaveParameter()
+        {
+            var r1 = WriteParameter();
+            if (r1)
+            {
+                Msg = messagePrint.AddMessage("写入参数成功");
+            }
+            else
+            {
+                Msg = messagePrint.AddMessage("写入参数成功");
+            }
+        }
         #endregion
         #region 读写操作
         private bool ReadParameter()
@@ -87,6 +99,11 @@ namespace Omicron.ViewModel
             try
             {
                 SerialPortCom = Inifile.INIGetStringValue(iniParameterPath, "SerialPort","Com","COM1");
+                EpsonIp = Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonIp", "192.168.1.2");
+                EpsonTestSendPort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonTestSendPort", "2000"));
+                EpsonTestReceivePort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonTestReceivePort", "2001"));
+                EpsonMsgReceivePort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonMsgReceivePort", "2002"));
+                EpsonRemoteControlPort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonRemoteControlPort", "5000"));
                 return true;
             }
             catch (Exception ex)
@@ -100,6 +117,11 @@ namespace Omicron.ViewModel
             try
             {
                 Inifile.INIWriteValue(iniParameterPath, "SerialPort", "Com", SerialPortCom);
+                Inifile.INIWriteValue(iniParameterPath, "Epson", "EpsonIp", EpsonIp);
+                Inifile.INIWriteValue(iniParameterPath, "Epson", "EpsonTestSendPort", EpsonTestSendPort.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Epson", "EpsonTestReceivePort", EpsonTestReceivePort.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Epson", "EpsonMsgReceivePort", EpsonMsgReceivePort.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Epson", "EpsonRemoteControlPort", EpsonRemoteControlPort.ToString());
                 return true;
             }
             catch (Exception ex)
@@ -124,15 +146,15 @@ namespace Omicron.ViewModel
             var r = await mydialog.showconfirm("确定要关闭程序吗？");
             if (r)
             {
-                var r1 = WriteParameter();
-                if (r1)
-                {
-                    Msg = messagePrint.AddMessage("写入参数成功");
-                }
-                else
-                {
-                    Msg = messagePrint.AddMessage("写入参数成功");
-                }
+                //var r1 = WriteParameter();
+                //if (r1)
+                //{
+                //    Msg = messagePrint.AddMessage("写入参数成功");
+                //}
+                //else
+                //{
+                //    Msg = messagePrint.AddMessage("写入参数成功");
+                //}
                 System.Windows.Application.Current.Shutdown();
             }
             else
