@@ -37,6 +37,7 @@ namespace Omicron.ViewModel
         private MessagePrint messagePrint = new MessagePrint();
         private dialog mydialog = new dialog();
         private string iniParameterPath = System.Environment.CurrentDirectory + "\\Parameter.ini";
+        private XinjiePlc XinjiePLC;
         #endregion
         #region 功能和方法
         public void ChoseHomePage()
@@ -130,8 +131,8 @@ namespace Omicron.ViewModel
                 mydialog.changeaccent("Cobalt");
             }
         }
-        //[Export(MEF.Contracts.ActionMessage)]
-        //[ExportMetadata(MEF.Key, "winloaded")]
+        #endregion
+        #region 初始化
         [Initialize]
         public async void WindowLoaded()
         {
@@ -146,8 +147,40 @@ namespace Omicron.ViewModel
             }
             await Task.Delay(10);
         }
-        #endregion
+        [Initialize]
+        public async void L91PLCWork()
+        {
+            while (true)
+            {
+                await Task.Delay(200);
+                if (!IsPLCConnect)
+                {
+                    if (XinjiePLC != null)
+                    {
+                        XinjiePLC.Closed();
+                    }
+                    try
+                    {
+                        XinjiePLC = new XinjiePlc(SerialPortCom, 19200, System.IO.Ports.Parity.Even, 8, System.IO.Ports.StopBits.One);
+                        IsPLCConnect = XinjiePLC.Connect();
+                    }
+                    catch
+                    {
 
+                    }
+                    if (IsPLCConnect)
+                    {
+                        IsPLCConnect = XinjiePLC.readM(24576);
+                    }
+                }
+                else
+                {
+                    IsPLCConnect = XinjiePLC.readM(24576);
+                }
+            }
+        }
+
+        #endregion
 
     }
 }
