@@ -18,6 +18,7 @@ namespace Omicron.ViewModel
         public virtual string AboutPageVisibility { set; get; } = "Collapsed";
         public virtual string HomePageVisibility { set; get; } = "Visible";
         public virtual string ParameterPageVisibility { set; get; } = "Collapsed";
+        public virtual string CameraPageVisibility { set; get; } = "Collapsed";
         public virtual bool IsPLCConnect { set; get; } = false;
         public virtual bool IsTCPConnect { set; get; } = false;
         public virtual bool IsShieldTheDoor { set; get; } = true;
@@ -54,6 +55,7 @@ namespace Omicron.ViewModel
             ParameterPageVisibility = "Collapsed";
             AboutPageVisibility = "Collapsed";
             HomePageVisibility = "Visible";
+            CameraPageVisibility = "Collapsed";
             //Msg = messagePrint.AddMessage("111");
         }
         public void ChoseAboutPage()
@@ -61,12 +63,21 @@ namespace Omicron.ViewModel
             ParameterPageVisibility = "Collapsed";
             AboutPageVisibility = "Visible";
             HomePageVisibility = "Collapsed";
+            CameraPageVisibility = "Collapsed";
         }
         public void ChoseParameterPage()
         {
             ParameterPageVisibility = "Visible";
             AboutPageVisibility = "Collapsed";
             HomePageVisibility = "Collapsed";
+            CameraPageVisibility = "Collapsed";
+        }
+        public void ChoseCameraPage()
+        {
+            ParameterPageVisibility = "Collapsed";
+            AboutPageVisibility = "Collapsed";
+            HomePageVisibility = "Collapsed";
+            CameraPageVisibility = "Visible";
         }
         public void ShieldDoorFunction()
         {
