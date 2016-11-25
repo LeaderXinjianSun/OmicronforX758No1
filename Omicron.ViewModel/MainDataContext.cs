@@ -8,6 +8,13 @@ using BingLibrary.hjb.Intercepts;
 using System.ComponentModel.Composition;
 using SxjLibrary;
 using System.Windows;
+using NationalInstruments.Vision;
+using NationalInstruments.VBAI;
+using NationalInstruments.VBAI.Structures;
+using NationalInstruments.VBAI.Enums;
+using NationalInstruments.Vision.WindowsForms;
+using Omicron.Model;
+using System.Windows.Forms;
 
 namespace Omicron.ViewModel
 {
@@ -42,12 +49,15 @@ namespace Omicron.ViewModel
         public virtual int EpsonTestReceivePort { set; get; } = 2001;
         public virtual int EpsonMsgReceivePort { set; get; } = 2002;
         public virtual int EpsonRemoteControlPort { set; get; } = 5000;
+        public virtual VisionImage Img { set; get; } = new VisionImage();
+        public virtual string VisionScriptFileName { set; get; }
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
         private dialog mydialog = new dialog();
         private string iniParameterPath = System.Environment.CurrentDirectory + "\\Parameter.ini";
         private XinjiePlc XinjiePLC;
+        private VBAIClass vBAIClass = new VBAIClass();
         #endregion
         #region 功能和方法
         public void ChoseHomePage()
@@ -103,6 +113,44 @@ namespace Omicron.ViewModel
                 Msg = messagePrint.AddMessage("写入参数成功");
             }
         }
+        public void Selectfile()
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            //dlg.InitialDirectory = System.Environment.CurrentDirectory;
+            dlg.Filter = "视觉文件(*.vbai)|*.vbai|所有文件(*.*)|*.*";
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                VisionScriptFileName = dlg.FileName;
+                Inifile.INIWriteValue(iniParameterPath, "Camera", "VisionScriptFileName", VisionScriptFileName);
+            }
+            dlg.Dispose();
+        }
+        #endregion
+        #region 视觉
+        public void CameraInit()
+        {
+            vBAIClass.vbaipath = VisionScriptFileName;
+            Async.RunFuncAsync<bool>(vBAIClass.OpenEngine, CameraInitCallBack);
+        }
+        public void CameraInitCallBack(bool rst)
+        {
+            if (rst)
+            {
+                Msg = messagePrint.AddMessage("初始化相机成功");
+            }
+            else
+            {
+                Msg = messagePrint.AddMessage("初始化相机失败");
+            }
+        }
+        public void CameraInspect()
+        {
+            Async.RunFuncAsync<List<StepMeasurements>>(vBAIClass.InspectEngine, CameraInspectCallBack);
+        }
+        public void CameraInspectCallBack(List<StepMeasurements> ms)
+        {
+            Img = vBAIClass.VBAIImage;
+        }
         #endregion
         #region 读写操作
         private bool ReadParameter()
@@ -115,6 +163,7 @@ namespace Omicron.ViewModel
                 EpsonTestReceivePort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonTestReceivePort", "2001"));
                 EpsonMsgReceivePort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonMsgReceivePort", "2002"));
                 EpsonRemoteControlPort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonRemoteControlPort", "5000"));
+                VisionScriptFileName = Inifile.INIGetStringValue(iniParameterPath, "Camera", "VisionScriptFileName", @"C:\test.vbai");
                 return true;
             }
             catch (Exception ex)

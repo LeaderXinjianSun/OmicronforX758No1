@@ -134,6 +134,11 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
+    <Style TargetType="Button" x:Key="ParameterButton">
+        <Setter Property="Margin" Value="5,2,5,2"></Setter>
+        <Setter Property="Width" Value="50"></Setter>
+        <Setter Property="Height" Value="30"></Setter>
+    </Style>
     <Style TargetType="Button" x:Key="OperationButton">
         <Setter Property="Margin" Value="15,15"></Setter>
         <Setter Property="FontSize" Value="22"></Setter>
