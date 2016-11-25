@@ -1,4 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:control="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style TargetType="Ellipse" x:Key="EllipseStatusBase">
         <Setter Property="Fill" Value="Red"></Setter>
@@ -184,5 +185,14 @@
     <Style TargetType="StackPanel" x:Key="ParameterHorizontalStackPanel">
         <Setter Property="Orientation" Value="Horizontal"></Setter>
         <Setter Property="Margin" Value="5,5,0,0"></Setter>
+    </Style>
+    <Style TargetType="control:Tile" x:Key="TileBase">
+        <Setter Property="Width" Value="80"></Setter>
+        <Setter Property="Height" Value="80"></Setter>
+    </Style>
+    <Style TargetType="Rectangle" x:Key="MetroTileRectangle">
+        <Setter Property="Width" Value="25"></Setter>
+        <Setter Property="Height" Value="25"></Setter>
+        <Setter Property="Fill" Value="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type control:Tile}}}"></Setter>
     </Style>
 </ResourceDictionary>

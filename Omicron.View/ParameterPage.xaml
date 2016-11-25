@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mvvm="clr-namespace:BingLibrary.hjb;assembly=BingLibrary"
+             xmlns:control="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:local="clr-namespace:Omicron.View"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024">
@@ -11,6 +12,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="SxjDictionary.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Resources/Icons.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -41,7 +43,16 @@
                         </StackPanel>
                         <TextBlock Style="{StaticResource TextBlockBase}" Text="波特率： 19200&#13;数据位： 8&#13;停止位： 1&#13;奇偶校验： Even"></TextBlock>
                     </StackPanel>
-                    <Button Grid.Column="1" Content="保存" Command="{mvvm:ActionAuto SaveParameter}"></Button>
+
+                    <control:Tile Style="{StaticResource TileBase}" Grid.Column="1" Command="{mvvm:ActionAuto SaveParameter}" Title="保存">
+                        <Rectangle Style="{StaticResource MetroTileRectangle}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill"
+                                     Visual="{DynamicResource appbar_save}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </control:Tile>
+                    
                 </Grid>
             </Grid>
         </GroupBox>
