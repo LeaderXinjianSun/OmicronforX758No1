@@ -150,6 +150,14 @@ namespace Omicron.ViewModel
         public void CameraInspectCallBack(List<StepMeasurements> ms)
         {
             Img = vBAIClass.VBAIImage;
+            foreach (StepMeasurements item in ms)
+            {
+                if (item.displayName == "P1")
+                {
+                    var r = item.measurement.boolData;
+                    Msg = messagePrint.AddMessage(r.ToString());
+                }
+            }
         }
         #endregion
         #region 读写操作

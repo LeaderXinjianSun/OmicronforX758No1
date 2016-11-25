@@ -15,7 +15,7 @@ namespace Omicron.Model
     {
         private VBAIEngine vBAIEngine;
         public VisionImage VBAIImage;
-        public string vbaipath = @"C:\Users\sxj\Desktop\当前项目\淮安富士康X758\视觉\VBAIforX758.vbai";
+        public string vbaipath = "";
         public bool OpenEngine()
         {             
             try
@@ -55,7 +55,7 @@ namespace Omicron.Model
                 //     string guid = "";
                 foreach (var inspectionstep in steps)
                 {
-                    if (inspectionstep.stepName == "mmd")
+                    if (inspectionstep.stepName == "Select Image 1")
                     {
                         guid = inspectionstep.stepGUID; break;
                     }
@@ -67,7 +67,7 @@ namespace Omicron.Model
                 }
                 return listMeasurements;
             }
-            catch { return null; }
+            catch(Exception ex) { return null; }
 
         }
 
