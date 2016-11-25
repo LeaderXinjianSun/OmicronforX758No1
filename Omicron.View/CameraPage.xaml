@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sxj="clr-namespace:SxjLibrary;assembly=SxjLibrary"
              xmlns:local="clr-namespace:Omicron.View"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024">
@@ -15,7 +16,11 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <GroupBox Header="影像"></GroupBox>
+        <GroupBox Header="影像">
+            <Grid>
+                <sxj:NiImageView ></sxj:NiImageView>
+            </Grid>
+        </GroupBox>
         <GroupBox Grid.Column="1" Header="操作"></GroupBox>
         <GroupBox Grid.Row="1" Header="参数"></GroupBox>
         <GroupBox Grid.Row="1" Grid.Column="1" Header="结果"></GroupBox>
