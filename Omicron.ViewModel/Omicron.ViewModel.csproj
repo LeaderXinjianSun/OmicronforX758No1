@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="halcondotnet, Version=10.0.0.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files\MVTec\HALCON-10.0\bin\dotnet35\halcondotnet.dll</HintPath>
+    </Reference>
     <Reference Include="NationalInstruments.Common, Version=9.1.35.414, Culture=neutral, PublicKeyToken=18cbae0f9955702a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\National Instruments\MeasurementStudioVS2008\DotNET\Assemblies\Current\NationalInstruments.Common.dll</HintPath>
@@ -67,6 +71,10 @@
     <ProjectReference Include="..\..\SxjLibrary\SxjLibrary\SxjLibrary.csproj">
       <Project>{9e80e0a7-9c30-40c9-b63d-c64530a1ce6b}</Project>
       <Name>SxjLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SXJLibrary\ViewROI\ViewROI.csproj">
+      <Project>{c4f5c5de-7ea8-47fe-8218-48138f48965f}</Project>
+      <Name>ViewROI</Name>
     </ProjectReference>
     <ProjectReference Include="..\BingLibrary\BingLibrary.csproj">
       <Project>{4af25010-f781-4a08-886f-7b40fe1c772f}</Project>
