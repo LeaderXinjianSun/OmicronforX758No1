@@ -59,6 +59,7 @@ namespace Omicron.ViewModel
         public virtual string VisionScriptFileName { set; get; }
         public virtual string HcVisionScriptFileName { set; get; }
         public virtual HImage hImage { set; get; }
+        public virtual ObservableCollection<HObject> hObjectList { set; get; }
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -249,8 +250,13 @@ namespace Omicron.ViewModel
         }
         public void cameraHcInspect()
         {
+            ObservableCollection<HObject> hl = new ObservableCollection<HObject>();
             hdevEngine.inspectengine();
             hImage = hdevEngine.getImage("Image");
+            hl.Add(hdevEngine.getRegion("Rectangle1"));
+            hl.Add(hdevEngine.getRegion("Rectangle2"));
+            hObjectList = hl;
+            
             //roilist.Add(hdevEngine.getRegion("Rectangle1"));
         }
         #endregion

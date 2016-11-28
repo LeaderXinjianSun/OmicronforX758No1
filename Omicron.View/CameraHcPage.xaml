@@ -28,7 +28,7 @@
         </Grid.ColumnDefinitions>
         <GroupBox Header="影像">
             <Grid>
-                <sxj:HcImageView Image="{Binding hImage}"></sxj:HcImageView>
+                <sxj:HcImageView Image="{Binding hImage}" HObjectList="{Binding hObjectList}"></sxj:HcImageView>
             </Grid>
         </GroupBox>
         <GroupBox Grid.Column="1" Header="操作">
