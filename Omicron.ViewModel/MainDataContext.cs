@@ -18,6 +18,7 @@ using System.Windows.Forms;
 using System.IO;
 using ViewROI;
 using HalconDotNet;
+using System.Collections.ObjectModel;
 
 namespace Omicron.ViewModel
 {
@@ -30,6 +31,7 @@ namespace Omicron.ViewModel
         public virtual string ParameterPageVisibility { set; get; } = "Collapsed";
         public virtual string CameraPageVisibility { set; get; } = "Collapsed";
         public virtual string CameraHcPageVisibility { set; get; } = "Collapsed";
+        public virtual string TesterParameterPageVisibility { set; get; } = "Collapsed";
         public virtual bool IsPLCConnect { set; get; } = false;
         public virtual bool IsTCPConnect { set; get; } = false;
         public virtual bool IsShieldTheDoor { set; get; } = true;
@@ -74,6 +76,7 @@ namespace Omicron.ViewModel
             HomePageVisibility = "Visible";
             CameraPageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
+            TesterParameterPageVisibility = "Collapsed";
             //Msg = messagePrint.AddMessage("111");
         }
         public void ChoseAboutPage()
@@ -83,6 +86,7 @@ namespace Omicron.ViewModel
             HomePageVisibility = "Collapsed";
             CameraPageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
+            TesterParameterPageVisibility = "Collapsed";
         }
         public void ChoseParameterPage()
         {
@@ -91,6 +95,16 @@ namespace Omicron.ViewModel
             HomePageVisibility = "Collapsed";
             CameraPageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
+            TesterParameterPageVisibility = "Collapsed";
+        }
+        public void ChoseTesterParameterPage()
+        {
+            ParameterPageVisibility = "Collapsed";
+            AboutPageVisibility = "Collapsed";
+            HomePageVisibility = "Collapsed";
+            CameraPageVisibility = "Collapsed";
+            CameraHcPageVisibility = "Collapsed";
+            TesterParameterPageVisibility = "Visible";
         }
         public void ChoseCameraPage()
         {
@@ -99,6 +113,7 @@ namespace Omicron.ViewModel
             HomePageVisibility = "Collapsed";
             CameraPageVisibility = "Visible";
             CameraHcPageVisibility = "Collapsed";
+            TesterParameterPageVisibility = "Collapsed";
         }
         public void ChoseCameraHcPage()
         {
@@ -107,6 +122,7 @@ namespace Omicron.ViewModel
             HomePageVisibility = "Collapsed";
             CameraPageVisibility = "Collapsed";
             CameraHcPageVisibility = "Visible";
+            TesterParameterPageVisibility = "Collapsed";
         }
         public void ShieldDoorFunction()
         {
@@ -210,6 +226,16 @@ namespace Omicron.ViewModel
             {
                 File.Copy(HcVisionScriptFileName, fullfilename);
             }
+            else
+            {
+                FileInfo fileinfo1 = new FileInfo(HcVisionScriptFileName);
+                FileInfo fileinfo2 = new FileInfo(fullfilename);
+                TimeSpan ts = fileinfo1.LastWriteTime - fileinfo2.LastWriteTime;
+                if (ts.TotalMilliseconds > 0)
+                {
+                    File.Copy(HcVisionScriptFileName, fullfilename,true);
+                }
+            }
             hdevEngine.initialengine(System.IO.Path.GetFileNameWithoutExtension(fullfilename));
             hdevEngine.loadengine();
         }
@@ -225,6 +251,7 @@ namespace Omicron.ViewModel
         {
             hdevEngine.inspectengine();
             hImage = hdevEngine.getImage("Image");
+            //roilist.Add(hdevEngine.getRegion("Rectangle1"));
         }
         #endregion
 

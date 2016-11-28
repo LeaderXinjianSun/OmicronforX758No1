@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="Omicron.View.TesterParameterPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mvvm="clr-namespace:BingLibrary.hjb;assembly=BingLibrary"
+             xmlns:control="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:local="clr-namespace:Omicron.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="SxjDictionary.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Resources/Icons.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <GroupBox Grid.ColumnSpan="2" Header="测试机">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Style="{StaticResource ParameterHorizontalStackPanel}">
+                    <TextBlock Style="{StaticResource TextBlockParameterLoneName}">测试机1:</TextBlock>
+                    <TextBlock Style="{StaticResource TextBlockParameterName}">IP:</TextBlock>
+                    <TextBox Style="{StaticResource TextBoxIp}" Text="192.168.100.21"></TextBox>
+                    <TextBlock Style="{StaticResource TextBlockParameterLoneName}">RemotePort:</TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPort}" Text="8000"></TextBox>
+                    <TextBlock Style="{StaticResource TextBlockParameterLoneName}">LocalPort:</TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPort}" Text="12000"></TextBox>
+                </StackPanel>
+                <StackPanel Style="{StaticResource ParameterHorizontalStackPanel}">
+                    <TextBlock Style="{StaticResource TextBlockParameterLoneName}"></TextBlock>
+                    <TextBlock Style="{StaticResource TextBlockParameterName}">Path:</TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPath}" Text="D:\软件\ni builder\Vision Builder AI"></TextBox>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</UserControl>

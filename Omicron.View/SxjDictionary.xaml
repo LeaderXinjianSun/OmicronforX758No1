@@ -171,7 +171,7 @@
         <Setter Property="Width" Value="50"></Setter>
     </Style>
     <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}" x:Key="TextBlockParameterLoneName">
-        <Setter Property="Width" Value="100"></Setter>
+        <Setter Property="Width" Value="120"></Setter>
     </Style>
     <Style TargetType="{x:Type TextBox}" x:Key="TextBoxBase">
         <Setter Property="FontSize" Value="18"></Setter>
@@ -185,7 +185,7 @@
         <Setter Property="Width" Value="70"></Setter>
     </Style>
     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxBase}" x:Key="TextBoxPath">
-        <Setter Property="Width" Value="280"></Setter>
+        <Setter Property="Width" Value="380"></Setter>
     </Style>
     <Style TargetType="StackPanel" x:Key="ParameterHorizontalStackPanel">
         <Setter Property="Orientation" Value="Horizontal"></Setter>
