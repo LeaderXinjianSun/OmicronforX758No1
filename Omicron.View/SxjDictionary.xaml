@@ -200,4 +200,8 @@
         <Setter Property="Height" Value="25"></Setter>
         <Setter Property="Fill" Value="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type control:Tile}}}"></Setter>
     </Style>
+    <Style TargetType="Border" x:Key="BorderBase">
+        <Setter Property="BorderThickness" Value="1,1,1,1"></Setter>
+        <Setter Property="BorderBrush" Value="LightBlue"></Setter>
+    </Style>
 </ResourceDictionary>

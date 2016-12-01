@@ -27,11 +27,12 @@ namespace Omicron.ViewModel
     {
         #region 属性绑定区域
         public virtual string AboutPageVisibility { set; get; } = "Collapsed";
-        public virtual string HomePageVisibility { set; get; } = "Visible";
+        public virtual string HomePageVisibility { set; get; } = "Collapsed";
         public virtual string ParameterPageVisibility { set; get; } = "Collapsed";
         public virtual string CameraPageVisibility { set; get; } = "Collapsed";
         public virtual string CameraHcPageVisibility { set; get; } = "Collapsed";
         public virtual string TesterParameterPageVisibility { set; get; } = "Collapsed";
+        public virtual string HalconScriptPageVisibility { set; get; } = "Visible";
         public virtual bool IsPLCConnect { set; get; } = false;
         public virtual bool IsTCPConnect { set; get; } = false;
         public virtual bool IsShieldTheDoor { set; get; } = true;
@@ -45,7 +46,7 @@ namespace Omicron.ViewModel
         public virtual bool EpsonStatusPaused { set; get; } = false;
         public virtual bool EpsonStatusRunning { set; get; } = false;
         public virtual bool EpsonStatusReady { set; get; } = false;
-        public virtual string SerialPortCom { set; get; } 
+        public virtual string SerialPortCom { set; get; }
         public virtual bool EllipseTestSend { set; get; } = false;
         public virtual bool EllipseTestRev { set; get; } = false;
         public virtual bool EllipseMsgRev { set; get; } = false;
@@ -60,6 +61,19 @@ namespace Omicron.ViewModel
         public virtual string HcVisionScriptFileName { set; get; }
         public virtual HImage hImage { set; get; }
         public virtual ObservableCollection<HObject> hObjectList { set; get; }
+        public virtual ObservableCollection<ROI> ROIList { set; get; } = new ObservableCollection<ROI>();
+        public virtual int ActiveIndex { set; get; }
+        public virtual bool Repaint { set; get; }
+
+        public virtual HImage hScriptImage { set; get; }
+        public virtual ObservableCollection<HObject> hScriptObjectList { set; get; }
+        public virtual ObservableCollection<ROI> ScriptROIList { set; get; } = new ObservableCollection<ROI>();
+        public virtual int ScriptActiveIndex { set; get; }
+        public virtual bool ScriptRepaint { set; get; }
+        public virtual double[] ToolCoordX1 { set; get; } = new double[6] { 0, 0, 0, 0, 0, 0 };
+        public virtual double[] ToolCoordY1 { set; get; } = new double[6] { 0, 0, 0, 0, 0, 0 };
+        public virtual double[] PixCoordX1 { set; get; } = new double[6] { 0, 0, 0, 0, 0, 0 };
+        public virtual double[] PixCoordY1 { set; get; } = new double[6] { 0, 0, 0, 0, 0, 0 };
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -68,6 +82,8 @@ namespace Omicron.ViewModel
         private XinjiePlc XinjiePLC;
         private VBAIClass vBAIClass = new VBAIClass();
         private HdevEngine hdevEngine = new HdevEngine();
+        private HalconScript halconScript = new HalconScript();
+        private bool isHalconScriptLoop = false;
         #endregion
         #region 功能和方法
         public void ChoseHomePage()
@@ -78,6 +94,7 @@ namespace Omicron.ViewModel
             CameraPageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
+            HalconScriptPageVisibility = "Collapsed";
             //Msg = messagePrint.AddMessage("111");
         }
         public void ChoseAboutPage()
@@ -88,6 +105,7 @@ namespace Omicron.ViewModel
             CameraPageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
+            HalconScriptPageVisibility = "Collapsed";
         }
         public void ChoseParameterPage()
         {
@@ -97,6 +115,7 @@ namespace Omicron.ViewModel
             CameraPageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
+            HalconScriptPageVisibility = "Collapsed";
         }
         public void ChoseTesterParameterPage()
         {
@@ -106,6 +125,7 @@ namespace Omicron.ViewModel
             CameraPageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Visible";
+            HalconScriptPageVisibility = "Collapsed";
         }
         public void ChoseCameraPage()
         {
@@ -115,6 +135,7 @@ namespace Omicron.ViewModel
             CameraPageVisibility = "Visible";
             CameraHcPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
+            HalconScriptPageVisibility = "Collapsed";
         }
         public void ChoseCameraHcPage()
         {
@@ -124,6 +145,17 @@ namespace Omicron.ViewModel
             CameraPageVisibility = "Collapsed";
             CameraHcPageVisibility = "Visible";
             TesterParameterPageVisibility = "Collapsed";
+            HalconScriptPageVisibility = "Collapsed";
+        }
+        public void ChoseHalconScriptPage()
+        {
+            ParameterPageVisibility = "Collapsed";
+            AboutPageVisibility = "Collapsed";
+            HomePageVisibility = "Collapsed";
+            CameraPageVisibility = "Collapsed";
+            CameraHcPageVisibility = "Collapsed";
+            TesterParameterPageVisibility = "Collapsed";
+            HalconScriptPageVisibility = "Visible";
         }
         public void ShieldDoorFunction()
         {
@@ -259,6 +291,69 @@ namespace Omicron.ViewModel
             
             //roilist.Add(hdevEngine.getRegion("Rectangle1"));
         }
+        #region HalconScript
+        public void HcScriptInit()
+        {
+            halconScript.HalconScriptInit();
+        }
+        public void HcScriptInspectOnce()
+        {
+            if (!isHalconScriptLoop)
+            {
+                halconScript.HalconScriptGrabImage();
+
+                hScriptImage = HalconScript.HObjectToHImage(halconScript.ho_Image);
+            }
+        }
+        public void HcScriptInspectLoop()
+        {
+            if (!isHalconScriptLoop)
+            {
+                Async.RunFuncAsync(hcScriptInspectLoop, null);
+            }
+            isHalconScriptLoop = !isHalconScriptLoop;
+        }
+        private async void hcScriptInspectLoop()
+        {
+            while (true)
+            {
+
+                await Task.Delay(100);
+                halconScript.HalconScriptGrabImage();
+
+                hScriptImage = HalconScript.HObjectToHImage(halconScript.ho_Image);
+                if (!isHalconScriptLoop)
+                {
+                    break;
+                }
+            }
+        }
+        public void HcScriptAddROI()
+        {
+            ROICircle rOICircle = new ROICircle();
+            rOICircle.createROI(100,100,50);
+            ScriptROIList.Add(rOICircle);
+            ScriptActiveIndex = ScriptROIList.Count - 1;
+            ScriptRepaint = !ScriptRepaint;
+        }
+        public void HcScriptDeleteROI()
+        {
+            if (ScriptActiveIndex == -1)
+            {
+                return;
+            }
+            ScriptROIList.RemoveAt(ScriptActiveIndex);
+            ScriptActiveIndex = ScriptROIList.Count - 1;
+            ScriptRepaint = !ScriptRepaint;
+        }
+        #region 标定
+        public void GetCoor(object b)
+        {
+
+        }
+        #endregion
+        #endregion
+
         #endregion
 
         #endregion
@@ -305,8 +400,25 @@ namespace Omicron.ViewModel
         #region FunctionTest
         public void FunctionTest()
         {
-            hdevEngine.inspectReset();
-        }
+
+
+            //ROIRectangle1 CurROI = new ROIRectangle1();
+            //double x = 50; double y = 40;
+            //double w = 40; double h = 40;
+            //CurROI.row1 = y;
+            //CurROI.col1 = x;
+            //CurROI.row2 = y + h;
+            //CurROI.col2 = x + w;
+            //CurROI.midC = x + w / 2;
+            //CurROI.midR = y + h / 2;
+            ROICircle CurROI = new ROICircle();
+            CurROI.createROI(100,100);
+            ROIList.Add(CurROI);
+            ActiveIndex = ROIList.Count - 1;
+            Repaint = !Repaint;
+
+        
+    }
         #endregion
         #region 导入导出
         [Export(MEF.Contracts.ActionMessage)]

@@ -28,8 +28,9 @@
         </Grid.ColumnDefinitions>
         <GroupBox Header="影像">
             <Grid>
-                <sxj:HcImageView Image="{Binding hImage}" HObjectList="{Binding hObjectList}"></sxj:HcImageView>
+                <sxj:HcImageView Image="{Binding hImage}" HObjectList="{Binding hObjectList}" ActiveIndex="{Binding ActiveIndex, Mode=TwoWay}" Repaint="{Binding Repaint}" ROIChanged="{Binding ROIChanged,Mode=OneWayToSource}"  ROIList="{Binding ROIList}"></sxj:HcImageView>
             </Grid>
+
         </GroupBox>
         <GroupBox Grid.Column="1" Header="操作">
             <StackPanel Orientation="Vertical">
