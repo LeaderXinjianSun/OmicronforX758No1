@@ -58,9 +58,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EpsonRC90.cs" />
     <Compile Include="HalconScript.cs" />
     <Compile Include="VBAIClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SXJLibraty\SxjLibrary\SxjLibrary.csproj">
+      <Project>{9e80e0a7-9c30-40c9-b63d-c64530a1ce6b}</Project>
+      <Name>SxjLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BingLibrary\BingLibrary.csproj">
+      <Project>{4af25010-f781-4a08-886f-7b40fe1c772f}</Project>
+      <Name>BingLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

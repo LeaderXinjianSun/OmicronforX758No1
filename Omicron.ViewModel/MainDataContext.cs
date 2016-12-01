@@ -84,6 +84,14 @@ namespace Omicron.ViewModel
         private HdevEngine hdevEngine = new HdevEngine();
         private HalconScript halconScript = new HalconScript();
         private bool isHalconScriptLoop = false;
+        private EpsonRC90 epsonRC90 = new EpsonRC90();
+        #endregion
+        #region 构造函数
+        public MainDataContext()
+        {
+            epsonRC90.ModelPrint += ModelPrintEventProcess;
+            epsonRC90.EpsonStatusUpdate += EpsonStatusUpdateProcess;
+        }
         #endregion
         #region 功能和方法
         public void ChoseHomePage()
@@ -209,6 +217,24 @@ namespace Omicron.ViewModel
             //dlg.InitialDirectory = System.Environment.CurrentDirectory;
 
             dlg.Dispose();
+        }
+        #endregion
+        #region 事件相应函数
+        private void ModelPrintEventProcess(string str)
+        {
+            Msg = messagePrint.AddMessage(str);
+        }
+        private void EpsonStatusUpdateProcess(string str)
+        {
+            EpsonStatusAuto = str[2] == '1';
+            EpsonStatusWarning = str[3] == '1';
+            EpsonStatusSError = str[4] == '1';
+            EpsonStatusSafeGuard = str[5] == '1';
+            EpsonStatusEStop = str[6] == '1';
+            EpsonStatusError = str[7] == '1';
+            EpsonStatusPaused = str[8] == '1';
+            EpsonStatusRunning = str[9] == '1';
+            EpsonStatusReady = str[10] == '1';
         }
         #endregion
         #region 视觉

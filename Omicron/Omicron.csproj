@@ -126,9 +126,21 @@
     <Resource Include="icons\Google_Earth_globe_64px_568339_easyicon.net.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\SXJLibraty\SxjLibrary\SxjLibrary.csproj">
+      <Project>{9e80e0a7-9c30-40c9-b63d-c64530a1ce6b}</Project>
+      <Name>SxjLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SXJLibraty\ViewROI\ViewROI.csproj">
+      <Project>{c4f5c5de-7ea8-47fe-8218-48138f48965f}</Project>
+      <Name>ViewROI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BingLibrary\BingLibrary.csproj">
       <Project>{4af25010-f781-4a08-886f-7b40fe1c772f}</Project>
       <Name>BingLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Omicron.Model\Omicron.Model.csproj">
+      <Project>{f32daa42-7eed-4350-97e6-f34b19c0ebce}</Project>
+      <Name>Omicron.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\Omicron.ViewModel\Omicron.ViewModel.csproj">
       <Project>{11aee5e8-1299-4d3d-ba4b-32e56c342936}</Project>
