@@ -1,0 +1,206 @@
+﻿<UserControl x:Class="Omicron.View.CalibPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:control="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:mvvm="clr-namespace:BingLibrary.hjb;assembly=BingLibrary"
+             xmlns:sxj="clr-namespace:SxjLibrary;assembly=SxjLibrary"             
+             xmlns:local="clr-namespace:Omicron.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="SxjDictionary.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Resources/Icons.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="影像">
+            <Grid>
+                <sxj:NiImageView NIImageViewer="{Binding Img}"></sxj:NiImageView>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Header="计算">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" Style="{StaticResource BorderBase}">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0">A:</TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0" Text="{Binding CalibXA}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0">B:</TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0" Text="{Binding CalibXB}"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0">C:</TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0" Text="{Binding CalibXC}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0">D:</TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0" Text="{Binding CalibXD}"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0">E:</TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0" Text="{Binding CalibXE}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0">F:</TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0" Text="{Binding CalibXF}"></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Row="1" Style="{StaticResource BorderBase}">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0">A:</TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0" Text="{Binding CalibYA}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0">B:</TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0" Text="{Binding CalibYB}"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0">C:</TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0" Text="{Binding CalibYC}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0">D:</TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0" Text="{Binding CalibYD}"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0">E:</TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0" Text="{Binding CalibYE}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0">F:</TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Margin="5,0,0,0" Text="{Binding CalibYF}"></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Style="{StaticResource TextBlockBase}">像素坐标</TextBlock>
+                            <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding CalcPixCoordX1}"></TextBox>
+                            <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding CalcPixCoordY1}"></TextBox>
+                            <Button Content="计算" Command="{mvvm:ActionAutoWithParam CalcGetCoor}" CommandParameter="1"></Button>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center"  Grid.Row="1">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Style="{StaticResource TextBlockBase}">工具坐标</TextBlock>
+                            <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding CalcToolCoordX1}"></TextBox>
+                            <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding CalcToolCoordY1}"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Style="{StaticResource TextBlockBase}">实际值</TextBlock>
+                            <TextBlock Margin="10,0,0,0" Text="{Binding RealToolCoorX}"></TextBlock>
+                            <TextBlock Margin="10,0,10,0">,</TextBlock>
+                            <TextBlock Text="{Binding RealToolCoorY}"></TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Grid.ColumnSpan="2" Header="Calib">
+            <TabControl TabStripPlacement="left">
+                <TabItem Header="固定向上相机">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Border Style="{StaticResource BorderBase}">
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource TextBlockBase}">工具坐标1</TextBlock>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding ToolCoordX1[0]}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding ToolCoordY1[0]}"></TextBox>
+                                    <TextBlock Style="{StaticResource TextBlockBase}">像素坐标1</TextBlock>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PixCoordX1[0]}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PixCoordY1[0]}"></TextBox>
+                                    <Button Content="获取" Command="{mvvm:ActionAutoWithParam GetCoor}" CommandParameter="0"></Button>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource TextBlockBase}">工具坐标2</TextBlock>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding ToolCoordX1[1]}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding ToolCoordY1[1]}"></TextBox>
+                                    <TextBlock Style="{StaticResource TextBlockBase}">像素坐标2</TextBlock>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PixCoordX1[1]}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PixCoordY1[1]}"></TextBox>
+                                    <Button Content="获取" Command="{mvvm:ActionAutoWithParam GetCoor}" CommandParameter="1"></Button>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource TextBlockBase}">工具坐标3</TextBlock>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding ToolCoordX1[2]}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding ToolCoordY1[2]}"></TextBox>
+                                    <TextBlock Style="{StaticResource TextBlockBase}">像素坐标3</TextBlock>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PixCoordX1[2]}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PixCoordY1[2]}"></TextBox>
+                                    <Button Content="获取" Command="{mvvm:ActionAutoWithParam GetCoor}" CommandParameter="2"></Button>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource TextBlockBase}">工具坐标4</TextBlock>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding ToolCoordX1[3]}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding ToolCoordY1[3]}"></TextBox>
+                                    <TextBlock Style="{StaticResource TextBlockBase}">像素坐标4</TextBlock>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PixCoordX1[3]}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PixCoordY1[3]}"></TextBox>
+                                    <Button Content="获取" Command="{mvvm:ActionAutoWithParam GetCoor}" CommandParameter="3"></Button>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource TextBlockBase}">工具坐标5</TextBlock>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding ToolCoordX1[4]}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding ToolCoordY1[4]}"></TextBox>
+                                    <TextBlock Style="{StaticResource TextBlockBase}">像素坐标5</TextBlock>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PixCoordX1[4]}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PixCoordY1[4]}"></TextBox>
+                                    <Button Content="获取" Command="{mvvm:ActionAutoWithParam GetCoor}" CommandParameter="4"></Button>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource TextBlockBase}">工具坐标6</TextBlock>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding ToolCoordX1[5]}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding ToolCoordY1[5]}"></TextBox>
+                                    <TextBlock Style="{StaticResource TextBlockBase}">像素坐标6</TextBlock>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PixCoordX1[5]}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PixCoordY1[5]}"></TextBox>
+                                    <Button Content="获取" Command="{mvvm:ActionAutoWithParam GetCoor}" CommandParameter="5"></Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="1" Style="{StaticResource BorderBase}">
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal">
+                                    <control:Tile Style="{StaticResource TileBase}" Grid.Column="1" Command="{mvvm:ActionAutoWithParam CameraCalib}" CommandParameter="1" Title="标定">
+                                        <Rectangle Style="{StaticResource MetroTileRectangle}">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill"
+                                     Visual="{DynamicResource appbar_box}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </control:Tile>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="固定向下相机"></TabItem>
+                <TabItem Header="移动向下相机"></TabItem>
+            </TabControl>
+        </GroupBox>
+    </Grid>
+</UserControl>

@@ -19,6 +19,7 @@ using System.IO;
 using ViewROI;
 using HalconDotNet;
 using System.Collections.ObjectModel;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace Omicron.ViewModel
 {
@@ -32,7 +33,8 @@ namespace Omicron.ViewModel
         public virtual string CameraPageVisibility { set; get; } = "Collapsed";
         public virtual string CameraHcPageVisibility { set; get; } = "Collapsed";
         public virtual string TesterParameterPageVisibility { set; get; } = "Collapsed";
-        public virtual string HalconScriptPageVisibility { set; get; } = "Visible";
+        public virtual string HalconScriptPageVisibility { set; get; } = "Collapsed";
+        public virtual string CalibPageVisibility { set; get; } = "Visible";
         public virtual bool IsPLCConnect { set; get; } = false;
         public virtual bool IsTCPConnect { set; get; } = false;
         public virtual bool IsShieldTheDoor { set; get; } = true;
@@ -76,6 +78,27 @@ namespace Omicron.ViewModel
         public virtual ObservableCollection<double> PixCoordX1 { set; get; } = new ObservableCollection<double>();
         public virtual ObservableCollection<double> PixCoordY1 { set; get; } = new ObservableCollection<double>();
 
+        public virtual double CalibXA { set; get; } = 0;
+        public virtual double CalibXB { set; get; } = 0;
+        public virtual double CalibXC { set; get; } = 0;
+        public virtual double CalibXD { set; get; } = 0;
+        public virtual double CalibXE { set; get; } = 0;
+        public virtual double CalibXF { set; get; } = 0;
+
+        public virtual double CalibYA { set; get; } = 0;
+        public virtual double CalibYB { set; get; } = 0;
+        public virtual double CalibYC { set; get; } = 0;
+        public virtual double CalibYD { set; get; } = 0;
+        public virtual double CalibYE { set; get; } = 0;
+        public virtual double CalibYF { set; get; } = 0;
+
+        public virtual double CalcPixCoordX1 { set; get; } = 0;
+        public virtual double CalcPixCoordY1 { set; get; } = 0;
+        public virtual double CalcToolCoordX1 { set; get; } = 0;
+        public virtual double CalcToolCoordY1 { set; get; } = 0;
+
+        public virtual double RealToolCoorX { set; get; } = 0;
+        public virtual double RealToolCoorY { set; get; } = 0;
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -88,9 +111,13 @@ namespace Omicron.ViewModel
         private bool isHalconScriptLoop = false;
         private EpsonRC90 epsonRC90 = new EpsonRC90();
         private double[] _ToolCoordX1 = new double[6] { 0, 0, 0, 0, 0, 0 };
-        private double[] _ToolCoordY1 { set; get; } = new double[6] { 0, 0, 0, 0, 0, 0 };
-        private double[] _PixCoordX1 { set; get; } = new double[6] { 0, 0, 0, 0, 0, 0 };
-        private double[] _PixCoordY1 { set; get; } = new double[6] { 0, 0, 0, 0, 0, 0 };
+        private double[] _ToolCoordY1 = new double[6] { 0, 0, 0, 0, 0, 0 };
+        private double[] _PixCoordX1 = new double[6] { 0, 0, 0, 0, 0, 0 };
+        private double[] _PixCoordY1 = new double[6] { 0, 0, 0, 0, 0, 0 };
+        private double PixX = 0;
+        private double PixY = 0;
+        private double[] CalbX = new double[6] { 0, 0, 0, 0, 0, 0 };
+        private double[] CalbY = new double[6] { 0, 0, 0, 0, 0, 0 };
         #endregion
         #region 构造函数
         public MainDataContext()
@@ -119,6 +146,7 @@ namespace Omicron.ViewModel
             CameraHcPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
             HalconScriptPageVisibility = "Collapsed";
+            CalibPageVisibility = "Collapsed";
             //Msg = messagePrint.AddMessage("111");
         }
         public void ChoseAboutPage()
@@ -130,6 +158,7 @@ namespace Omicron.ViewModel
             CameraHcPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
             HalconScriptPageVisibility = "Collapsed";
+            CalibPageVisibility = "Collapsed";
         }
         public void ChoseParameterPage()
         {
@@ -140,6 +169,7 @@ namespace Omicron.ViewModel
             CameraHcPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
             HalconScriptPageVisibility = "Collapsed";
+            CalibPageVisibility = "Collapsed";
         }
         public void ChoseTesterParameterPage()
         {
@@ -150,6 +180,7 @@ namespace Omicron.ViewModel
             CameraHcPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Visible";
             HalconScriptPageVisibility = "Collapsed";
+            CalibPageVisibility = "Collapsed";
         }
         public void ChoseCameraPage()
         {
@@ -160,6 +191,7 @@ namespace Omicron.ViewModel
             CameraHcPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
             HalconScriptPageVisibility = "Collapsed";
+            CalibPageVisibility = "Collapsed";
         }
         public void ChoseCameraHcPage()
         {
@@ -170,6 +202,7 @@ namespace Omicron.ViewModel
             CameraHcPageVisibility = "Visible";
             TesterParameterPageVisibility = "Collapsed";
             HalconScriptPageVisibility = "Collapsed";
+            CalibPageVisibility = "Collapsed";
         }
         public void ChoseHalconScriptPage()
         {
@@ -180,6 +213,18 @@ namespace Omicron.ViewModel
             CameraHcPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
             HalconScriptPageVisibility = "Visible";
+            CalibPageVisibility = "Collapsed";
+        }
+        public void ChoseCalibPage()
+        {
+            ParameterPageVisibility = "Collapsed";
+            AboutPageVisibility = "Collapsed";
+            HomePageVisibility = "Collapsed";
+            CameraPageVisibility = "Collapsed";
+            CameraHcPageVisibility = "Collapsed";
+            TesterParameterPageVisibility = "Collapsed";
+            HalconScriptPageVisibility = "Collapsed";
+            CalibPageVisibility = "Visible";
         }
         public void ShieldDoorFunction()
         {
@@ -280,10 +325,15 @@ namespace Omicron.ViewModel
             Img = vBAIClass.VBAIImage;
             foreach (StepMeasurements item in ms)
             {
-                if (item.displayName == "P1")
+                if (item.displayName == "Cor_X")
                 {
-                    var r = item.measurement.boolData;
-                    Msg = messagePrint.AddMessage(r.ToString());
+                    PixX = item.measurement.numData;
+                    Msg = messagePrint.AddMessage(PixX.ToString());
+                }
+                if (item.displayName == "Cor_Y")
+                {
+                    PixY = item.measurement.numData;
+                    Msg = messagePrint.AddMessage(PixY.ToString());
                 }
             }
         }
@@ -329,8 +379,7 @@ namespace Omicron.ViewModel
             hImage = hdevEngine.getImage("Image");
             hl.Add(hdevEngine.getRegion("Rectangle1"));
             hl.Add(hdevEngine.getRegion("Rectangle2"));
-            hObjectList = hl;
-            
+            hObjectList = hl;           
             //roilist.Add(hdevEngine.getRegion("Rectangle1"));
         }
         #region HalconScript
@@ -388,6 +437,10 @@ namespace Omicron.ViewModel
             ScriptActiveIndex = ScriptROIList.Count - 1;
             ScriptRepaint = !ScriptRepaint;
         }
+
+        #endregion
+
+        #endregion
         #region 标定
         public async void GetCoor(object b)
         {
@@ -406,12 +459,122 @@ namespace Omicron.ViewModel
                 ToolCoordX1.Add(_ToolCoordX1[ii]);
                 ToolCoordY1.Add(_ToolCoordY1[ii]);
             }
+
+            CameraInspect();
+            await Task.Delay(500);
+            _PixCoordX1[i] = PixX;
+            _PixCoordY1[i] = PixY;
+            PixCoordX1.Clear();
+            PixCoordY1.Clear();
+            for (int j = 0; j < 6; j++)
+            {
+                PixCoordX1.Add(_PixCoordX1[j]);
+                PixCoordY1.Add(_PixCoordY1[j]);
+            }
+        }
+        public void CameraCalib(object p)
+        {
+            CoorConvertParam();
+        }
+        private void CoorConvertParam()
+        {
+            var mb = Matrix<double>.Build;
+            var vb = Vector<double>.Build;
+            double[,] A = new double[6, 6];
+            double[] B = new double[6];
+            //计算X参数
+            for (int i = 0; i < 6; i++)
+            {
+                A[i, 0] = _PixCoordX1[i];
+                A[i, 1] = _PixCoordY1[i];
+                A[i, 2] = Math.Pow(_PixCoordX1[i], 2);
+                A[i, 3] = Math.Pow(_PixCoordY1[i], 2);
+                A[i, 4] = _PixCoordX1[i] * _PixCoordY1[i];
+                A[i, 5] = 1;
+
+                B[i] = _ToolCoordX1[i];
+                Console.WriteLine(B.ToString());
+            }
+            var mbfromArray = mb.DenseOfArray(A);
+            var vbfromArray = vb.DenseOfArray(B);
+            Console.WriteLine(mbfromArray.ToString());
+            Console.WriteLine(vbfromArray.ToString());
+            var result = mbfromArray.Inverse() * vbfromArray;
+            Console.WriteLine(result.ToString());
+            for (int i = 0; i < 6; i++)
+            {
+                CalbX[i] = result[i];
+            }
+            CalibXA = CalbX[0];
+            Inifile.INIWriteValue(iniParameterPath, "Calib1", "XA", CalibXA.ToString());
+            CalibXB = CalbX[1];
+            Inifile.INIWriteValue(iniParameterPath, "Calib1", "XB", CalibXB.ToString());
+            CalibXC = CalbX[2];
+            Inifile.INIWriteValue(iniParameterPath, "Calib1", "XC", CalibXC.ToString());
+            CalibXD = CalbX[3];
+            Inifile.INIWriteValue(iniParameterPath, "Calib1", "XD", CalibXD.ToString());
+            CalibXE = CalbX[4];
+            Inifile.INIWriteValue(iniParameterPath, "Calib1", "XE", CalibXE.ToString());
+            CalibXF = CalbX[5];
+            Inifile.INIWriteValue(iniParameterPath, "Calib1", "XF", CalibXF.ToString());
+            //计算Y参数
+            for (int i = 0; i < 6; i++)
+            {
+                A[i, 0] = _PixCoordX1[i];
+                A[i, 1] = _PixCoordY1[i];
+                A[i, 2] = Math.Pow(_PixCoordX1[i], 2);
+                A[i, 3] = Math.Pow(_PixCoordY1[i], 2);
+                A[i, 4] = _PixCoordX1[i] * _PixCoordY1[i];
+                A[i, 5] = 1;
+                B[i] = _ToolCoordY1[i];
+            }
+            mbfromArray = mb.DenseOfArray(A);
+            vbfromArray = vb.DenseOfArray(B);
+            Console.WriteLine(mbfromArray.ToString());
+            Console.WriteLine(vbfromArray.ToString());
+            result = mbfromArray.Inverse() * vbfromArray;
+            Console.WriteLine(result.ToString());
+            for (int i = 0; i < 6; i++)
+            {
+                CalbY[i] = result[i];
+            }
+            CalibYA = CalbY[0];
+            Inifile.INIWriteValue(iniParameterPath, "Calib1", "YA", CalibYA.ToString());
+            CalibYB = CalbY[1];
+            Inifile.INIWriteValue(iniParameterPath, "Calib1", "YB", CalibYB.ToString());
+            CalibYC = CalbY[2];
+            Inifile.INIWriteValue(iniParameterPath, "Calib1", "YC", CalibYC.ToString());
+            CalibYD = CalbY[3];
+            Inifile.INIWriteValue(iniParameterPath, "Calib1", "YD", CalibYD.ToString());
+            CalibYE = CalbY[4];
+            Inifile.INIWriteValue(iniParameterPath, "Calib1", "YE", CalibYE.ToString());
+            CalibYF = CalbY[5];
+            Inifile.INIWriteValue(iniParameterPath, "Calib1", "YF", CalibYF.ToString());
+        }
+        public async void CalcGetCoor(object p)
+        {
+            if (epsonRC90.TestSendStatus)
+            {
+                await epsonRC90.TestSentNet.SendAsync("Coord");
+            }
+
+            CameraInspect();
+            await Task.Delay(500);
+            CalcPixCoordX1 = PixX;
+            CalcPixCoordY1 = PixY;
+            CalcToolCoordX1 = CalibXA * CalcPixCoordX1
+                + CalibXB * CalcPixCoordY1 + CalibXC * Math.Pow(CalcPixCoordX1, 2)
+                + CalibXD * Math.Pow(CalcPixCoordY1, 2) + CalibXE * CalcPixCoordX1 * CalcPixCoordY1
+                + CalibXF;
+            CalcToolCoordY1 = CalibYA * CalcPixCoordX1
+                + CalibYB * CalcPixCoordY1 + CalibYC * Math.Pow(CalcPixCoordX1, 2)
+                + CalibYD * Math.Pow(CalcPixCoordY1, 2) + CalibYE * CalcPixCoordX1 * CalcPixCoordY1
+                + CalibYF;
+
+            RealToolCoorX = epsonRC90.Coord_X;
+            RealToolCoorY = epsonRC90.Coord_Y;
         }
         #endregion
-        #endregion
-
-        #endregion
-
         #endregion
         #region 读写操作
         private bool ReadParameter()
@@ -426,6 +589,21 @@ namespace Omicron.ViewModel
                 EpsonRemoteControlPort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonRemoteControlPort", "5000"));
                 VisionScriptFileName = Inifile.INIGetStringValue(iniParameterPath, "Camera", "VisionScriptFileName", @"C:\test.vbai");
                 HcVisionScriptFileName = Inifile.INIGetStringValue(iniParameterPath, "Camera", "HcVisionScriptFileName", @"C:\test.hdev");
+
+                CalibXA = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "Calib1", "XA", "0"));
+                CalibXB = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "Calib1", "XB", "0"));
+                CalibXC = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "Calib1", "XC", "0"));
+                CalibXD = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "Calib1", "XD", "0"));
+                CalibXE = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "Calib1", "XE", "0"));
+                CalibXF = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "Calib1", "XF", "0"));
+
+                CalibYA = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "Calib1", "YA", "0"));
+                CalibYB = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "Calib1", "YB", "0"));
+                CalibYC = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "Calib1", "YC", "0"));
+                CalibYD = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "Calib1", "YD", "0"));
+                CalibYE = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "Calib1", "YE", "0"));
+                CalibYF = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "Calib1", "YF", "0"));
+
                 return true;
             }
             catch (Exception ex)

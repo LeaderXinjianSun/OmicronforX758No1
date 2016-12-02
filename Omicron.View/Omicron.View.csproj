@@ -74,6 +74,9 @@
     <Compile Include="AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CalibPage.xaml.cs">
+      <DependentUpon>CalibPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CameraHcPage.xaml.cs">
       <DependentUpon>CameraHcPage.xaml</DependentUpon>
     </Compile>
@@ -102,6 +105,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="AboutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CalibPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

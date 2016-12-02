@@ -26,6 +26,7 @@
             <MenuItem Header="Ni相机" Command="{mvvm:ActionAuto ChoseCameraPage}"></MenuItem>
             <MenuItem Header="Hc引擎相机" Command="{mvvm:ActionAuto ChoseCameraHcPage}"></MenuItem>
             <MenuItem Header="Hc脚本相机" Command="{mvvm:ActionAuto ChoseHalconScriptPage}"></MenuItem>
+            <MenuItem Header="标定" Command="{mvvm:ActionAuto ChoseCalibPage}"></MenuItem>
             <MenuItem Header="参数">
                 <MenuItem Header="机台参数" Command="{mvvm:ActionAuto ChoseParameterPage}"></MenuItem>
                 <MenuItem Header="治具参数" Command="{mvvm:ActionAuto ChoseTesterParameterPage}"></MenuItem>
@@ -55,6 +56,9 @@
             </Grid>
             <Grid Visibility="{Binding HalconScriptPageVisibility}">
                 <local:HalconScriptPage></local:HalconScriptPage>
+            </Grid>
+            <Grid Visibility="{Binding CalibPageVisibility}">
+                <local:CalibPage></local:CalibPage>
             </Grid>
         </Grid>
         

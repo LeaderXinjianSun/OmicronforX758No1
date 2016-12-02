@@ -28,7 +28,7 @@
         </Grid.ColumnDefinitions>
         <GroupBox Header="影像">
             <Grid>
-                <sxj:NiImageView NIImageViewer="{Binding Img}"></sxj:NiImageView>
+                <!--<sxj:NiImageView NIImageViewer="{Binding Img}"></sxj:NiImageView>-->
             </Grid>
         </GroupBox>
         <GroupBox Grid.Column="1" Header="操作">
