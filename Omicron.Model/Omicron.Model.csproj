@@ -33,21 +33,6 @@
     <Reference Include="halcondotnet">
       <HintPath>..\..\..\..\..\..\..\Program Files\MVTec\HALCON-10.0\bin\dotnet35\halcondotnet.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.Common, Version=9.1.35.414, Culture=neutral, PublicKeyToken=18cbae0f9955702a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\National Instruments\MeasurementStudioVS2008\DotNET\Assemblies\Current\NationalInstruments.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="NationalInstruments.VBAI.2008">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\National Instruments\Vision Builder AI 2012\API Examples\dotNET Examples\NationalInstruments.VBAI.2008.dll</HintPath>
-    </Reference>
-    <Reference Include="NationalInstruments.Vision, Version=12.0.35.101, Culture=neutral, PublicKeyToken=18cbae0f9955702a, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\National Instruments\MeasurementStudioVS2008\DotNET\Assemblies\Current\NationalInstruments.Vision.dll</HintPath>
-    </Reference>
-    <Reference Include="NationalInstruments.Vision.Common, Version=12.0.35.101, Culture=neutral, PublicKeyToken=18cbae0f9955702a, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\National Instruments\MeasurementStudioVS2008\DotNET\Assemblies\Current\NationalInstruments.Vision.Common.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -59,8 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EpsonRC90.cs" />
-    <Compile Include="HalconScript.cs" />
-    <Compile Include="VBAIClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

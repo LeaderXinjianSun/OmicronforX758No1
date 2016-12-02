@@ -23,10 +23,7 @@
         </Grid.RowDefinitions>
         <Menu>
             <MenuItem Header="主页" Command="{mvvm:ActionAuto ChoseHomePage}"></MenuItem>
-            <MenuItem Header="Ni相机" Command="{mvvm:ActionAuto ChoseCameraPage}"></MenuItem>
             <MenuItem Header="Hc引擎相机" Command="{mvvm:ActionAuto ChoseCameraHcPage}"></MenuItem>
-            <MenuItem Header="Hc脚本相机" Command="{mvvm:ActionAuto ChoseHalconScriptPage}"></MenuItem>
-            <MenuItem Header="标定" Command="{mvvm:ActionAuto ChoseCalibPage}"></MenuItem>
             <MenuItem Header="参数">
                 <MenuItem Header="机台参数" Command="{mvvm:ActionAuto ChoseParameterPage}"></MenuItem>
                 <MenuItem Header="治具参数" Command="{mvvm:ActionAuto ChoseTesterParameterPage}"></MenuItem>
@@ -45,21 +42,11 @@
             <Grid Visibility="{Binding ParameterPageVisibility}">
                 <local:ParameterPage></local:ParameterPage>
             </Grid>
-            <Grid Visibility="{Binding CameraPageVisibility}">
-                <local:CameraPage></local:CameraPage>
-            </Grid>
             <Grid Visibility="{Binding CameraHcPageVisibility}">
                 <local:CameraHcPage></local:CameraHcPage>
             </Grid>
-            <Grid Visibility="{Binding CameraHcPageVisibility}">
-                <local:CameraHcPage></local:CameraHcPage>
-            </Grid>
-            <Grid Visibility="{Binding HalconScriptPageVisibility}">
-                <local:HalconScriptPage></local:HalconScriptPage>
-            </Grid>
-            <Grid Visibility="{Binding CalibPageVisibility}">
-                <local:CalibPage></local:CalibPage>
-            </Grid>
+
+
         </Grid>
         
         <StatusBar Grid.Row="3">
