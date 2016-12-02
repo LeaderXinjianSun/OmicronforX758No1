@@ -20,12 +20,16 @@ namespace Omicron.Model
         public bool TestReceiveStatus { get; set; } = false;
         public bool MsgReceiveStatus { get; set; } = false;
         public bool CtrlStatus { set; get; } = false;
+        public double Coord_X { set; get; } = 0;
+        public double Coord_Y { set; get; } = 0;
+        public double Coord_Z { set; get; } = 0;
+        public double Coord_U { set; get; } = 0;
         #endregion
         #region 变量
-        private TCPIPConnect TestSentNet = new TCPIPConnect();
-        private TCPIPConnect TestReceiveNet = new TCPIPConnect();
-        private TCPIPConnect MsgReceiveNet = new TCPIPConnect();
-        private TCPIPConnect CtrlNet = new TCPIPConnect();
+        public TCPIPConnect TestSentNet = new TCPIPConnect();
+        public TCPIPConnect TestReceiveNet = new TCPIPConnect();
+        public TCPIPConnect MsgReceiveNet = new TCPIPConnect();
+        public TCPIPConnect CtrlNet = new TCPIPConnect();
         private string iniParameterPath = System.Environment.CurrentDirectory + "\\Parameter.ini";
         private bool isLogined = false;
         #endregion
@@ -52,6 +56,7 @@ namespace Omicron.Model
                 Async.RunFuncAsync(checkMsgReceiveNet, null);
 
                 Async.RunFuncAsync(GetStatus, null);
+                Async.RunFuncAsync(TestRevAnalysis,null);
             }
             catch (Exception ex)
             {
@@ -192,7 +197,7 @@ namespace Omicron.Model
                         string[] statuss = status.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                         if (statuss[0] == "#getstatus")
                         {
-                            if (statuss[1].Length == 11)
+                            if (statuss[1].Length == 10)
                             {
                                 EpsonStatusUpdate(statuss[1]);
                             }
@@ -204,6 +209,59 @@ namespace Omicron.Model
                     }
                 }
                 await Task.Delay(200);
+            }
+        }
+        private async void TestRevAnalysis()
+        {
+            while (true)
+            {
+                await Task.Delay(100);
+                if (TestReceiveStatus == true)
+                {
+                    string s = await TestReceiveNet.ReceiveAsync();
+
+                    string[] ss = s.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    try
+                    {
+                        s = ss[0];
+                    }
+                    catch
+                    {
+                        s = "error";
+                    }
+
+                    if (s == "error")
+                    {
+                        TestReceiveNet.tcpConnected = false;
+                        TestReceiveStatus = false;
+                    }
+                    else
+                    {
+                        ModelPrint("TestRev: " + s);
+                        try
+                        {
+                            string[] strs = s.Split(',');
+                            switch (strs[0])
+                            {
+                                case "Coord":
+                                    Coord_X = double.Parse(strs[1]);
+                                    Coord_Y = double.Parse(strs[2]);
+                                    Coord_Z = double.Parse(strs[3]);
+                                    Coord_U = double.Parse(strs[4]);
+                                    break;
+                                default:
+                                    ModelPrint("无效指令： " + s);
+                                    break;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ModelPrint("监听机械手命令出错");
+                            Log.Default.Error("EpsonRC90.TestRevAnalysis", ex.Message);
+                        }
+
+                    }
+                }
             }
         }
         #endregion

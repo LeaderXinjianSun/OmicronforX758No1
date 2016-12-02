@@ -147,10 +147,10 @@
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Style="{StaticResource TextBlockBase}">工具坐标6</TextBlock>
                                     <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding ToolCoordX1[5]}"></TextBox>
-                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding ToolCoordX1[5]}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding ToolCoordY1[5]}"></TextBox>
                                     <TextBlock Style="{StaticResource TextBlockBase}">像素坐标6</TextBlock>
-                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding ToolCoordX1[5]}"></TextBox>
-                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding ToolCoordX1[5]}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PixCoordX1[5]}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PixCoordY1[5]}"></TextBox>
                                     <Button Content="获取" Command="{mvvm:ActionAutoWithParam GetCoor}" CommandParameter="5"></Button>
                                 </StackPanel>
                             </StackPanel>
