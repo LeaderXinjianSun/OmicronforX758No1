@@ -167,6 +167,10 @@
         <Setter Property="VerticalAlignment" Value="Center"></Setter>
         <Setter Property="FontSize" Value="18"></Setter>
     </Style>
+    <Style TargetType="TextBlock" x:Key="TextBlockTitle">
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        <Setter Property="FontSize" Value="28"></Setter>
+    </Style>
     <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}" x:Key="TextBlockParameterName">
         <Setter Property="Width" Value="50"></Setter>
     </Style>

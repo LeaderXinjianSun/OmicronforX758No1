@@ -61,7 +61,7 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <Border Style="{StaticResource ForBarcodeDisplay}">
-                    <TextBlock Background="AntiqueWhite"></TextBlock>
+                    <TextBlock Style="{StaticResource TextBlockTitle}" Text="{Binding BarcodeDisplay}" Background="AntiqueWhite"></TextBlock>
                 </Border>
                 
             </Grid>

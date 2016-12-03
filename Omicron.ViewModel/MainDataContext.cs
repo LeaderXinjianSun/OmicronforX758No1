@@ -61,10 +61,12 @@ namespace Omicron.ViewModel
         public virtual bool Repaint { set; get; }
 
         public virtual HImage hImageScan { set; get; }
-        public virtual ObservableCollection<HObject> hObjectListScan { set; get; } = new ObservableCollection<HObject>();
+        public virtual ObservableCollection<HObject> hObjectListScan { set; get; }
         public virtual ObservableCollection<ROI> ROIListScan { set; get; } = new ObservableCollection<ROI>();
         public virtual int ActiveIndexScan { set; get; }
         public virtual bool RepaintScan { set; get; }
+
+        public virtual string BarcodeDisplay { set; get; }
 
         #endregion
         #region 变量定义区域
@@ -258,13 +260,16 @@ namespace Omicron.ViewModel
         }
         public void cameraHcInspect()
         {
-            ObservableCollection<HObject> hl = new ObservableCollection<HObject>();
+            ObservableCollection<HObject> objectList = new ObservableCollection<HObject>();
             hdevEngine.inspectengine();
             hImage = hdevEngine.getImage("Image");
-            //hl.Add(hdevEngine.getRegion("Rectangle1"));
-            //hl.Add(hdevEngine.getRegion("Rectangle2"));
-            //hObjectList = hl;           
-            //roilist.Add(hdevEngine.getRegion("Rectangle1"));
+            var fill1 = hdevEngine.getmeasurements("fill1");
+            var fill2 = hdevEngine.getmeasurements("fill2");
+            var fill3 = hdevEngine.getmeasurements("fill3");
+            objectList.Add(hdevEngine.getRegion("SelectedRegions1"));
+            objectList.Add(hdevEngine.getRegion("SelectedRegions2"));
+            objectList.Add(hdevEngine.getRegion("SelectedRegions3"));
+            hObjectList = objectList;
         }
 
         #endregion
@@ -296,13 +301,10 @@ namespace Omicron.ViewModel
         }
         public void scanCameraInspect()
         {
-            ObservableCollection<HObject> hl = new ObservableCollection<HObject>();
             hdevScanEngine.inspectengine();
             hImageScan = hdevScanEngine.getImage("Image");
-            hl.Add(hdevEngine.getRegion("Rectangle"));
-            hObjectListScan = hl;
             var aa = hdevScanEngine.getmeasurements("DecodedDataStrings");
-            //roilist.Add(hdevEngine.getRegion("Rectangle1"));
+            BarcodeDisplay = aa.ToString();
         }
 
         #endregion
