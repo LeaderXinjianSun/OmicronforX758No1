@@ -204,4 +204,10 @@
         <Setter Property="BorderThickness" Value="1,1,1,1"></Setter>
         <Setter Property="BorderBrush" Value="LightBlue"></Setter>
     </Style>
+    <Style TargetType="Border" BasedOn="{StaticResource BorderBase}" x:Key="ForBarcodeDisplay">
+        <Setter Property="BorderThickness" Value="1,1,1,1"></Setter>
+        <Setter Property="BorderBrush" Value="Gray"></Setter>
+        <Setter Property="Margin" Value="10,0,10,0"></Setter>
+        <Setter Property="Height" Value="50"></Setter>
+    </Style>
 </ResourceDictionary>

@@ -25,6 +25,7 @@ namespace Omicron.ViewModel
         public virtual string HomePageVisibility { set; get; } = "Visible";
         public virtual string ParameterPageVisibility { set; get; } = "Collapsed";
         public virtual string CameraHcPageVisibility { set; get; } = "Collapsed";
+        public virtual string ScanCameraPageVisibility { set; get; } = "Collapsed";
         public virtual string TesterParameterPageVisibility { set; get; } = "Collapsed";
         public virtual bool IsPLCConnect { set; get; } = false;
         public virtual bool IsTCPConnect { set; get; } = false;
@@ -50,12 +51,19 @@ namespace Omicron.ViewModel
         public virtual int EpsonMsgReceivePort { set; get; } = 2002;
         public virtual int EpsonRemoteControlPort { set; get; } = 5000;
         public virtual string VisionScriptFileName { set; get; }
-        public virtual string HcVisionScriptFileName { set; get; }
+        public virtual string HcVisionScriptFileName { set; get; }        
+        public virtual string ScanVisionScriptFileName { set; get; }
         public virtual HImage hImage { set; get; }
         public virtual ObservableCollection<HObject> hObjectList { set; get; }
         public virtual ObservableCollection<ROI> ROIList { set; get; } = new ObservableCollection<ROI>();
         public virtual int ActiveIndex { set; get; }
         public virtual bool Repaint { set; get; }
+
+        public virtual HImage hImageScan { set; get; }
+        public virtual ObservableCollection<HObject> hObjectListScan { set; get; }
+        public virtual ObservableCollection<ROI> ROIListScan { set; get; } = new ObservableCollection<ROI>();
+        public virtual int ActiveIndexScan { set; get; }
+        public virtual bool RepaintScan { set; get; }
 
         #endregion
         #region 变量定义区域
@@ -64,6 +72,7 @@ namespace Omicron.ViewModel
         private string iniParameterPath = System.Environment.CurrentDirectory + "\\Parameter.ini";
         private XinjiePlc XinjiePLC;
         private HdevEngine hdevEngine = new HdevEngine();
+        private HdevEngine hdevScanEngine = new HdevEngine();
         private EpsonRC90 epsonRC90 = new EpsonRC90();
         #endregion
         #region 构造函数
@@ -82,6 +91,7 @@ namespace Omicron.ViewModel
             AboutPageVisibility = "Collapsed";
             HomePageVisibility = "Visible";
             CameraHcPageVisibility = "Collapsed";
+            ScanCameraPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
         }
         public void ChoseAboutPage()
@@ -90,6 +100,7 @@ namespace Omicron.ViewModel
             AboutPageVisibility = "Visible";
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
+            ScanCameraPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
         }
         public void ChoseParameterPage()
@@ -98,6 +109,7 @@ namespace Omicron.ViewModel
             AboutPageVisibility = "Collapsed";
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
+            ScanCameraPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
         }
         public void ChoseTesterParameterPage()
@@ -106,6 +118,7 @@ namespace Omicron.ViewModel
             AboutPageVisibility = "Collapsed";
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
+            ScanCameraPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Visible";
         }
         public void ChoseCameraPage()
@@ -114,6 +127,7 @@ namespace Omicron.ViewModel
             AboutPageVisibility = "Collapsed";
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
+            ScanCameraPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
         }
         public void ChoseCameraHcPage()
@@ -122,6 +136,16 @@ namespace Omicron.ViewModel
             AboutPageVisibility = "Collapsed";
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Visible";
+            ScanCameraPageVisibility = "Collapsed";
+            TesterParameterPageVisibility = "Collapsed";
+        }
+        public void ChoseScanCameraPage()
+        {
+            ParameterPageVisibility = "Collapsed";
+            AboutPageVisibility = "Collapsed";
+            HomePageVisibility = "Collapsed";
+            CameraHcPageVisibility = "Collapsed";
+            ScanCameraPageVisibility = "Visible";
             TesterParameterPageVisibility = "Collapsed";
         }
         public void ShieldDoorFunction()
@@ -168,6 +192,14 @@ namespace Omicron.ViewModel
                     {
                         HcVisionScriptFileName = dlg.FileName;
                         Inifile.INIWriteValue(iniParameterPath, "Camera", "HcVisionScriptFileName", HcVisionScriptFileName);
+                    }
+                    break;
+                case "2":
+                    dlg.Filter = "视觉文件(*.hdev)|*.hdev|所有文件(*.*)|*.*";
+                    if (dlg.ShowDialog() == DialogResult.OK)
+                    {
+                        ScanVisionScriptFileName = dlg.FileName;
+                        Inifile.INIWriteValue(iniParameterPath, "Camera", "ScanVisionScriptFileName", ScanVisionScriptFileName);
                     }
                     break;
                 default:
@@ -243,6 +275,49 @@ namespace Omicron.ViewModel
         }
 
         #endregion
+        #region Scan
+        public void ScanCameraInit()
+        {
+            Async.RunFuncAsync(scanCameraInit, ScanCameraInitCallBack);
+        }
+        public void scanCameraInit()
+        {
+            string filename = System.IO.Path.GetFileName(ScanVisionScriptFileName);
+            string fullfilename = System.Environment.CurrentDirectory + @"\" + filename;
+            if (!(File.Exists(fullfilename)))
+            {
+                File.Copy(ScanVisionScriptFileName, fullfilename);
+            }
+            else
+            {
+                FileInfo fileinfo1 = new FileInfo(ScanVisionScriptFileName);
+                FileInfo fileinfo2 = new FileInfo(fullfilename);
+                TimeSpan ts = fileinfo1.LastWriteTime - fileinfo2.LastWriteTime;
+                if (ts.TotalMilliseconds > 0)
+                {
+                    File.Copy(ScanVisionScriptFileName, fullfilename, true);
+                }
+            }
+            hdevScanEngine.initialengine(System.IO.Path.GetFileNameWithoutExtension(fullfilename));
+            hdevScanEngine.loadengine();
+        }
+        public void ScanCameraInitCallBack()
+        {
+            Msg = messagePrint.AddMessage("Scan相机初始化完成");
+        }
+        public void ScanCameraInspect()
+        {
+            Async.RunFuncAsync(scanCameraInspect, null);
+        }
+        public void scanCameraInspect()
+        {
+            ObservableCollection<HObject> hl = new ObservableCollection<HObject>();
+            hdevScanEngine.inspectengine();
+            hImageScan = hdevScanEngine.getImage("Image");
+            //roilist.Add(hdevEngine.getRegion("Rectangle1"));
+        }
+
+        #endregion
         #endregion
         #region 读写操作
         private bool ReadParameter()
@@ -257,6 +332,7 @@ namespace Omicron.ViewModel
                 EpsonRemoteControlPort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonRemoteControlPort", "5000"));
                 VisionScriptFileName = Inifile.INIGetStringValue(iniParameterPath, "Camera", "VisionScriptFileName", @"C:\test.vbai");
                 HcVisionScriptFileName = Inifile.INIGetStringValue(iniParameterPath, "Camera", "HcVisionScriptFileName", @"C:\test.hdev");
+                ScanVisionScriptFileName = Inifile.INIGetStringValue(iniParameterPath, "Camera", "ScanVisionScriptFileName", @"C:\test.hdev");
 
 
                 return true;
