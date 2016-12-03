@@ -68,6 +68,10 @@ namespace Omicron.ViewModel
 
         public virtual string BarcodeDisplay { set; get; }
 
+        public virtual bool FindFill1 { set; get; } = false;
+        public virtual bool FindFill2 { set; get; } = false;
+        public virtual bool FindFill3 { set; get; } = false;
+
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -266,6 +270,9 @@ namespace Omicron.ViewModel
             var fill1 = hdevEngine.getmeasurements("fill1");
             var fill2 = hdevEngine.getmeasurements("fill2");
             var fill3 = hdevEngine.getmeasurements("fill3");
+            FindFill1 = fill1.ToString() == "1";
+            FindFill2 = fill2.ToString() == "1";
+            FindFill3 = fill3.ToString() == "1";
             objectList.Add(hdevEngine.getRegion("SelectedRegions1"));
             objectList.Add(hdevEngine.getRegion("SelectedRegions2"));
             objectList.Add(hdevEngine.getRegion("SelectedRegions3"));
@@ -412,6 +419,7 @@ namespace Omicron.ViewModel
         [Initialize]
         public async void L91PLCWork()
         {
+            bool TakePhoteFlage = false, _TakePhoteFlage = false;
             while (true)
             {
                 await Task.Delay(200);
@@ -438,10 +446,37 @@ namespace Omicron.ViewModel
                 else
                 {
                     IsPLCConnect = XinjiePLC.readM(24576);
+                    TakePhoteFlage = XinjiePLC.readM(100);
+                    if (_TakePhoteFlage != TakePhoteFlage)
+                    {
+                        _TakePhoteFlage = TakePhoteFlage;
+                        if (TakePhoteFlage == true)
+                        {
+                            XinjiePLC.setM(80,false);
+                            XinjiePLC.setM(81, false);
+                            XinjiePLC.setM(82, false);
+                            Async.RunFuncAsync(cameraHcInspect, PLCTakePhoteCallback);
+                        }
+                    }
                 }
+
             }
         }
-
+        private void PLCTakePhoteCallback()
+        {
+            if (FindFill1)
+            {
+                XinjiePLC.setM(80, true);
+            }
+            if (FindFill2)
+            {
+                XinjiePLC.setM(81, true);
+            }
+            if (FindFill3)
+            {
+                XinjiePLC.setM(82, true);
+            }
+        }
         #endregion
 
     }
