@@ -300,7 +300,9 @@ namespace Omicron.ViewModel
             hdevScanEngine.inspectengine();
             hImageScan = hdevScanEngine.getImage("Image");
             //hObjectListScan.Clear();
-            ROIListScan.Add(hdevEngine.getRegion("Rectangle"));
+            hl.Add(hdevEngine.getRegion("Rectangle"));
+            hObjectListScan = hl;
+            RepaintScan = !RepaintScan;
             var aa = hdevScanEngine.getmeasurements("DecodedDataStrings");
             //roilist.Add(hdevEngine.getRegion("Rectangle1"));
         }
