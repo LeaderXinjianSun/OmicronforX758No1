@@ -299,10 +299,8 @@ namespace Omicron.ViewModel
             ObservableCollection<HObject> hl = new ObservableCollection<HObject>();
             hdevScanEngine.inspectengine();
             hImageScan = hdevScanEngine.getImage("Image");
-            //hObjectListScan.Clear();
             hl.Add(hdevEngine.getRegion("Rectangle"));
             hObjectListScan = hl;
-            RepaintScan = !RepaintScan;
             var aa = hdevScanEngine.getmeasurements("DecodedDataStrings");
             //roilist.Add(hdevEngine.getRegion("Rectangle1"));
         }
