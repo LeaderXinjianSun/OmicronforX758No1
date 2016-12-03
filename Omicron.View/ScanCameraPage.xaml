@@ -34,14 +34,6 @@
         <GroupBox Grid.Column="1" Header="操作">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
-                    <control:Tile Style="{StaticResource TileBase}" Grid.Column="1" Command="{mvvm:ActionAuto ScanCameraInit}" Title="初始化">
-                        <Rectangle Style="{StaticResource MetroTileRectangle}">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Fill"
-                                     Visual="{DynamicResource appbar_monitor}" />
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </control:Tile>
                     <control:Tile Style="{StaticResource TileBase}" Grid.Column="1" Command="{mvvm:ActionAuto ScanCameraInspect}" Title="扫码">
                         <Rectangle Style="{StaticResource MetroTileRectangle}">
                             <Rectangle.OpacityMask>

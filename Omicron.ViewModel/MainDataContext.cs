@@ -14,6 +14,7 @@ using System.IO;
 using ViewROI;
 using HalconDotNet;
 using System.Collections.ObjectModel;
+//using MahApps.Metro.Controls.Dialogs;
 
 namespace Omicron.ViewModel
 {
@@ -60,7 +61,7 @@ namespace Omicron.ViewModel
         public virtual bool Repaint { set; get; }
 
         public virtual HImage hImageScan { set; get; }
-        public virtual ObservableCollection<HObject> hObjectListScan { set; get; }
+        public virtual ObservableCollection<HObject> hObjectListScan { set; get; } = new ObservableCollection<HObject>();
         public virtual ObservableCollection<ROI> ROIListScan { set; get; } = new ObservableCollection<ROI>();
         public virtual int ActiveIndexScan { set; get; }
         public virtual bool RepaintScan { set; get; }
@@ -230,10 +231,6 @@ namespace Omicron.ViewModel
         #endregion
         #region 视觉
         #region Halcon
-        public void CameraHcInit()
-        {
-            Async.RunFuncAsync(cameraHcInit, CameraHcInitCallBack);
-        }
         public void cameraHcInit()
         {
             string filename = System.IO.Path.GetFileName(HcVisionScriptFileName);
@@ -255,10 +252,6 @@ namespace Omicron.ViewModel
             hdevEngine.initialengine(System.IO.Path.GetFileNameWithoutExtension(fullfilename));
             hdevEngine.loadengine();
         }
-        public void CameraHcInitCallBack()
-        {
-            Msg = messagePrint.AddMessage("Hc相机初始化完成");
-        }
         public void CameraHcInspect()
         {
             Async.RunFuncAsync(cameraHcInspect,null);
@@ -268,18 +261,14 @@ namespace Omicron.ViewModel
             ObservableCollection<HObject> hl = new ObservableCollection<HObject>();
             hdevEngine.inspectengine();
             hImage = hdevEngine.getImage("Image");
-            hl.Add(hdevEngine.getRegion("Rectangle1"));
-            hl.Add(hdevEngine.getRegion("Rectangle2"));
-            hObjectList = hl;           
+            //hl.Add(hdevEngine.getRegion("Rectangle1"));
+            //hl.Add(hdevEngine.getRegion("Rectangle2"));
+            //hObjectList = hl;           
             //roilist.Add(hdevEngine.getRegion("Rectangle1"));
         }
 
         #endregion
         #region Scan
-        public void ScanCameraInit()
-        {
-            Async.RunFuncAsync(scanCameraInit, ScanCameraInitCallBack);
-        }
         public void scanCameraInit()
         {
             string filename = System.IO.Path.GetFileName(ScanVisionScriptFileName);
@@ -301,10 +290,6 @@ namespace Omicron.ViewModel
             hdevScanEngine.initialengine(System.IO.Path.GetFileNameWithoutExtension(fullfilename));
             hdevScanEngine.loadengine();
         }
-        public void ScanCameraInitCallBack()
-        {
-            Msg = messagePrint.AddMessage("Scan相机初始化完成");
-        }
         public void ScanCameraInspect()
         {
             Async.RunFuncAsync(scanCameraInspect, null);
@@ -314,6 +299,9 @@ namespace Omicron.ViewModel
             ObservableCollection<HObject> hl = new ObservableCollection<HObject>();
             hdevScanEngine.inspectengine();
             hImageScan = hdevScanEngine.getImage("Image");
+            hObjectListScan.Clear();
+            hObjectListScan.Add(hdevEngine.getObject("SymbolXLDs"));
+            var aa = hdevScanEngine.getmeasurements("DecodedDataStrings");
             //roilist.Add(hdevEngine.getRegion("Rectangle1"));
         }
 
@@ -389,6 +377,7 @@ namespace Omicron.ViewModel
         public async void WindowClose()
         {
             mydialog.changeaccent("Red");
+            
             var r = await mydialog.showconfirm("确定要关闭程序吗？");
             if (r)
             {
@@ -402,7 +391,7 @@ namespace Omicron.ViewModel
         #endregion
         #region 初始化
         [Initialize]
-        public async void WindowLoaded()
+        public void WindowLoaded()
         {
             var r = ReadParameter();
             if (r)
@@ -413,7 +402,10 @@ namespace Omicron.ViewModel
             {
                 Msg = messagePrint.AddMessage("读取参数失败");
             }
-            await Task.Delay(10);
+            cameraHcInit();
+            Msg = messagePrint.AddMessage("检测相机初始化完成");
+            scanCameraInit();
+            Msg = messagePrint.AddMessage("扫码相机初始化完成");
         }
         [Initialize]
         public async void L91PLCWork()

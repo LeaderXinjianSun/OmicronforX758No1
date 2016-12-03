@@ -33,6 +33,5 @@ namespace Omicron
             ActionMessages.ExecuteAction("winclose");
         }
 
-      
     }
 }
