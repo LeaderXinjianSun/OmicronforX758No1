@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="halcondotnet">
-      <HintPath>..\..\..\..\..\..\..\Program Files\MVTec\HALCON-10.0\bin\dotnet35\halcondotnet.dll</HintPath>
+      <HintPath>C:\Program Files\MVTec\HALCON-10.0\bin\dotnet35\halcondotnet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,9 +47,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SXJLibraty\SxjLibrary\SxjLibrary.csproj">
+    <ProjectReference Include="..\..\SXJLibrary\SxjLibrary\SxjLibrary.csproj">
       <Project>{9e80e0a7-9c30-40c9-b63d-c64530a1ce6b}</Project>
       <Name>SxjLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SXJLibrary\ViewROI\ViewROI.csproj">
+      <Project>{c4f5c5de-7ea8-47fe-8218-48138f48965f}</Project>
+      <Name>ViewROI</Name>
     </ProjectReference>
     <ProjectReference Include="..\BingLibrary\BingLibrary.csproj">
       <Project>{4af25010-f781-4a08-886f-7b40fe1c772f}</Project>
