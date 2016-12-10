@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Title="Omicron for X758 Ver20161124.01 master" WindowStartupLocation="CenterScreen"
                      BorderThickness="0" GlowBrush="Black"  ResizeMode="CanResizeWithGrip" WindowTransitionsEnabled="True"
-                     Icon="/icons/Google_Earth_globe_64px_568339_easyicon.net.ico" Height="768" Width="1024" Closing="MetroWindow_Closing">
+                     Icon="/icons/google_earth_64px_1099826_easyicon.net.ico" Height="768" Width="1024" Closing="MetroWindow_Closing">
     <Grid>
         <view:MainWindowView></view:MainWindowView>
     </Grid>

@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icons\Google_Earth_globe_64px_568339_easyicon.net.ico</ApplicationIcon>
+    <ApplicationIcon>icons\google_earth_64px_1099826_easyicon.net.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MahApps.Metro, Version=1.3.0.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
@@ -135,6 +135,9 @@
       <Project>{5e2172f7-b24d-45f7-bc8a-f6d24333279b}</Project>
       <Name>Omicron.View</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\google_earth_64px_1099826_easyicon.net.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
