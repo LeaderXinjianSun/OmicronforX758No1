@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="Omicron.View.BarcodeDisplayPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Omicron.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="522" d:DesignWidth="1024">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="SxjDictionary.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Header="爪手条码">
+            <StackPanel Orientation="Vertical" Margin="0,5">
+                <StackPanel Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Style="{StaticResource TextBlockBarcode}" Text="爪手A： "></TextBlock>
+                    <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding PickBracodeA}"></TextBox>
+                    <TextBlock Style="{StaticResource TextBlockBarcode}" Text="爪手B： "></TextBlock>
+                    <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding PickBracodeB}"></TextBox>
+                    <TextBlock Style="{StaticResource TextBlockBarcode}" Text="爪手C： "></TextBlock>
+                    <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding PickBracodeC}"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Style="{StaticResource TextBlockBarcode}" Text="爪手D： "></TextBlock>
+                    <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding PickBracodeD}"></TextBox>
+                </StackPanel>
+            </StackPanel>
+
+        </GroupBox>
+        <GroupBox Header="测试机条码" Grid.Row="1">
+            <StackPanel Orientation="Vertical" Margin="0,5">
+                <StackPanel Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Style="{StaticResource TextBlockBarcode}" Text="测试机AL： "></TextBlock>
+                    <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding TesterBracodeAL}"></TextBox>
+                    <TextBlock Style="{StaticResource TextBlockBarcode}" Text="测试机AR： "></TextBlock>
+                    <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding TesterBracodeAR}"></TextBox>
+                    
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Style="{StaticResource TextBlockBarcode}" Text="测试机BL： "></TextBlock>
+                    <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding TesterBracodeBL}"></TextBox>
+                    <TextBlock Style="{StaticResource TextBlockBarcode}" Text="测试机BR： "></TextBlock>
+                    <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding TesterBracodeBR}"></TextBox>
+                </StackPanel>
+            </StackPanel>
+
+        </GroupBox>
+    </Grid>
+</UserControl>

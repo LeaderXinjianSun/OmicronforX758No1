@@ -27,6 +27,7 @@ namespace Omicron.ViewModel
         public virtual string ParameterPageVisibility { set; get; } = "Collapsed";
         public virtual string CameraHcPageVisibility { set; get; } = "Collapsed";
         public virtual string ScanCameraPageVisibility { set; get; } = "Collapsed";
+        public virtual string BarcodeDisplayPageVisibility { set; get; } = "Collapsed";
         public virtual string TesterParameterPageVisibility { set; get; } = "Collapsed";
         public virtual bool IsPLCConnect { set; get; } = false;
         public virtual bool IsTCPConnect { set; get; } = false;
@@ -87,6 +88,7 @@ namespace Omicron.ViewModel
         {
             epsonRC90.ModelPrint += ModelPrintEventProcess;
             epsonRC90.EpsonStatusUpdate += EpsonStatusUpdateProcess;
+            epsonRC90.ScanUpdate += ScanUpdateProcess;
 
             Async.RunFuncAsync(UpdateUI,null);
         }
@@ -100,6 +102,7 @@ namespace Omicron.ViewModel
             CameraHcPageVisibility = "Collapsed";
             ScanCameraPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
+            BarcodeDisplayPageVisibility = "Collapsed";
         }
         public void ChoseAboutPage()
         {
@@ -109,6 +112,7 @@ namespace Omicron.ViewModel
             CameraHcPageVisibility = "Collapsed";
             ScanCameraPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
+            BarcodeDisplayPageVisibility = "Collapsed";
         }
         public void ChoseParameterPage()
         {
@@ -118,6 +122,7 @@ namespace Omicron.ViewModel
             CameraHcPageVisibility = "Collapsed";
             ScanCameraPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
+            BarcodeDisplayPageVisibility = "Collapsed";
         }
         public void ChoseTesterParameterPage()
         {
@@ -127,6 +132,7 @@ namespace Omicron.ViewModel
             CameraHcPageVisibility = "Collapsed";
             ScanCameraPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Visible";
+            BarcodeDisplayPageVisibility = "Collapsed";
         }
         public void ChoseCameraPage()
         {
@@ -136,6 +142,7 @@ namespace Omicron.ViewModel
             CameraHcPageVisibility = "Collapsed";
             ScanCameraPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
+            BarcodeDisplayPageVisibility = "Collapsed";
         }
         public void ChoseCameraHcPage()
         {
@@ -145,6 +152,7 @@ namespace Omicron.ViewModel
             CameraHcPageVisibility = "Visible";
             ScanCameraPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
+            BarcodeDisplayPageVisibility = "Collapsed";
         }
         public void ChoseScanCameraPage()
         {
@@ -154,15 +162,84 @@ namespace Omicron.ViewModel
             CameraHcPageVisibility = "Collapsed";
             ScanCameraPageVisibility = "Visible";
             TesterParameterPageVisibility = "Collapsed";
+            BarcodeDisplayPageVisibility = "Collapsed";
+        }
+        public void ChoseBarcodeDisplayPage()
+        {
+            ParameterPageVisibility = "Collapsed";
+            AboutPageVisibility = "Collapsed";
+            HomePageVisibility = "Collapsed";
+            CameraHcPageVisibility = "Collapsed";
+            ScanCameraPageVisibility = "Collapsed";
+            TesterParameterPageVisibility = "Collapsed";
+            BarcodeDisplayPageVisibility = "Visible";
         }
         public void ShieldDoorFunction()
         {
             IsShieldTheDoor = !IsShieldTheDoor;
         }
-        public void EpsonOpetate(object p)
+        public async void EpsonOpetate(object p)
         {
-
+            string s = p.ToString();
+            switch (s)
+            {
+                //启动
+                case "1":
+                    if (epsonRC90.CtrlStatus)
+                    {
+                        await epsonRC90.CtrlNet.SendAsync("$start,0");
+                    }
+                    break;
+                //暂停
+                case "2":
+                    if (epsonRC90.CtrlStatus)
+                    {
+                        await epsonRC90.CtrlNet.SendAsync("$pause");
+                    }
+                    break;
+                //暂停
+                case "3":
+                    if (epsonRC90.CtrlStatus)
+                    {
+                        await epsonRC90.CtrlNet.SendAsync("$continue");
+                    }
+                    break;
+                //重启
+                case "4":
+                    mydialog.changeaccent("red");
+                    var r = await mydialog.showconfirm("确定进行停止机械手重启操作吗？");
+                    if (r && epsonRC90.CtrlStatus)
+                    {
+                        await epsonRC90.CtrlNet.SendAsync("$stop");
+                        await Task.Delay(300);
+                        await epsonRC90.CtrlNet.SendAsync("$SetMotorOff,1");
+                        await Task.Delay(400);
+                        await epsonRC90.CtrlNet.SendAsync("$reset");
+                    }
+                    mydialog.changeaccent("blue");
+                    break;
+                //排料
+                case "5":
+                    mydialog.changeaccent("red");
+                    r = await mydialog.showconfirm("确定进行排料操作吗？");
+                    if (r && epsonRC90.CtrlStatus)
+                    {
+                        await epsonRC90.TestSentNet.SendAsync("Discharge");
+                    }
+                    mydialog.changeaccent("blue");
+                    break;
+                //暂停
+                case "6":
+                    if (epsonRC90.CtrlStatus)
+                    {
+                        await epsonRC90.CtrlNet.SendAsync("$reset");
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
+ 
         public void NoiseReduce()
         {
 
@@ -234,6 +311,11 @@ namespace Omicron.ViewModel
             EpsonStatusRunning = str[8] == '1';
             EpsonStatusReady = str[9] == '1';
         }
+        private void ScanUpdateProcess(string bar, HImage img)
+        {
+            hImageScan = img;
+            BarcodeDisplay = bar;
+        }
         #endregion
         #region 视觉
         #region Halcon
@@ -281,38 +363,38 @@ namespace Omicron.ViewModel
 
         #endregion
         #region Scan
-        public void scanCameraInit()
-        {
-            string filename = System.IO.Path.GetFileName(ScanVisionScriptFileName);
-            string fullfilename = System.Environment.CurrentDirectory + @"\" + filename;
-            if (!(File.Exists(fullfilename)))
-            {
-                File.Copy(ScanVisionScriptFileName, fullfilename);
-            }
-            else
-            {
-                FileInfo fileinfo1 = new FileInfo(ScanVisionScriptFileName);
-                FileInfo fileinfo2 = new FileInfo(fullfilename);
-                TimeSpan ts = fileinfo1.LastWriteTime - fileinfo2.LastWriteTime;
-                if (ts.TotalMilliseconds > 0)
-                {
-                    File.Copy(ScanVisionScriptFileName, fullfilename, true);
-                }
-            }
-            hdevScanEngine.initialengine(System.IO.Path.GetFileNameWithoutExtension(fullfilename));
-            hdevScanEngine.loadengine();
-        }
+        //public void scanCameraInit()
+        //{
+        //    string filename = System.IO.Path.GetFileName(ScanVisionScriptFileName);
+        //    string fullfilename = System.Environment.CurrentDirectory + @"\" + filename;
+        //    if (!(File.Exists(fullfilename)))
+        //    {
+        //        File.Copy(ScanVisionScriptFileName, fullfilename);
+        //    }
+        //    else
+        //    {
+        //        FileInfo fileinfo1 = new FileInfo(ScanVisionScriptFileName);
+        //        FileInfo fileinfo2 = new FileInfo(fullfilename);
+        //        TimeSpan ts = fileinfo1.LastWriteTime - fileinfo2.LastWriteTime;
+        //        if (ts.TotalMilliseconds > 0)
+        //        {
+        //            File.Copy(ScanVisionScriptFileName, fullfilename, true);
+        //        }
+        //    }
+        //    hdevScanEngine.initialengine(System.IO.Path.GetFileNameWithoutExtension(fullfilename));
+        //    hdevScanEngine.loadengine();
+        //}
         public void ScanCameraInspect()
         {
-            Async.RunFuncAsync(scanCameraInspect, null);
+            Async.RunFuncAsync(epsonRC90.scanCameraInspect, null);
         }
-        public void scanCameraInspect()
-        {
-            hdevScanEngine.inspectengine();
-            hImageScan = hdevScanEngine.getImage("Image");
-            var aa = hdevScanEngine.getmeasurements("DecodedDataStrings");
-            BarcodeDisplay = aa.ToString();
-        }
+        //public void scanCameraInspect()
+        //{
+        //    hdevScanEngine.inspectengine();
+        //    hImageScan = hdevScanEngine.getImage("Image");
+        //    var aa = hdevScanEngine.getmeasurements("DecodedDataStrings");
+        //    BarcodeDisplay = aa.ToString();
+        //}
 
         #endregion
         #endregion
@@ -413,8 +495,9 @@ namespace Omicron.ViewModel
             }
             cameraHcInit();
             Msg = messagePrint.AddMessage("检测相机初始化完成");
-            scanCameraInit();
-            Msg = messagePrint.AddMessage("扫码相机初始化完成");
+            epsonRC90.scanCameraInit();
+            //scanCameraInit();
+            //Msg = messagePrint.AddMessage("扫码相机初始化完成");
         }
         [Initialize]
         public async void L91PLCWork()

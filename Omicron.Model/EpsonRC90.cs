@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using BingLibrary.hjb;
 using SxjLibrary;
+using ViewROI;
+using HalconDotNet;
+using System.IO;
 
 namespace Omicron.Model
 {
@@ -24,20 +27,26 @@ namespace Omicron.Model
         public double Coord_Y { set; get; } = 0;
         public double Coord_Z { set; get; } = 0;
         public double Coord_U { set; get; } = 0;
+        public string ScanVisionScriptFileName { set; get; }
         #endregion
         #region 变量
+        public HdevEngine hdevScanEngine = new HdevEngine();
         public TCPIPConnect TestSentNet = new TCPIPConnect();
         public TCPIPConnect TestReceiveNet = new TCPIPConnect();
         public TCPIPConnect MsgReceiveNet = new TCPIPConnect();
         public TCPIPConnect CtrlNet = new TCPIPConnect();
         private string iniParameterPath = System.Environment.CurrentDirectory + "\\Parameter.ini";
         private bool isLogined = false;
+        //private string barcodeString = "";
+
         #endregion
         #region 事件定义
         public delegate void PrintEventHandler(string ModelMessageStr);
         public event PrintEventHandler ModelPrint;
         public delegate void EpsonStatusEventHandler(string EpsonStatusString);
         public event EpsonStatusEventHandler EpsonStatusUpdate;
+        public delegate void ScanEventHandler(string bar, HImage img);
+        public event ScanEventHandler ScanUpdate;
         #endregion
         #region 构造函数
         public EpsonRC90()
@@ -49,6 +58,8 @@ namespace Omicron.Model
                 TestReceivePort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonTestReceivePort", "2001"));
                 MsgReceivePort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonMsgReceivePort", "2002"));
                 CtrlPort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonRemoteControlPort", "5000"));
+
+                ScanVisionScriptFileName = Inifile.INIGetStringValue(iniParameterPath, "Camera", "ScanVisionScriptFileName", @"C:\test.hdev");
 
                 Async.RunFuncAsync(checkCtrlNet, null);
                 Async.RunFuncAsync(checkTestSentNet, null);
@@ -264,6 +275,43 @@ namespace Omicron.Model
                 }
             }
         }
+        #endregion
+        #region Scan
+        public void scanCameraInit()
+        {
+            string filename = System.IO.Path.GetFileName(ScanVisionScriptFileName);
+            string fullfilename = System.Environment.CurrentDirectory + @"\" + filename;
+            if (!(File.Exists(fullfilename)))
+            {
+                File.Copy(ScanVisionScriptFileName, fullfilename);
+            }
+            else
+            {
+                FileInfo fileinfo1 = new FileInfo(ScanVisionScriptFileName);
+                FileInfo fileinfo2 = new FileInfo(fullfilename);
+                TimeSpan ts = fileinfo1.LastWriteTime - fileinfo2.LastWriteTime;
+                if (ts.TotalMilliseconds > 0)
+                {
+                    File.Copy(ScanVisionScriptFileName, fullfilename, true);
+                }
+            }
+            hdevScanEngine.initialengine(System.IO.Path.GetFileNameWithoutExtension(fullfilename));
+            hdevScanEngine.loadengine();
+            ModelPrint("扫码相机初始化完成");
+        }
+        public void ScanCameraInspect()
+        {
+            Async.RunFuncAsync(scanCameraInspect, null);
+        }
+        public void scanCameraInspect()
+        {
+            hdevScanEngine.inspectengine();
+            var hImageScan = hdevScanEngine.getImage("Image");
+            var aa = hdevScanEngine.getmeasurements("DecodedDataStrings");
+            var barcodeString = aa.ToString();
+            ScanUpdate(barcodeString, hImageScan);
+        }
+
         #endregion
 
     }

@@ -177,10 +177,14 @@
     <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}" x:Key="TextBlockParameterLoneName">
         <Setter Property="Width" Value="120"></Setter>
     </Style>
+    <Style TargetType="TextBlock" x:Key="TextBlockBarcode" BasedOn="{StaticResource TextBlockBase}">
+        <Setter Property="Margin" Value="10,0"></Setter>
+    </Style>
     <Style TargetType="{x:Type TextBox}" x:Key="TextBoxBase">
-        <Setter Property="FontSize" Value="18"></Setter>
+        <Setter Property="FontSize" Value="15"></Setter>
         <Setter Property="Margin" Value="5,0,5,0"></Setter>
         <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
     </Style>
     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxBase}" x:Key="TextBoxIp">
         <Setter Property="Width" Value="170"></Setter>
@@ -190,6 +194,13 @@
     </Style>
     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxBase}" x:Key="TextBoxPath">
         <Setter Property="Width" Value="380"></Setter>
+    </Style>
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxBase}" x:Key="TextBoxBarcode">
+        <Setter Property="Width" Value="220"></Setter>
+        <Setter Property="FontSize" Value="14"></Setter>
+        
+        <!--<Setter Property="IsReadOnly" Value="True"></Setter>-->
+        <Setter Property="Height" Value="24"></Setter>
     </Style>
     <Style TargetType="StackPanel" x:Key="ParameterHorizontalStackPanel">
         <Setter Property="Orientation" Value="Horizontal"></Setter>
@@ -213,5 +224,9 @@
         <Setter Property="BorderBrush" Value="Gray"></Setter>
         <Setter Property="Margin" Value="10,0,10,0"></Setter>
         <Setter Property="Height" Value="50"></Setter>
+    </Style>
+    <Style TargetType="CheckBox" x:Key="CheckBoxBase">
+        <Setter Property="Margin" Value="20,0"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
     </Style>
 </ResourceDictionary>

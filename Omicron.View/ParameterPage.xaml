@@ -19,7 +19,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -27,10 +28,10 @@
         </Grid.ColumnDefinitions>
         <GroupBox Grid.Column="0" Grid.Row="0" Header="PLC">
             <Grid>
-                <Grid.RowDefinitions>
+                <!--<Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
+                </Grid.RowDefinitions>-->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
@@ -81,6 +82,46 @@
                     <Ellipse Style="{StaticResource EllipseCtrl}"></Ellipse>
                     <TextBlock Style="{StaticResource TextBlockParameterLoneName}">远程Port:</TextBlock>
                     <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding EpsonRemoteControlPort}"></TextBox>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="测试电脑参数" Grid.Row="1" Grid.ColumnSpan="2">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Margin="5,10,5,0" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource TextBlockBarcode}">测试机A</TextBlock>
+                    <TextBlock Style="{StaticResource TextBlockBarcode}">IP:</TextBlock>
+                    <TextBox Style="{StaticResource TextBoxIp}" Text="{Binding TestPcIPA}"></TextBox>
+                    <TextBlock Style="{StaticResource TextBlockBarcode}">Port:</TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding TestPcRemotePortA}"></TextBox>
+                    <TextBlock Style="{StaticResource TextBlockBarcode}">Path:</TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPath}" Text="{Binding TestPcPathA}"></TextBox>
+                </StackPanel>
+                <StackPanel Margin="5,10,5,0" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource TextBlockBarcode}">测试机B</TextBlock>
+                    <TextBlock Style="{StaticResource TextBlockBarcode}">IP:</TextBlock>
+                    <TextBox Style="{StaticResource TextBoxIp}" Text="{Binding TestPcIPB}"></TextBox>
+                    <TextBlock Style="{StaticResource TextBlockBarcode}">Port:</TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding TestPcRemotePortB}"></TextBox>
+                    <TextBlock Style="{StaticResource TextBlockBarcode}">Path:</TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPath}" Text="{Binding TestPcPathB}"></TextBox>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="测试机选择" FontSize="18" Grid.Column="0" Grid.Row="2">
+            <StackPanel Margin="0,20,0,8" Orientation="Vertical">
+                <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
+                    <CheckBox Content="测试机AL" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedAL}"></CheckBox>
+                    <CheckBox Content="测试机AR" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedAR}"></CheckBox>
+                    <CheckBox Content="测试机BL" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedBL}"></CheckBox>
+                    <Button Margin="20,0,0,0" Content="更新" Command="{Binding UpdateSelectFlexer}"></Button>
+                </StackPanel>
+                <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
+                    <CheckBox Content="测试机BR"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedBR}"></CheckBox>
+                </StackPanel>
+                <StackPanel Margin="5,15,5,0" Orientation="Horizontal">
+                    <CheckBox Content="AB组吸嘴" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding ABChecked}"></CheckBox>
+                    <CheckBox Content="CD组吸嘴" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding CDChecked}"></CheckBox>
+                    <Button Margin="20,0,0,0" IsEnabled="{Binding ClearButtonEnable}" Content="清空" Background="Red" Foreground="Yellow" Command="{Binding ClearFlexer}"></Button>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
