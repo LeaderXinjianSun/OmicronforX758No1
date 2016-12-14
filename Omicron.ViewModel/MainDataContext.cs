@@ -72,6 +72,9 @@ namespace Omicron.ViewModel
         public virtual bool FindFill1 { set; get; } = false;
         public virtual bool FindFill2 { set; get; } = false;
         public virtual bool FindFill3 { set; get; } = false;
+        public virtual bool FindFill4 { set; get; } = false;
+        public virtual bool FindFill5 { set; get; } = false;
+        public virtual bool FindFill6 { set; get; } = false;
 
         #endregion
         #region 变量定义区域
@@ -366,12 +369,21 @@ namespace Omicron.ViewModel
             var fill1 = hdevEngine.getmeasurements("fill1");
             var fill2 = hdevEngine.getmeasurements("fill2");
             var fill3 = hdevEngine.getmeasurements("fill3");
+            var fill4 = hdevEngine.getmeasurements("fill4");
+            var fill5 = hdevEngine.getmeasurements("fill5");
+            var fill6 = hdevEngine.getmeasurements("fill6");
             FindFill1 = fill1.ToString() == "1";
             FindFill2 = fill2.ToString() == "1";
             FindFill3 = fill3.ToString() == "1";
-            objectList.Add(hdevEngine.getRegion("SelectedRegions1"));
-            objectList.Add(hdevEngine.getRegion("SelectedRegions2"));
-            objectList.Add(hdevEngine.getRegion("SelectedRegions3"));
+            FindFill4 = fill4.ToString() == "1";
+            FindFill5 = fill5.ToString() == "1";
+            FindFill6 = fill6.ToString() == "1";
+            objectList.Add(hdevEngine.getRegion("Regions1"));
+            objectList.Add(hdevEngine.getRegion("Regions2"));
+            objectList.Add(hdevEngine.getRegion("Regions3"));
+            objectList.Add(hdevEngine.getRegion("Regions4"));
+            objectList.Add(hdevEngine.getRegion("Regions5"));
+            objectList.Add(hdevEngine.getRegion("Regions6"));
             hObjectList = objectList;
         }
 
@@ -543,17 +555,24 @@ namespace Omicron.ViewModel
                 else
                 {
                     IsPLCConnect = XinjiePLC.readM(24576);
-                    TakePhoteFlage = XinjiePLC.readM(100);
+                    TakePhoteFlage = XinjiePLC.readM(2100);
                     if (_TakePhoteFlage != TakePhoteFlage)
                     {
                         _TakePhoteFlage = TakePhoteFlage;
                         if (TakePhoteFlage == true)
                         {
-                            XinjiePLC.setM(80,false);
-                            XinjiePLC.setM(81, false);
-                            XinjiePLC.setM(82, false);
+                            XinjiePLC.setM(2100, false);
                             Async.RunFuncAsync(cameraHcInspect, PLCTakePhoteCallback);
                         }
+                    }
+
+                    if (IsShieldTheDoor)
+                    {
+                        XinjiePLC.setM(1000, true);
+                    }
+                    else
+                    {
+                        XinjiePLC.setM(1000, false);
                     }
                 }
 
@@ -563,15 +582,27 @@ namespace Omicron.ViewModel
         {
             if (FindFill1)
             {
-                XinjiePLC.setM(80, true);
+                XinjiePLC.setM(2000, true);
             }
             if (FindFill2)
             {
-                XinjiePLC.setM(81, true);
+                XinjiePLC.setM(2001, true);
             }
             if (FindFill3)
             {
-                XinjiePLC.setM(82, true);
+                XinjiePLC.setM(2002, true);
+            }
+            if (FindFill4)
+            {
+                XinjiePLC.setM(2003, true);
+            }
+            if (FindFill5)
+            {
+                XinjiePLC.setM(2004, true);
+            }
+            if (FindFill6)
+            {
+                XinjiePLC.setM(2005, true);
             }
         }
         #endregion
