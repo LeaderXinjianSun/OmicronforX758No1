@@ -208,7 +208,7 @@ namespace Omicron.Model
                         string[] statuss = status.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                         if (statuss[0] == "#getstatus")
                         {
-                            if (statuss[1].Length == 10)
+                            if (statuss[1].Length == 11)
                             {
                                 EpsonStatusUpdate(statuss[1]);
                             }

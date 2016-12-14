@@ -174,9 +174,23 @@ namespace Omicron.ViewModel
             TesterParameterPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Visible";
         }
-        public void ShieldDoorFunction()
+        public async void ShieldDoorFunction()
         {
-            IsShieldTheDoor = !IsShieldTheDoor;
+            
+            if (!IsShieldTheDoor)
+            {
+                mydialog.changeaccent("red");
+                var r = await mydialog.showconfirm("确定屏蔽安全门吗？请小心操作！");
+                if (r)
+                {
+                    IsShieldTheDoor = !IsShieldTheDoor;
+                }
+                mydialog.changeaccent("blue");
+            }
+            else
+            {
+                IsShieldTheDoor = !IsShieldTheDoor;
+            }
         }
         public async void EpsonOpetate(object p)
         {
@@ -301,15 +315,15 @@ namespace Omicron.ViewModel
         }
         private void EpsonStatusUpdateProcess(string str)
         {
-            EpsonStatusAuto = str[1] == '1';
-            EpsonStatusWarning = str[2] == '1';
-            EpsonStatusSError = str[3] == '1';
-            EpsonStatusSafeGuard = str[4] == '1';
-            EpsonStatusEStop = str[5] == '1';
-            EpsonStatusError = str[6] == '1';
-            EpsonStatusPaused = str[7] == '1';
-            EpsonStatusRunning = str[8] == '1';
-            EpsonStatusReady = str[9] == '1';
+            EpsonStatusAuto = str[2] == '1';
+            EpsonStatusWarning = str[3] == '1';
+            EpsonStatusSError = str[4] == '1';
+            EpsonStatusSafeGuard = str[5] == '1';
+            EpsonStatusEStop = str[6] == '1';
+            EpsonStatusError = str[7] == '1';
+            EpsonStatusPaused = str[8] == '1';
+            EpsonStatusRunning = str[9] == '1';
+            EpsonStatusReady = str[10] == '1';
         }
         private void ScanUpdateProcess(string bar, HImage img)
         {
