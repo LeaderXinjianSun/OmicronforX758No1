@@ -24,14 +24,14 @@
                 <StackPanel Orientation="Horizontal" Margin="0,5">
                     <TextBlock Style="{StaticResource TextBlockBarcode}" Text="爪手A： "></TextBlock>
                     <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding PickBracodeA}"></TextBox>
-                    <TextBlock Style="{StaticResource TextBlockBarcode}" Text="爪手B： "></TextBlock>
+                    <!--<TextBlock Style="{StaticResource TextBlockBarcode}" Text="爪手B： "></TextBlock>
                     <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding PickBracodeB}"></TextBox>
                     <TextBlock Style="{StaticResource TextBlockBarcode}" Text="爪手C： "></TextBlock>
                     <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding PickBracodeC}"></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,5">
                     <TextBlock Style="{StaticResource TextBlockBarcode}" Text="爪手D： "></TextBlock>
-                    <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding PickBracodeD}"></TextBox>
+                    <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding PickBracodeD}"></TextBox>-->
                 </StackPanel>
             </StackPanel>
 
@@ -39,16 +39,16 @@
         <GroupBox Header="测试机条码" Grid.Row="1">
             <StackPanel Orientation="Vertical" Margin="0,5">
                 <StackPanel Orientation="Horizontal" Margin="0,5">
-                    <TextBlock Style="{StaticResource TextBlockBarcode}" Text="测试机AL： "></TextBlock>
+                    <TextBlock Style="{StaticResource TextBlockBarcode}" Text="测试机AL: "></TextBlock>
                     <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding TesterBracodeAL}"></TextBox>
-                    <TextBlock Style="{StaticResource TextBlockBarcode}" Text="测试机AR： "></TextBlock>
+                    <TextBlock Style="{StaticResource TextBlockBarcode}" Text="测试机AR: "></TextBlock>
                     <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding TesterBracodeAR}"></TextBox>
                     
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,5">
-                    <TextBlock Style="{StaticResource TextBlockBarcode}" Text="测试机BL： "></TextBlock>
+                    <TextBlock Style="{StaticResource TextBlockBarcode}" Text="测试机BL: "></TextBlock>
                     <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding TesterBracodeBL}"></TextBox>
-                    <TextBlock Style="{StaticResource TextBlockBarcode}" Text="测试机BR： "></TextBlock>
+                    <TextBlock Style="{StaticResource TextBlockBarcode}" Text="测试机BR: "></TextBlock>
                     <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding TesterBracodeBR}"></TextBox>
                 </StackPanel>
             </StackPanel>
