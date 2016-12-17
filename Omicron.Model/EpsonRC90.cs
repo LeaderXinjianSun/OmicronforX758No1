@@ -39,6 +39,13 @@ namespace Omicron.Model
         public int TestPcRemotePortA { set; get; } = 8000;
         public int TestPcRemotePortB { set; get; } = 8000;
 
+        public string PickBracodeA { set; get; }
+
+        public string TesterBracodeAL { set; get; } = "Null";
+        public string TesterBracodeAR { set; get; } = "Null";
+        public string TesterBracodeBL { set; get; } = "Null";
+        public string TesterBracodeBR { set; get; } = "Null";
+
         #endregion
         #region 变量
         public HdevEngine hdevScanEngine = new HdevEngine();
@@ -295,11 +302,40 @@ namespace Omicron.Model
                             string[] strs = s.Split(',');
                             switch (strs[0])
                             {
-                                case "Coord":
-                                    Coord_X = double.Parse(strs[1]);
-                                    Coord_Y = double.Parse(strs[2]);
-                                    Coord_Z = double.Parse(strs[3]);
-                                    Coord_U = double.Parse(strs[4]);
+                                case "Scan":
+                                    EpsonScanAction(strs[1], BacodeProcess);
+                                    break;
+                                case "Start":
+                                    switch (strs[2])
+                                    {
+                                        case "A":
+                                            Tester.IsInSampleMode = false;
+                                            tester[int.Parse(strs[1]) - 1].TesterBracode = PickBracodeA;
+                                            string barstr;
+                                            switch (int.Parse(strs[1]) - 1)
+                                            {
+                                                case 0:
+                                                    barstr = "TesterBracodeAL";
+                                                    break;
+                                                case 1:
+                                                    barstr = "TesterBracodeAR";
+                                                    break;
+                                                case 2:
+                                                    barstr = "TesterBracodeBL";
+                                                    break;
+                                                case 3:
+                                                    barstr = "TesterBracodeBR";
+                                                    break;
+                                                default:
+                                                    barstr = "";
+                                                    break;
+                                            }
+                                            Inifile.INIWriteValue(iniParameterPath, "Barcode", barstr, PickBracodeA);
+                                            tester[int.Parse(strs[1]) - 1].Start(StartProcess);
+                                            break;
+                                        default:
+                                            break;
+                                    }
                                     break;
                                 default:
                                     ModelPrint("无效指令： " + s);
@@ -381,6 +417,39 @@ namespace Omicron.Model
             await TestSentNet.SendAsync("InitPar;123");
             ModelPrint("机械手控制器，初始化完成");
         }
+        private delegate void EpsonScanProcessedDelegate(string bar,string pick);
+        private void EpsonScanAction(string pick, EpsonScanProcessedDelegate callback)
+        {
+            callback(scanCameraInspect(), pick);
+        }
+        private async void BacodeProcess(string barcode, string pick)
+        {
+            switch (pick)
+            {
+                case "A":
+                    PickBracodeA = barcode;
+                    Inifile.INIWriteValue(iniParameterPath, "Barcode", "PickBracodeA", PickBracodeA);
+                    break;
+                default:
+                    break;
+            }
+            if (barcode == "")
+            {
+                ModelPrint("扫码失败");
+                if (TestSendStatus)
+                {
+                    await TestSentNet.SendAsync("ScanResult;Ng;" + pick);
+                }
+            }
+            else
+            {
+                ModelPrint("扫码成功 " + barcode);
+                if (TestSendStatus)
+                {
+                    await TestSentNet.SendAsync("ScanResult;Pass;" + pick);
+                }
+            }
+        }
         #endregion
         #region Scan
         public void scanCameraInit()
@@ -409,13 +478,14 @@ namespace Omicron.Model
         {
             Async.RunFuncAsync(scanCameraInspect, null);
         }
-        public void scanCameraInspect()
+        public string scanCameraInspect()
         {
             hdevScanEngine.inspectengine();
             var hImageScan = hdevScanEngine.getImage("Image");
             var aa = hdevScanEngine.getmeasurements("DecodedDataStrings");
             var barcodeString = aa.ToString();
             ScanUpdate(barcodeString, hImageScan);
+            return barcodeString;
         }
 
         #endregion

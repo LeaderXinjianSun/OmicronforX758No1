@@ -33,7 +33,7 @@
             </Grid.ColumnDefinitions>
             <sxj:MessagePrintControl MsgText="{Binding Msg}"></sxj:MessagePrintControl>
             <Grid Grid.Column="1">
-                <TabControl>
+                <TabControl TabStripPlacement="Left">
                     <TabItem Header="1#"></TabItem>
                     <TabItem Header="2#"></TabItem>
                     <TabItem Header="3#"></TabItem>
