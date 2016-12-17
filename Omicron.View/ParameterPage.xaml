@@ -113,7 +113,7 @@
                     <CheckBox Content="测试机AL" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedAL}"></CheckBox>
                     <CheckBox Content="测试机AR" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedAR}"></CheckBox>
                     <CheckBox Content="测试机BL" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedBL}"></CheckBox>
-                    <Button Margin="20,0,0,0" Content="更新" Command="{Binding UpdateSelectFlexer}"></Button>
+                    <Button Margin="20,0,0,0" Content="更新" Command="{mvvm:ActionAuto UpdateSelectFlexer}"></Button>
                 </StackPanel>
                 <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
                     <CheckBox Content="测试机BR"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedBR}"></CheckBox>
@@ -121,7 +121,7 @@
                 <StackPanel Margin="5,15,5,0" Orientation="Horizontal">
                     <!--<CheckBox Content="AB组吸嘴" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding ABChecked}"></CheckBox>
                     <CheckBox Content="CD组吸嘴" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding CDChecked}"></CheckBox>-->
-                    <Button Margin="20,0,0,0" IsEnabled="{Binding ClearButtonEnable}" Content="清空" Background="Red" Foreground="Yellow" Command="{Binding ClearFlexer}"></Button>
+                    <Button Margin="20,0,0,0" IsEnabled="{Binding ClearButtonEnable}" Content="清空" Background="Red" Foreground="Yellow" Command="{mvvm:ActionAuto ClearFlexer}"></Button>
                 </StackPanel>
             </StackPanel>
         </GroupBox>

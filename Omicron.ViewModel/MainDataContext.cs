@@ -326,6 +326,67 @@ namespace Omicron.ViewModel
 
             dlg.Dispose();
         }
+
+        public async void UpdateSelectFlexer()
+        {
+            string str = "Select;";
+
+            if (TestCheckedAL)
+            {
+                str += "1;";
+            }
+            else
+            {
+                str += "0;";
+            }
+
+            if (TestCheckedAR)
+            {
+                str += "1;";
+            }
+            else
+            {
+                str += "0;";
+            }
+
+            if (TestCheckedBL)
+            {
+                str += "1;";
+            }
+            else
+            {
+                str += "0;";
+            }
+
+            if (TestCheckedBR)
+            {
+                str += "1;";
+            }
+            else
+            {
+                str += "0;";
+            }
+            if (epsonRC90.TestSendStatus)
+            {
+                await epsonRC90.TestSentNet.SendAsync(str + "123");
+
+            }
+            
+
+            Inifile.INIWriteValue(iniParameterPath, "Tester", "TestCheckedAL", TestCheckedAL.ToString());
+            Inifile.INIWriteValue(iniParameterPath, "Tester", "TestCheckedAR", TestCheckedAR.ToString());
+            Inifile.INIWriteValue(iniParameterPath, "Tester", "TestCheckedBL", TestCheckedBL.ToString());
+            Inifile.INIWriteValue(iniParameterPath, "Tester", "TestCheckedBR", TestCheckedBR.ToString());
+
+        }
+        public async void ClearFlexer()
+        {
+            if (epsonRC90.TestSendStatus)
+            {
+                await epsonRC90.TestSentNet.SendAsync("Clear;123");
+            }
+            
+        }
         #endregion
         #region 事件相应函数
         private void ModelPrintEventProcess(string str)

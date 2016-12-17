@@ -28,6 +28,17 @@ namespace Omicron.Model
         public double Coord_Z { set; get; } = 0;
         public double Coord_U { set; get; } = 0;
         public string ScanVisionScriptFileName { set; get; }
+
+        public bool TestCheckedAL { set; get; } = true;
+        public bool TestCheckedAR { set; get; } = true;
+        public bool TestCheckedBL { set; get; } = true;
+        public bool TestCheckedBR { set; get; } = true;
+
+        public string TestPcIPA { set; get; } = "192.168.1.101";
+        public string TestPcIPB { set; get; } = "192.168.1.102";
+        public int TestPcRemotePortA { set; get; } = 8000;
+        public int TestPcRemotePortB { set; get; } = 8000;
+
         #endregion
         #region 变量
         public HdevEngine hdevScanEngine = new HdevEngine();
@@ -37,6 +48,7 @@ namespace Omicron.Model
         public TCPIPConnect CtrlNet = new TCPIPConnect();
         private string iniParameterPath = System.Environment.CurrentDirectory + "\\Parameter.ini";
         private bool isLogined = false;
+        private Tester[] tester = new Tester[4];
         //private string barcodeString = "";
 
         #endregion
@@ -47,6 +59,8 @@ namespace Omicron.Model
         public event EpsonStatusEventHandler EpsonStatusUpdate;
         public delegate void ScanEventHandler(string bar, HImage img);
         public event ScanEventHandler ScanUpdate;
+        public delegate void TestFinishedHandler(int index);
+        public event TestFinishedHandler TestFinished;
         #endregion
         #region 构造函数
         public EpsonRC90()
@@ -61,6 +75,30 @@ namespace Omicron.Model
 
                 ScanVisionScriptFileName = Inifile.INIGetStringValue(iniParameterPath, "Camera", "ScanVisionScriptFileName", @"C:\test.hdev");
 
+                TestPcIPA = Inifile.INIGetStringValue(iniParameterPath, "Mac", "TestPcIPA", "192.168.1.101");
+                TestPcIPB = Inifile.INIGetStringValue(iniParameterPath, "Mac", "TestPcIPB", "192.168.1.102");
+                TestPcRemotePortA = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Mac", "TestPcRemotePortA", "8000"));
+                TestPcRemotePortB = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Mac", "TestPcRemotePortB", "8000"));
+
+                TestCheckedAL = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Tester", "TestCheckedAL", "True"));
+                TestCheckedAR = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Tester", "TestCheckedAR", "True"));
+                TestCheckedBL = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Tester", "TestCheckedBL", "True"));
+                TestCheckedBR = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Tester", "TestCheckedBR", "True"));
+
+                for (int i = 0; i < 4; i++)
+                {
+                    if (i < 2)
+                    {
+                        tester[i] = new Tester(TestPcIPA, TestPcRemotePortA, i);
+                    }
+                    else
+                    {
+                        tester[i] = new Tester(TestPcIPB, TestPcRemotePortB, i);
+                    }
+                    
+                }
+
+
                 Async.RunFuncAsync(checkCtrlNet, null);
                 Async.RunFuncAsync(checkTestSentNet, null);
                 Async.RunFuncAsync(checkTestReceiveNet, null);
@@ -68,6 +106,8 @@ namespace Omicron.Model
 
                 Async.RunFuncAsync(GetStatus, null);
                 Async.RunFuncAsync(TestRevAnalysis,null);
+                Async.RunFuncAsync(MsgRevAnalysis, null);
+                Async.RunFuncAsync(EpsonRC90Init, null);
             }
             catch (Exception ex)
             {
@@ -245,6 +285,7 @@ namespace Omicron.Model
                     {
                         TestReceiveNet.tcpConnected = false;
                         TestReceiveStatus = false;
+                        ModelPrint("机械手TestReceiveNet断开");
                     }
                     else
                     {
@@ -274,6 +315,71 @@ namespace Omicron.Model
                     }
                 }
             }
+        }
+        private async void StartProcess(int index)
+        {
+            TestFinished(index);
+            if (tester[index].testStatus == TestStatus.Err)
+            {
+                Log.Default.Error("测试机 " + (index + 1).ToString() + " 测试过程出错");
+                ModelPrint("测试机 " + (index + 1).ToString() + " 测试过程出错");
+            }
+            else
+            {
+                if (tester[index].testStatus == TestStatus.Tested)
+                {
+                    ModelPrint("测试机 " + (index + 1).ToString() + " 测试完成 " + tester[index].testStatus.ToString());
+                    string r = await TestSentNet.SendAsync("TestResult;" + tester[index].testStatus.ToString() + ";" + (index + 1).ToString());
+                    if (r == "error")
+                    {
+                        Log.Default.Error("TestSent网络出错");
+                        ModelPrint("TestSent网络出错");
+                        TestSentNet.tcpConnected = false;
+                        TestSendStatus = false;
+                    }
+                }
+            }
+        }
+        private async void MsgRevAnalysis()
+        {
+            while (true)
+            {
+                await Task.Delay(100);
+                if (MsgReceiveStatus == true)
+                {
+                    string s = await MsgReceiveNet.ReceiveAsync();
+
+                    string[] ss = s.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    try
+                    {
+                        s = ss[0];
+                    }
+                    catch
+                    {
+                        s = "error";
+                    }
+
+                    if (s == "error")
+                    {
+                        MsgReceiveNet.tcpConnected = false;
+                        MsgReceiveStatus = false;
+                        ModelPrint("机械手MsgReceiveNet断开");
+                    }
+                    else
+                    {
+                        ModelPrint("MsgRev: " + s);
+                    }
+                }
+            }
+        }
+        private async void EpsonRC90Init()
+        {
+            while (!TestSendStatus)
+            {
+                await Task.Delay(1000);
+            }
+            await TestSentNet.SendAsync("InitPar;123");
+            ModelPrint("机械手控制器，初始化完成");
         }
         #endregion
         #region Scan
