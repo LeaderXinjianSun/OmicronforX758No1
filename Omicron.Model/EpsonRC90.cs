@@ -55,7 +55,7 @@ namespace Omicron.Model
         public TCPIPConnect CtrlNet = new TCPIPConnect();
         private string iniParameterPath = System.Environment.CurrentDirectory + "\\Parameter.ini";
         private bool isLogined = false;
-        private Tester[] tester = new Tester[4];
+        public Tester[] tester = new Tester[4];
         //private string barcodeString = "";
 
         #endregion

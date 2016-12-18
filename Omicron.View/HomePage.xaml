@@ -7,6 +7,14 @@
              xmlns:sxj="clr-namespace:SxjLibrary;assembly=SxjLibrary"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="SxjDictionary.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Resources/Icons.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"></RowDefinition>
@@ -34,10 +42,124 @@
             <sxj:MessagePrintControl MsgText="{Binding Msg}"></sxj:MessagePrintControl>
             <Grid Grid.Column="1">
                 <TabControl TabStripPlacement="Left">
-                    <TabItem Header="1#"></TabItem>
-                    <TabItem Header="2#"></TabItem>
-                    <TabItem Header="3#"></TabItem>
-                    <TabItem Header="4#"></TabItem>
+                    <TabItem Header="1#">
+                        <Grid>
+                            <StackPanel Margin="5,10" Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Time:" Width="100" Margin="5,0"></TextBlock>
+                                    <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding TestTime0}"></TextBlock>
+                                    <TextBlock Style="{StaticResource TextBlockBase}" Text="sec" Margin="5,0"></TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Count:" Width="100" Margin="5,0"></TextBlock>
+                                    <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding TestCount0}"></TextBlock>
+                                    <TextBlock Style="{StaticResource TextBlockBase}" Text="pcs" Margin="5,0"></TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource TextBlockBase}" Text="Pass Count:" Width="100" Margin="5,0"></TextBlock>
+                                    <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding PassCount0}"></TextBlock>
+                                    <TextBlock Style="{StaticResource TextBlockBase}" Text="pcs" Margin="5,0"></TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource TextBlockBase}" Text="Fail Count:" Width="100" Margin="5,0"></TextBlock>
+                                    <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding FailCount0}"></TextBlock>
+                                    <TextBlock Style="{StaticResource TextBlockBase}" Text="pcs" Margin="5,0"></TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource TextBlockBase}" Text="Yield:" Width="100" Margin="5,0"></TextBlock>
+                                    <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding Yield0}"></TextBlock>
+                                    <TextBlock Style="{StaticResource TextBlockBase}" Text="%" Margin="5,0"></TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="2#">
+                        <StackPanel Margin="5,10" Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Time:" Width="100" Margin="5,0"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding TestTime1}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="sec" Margin="5,0"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Count:" Width="100" Margin="5,0"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding TestCount1}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="pcs" Margin="5,0"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="Pass Count:" Width="100" Margin="5,0"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding PassCount1}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="pcs" Margin="5,0"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="Fail Count:" Width="100" Margin="5,0"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding FailCount1}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="pcs" Margin="5,0"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="Yield:" Width="100" Margin="5,0"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding Yield1}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="%" Margin="5,0"></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem Header="3#">
+                        <StackPanel Margin="5,10" Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Time:" Width="100" Margin="5,0"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding TestTime2}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="sec" Margin="5,0"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Count:" Width="100" Margin="5,0"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding TestCount2}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="pcs" Margin="5,0"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="Pass Count:" Width="100" Margin="5,0"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding PassCount2}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="pcs" Margin="5,0"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="Fail Count:" Width="100" Margin="5,0"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding FailCount2}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="pcs" Margin="5,0"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="Yield:" Width="100" Margin="5,0"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding Yield2}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="%" Margin="5,0"></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem Header="4#">
+                        <StackPanel Margin="5,10" Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Time:" Width="100" Margin="5,0"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding TestTime3}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="sec" Margin="5,0"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Count:" Width="100" Margin="5,0"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding TestCount3}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="pcs" Margin="5,0"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="Pass Count:" Width="100" Margin="5,0"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding PassCount3}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="pcs" Margin="5,0"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="Fail Count:" Width="100" Margin="5,0"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding FailCount3}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="pcs" Margin="5,0"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="Yield:" Width="100" Margin="5,0"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding Yield3}"></TextBlock>
+                                <TextBlock Style="{StaticResource TextBlockBase}" Text="%" Margin="5,0"></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </TabItem>
                 </TabControl>
             </Grid>
         </Grid>

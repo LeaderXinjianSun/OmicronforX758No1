@@ -26,14 +26,14 @@ namespace Omicron.Model
         public string TestPcIP { set; get; } = "192.168.1.100";
         public int TestPcRemotePort { set; get; } = 8000;
         public string TesterBracode { set; get; } = "Null";
-        public int TestTimeout { set; get; }
-        public int Index { set; get; }
+        public int TestTimeout { set; get; } 
+        public int Index { set; get; } 
         public int PassCount { set; get; }
         public int FailCount { set; get; }
         public int TestCount { set; get; }
         public float Yield { set; get; }
 
-        public double TestSpan { set; get; }
+        public double TestSpan { set; get; } = 0;
         public TestResult testResult { set; get; }
         public TestStatus testStatus { set; get; }
         #region Mac命令

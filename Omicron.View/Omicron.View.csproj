@@ -84,6 +84,9 @@
     <Compile Include="TesterParameterPage.xaml.cs">
       <DependentUpon>TesterParameterPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TestRecordPage.xaml.cs">
+      <DependentUpon>TestRecordPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="AboutPage.xaml">
@@ -131,6 +134,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TesterParameterPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TestRecordPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

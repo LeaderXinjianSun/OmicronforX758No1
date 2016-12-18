@@ -30,7 +30,7 @@
                 <MenuItem Header="机台参数" Command="{mvvm:ActionAuto ChoseParameterPage}"></MenuItem>
                 <MenuItem Header="治具参数" Command="{mvvm:ActionAuto ChoseTesterParameterPage}"></MenuItem>
             </MenuItem>
-            
+            <MenuItem Header="记录" Command="{mvvm:ActionAuto ChoseTestRecordPage}"></MenuItem>
             <MenuItem Header="帮助"></MenuItem>
             <MenuItem Header="关于" Command="{mvvm:ActionAuto ChoseAboutPage}"></MenuItem>
         </Menu>
@@ -52,6 +52,9 @@
             </Grid>
             <Grid Visibility="{Binding BarcodeDisplayPageVisibility}">
                 <local:BarcodeDisplayPage></local:BarcodeDisplayPage>
+            </Grid>
+            <Grid Visibility="{Binding TestRecordPageVisibility}">
+                <local:TestRecordPage></local:TestRecordPage>
             </Grid>
         </Grid>
         

@@ -14,6 +14,7 @@ using System.IO;
 using ViewROI;
 using HalconDotNet;
 using System.Collections.ObjectModel;
+using System.Data;
 //using MahApps.Metro.Controls.Dialogs;
 
 namespace Omicron.ViewModel
@@ -29,6 +30,7 @@ namespace Omicron.ViewModel
         public virtual string ScanCameraPageVisibility { set; get; } = "Collapsed";
         public virtual string BarcodeDisplayPageVisibility { set; get; } = "Collapsed";
         public virtual string TesterParameterPageVisibility { set; get; } = "Collapsed";
+        public virtual string TestRecordPageVisibility { set; get; } = "Collapsed";
         public virtual bool IsPLCConnect { set; get; } = false;
         public virtual bool IsTCPConnect { set; get; } = false;
         public virtual bool IsShieldTheDoor { set; get; } = true;
@@ -92,6 +94,33 @@ namespace Omicron.ViewModel
         public virtual string TesterBracodeAR { set; get; } = "Null";
         public virtual string TesterBracodeBL { set; get; } = "Null";
         public virtual string TesterBracodeBR { set; get; } = "Null";
+
+        public virtual DataTable TestRecodeDT { set; get; } = new DataTable();
+
+        public virtual double TestTime0 { set; get; } = 0;
+        public virtual int TestCount0 { set; get; } = 0;
+        public virtual int PassCount0 { set; get; } = 0;
+        public virtual int FailCount0 { set; get; } = 0;
+        public virtual float Yield0 { set; get; } = 0;
+
+        public virtual double TestTime1 { set; get; } = 0;
+        public virtual int TestCount1 { set; get; } = 0;
+        public virtual int PassCount1 { set; get; } = 0;
+        public virtual int FailCount1 { set; get; } = 0;
+        public virtual float Yield1 { set; get; } = 0;
+
+        public virtual double TestTime2 { set; get; } = 0;
+        public virtual int TestCount2 { set; get; } = 0;
+        public virtual int PassCount2 { set; get; } = 0;
+        public virtual int FailCount2 { set; get; } = 0;
+        public virtual float Yield2 { set; get; } = 0;
+
+        public virtual double TestTime3 { set; get; } = 0;
+        public virtual int TestCount3 { set; get; } = 0;
+        public virtual int PassCount3 { set; get; } = 0;
+        public virtual int FailCount3 { set; get; } = 0;
+        public virtual float Yield3 { set; get; } = 0;
+
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -109,6 +138,12 @@ namespace Omicron.ViewModel
             epsonRC90.EpsonStatusUpdate += EpsonStatusUpdateProcess;
             epsonRC90.ScanUpdate += ScanUpdateProcess;
 
+            TestRecodeDT.Columns.Add("Time",typeof(string));
+            TestRecodeDT.Columns.Add("Barcode", typeof(string));
+            TestRecodeDT.Columns.Add("Result", typeof(string));
+            TestRecodeDT.Columns.Add("Cycle", typeof(double));
+            TestRecodeDT.Columns.Add("Index", typeof(int));
+
             Async.RunFuncAsync(UpdateUI,null);
         }
         #endregion
@@ -122,6 +157,7 @@ namespace Omicron.ViewModel
             ScanCameraPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
+            TestRecordPageVisibility = "Collapsed";
         }
         public void ChoseAboutPage()
         {
@@ -132,6 +168,7 @@ namespace Omicron.ViewModel
             ScanCameraPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
+            TestRecordPageVisibility = "Collapsed";
         }
         public void ChoseParameterPage()
         {
@@ -142,6 +179,7 @@ namespace Omicron.ViewModel
             ScanCameraPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
+            TestRecordPageVisibility = "Collapsed";
         }
         public void ChoseTesterParameterPage()
         {
@@ -152,6 +190,7 @@ namespace Omicron.ViewModel
             ScanCameraPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Visible";
             BarcodeDisplayPageVisibility = "Collapsed";
+            TestRecordPageVisibility = "Collapsed";
         }
         public void ChoseCameraPage()
         {
@@ -162,6 +201,7 @@ namespace Omicron.ViewModel
             ScanCameraPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
+            TestRecordPageVisibility = "Collapsed";
         }
         public void ChoseCameraHcPage()
         {
@@ -172,6 +212,7 @@ namespace Omicron.ViewModel
             ScanCameraPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
+            TestRecordPageVisibility = "Collapsed";
         }
         public void ChoseScanCameraPage()
         {
@@ -182,6 +223,7 @@ namespace Omicron.ViewModel
             ScanCameraPageVisibility = "Visible";
             TesterParameterPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
+            TestRecordPageVisibility = "Collapsed";
         }
         public void ChoseBarcodeDisplayPage()
         {
@@ -192,6 +234,18 @@ namespace Omicron.ViewModel
             ScanCameraPageVisibility = "Collapsed";
             TesterParameterPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Visible";
+            TestRecordPageVisibility = "Collapsed";
+        }
+        public void ChoseTestRecordPage()
+        {
+            ParameterPageVisibility = "Collapsed";
+            AboutPageVisibility = "Collapsed";
+            HomePageVisibility = "Collapsed";
+            CameraHcPageVisibility = "Collapsed";
+            ScanCameraPageVisibility = "Collapsed";
+            TesterParameterPageVisibility = "Collapsed";
+            BarcodeDisplayPageVisibility = "Collapsed";
+            TestRecordPageVisibility = "Visible";
         }
         public async void ShieldDoorFunction()
         {
@@ -575,8 +629,13 @@ namespace Omicron.ViewModel
         #region FunctionTest
         public void FunctionTest()
         {
-
-
+            DataRow dr = TestRecodeDT.NewRow();
+            dr["Time"] = DateTime.Now.ToString();
+            dr["Barcode"] = "123";
+            dr["Result"] = TestResult.Pass.ToString();
+            dr["Cycle"] = 50.2;
+            dr["Index"] = 3;
+            TestRecodeDT.Rows.Add(dr);
         }
         #endregion
         #region UI更新
@@ -590,6 +649,46 @@ namespace Omicron.ViewModel
                 MsgRevPortStatus = epsonRC90.MsgReceiveStatus;
                 CtrlPortStatus = epsonRC90.CtrlStatus;
                 IsTCPConnect = TestSendPortStatus & TestRevPortStatus & MsgRevPortStatus & CtrlPortStatus;
+
+                try
+                {
+                    TestTime0 = epsonRC90.tester[0].TestSpan;
+                    TestCount0 = epsonRC90.tester[0].TestCount;
+                    PassCount0 = epsonRC90.tester[0].PassCount;
+                    FailCount0 = epsonRC90.tester[0].FailCount;
+                    Yield0 = epsonRC90.tester[0].Yield;
+
+                    TestTime1 = epsonRC90.tester[1].TestSpan;
+                    TestCount1 = epsonRC90.tester[1].TestCount;
+                    PassCount1 = epsonRC90.tester[1].PassCount;
+                    FailCount1 = epsonRC90.tester[1].FailCount;
+                    Yield1 = epsonRC90.tester[1].Yield;
+
+                    TestTime2 = epsonRC90.tester[2].TestSpan;
+                    TestCount2 = epsonRC90.tester[2].TestCount;
+                    PassCount2 = epsonRC90.tester[2].PassCount;
+                    FailCount2 = epsonRC90.tester[2].FailCount;
+                    Yield2 = epsonRC90.tester[2].Yield;
+
+                    TestTime3 = epsonRC90.tester[3].TestSpan;
+                    TestCount3 = epsonRC90.tester[3].TestCount;
+                    PassCount3 = epsonRC90.tester[3].PassCount;
+                    FailCount3 = epsonRC90.tester[3].FailCount;
+                    Yield3 = epsonRC90.tester[3].Yield;
+                }
+                catch 
+                {
+
+                    
+                }
+                
+
+                PickBracodeA = epsonRC90.PickBracodeA;
+
+                TesterBracodeAL = epsonRC90.TesterBracodeAL;
+                TesterBracodeAR = epsonRC90.TesterBracodeAR;
+                TesterBracodeBL = epsonRC90.TesterBracodeBL;
+                TesterBracodeBR = epsonRC90.TesterBracodeBR;
             }
         }
         #endregion
