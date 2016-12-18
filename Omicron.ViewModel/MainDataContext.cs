@@ -33,7 +33,8 @@ namespace Omicron.ViewModel
         public virtual string TestRecordPageVisibility { set; get; } = "Collapsed";
         public virtual bool IsPLCConnect { set; get; } = false;
         public virtual bool IsTCPConnect { set; get; } = false;
-        public virtual bool IsShieldTheDoor { set; get; } = true;
+        public virtual bool IsShieldTheDoor { set; get; } = false;
+        public virtual bool IsOperateCiTie { set; get; } = true;
         public virtual string Msg { set; get; } = "";
         public virtual bool EpsonStatusAuto { set; get; } = false;
         public virtual bool EpsonStatusWarning { set; get; } = false;
@@ -101,25 +102,41 @@ namespace Omicron.ViewModel
         public virtual int TestCount0 { set; get; } = 0;
         public virtual int PassCount0 { set; get; } = 0;
         public virtual int FailCount0 { set; get; } = 0;
-        public virtual float Yield0 { set; get; } = 0;
+        public virtual double Yield0 { set; get; } = 0;
 
         public virtual double TestTime1 { set; get; } = 0;
         public virtual int TestCount1 { set; get; } = 0;
         public virtual int PassCount1 { set; get; } = 0;
         public virtual int FailCount1 { set; get; } = 0;
-        public virtual float Yield1 { set; get; } = 0;
+        public virtual double Yield1 { set; get; } = 0;
 
         public virtual double TestTime2 { set; get; } = 0;
         public virtual int TestCount2 { set; get; } = 0;
         public virtual int PassCount2 { set; get; } = 0;
         public virtual int FailCount2 { set; get; } = 0;
-        public virtual float Yield2 { set; get; } = 0;
+        public virtual double Yield2 { set; get; } = 0;
 
         public virtual double TestTime3 { set; get; } = 0;
         public virtual int TestCount3 { set; get; } = 0;
         public virtual int PassCount3 { set; get; } = 0;
         public virtual int FailCount3 { set; get; } = 0;
-        public virtual float Yield3 { set; get; } = 0;
+        public virtual double Yield3 { set; get; } = 0;
+
+        public virtual string TesterResult0 { set; get; } = "Unknow";
+        public virtual string TesterResult1 { set; get; } = "Unknow";
+        public virtual string TesterResult2 { set; get; } = "Unknow";
+        public virtual string TesterResult3 { set; get; } = "Unknow";
+
+        public virtual string TesterStatusForeground0 { set; get; } = "Yellow";
+        public virtual string TesterStatusForeground1 { set; get; } = "Yellow";
+        public virtual string TesterStatusForeground2 { set; get; } = "Yellow";
+        public virtual string TesterStatusForeground3 { set; get; } = "Yellow";
+
+        public virtual string TesterStatusBackGround0 { set; get; } = "Gray";
+        public virtual string TesterStatusBackGround1 { set; get; } = "Gray";
+        public virtual string TesterStatusBackGround2 { set; get; } = "Gray";
+        public virtual string TesterStatusBackGround3 { set; get; } = "Gray";
+
 
         #endregion
         #region 变量定义区域
@@ -130,6 +147,10 @@ namespace Omicron.ViewModel
         private HdevEngine hdevEngine = new HdevEngine();
         private HdevEngine hdevScanEngine = new HdevEngine();
         private EpsonRC90 epsonRC90 = new EpsonRC90();
+        private bool NeedNoiseReduce = false;
+        private bool NeedLoadMaters = false;
+        private bool NeedUnloadMaters = false;
+        private string PreFeedFillStr = "FeedFill;0;0;0;0;0;0;";
         #endregion
         #region 构造函数
         public MainDataContext()
@@ -137,6 +158,7 @@ namespace Omicron.ViewModel
             epsonRC90.ModelPrint += ModelPrintEventProcess;
             epsonRC90.EpsonStatusUpdate += EpsonStatusUpdateProcess;
             epsonRC90.ScanUpdate += ScanUpdateProcess;
+            epsonRC90.TestFinished += StartUpdateProcess;
 
             TestRecodeDT.Columns.Add("Time",typeof(string));
             TestRecodeDT.Columns.Add("Barcode", typeof(string));
@@ -265,6 +287,24 @@ namespace Omicron.ViewModel
                 IsShieldTheDoor = !IsShieldTheDoor;
             }
         }
+        public async void OperateCiTieFunction()
+        {
+
+            if (!IsOperateCiTie)
+            {
+                mydialog.changeaccent("red");
+                var r = await mydialog.showconfirm("确定释放电磁铁吗？");
+                if (r)
+                {
+                    IsOperateCiTie = !IsOperateCiTie;
+                }
+                mydialog.changeaccent("blue");
+            }
+            else
+            {
+                IsOperateCiTie = !IsOperateCiTie;
+            }
+        }
         public async void EpsonOpetate(object p)
         {
             string s = p.ToString();
@@ -329,7 +369,15 @@ namespace Omicron.ViewModel
  
         public void NoiseReduce()
         {
-
+            NeedNoiseReduce = true;
+        }
+        public void LoadMaters()
+        {
+            NeedLoadMaters = true;
+        }
+        public void UnLoadMaters()
+        {
+            NeedUnloadMaters = true;
         }
         public void SaveParameter()
         {
@@ -463,6 +511,10 @@ namespace Omicron.ViewModel
         {
             hImageScan = img;
             BarcodeDisplay = bar;
+        }
+        private void StartUpdateProcess(int index)
+        {
+            Msg = messagePrint.AddMessage("测试机 " + (index + 1).ToString() + " 测试完成");
         }
         #endregion
         #region 视觉
@@ -629,13 +681,14 @@ namespace Omicron.ViewModel
         #region FunctionTest
         public void FunctionTest()
         {
-            DataRow dr = TestRecodeDT.NewRow();
-            dr["Time"] = DateTime.Now.ToString();
-            dr["Barcode"] = "123";
-            dr["Result"] = TestResult.Pass.ToString();
-            dr["Cycle"] = 50.2;
-            dr["Index"] = 3;
-            TestRecodeDT.Rows.Add(dr);
+            //DataRow dr = TestRecodeDT.NewRow();
+            //dr["Time"] = DateTime.Now.ToString();
+            //dr["Barcode"] = "123";
+            //dr["Result"] = TestResult.Pass.ToString();
+            //dr["Cycle"] = 50.2;
+            //dr["Index"] = 3;
+            //TestRecodeDT.Rows.Add(dr);
+            epsonRC90.tester[1].Start(epsonRC90.StartProcess);
         }
         #endregion
         #region UI更新
@@ -675,6 +728,95 @@ namespace Omicron.ViewModel
                     PassCount3 = epsonRC90.tester[3].PassCount;
                     FailCount3 = epsonRC90.tester[3].FailCount;
                     Yield3 = epsonRC90.tester[3].Yield;
+
+                    TesterResult0 = epsonRC90.tester[0].testResult.ToString();
+                    switch (TesterResult0)
+                    {
+                        case "Ng":
+                            TesterStatusBackGround0 = "Red";
+                            TesterStatusForeground0 = "White";
+                            break;
+                        case "Pass":
+                            TesterStatusBackGround0 = "Green";
+                            TesterStatusForeground0 = "White";
+                            break;
+                        case "Unknow":
+                            TesterStatusBackGround0 = "Wheat";
+                            TesterStatusForeground0 = "Yellow";
+                            break;
+                        case "TimeOut":
+                            TesterStatusBackGround0 = "Wheat";
+                            TesterStatusForeground0 = "Maroon";
+                            break;
+                        default:
+                            break;
+                    }
+                    TesterResult1 = epsonRC90.tester[1].testResult.ToString();
+                    switch (TesterResult1)
+                    {
+                        case "Ng":
+                            TesterStatusBackGround1 = "Red";
+                            TesterStatusForeground1 = "White";
+                            break;
+                        case "Pass":
+                            TesterStatusBackGround1 = "Green";
+                            TesterStatusForeground1 = "White";
+                            break;
+                        case "Unknow":
+                            TesterStatusBackGround1 = "Wheat";
+                            TesterStatusForeground1 = "Yellow";
+                            break;
+                        case "TimeOut":
+                            TesterStatusBackGround1 = "Wheat";
+                            TesterStatusForeground1 = "Maroon";
+                            break;
+                        default:
+                            break;
+                    }
+                    TesterResult2 = epsonRC90.tester[2].testResult.ToString();
+                    switch (TesterResult1)
+                    {
+                        case "Ng":
+                            TesterStatusBackGround2 = "Red";
+                            TesterStatusForeground2 = "White";
+                            break;
+                        case "Pass":
+                            TesterStatusBackGround2 = "Green";
+                            TesterStatusForeground2 = "White";
+                            break;
+                        case "Unknow":
+                            TesterStatusBackGround2 = "Wheat";
+                            TesterStatusForeground2 = "Yellow";
+                            break;
+                        case "TimeOut":
+                            TesterStatusBackGround2 = "Wheat";
+                            TesterStatusForeground2 = "Maroon";
+                            break;
+                        default:
+                            break;
+                    }
+                    TesterResult3 = epsonRC90.tester[3].testResult.ToString();
+                    switch (TesterResult1)
+                    {
+                        case "Ng":
+                            TesterStatusBackGround3 = "Red";
+                            TesterStatusForeground3 = "White";
+                            break;
+                        case "Pass":
+                            TesterStatusBackGround3 = "Green";
+                            TesterStatusForeground3 = "White";
+                            break;
+                        case "Unknow":
+                            TesterStatusBackGround3 = "Wheat";
+                            TesterStatusForeground3 = "Yellow";
+                            break;
+                        case "TimeOut":
+                            TesterStatusBackGround3 = "Wheat";
+                            TesterStatusForeground3 = "Maroon";
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 catch 
                 {
@@ -733,6 +875,8 @@ namespace Omicron.ViewModel
         public async void L91PLCWork()
         {
             bool TakePhoteFlage = false, _TakePhoteFlage = false;
+            bool _IsShieldTheDoor = false;
+            bool _IsOperateCiTie = false;
             while (true)
             {
                 await Task.Delay(200);
@@ -770,44 +914,115 @@ namespace Omicron.ViewModel
                         }
                     }
 
-                    if (IsShieldTheDoor)
+                    if (_IsShieldTheDoor != IsShieldTheDoor)
                     {
-                        XinjiePLC.setM(1000, true);
+                        _IsShieldTheDoor = IsShieldTheDoor;
+                        if (IsShieldTheDoor)
+                        {
+                            XinjiePLC.setM(1000, true);
+                        }
+                        else
+                        {
+                            XinjiePLC.setM(1000, false);
+                        }
                     }
-                    else
+
+                    if (_IsOperateCiTie != IsOperateCiTie)
                     {
-                        XinjiePLC.setM(1000, false);
+                        _IsOperateCiTie = IsOperateCiTie;
+                        if (IsOperateCiTie)
+                        {
+                            XinjiePLC.setM(1001, true);
+                        }
+                        else
+                        {
+                            XinjiePLC.setM(1001, false);
+                        }
+                    }
+
+                    if (NeedNoiseReduce)
+                    {
+                        NeedNoiseReduce = false;
+                        XinjiePLC.setM(1003, true);
+                    }
+
+                    if (NeedLoadMaters)
+                    {
+                        NeedLoadMaters = false;
+                        XinjiePLC.setM(472, true);
+                    }
+                    if (NeedUnloadMaters)
+                    {
+                        NeedUnloadMaters = false;
+                        XinjiePLC.setM(473, true);
                     }
                 }
 
             }
         }
-        private void PLCTakePhoteCallback()
+        private async void PLCTakePhoteCallback()
         {
+            string str = "FeedFill;";
             if (FindFill1)
             {
                 XinjiePLC.setM(2000, true);
+                str += ";1";
+            }
+            else
+            {
+                str += ";0";
             }
             if (FindFill2)
             {
                 XinjiePLC.setM(2001, true);
+                str += ";1";
+            }
+            else
+            {
+                str += ";0";
             }
             if (FindFill3)
             {
                 XinjiePLC.setM(2002, true);
+                str += ";1";
+            }
+            else
+            {
+                str += ";0";
             }
             if (FindFill4)
             {
                 XinjiePLC.setM(2003, true);
+                str += ";1";
+            }
+            else
+            {
+                str += ";0";
             }
             if (FindFill5)
             {
                 XinjiePLC.setM(2004, true);
+                str += ";1";
+            }
+            else
+            {
+                str += ";0";
             }
             if (FindFill6)
             {
                 XinjiePLC.setM(2005, true);
+                str += ";1";
             }
+            else
+            {
+                str += ";0";
+            }
+            XinjiePLC.setM(2006, true);
+            if (epsonRC90.TestSendStatus)
+            {
+                await epsonRC90.TestSentNet.SendAsync(PreFeedFillStr);
+            }
+            PreFeedFillStr = str;
         }
         #endregion
 

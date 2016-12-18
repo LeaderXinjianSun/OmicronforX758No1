@@ -31,11 +31,11 @@ namespace Omicron.Model
         public int PassCount { set; get; }
         public int FailCount { set; get; }
         public int TestCount { set; get; }
-        public float Yield { set; get; }
+        public double Yield { set; get; }
 
         public double TestSpan { set; get; } = 0;
-        public TestResult testResult { set; get; }
-        public TestStatus testStatus { set; get; }
+        public TestResult testResult { set; get; } = TestResult.Unknow;
+        public TestStatus testStatus { set; get; } = TestStatus.PreTest;
         #region Mac命令
         public string StartStr { set; get; }
         public string BarcodeStr { set; get; }
@@ -99,7 +99,8 @@ namespace Omicron.Model
                         str = "";
                         break;
                 }
-                TesterBracode = Inifile.INIGetStringValue(iniParameterPath, "Barcode", str, "Null");
+                //TesterBracode = Inifile.INIGetStringValue(iniParameterPath, "Barcode", str, "Null");
+                TesterBracode = "Z6BS000UHP192ZM3";
             }
             catch
             {
@@ -147,7 +148,7 @@ namespace Omicron.Model
                         await Task.Delay(100);
                         while (ss[0] == "nil" || ss[0] == "Udp 发送或接收错误")
                         {
-                            TestSpan = sw.Elapsed.TotalSeconds;
+                            TestSpan = Math.Round(sw.Elapsed.TotalSeconds,2);
                             if (mResult == 2)
                             {
                                 return;
@@ -172,7 +173,7 @@ namespace Omicron.Model
                         await Task.Delay(100);
                         while (ss[0] == "nil" || ss[0] == "Udp 发送或接收错误")
                         {
-                            TestSpan = sw.Elapsed.TotalSeconds;
+                            TestSpan = Math.Round(sw.Elapsed.TotalSeconds, 2);
                             if (mResult == 2)
                             {
                                 return;
@@ -194,7 +195,7 @@ namespace Omicron.Model
                         //写条码
                         while (udp.UdpSendthenReceive("setvalue:(AXValue:" + TesterBracode + ")" + BarcodeStr) != "SetValue Success")
                         {
-                            TestSpan = sw.Elapsed.TotalSeconds;
+                            TestSpan = Math.Round(sw.Elapsed.TotalSeconds, 2);
                             if (mResult == 2)
                             {
                                 return;
@@ -205,7 +206,7 @@ namespace Omicron.Model
                         //按开始按钮
                         while (udp.UdpSendthenReceive(StartStr) != "Action Success")
                         {
-                            TestSpan = sw.Elapsed.TotalSeconds;
+                            TestSpan = Math.Round(sw.Elapsed.TotalSeconds, 2);
                             if (mResult == 2)
                             {
                                 return;
@@ -225,7 +226,7 @@ namespace Omicron.Model
                             await Task.Delay(100);
                             while (ss[0] == "nil" || ss[0] == "Udp 发送或接收错误")
                             {
-                                TestSpan = sw.Elapsed.TotalSeconds;
+                                TestSpan = Math.Round(sw.Elapsed.TotalSeconds, 2);
                                 if (mResult == 2)
                                 {
                                     return;
@@ -256,7 +257,7 @@ namespace Omicron.Model
                             await Task.Delay(100);
                             while (ss[0] == "nil" || ss[0] == "Udp 发送或接收错误")
                             {
-                                TestSpan = sw.Elapsed.TotalSeconds;
+                                TestSpan = Math.Round(sw.Elapsed.TotalSeconds, 2);
                                 if (mResult == 2)
                                 {
                                     return;
@@ -282,7 +283,7 @@ namespace Omicron.Model
                             //{
                             //    preFailCount = FailCount;
                             //}
-                            TestSpan = sw.Elapsed.TotalSeconds;
+                            TestSpan = Math.Round(sw.Elapsed.TotalSeconds, 2);
 
                         }
                         if (PassCount == prePassCount + 1)
@@ -377,7 +378,7 @@ namespace Omicron.Model
             {
                 TestCount++;
             }
-            Yield = (float)PassCount / (PassCount + FailCount) * 100;
+            Yield = Math.Round((float)PassCount / (PassCount + FailCount) * 100, 2);
             try
             {
                 Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "TestSpan", TestSpan.ToString());

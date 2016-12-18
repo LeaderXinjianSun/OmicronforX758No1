@@ -29,6 +29,89 @@
                 <Grid.Background>
                     <ImageBrush ImageSource="pictures/849378245772160706.jpg"></ImageBrush>
                 </Grid.Background>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Grid.RowSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="1.4*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{StaticResource LabelBase}" Text="①"></TextBlock>
+                        <Rectangle Grid.Row="1" Fill="{Binding TesterStatusBackGround0}"></Rectangle>
+                        <TextBlock Grid.Row="1" Style="{StaticResource TesterStatus}" Foreground="{Binding TesterStatusForeground0}" Text="{Binding TesterResult0}"></TextBlock>
+                    </Grid>
+                    <Grid Margin="2,0,0,0" Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="3" Grid.RowSpan="6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="1.4*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Rectangle Grid.Row="1" Fill="{Binding TesterStatusBackGround1}"></Rectangle>                        
+                        <TextBlock Style="{StaticResource LabelBase}" Text="②"></TextBlock>
+                        <TextBlock Grid.Row="1" Style="{StaticResource TesterStatus}" Foreground="{Binding TesterStatusForeground1}" Text="{Binding TesterResult1}"></TextBlock>
+                    </Grid>
+                    <Grid Grid.Row="2" Grid.Column="11" Grid.ColumnSpan="3" Grid.RowSpan="6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="1.4*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Rectangle Grid.Row="1" Fill="{Binding TesterStatusBackGround2}"></Rectangle>
+                        <TextBlock Style="{StaticResource LabelBase}" Text="③"></TextBlock>
+                        <TextBlock Grid.Row="1" Style="{StaticResource TesterStatus}" Foreground="{Binding TesterStatusForeground2}" Text="{Binding TesterResult2}"></TextBlock>
+                    </Grid>
+                    <Grid Margin="2,0,0,0" Grid.Row="2" Grid.Column="14" Grid.ColumnSpan="3" Grid.RowSpan="6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="1.4*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Rectangle Grid.Row="1" Fill="{Binding TesterStatusBackGround3}"></Rectangle>
+                        <TextBlock Style="{StaticResource LabelBase}" Text="④"></TextBlock>
+                        <TextBlock Grid.Row="1" Style="{StaticResource TesterStatus}" Foreground="{Binding TesterStatusForeground3}" Text="{Binding TesterResult3}"></TextBlock>
+                    </Grid>
+                </Grid>
             </Grid>
             <Grid Grid.Column="1">
                 <local:OperatePage></local:OperatePage>

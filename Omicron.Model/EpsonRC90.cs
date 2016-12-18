@@ -352,7 +352,7 @@ namespace Omicron.Model
                 }
             }
         }
-        private async void StartProcess(int index)
+        public async void StartProcess(int index)
         {
             TestFinished(index);
             if (tester[index].testStatus == TestStatus.Err)
