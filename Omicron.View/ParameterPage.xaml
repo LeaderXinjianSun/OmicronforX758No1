@@ -125,5 +125,24 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
+        <GroupBox Grid.Row="2" Grid.Column="1" Header="文档路径">
+            <StackPanel>
+                <StackPanel Margin="5,10,5,0" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource TextBlockBase}" Text="结果保存路径: "></TextBlock>
+                    <TextBox Width="260" Text="{Binding TestRecordSavePath}"></TextBox>
+                    <Button Margin="10,0,0,0" Content="选择" Width="80" FontSize="14" Height="30" Command="{mvvm:ActionAutoWithParam SelectSavePath}" CommandParameter="0"></Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5,10,5,0">
+                    <TextBlock Style="{StaticResource TextBlockBase}" Text="报警保存路径: "></TextBlock>
+                    <TextBox Width="260" Text="{Binding AlarmSavePath}"></TextBox>
+                    <Button Margin="10,0,0,0" Content="选择" Width="80" FontSize="14" Height="30" Command="{mvvm:ActionAutoWithParam SelectSavePath}" CommandParameter="1"></Button>
+                </StackPanel>
+                <!--<StackPanel Orientation="Horizontal">
+                    <TextBlock Width="120" Text="样本保存路径: "></TextBlock>
+                    <TextBox Width="260" Text="{Binding SampleSavePath}"></TextBox>
+                    <Button Margin="10,0,0,0" Content="选择" Width="80" FontSize="14" Height="30" Command="{Binding SampleSelectSavePath}"></Button>
+                </StackPanel>-->
+            </StackPanel>
+        </GroupBox>
     </Grid>
 </UserControl>

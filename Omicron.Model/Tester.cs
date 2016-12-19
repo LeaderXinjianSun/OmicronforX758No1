@@ -395,4 +395,37 @@ namespace Omicron.Model
 
         }
     }
+    public class TestRecord
+    {
+        private string testTime;
+        public string TestTime
+        {
+            get { return testTime; }
+            set { this.testTime = value; }
+        }
+        private string barcode;
+        public string Barcode
+        {
+            get { return barcode; }
+            set { this.barcode = value; }
+        }
+        private string testResult;
+        public string TestResult
+        {
+            get { return testResult; }
+            set { this.testResult = value; }
+        }
+        private string testCycleTime;
+        public string TestCycleTime
+        {
+            get { return testCycleTime; }
+            set { this.testCycleTime = value; }
+        }
+        private string index;
+        public string Index
+        {
+            get { return index; }
+            set { index = value; }
+        }
+    }
 }

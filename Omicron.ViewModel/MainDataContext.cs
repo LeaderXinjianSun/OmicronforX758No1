@@ -137,12 +137,14 @@ namespace Omicron.ViewModel
         public virtual string TesterStatusBackGround2 { set; get; } = "Gray";
         public virtual string TesterStatusBackGround3 { set; get; } = "Gray";
 
-
+        public virtual string TestRecordSavePath { set; get; }
+        public virtual string AlarmSavePath { set; get; }
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
         private dialog mydialog = new dialog();
         private string iniParameterPath = System.Environment.CurrentDirectory + "\\Parameter.ini";
+        private string iniTesterResutPath = System.Environment.CurrentDirectory + "\\TesterResut.ini";
         private XinjiePlc XinjiePLC;
         private HdevEngine hdevEngine = new HdevEngine();
         private HdevEngine hdevScanEngine = new HdevEngine();
@@ -471,7 +473,7 @@ namespace Omicron.ViewModel
             if (epsonRC90.TestSendStatus)
             {
                 await epsonRC90.TestSentNet.SendAsync(str + "123");
-
+                Msg = messagePrint.AddMessage(str);
             }
             
 
@@ -488,6 +490,91 @@ namespace Omicron.ViewModel
                 await epsonRC90.TestSentNet.SendAsync("Clear;123");
             }
             
+        }
+        public void CleantoZero(object p)
+        {
+            string s = p.ToString();
+            int i = int.Parse(s);
+            try
+            {
+                epsonRC90.tester[i].TestSpan = 0;
+                epsonRC90.tester[i].PassCount = 0;
+                epsonRC90.tester[i].FailCount = 0;
+                epsonRC90.tester[i].TestCount = 0;
+                epsonRC90.tester[i].Yield = 0;
+                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + i.ToString(), "TestSpan", "0");
+                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + i.ToString(), "PassCount", "0");
+                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + i.ToString(), "FailCount", "0");
+                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + i.ToString(), "TestCount", "0");
+                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + i.ToString(), "Yield", "0");
+                Msg = messagePrint.AddMessage("测试机 " + (i+ 1).ToString() + " 数据清空");
+            }
+            catch
+            {
+
+            }
+        }
+
+        public void SelectSavePath(object p)
+        {
+            FolderBrowserDialog dlg = new FolderBrowserDialog();
+            dlg.Description = "请选择文件路径";
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                switch (p.ToString())
+                {
+                    case "0":
+                        TestRecordSavePath = dlg.SelectedPath;
+                        Inifile.INIWriteValue(iniParameterPath, "SavePath", "TestRecordSavePath", TestRecordSavePath);
+
+                        break;
+                    case "1":
+                        AlarmSavePath = dlg.SelectedPath;
+                        Inifile.INIWriteValue(iniParameterPath, "SavePath", "AlarmSavePath", AlarmSavePath);
+                        break;
+                    default:
+                        break;
+                }                             
+            }
+        }
+        private void SaveCSVfileRecord(TestRecord tr)
+        {
+            string filepath = TestRecordSavePath + "\\" + DateTime.Now.ToLongDateString().ToString() + ".csv";
+            try
+            {
+
+                if (!File.Exists(filepath))
+                {
+                    string[] heads = { "Time", "Barcode", "Result", "Cycle", "Index" };
+                    Csvfile.savetocsv(filepath, heads);
+                }
+                string[] conte = { tr.TestTime, tr.Barcode, tr.TestResult, tr.TestCycleTime, tr.Index };
+                Csvfile.savetocsv(filepath, conte);
+            }
+            catch (Exception ex)
+            {
+                Msg = messagePrint.AddMessage("写入CSV文件失败");     
+                Log.Default.Error("写入CSV文件失败", ex.Message);
+            }
+        }
+        private void SaveCSVfileAlarm(string str)
+        {
+            string filepath = AlarmSavePath + "\\Alarm" + DateTime.Now.ToLongDateString().ToString() + ".csv";
+            try
+            {
+                if (!File.Exists(filepath))
+                {
+                    string[] heads = { "DateTime", "Contant" };
+                    Csvfile.savetocsv(filepath, heads);
+                }
+                string[] conte = { System.DateTime.Now.ToString(), str };
+                Csvfile.savetocsv(filepath, conte);
+            }
+            catch (Exception ex)
+            {
+                Msg = messagePrint.AddMessage("写入CSV文件失败");
+                Log.Default.Error("写入CSV文件失败", ex.Message);
+            }
         }
         #endregion
         #region 事件相应函数
@@ -514,6 +601,18 @@ namespace Omicron.ViewModel
         }
         private void StartUpdateProcess(int index)
         {
+            TestRecord tr = new TestRecord();
+            DataRow dr = TestRecodeDT.NewRow();
+
+            dr["Time"] = tr.TestTime = DateTime.Now.ToString();
+            dr["Barcode"] = tr.Barcode = epsonRC90.tester[index].TesterBracode;
+            dr["Result"] = tr.TestResult = epsonRC90.tester[index].testResult.ToString();
+            tr.TestCycleTime = epsonRC90.tester[index].TestSpan.ToString() + " s";
+            dr["Cycle"] = epsonRC90.tester[index].TestSpan;
+            tr.Index = (index + 1).ToString();
+            dr["Index"] = index + 1;
+            SaveCSVfileRecord(tr);
+            TestRecodeDT.Rows.Add(dr);
             Msg = messagePrint.AddMessage("测试机 " + (index + 1).ToString() + " 测试完成");
         }
         #endregion
@@ -636,6 +735,8 @@ namespace Omicron.ViewModel
                 TesterBracodeAR = Inifile.INIGetStringValue(iniParameterPath, "Barcode", "TesterBracodeAR", "Null");
                 TesterBracodeBL = Inifile.INIGetStringValue(iniParameterPath, "Barcode", "TesterBracodeBL", "Null");
                 TesterBracodeBR = Inifile.INIGetStringValue(iniParameterPath, "Barcode", "TesterBracodeBR", "Null");
+                TestRecordSavePath = Inifile.INIGetStringValue(iniParameterPath, "SavePath", "TestRecordSavePath", "C:\\");
+                AlarmSavePath = Inifile.INIGetStringValue(iniParameterPath, "SavePath", "AlarmSavePath", "C:\\");
                 return true;
             }
             catch (Exception ex)
@@ -844,6 +945,10 @@ namespace Omicron.ViewModel
             var r = await mydialog.showconfirm("确定要关闭程序吗？");
             if (r)
             {
+                epsonRC90.TestSentNet.client.Close();
+                epsonRC90.TestReceiveNet.client.Close();
+                epsonRC90.MsgReceiveNet.client.Close();
+                epsonRC90.CtrlNet.client.Close();
                 System.Windows.Application.Current.Shutdown();
             }
             else
@@ -854,7 +959,7 @@ namespace Omicron.ViewModel
         #endregion
         #region 初始化
         [Initialize]
-        public void WindowLoaded()
+        public async void WindowLoaded()
         {
             var r = ReadParameter();
             if (r)
@@ -866,8 +971,12 @@ namespace Omicron.ViewModel
                 Msg = messagePrint.AddMessage("读取参数失败");
             }
             cameraHcInit();
+            await Task.Delay(100);
+            CameraHcInspect();
             Msg = messagePrint.AddMessage("检测相机初始化完成");
             epsonRC90.scanCameraInit();
+            await Task.Delay(100);
+            ScanCameraInspect();
             //scanCameraInit();
             //Msg = messagePrint.AddMessage("扫码相机初始化完成");
         }
