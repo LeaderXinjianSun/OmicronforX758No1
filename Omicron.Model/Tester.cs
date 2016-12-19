@@ -79,7 +79,7 @@ namespace Omicron.Model
                 PassCount = int.Parse(Inifile.INIGetStringValue(iniTesterResutPath, "Tester" + Index.ToString(), "PassCount", "0"));
                 FailCount = int.Parse(Inifile.INIGetStringValue(iniTesterResutPath, "Tester" + Index.ToString(), "FailCount", "0"));
                 TestCount = int.Parse(Inifile.INIGetStringValue(iniTesterResutPath, "Tester" + Index.ToString(), "TestCount", "0"));
-                Yield = float.Parse(Inifile.INIGetStringValue(iniTesterResutPath, "Tester" + Index.ToString(), "Yield", "0"));
+                Yield = double.Parse(Inifile.INIGetStringValue(iniTesterResutPath, "Tester" + Index.ToString(), "Yield", "0"));
                 string str;
                 switch (Index)
                 {

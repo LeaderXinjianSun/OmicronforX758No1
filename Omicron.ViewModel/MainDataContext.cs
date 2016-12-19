@@ -876,7 +876,7 @@ namespace Omicron.ViewModel
                             break;
                     }
                     TesterResult2 = epsonRC90.tester[2].testResult.ToString();
-                    switch (TesterResult1)
+                    switch (TesterResult2)
                     {
                         case "Ng":
                             TesterStatusBackGround2 = "Red";
@@ -898,7 +898,7 @@ namespace Omicron.ViewModel
                             break;
                     }
                     TesterResult3 = epsonRC90.tester[3].testResult.ToString();
-                    switch (TesterResult1)
+                    switch (TesterResult3)
                     {
                         case "Ng":
                             TesterStatusBackGround3 = "Red";
