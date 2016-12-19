@@ -488,6 +488,7 @@ namespace Omicron.ViewModel
             if (epsonRC90.TestSendStatus)
             {
                 await epsonRC90.TestSentNet.SendAsync("Clear;123");
+                Msg = messagePrint.AddMessage("Clear;");
             }
             
         }

@@ -378,7 +378,7 @@ namespace Omicron.Model
             {
                 TestCount++;
             }
-            Yield = Math.Round((float)PassCount / (PassCount + FailCount) * 100, 2);
+            Yield = Math.Round((double)PassCount / (PassCount + FailCount) * 100, 2);
             try
             {
                 Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "TestSpan", TestSpan.ToString());

@@ -364,8 +364,8 @@ namespace Omicron.Model
             {
                 if (tester[index].testStatus == TestStatus.Tested)
                 {
-                    ModelPrint("测试机 " + (index + 1).ToString() + " 测试完成 " + tester[index].testStatus.ToString());
-                    string r = await TestSentNet.SendAsync("TestResult;" + tester[index].testStatus.ToString() + ";" + (index + 1).ToString());
+                    ModelPrint("测试机 " + (index + 1).ToString() + " 测试完成 " + tester[index].testResult.ToString());
+                    string r = await TestSentNet.SendAsync("TestResult;" + tester[index].testResult.ToString() + ";" + (index + 1).ToString());
                     if (r == "error")
                     {
                         Log.Default.Error("TestSent网络出错");
