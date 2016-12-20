@@ -139,6 +139,11 @@ namespace Omicron.ViewModel
 
         public virtual string TestRecordSavePath { set; get; }
         public virtual string AlarmSavePath { set; get; }
+
+        public virtual int NGContinueNum { set; get; }
+
+        public virtual string AlarmTextString { set; get; }
+        public virtual string AlarmTextGridShow { set; get; } = "Collapsed";
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -314,6 +319,7 @@ namespace Omicron.ViewModel
             {
                 //启动
                 case "1":
+                    AlarmTextGridShow = "Collapsed";
                     if (epsonRC90.CtrlStatus)
                     {
                         await epsonRC90.CtrlNet.SendAsync("$start,0");
@@ -326,8 +332,9 @@ namespace Omicron.ViewModel
                         await epsonRC90.CtrlNet.SendAsync("$pause");
                     }
                     break;
-                //暂停
+                //继续
                 case "3":
+                    AlarmTextGridShow = "Collapsed";
                     if (epsonRC90.CtrlStatus)
                     {
                         await epsonRC90.CtrlNet.SendAsync("$continue");
@@ -335,6 +342,7 @@ namespace Omicron.ViewModel
                     break;
                 //重启
                 case "4":
+                    AlarmTextGridShow = "Collapsed";
                     mydialog.changeaccent("red");
                     var r = await mydialog.showconfirm("确定进行停止机械手重启操作吗？");
                     if (r && epsonRC90.CtrlStatus)
@@ -482,6 +490,15 @@ namespace Omicron.ViewModel
             Inifile.INIWriteValue(iniParameterPath, "Tester", "TestCheckedBL", TestCheckedBL.ToString());
             Inifile.INIWriteValue(iniParameterPath, "Tester", "TestCheckedBR", TestCheckedBR.ToString());
 
+            str = "NGContinueNum;" + NGContinueNum.ToString();
+            if (epsonRC90.TestSendStatus)
+            {
+                await epsonRC90.TestSentNet.SendAsync(str);
+                Msg = messagePrint.AddMessage(str);
+            }
+
+            Inifile.INIWriteValue(iniParameterPath, "Tester", "NGContinueNum", NGContinueNum.ToString());
+
         }
         public async void ClearFlexer()
         {
@@ -577,11 +594,63 @@ namespace Omicron.ViewModel
                 Log.Default.Error("写入CSV文件失败", ex.Message);
             }
         }
+        private void ShowAlarmTextGrid(string str)
+        {
+            AlarmTextString = str;
+            AlarmTextGridShow = "Visible";
+        }
         #endregion
         #region 事件相应函数
         private void ModelPrintEventProcess(string str)
         {
             Msg = messagePrint.AddMessage(str);
+            switch (str)
+            {
+                case "MsgRev: 测试机1，吸取失败":
+                    ShowAlarmTextGrid("测试机1，吸取失败");
+                    break;
+                case "MsgRev: 测试机2，吸取失败":
+                    ShowAlarmTextGrid("测试机2，吸取失败");
+                    break;
+                case "MsgRev: 测试机3，吸取失败":
+                    ShowAlarmTextGrid("测试机3，吸取失败");
+                    break;
+                case "MsgRev: 测试机4，吸取失败":
+                    ShowAlarmTextGrid("测试机4，吸取失败");
+                    break;
+                case "MsgRev: 上料盘，吸取失败":
+                    ShowAlarmTextGrid("上料盘，吸取失败");
+                    break;
+                case "MsgRev: 石刻不良":
+                    ShowAlarmTextGrid("石刻不良");
+                    break;
+                case "MsgRev: 测试机1，测试超时":
+                    ShowAlarmTextGrid("测试机1，测试超时");
+                    break;
+                case "MsgRev: 测试机2，测试超时":
+                    ShowAlarmTextGrid("测试机2，测试超时");
+                    break;
+                case "MsgRev: 测试机3，测试超时":
+                    ShowAlarmTextGrid("测试机3，测试超时");
+                    break;
+                case "MsgRev: 测试机4，测试超时":
+                    ShowAlarmTextGrid("测试机4，测试超时");
+                    break;
+                case "MsgRev: 测试机1，连续NG":
+                    ShowAlarmTextGrid("测试机1，连续NG");
+                    break;
+                case "MsgRev: 测试机2，连续NG":
+                    ShowAlarmTextGrid("测试机2，连续NG");
+                    break;
+                case "MsgRev: 测试机3，连续NG":
+                    ShowAlarmTextGrid("测试机3，连续NG");
+                    break;
+                case "MsgRev: 测试机4，连续NG":
+                    ShowAlarmTextGrid("测试机4，连续NG");
+                    break;
+                default:
+                    break;
+            }
         }
         private void EpsonStatusUpdateProcess(string str)
         {
@@ -637,8 +706,8 @@ namespace Omicron.ViewModel
                     File.Copy(HcVisionScriptFileName, fullfilename,true);
                 }
             }
-            hdevEngine.initialengine(System.IO.Path.GetFileNameWithoutExtension(fullfilename));
-            hdevEngine.loadengine();
+            //hdevEngine.initialengine(System.IO.Path.GetFileNameWithoutExtension(fullfilename));
+            //hdevEngine.loadengine();
         }
         public void CameraHcInspect()
         {
@@ -738,6 +807,7 @@ namespace Omicron.ViewModel
                 TesterBracodeBR = Inifile.INIGetStringValue(iniParameterPath, "Barcode", "TesterBracodeBR", "Null");
                 TestRecordSavePath = Inifile.INIGetStringValue(iniParameterPath, "SavePath", "TestRecordSavePath", "C:\\");
                 AlarmSavePath = Inifile.INIGetStringValue(iniParameterPath, "SavePath", "AlarmSavePath", "C:\\");
+                NGContinueNum = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Tester", "NGContinueNum", "4"));
                 return true;
             }
             catch (Exception ex)
@@ -766,6 +836,9 @@ namespace Omicron.ViewModel
                 Inifile.INIWriteValue(iniParameterPath, "Tester", "TestCheckedAR", TestCheckedAR.ToString());
                 Inifile.INIWriteValue(iniParameterPath, "Tester", "TestCheckedBL", TestCheckedBL.ToString());
                 Inifile.INIWriteValue(iniParameterPath, "Tester", "TestCheckedBR", TestCheckedBR.ToString());
+
+                //NGContinueNum
+                Inifile.INIWriteValue(iniParameterPath, "Tester", "NGContinueNum", NGContinueNum.ToString());
                 //Inifile.INIWriteValue(iniParameterPath, "Barcode", "PickBracodeA", PickBracodeA);
                 //Inifile.INIWriteValue(iniParameterPath, "Barcode", "TesterBracodeAL", TesterBracodeAL);
                 //Inifile.INIWriteValue(iniParameterPath, "Barcode", "TesterBracodeAR", TesterBracodeAR);
@@ -790,7 +863,8 @@ namespace Omicron.ViewModel
             //dr["Cycle"] = 50.2;
             //dr["Index"] = 3;
             //TestRecodeDT.Rows.Add(dr);
-            epsonRC90.tester[1].Start(epsonRC90.StartProcess);
+            //epsonRC90.tester[1].Start(epsonRC90.StartProcess);
+            //ShowAlarmTextGrid("测试机2，吸取失败");
         }
         #endregion
         #region UI更新
@@ -812,24 +886,28 @@ namespace Omicron.ViewModel
                     PassCount0 = epsonRC90.tester[0].PassCount;
                     FailCount0 = epsonRC90.tester[0].FailCount;
                     Yield0 = epsonRC90.tester[0].Yield;
+                    TesterBracodeAL = epsonRC90.tester[0].TesterBracode;
 
                     TestTime1 = epsonRC90.tester[1].TestSpan;
                     TestCount1 = epsonRC90.tester[1].TestCount;
                     PassCount1 = epsonRC90.tester[1].PassCount;
                     FailCount1 = epsonRC90.tester[1].FailCount;
                     Yield1 = epsonRC90.tester[1].Yield;
+                    TesterBracodeAR = epsonRC90.tester[1].TesterBracode;
 
                     TestTime2 = epsonRC90.tester[2].TestSpan;
                     TestCount2 = epsonRC90.tester[2].TestCount;
                     PassCount2 = epsonRC90.tester[2].PassCount;
                     FailCount2 = epsonRC90.tester[2].FailCount;
                     Yield2 = epsonRC90.tester[2].Yield;
+                    TesterBracodeBL = epsonRC90.tester[2].TesterBracode;
 
                     TestTime3 = epsonRC90.tester[3].TestSpan;
                     TestCount3 = epsonRC90.tester[3].TestCount;
                     PassCount3 = epsonRC90.tester[3].PassCount;
                     FailCount3 = epsonRC90.tester[3].FailCount;
                     Yield3 = epsonRC90.tester[3].Yield;
+                    TesterBracodeBR = epsonRC90.tester[3].TesterBracode;
 
                     TesterResult0 = epsonRC90.tester[0].testResult.ToString();
                     switch (TesterResult0)
@@ -929,10 +1007,10 @@ namespace Omicron.ViewModel
 
                 PickBracodeA = epsonRC90.PickBracodeA;
 
-                TesterBracodeAL = epsonRC90.TesterBracodeAL;
-                TesterBracodeAR = epsonRC90.TesterBracodeAR;
-                TesterBracodeBL = epsonRC90.TesterBracodeBL;
-                TesterBracodeBR = epsonRC90.TesterBracodeBR;
+                //TesterBracodeAL = epsonRC90.TesterBracodeAL;
+                //TesterBracodeAR = epsonRC90.TesterBracodeAR;
+                //TesterBracodeBL = epsonRC90.TesterBracodeBL;
+                //TesterBracodeBR = epsonRC90.TesterBracodeBR;
             }
         }
         #endregion
@@ -946,10 +1024,10 @@ namespace Omicron.ViewModel
             var r = await mydialog.showconfirm("确定要关闭程序吗？");
             if (r)
             {
-                epsonRC90.TestSentNet.client.Close();
-                epsonRC90.TestReceiveNet.client.Close();
-                epsonRC90.MsgReceiveNet.client.Close();
-                epsonRC90.CtrlNet.client.Close();
+                //epsonRC90.TestSentNet.client.Close();
+                //epsonRC90.TestReceiveNet.client.Close();
+                //epsonRC90.MsgReceiveNet.client.Close();
+                //epsonRC90.CtrlNet.client.Close();
                 System.Windows.Application.Current.Shutdown();
             }
             else
@@ -971,9 +1049,9 @@ namespace Omicron.ViewModel
             {
                 Msg = messagePrint.AddMessage("读取参数失败");
             }
-            cameraHcInit();
+            //cameraHcInit();
             await Task.Delay(100);
-            CameraHcInspect();
+            //CameraHcInspect();
             Msg = messagePrint.AddMessage("检测相机初始化完成");
             epsonRC90.scanCameraInit();
             await Task.Delay(100);

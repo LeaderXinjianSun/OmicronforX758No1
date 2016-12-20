@@ -46,6 +46,8 @@ namespace Omicron.Model
         public string TesterBracodeBL { set; get; } = "Null";
         public string TesterBracodeBR { set; get; } = "Null";
 
+        
+
         #endregion
         #region 变量
         public HdevEngine hdevScanEngine = new HdevEngine();
@@ -316,15 +318,19 @@ namespace Omicron.Model
                                             {
                                                 case 0:
                                                     barstr = "TesterBracodeAL";
+                                                    TesterBracodeAL = PickBracodeA;
                                                     break;
                                                 case 1:
                                                     barstr = "TesterBracodeAR";
+                                                    TesterBracodeAR = PickBracodeA;
                                                     break;
                                                 case 2:
                                                     barstr = "TesterBracodeBL";
+                                                    TesterBracodeBL = PickBracodeA;
                                                     break;
                                                 case 3:
                                                     barstr = "TesterBracodeBR";
+                                                    TesterBracodeBR = PickBracodeA;
                                                     break;
                                                 default:
                                                     barstr = "";

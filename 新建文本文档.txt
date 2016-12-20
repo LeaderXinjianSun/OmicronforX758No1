@@ -1,0 +1,5 @@
+Z6BS000UHP192ZM3
+未处理System.InvalidOperationException
+Message: “System.InvalidOperationException”类型的未经处理的异常在 PresentationFramework.dll 中发生 
+其他信息: 某个 ItemsControl 与它的项源不一致。
+  请参见内部异常以获取更多信息。

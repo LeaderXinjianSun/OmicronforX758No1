@@ -118,6 +118,12 @@
                 <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
                     <CheckBox Content="测试机BR"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedBR}"></CheckBox>
                 </StackPanel>
+
+                <StackPanel Margin="5,15,5,0" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource TextBlockBase}" Text="连续NG次数："></TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding NGContinueNum}"></TextBox>
+                    <TextBlock Style="{StaticResource TextBlockBase}" Text="次"></TextBlock>
+                </StackPanel>
                 <StackPanel Margin="5,15,5,0" Orientation="Horizontal">
                     <!--<CheckBox Content="AB组吸嘴" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding ABChecked}"></CheckBox>
                     <CheckBox Content="CD组吸嘴" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding CDChecked}"></CheckBox>-->

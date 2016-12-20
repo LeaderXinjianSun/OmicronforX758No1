@@ -99,8 +99,8 @@ namespace Omicron.Model
                         str = "";
                         break;
                 }
-                //TesterBracode = Inifile.INIGetStringValue(iniParameterPath, "Barcode", str, "Null");
-                TesterBracode = "Z6BS000UHP192ZM3";
+                TesterBracode = Inifile.INIGetStringValue(iniParameterPath, "Barcode", str, "Null");
+                //TesterBracode = "Z6BS000UHP192ZM3";
             }
             catch
             {
@@ -114,6 +114,8 @@ namespace Omicron.Model
             int mResult = -2;
             int prePassCount = 0;
             int preFailCount = 0;
+            int pc = 0;
+            int fc = 0;
             string s;
             string[] ss;
             bool isRestarted = false;
@@ -161,7 +163,7 @@ namespace Omicron.Model
 
                         try
                         {
-                            prePassCount = PassCount = int.Parse(ss[0]);
+                            prePassCount = pc = int.Parse(ss[0]);
                         }
                         catch (Exception e)
                         {
@@ -186,7 +188,7 @@ namespace Omicron.Model
 
                         try
                         {
-                            preFailCount = FailCount = int.Parse(ss[0]);
+                            preFailCount = fc = int.Parse(ss[0]);
                         }
                         catch (Exception e)
                         {
@@ -214,7 +216,7 @@ namespace Omicron.Model
                             await Task.Delay(200);
                         }
                         await Task.Delay(200);
-                        while (!(PassCount == prePassCount + 1 || FailCount == preFailCount + 1))
+                        while (!(pc == prePassCount + 1 || fc == preFailCount + 1))
                         {
                             if (mResult == 2)
                             {
@@ -239,7 +241,7 @@ namespace Omicron.Model
 
                             try
                             {
-                                PassCount = int.Parse(ss[0]);
+                                pc = int.Parse(ss[0]);
                             }
                             catch (Exception e)
                             {
@@ -270,7 +272,7 @@ namespace Omicron.Model
 
                             try
                             {
-                                FailCount = int.Parse(ss[0]);
+                                fc = int.Parse(ss[0]);
                             }
                             catch (Exception e)
                             {
@@ -286,14 +288,14 @@ namespace Omicron.Model
                             TestSpan = Math.Round(sw.Elapsed.TotalSeconds, 2);
 
                         }
-                        if (PassCount == prePassCount + 1)
+                        if (pc == prePassCount + 1)
                         {
                             mResult = 1;
 
                         }
                         else
                         {
-                            if (FailCount == preFailCount + 1)
+                            if (fc == preFailCount + 1)
                             {
                                 mResult = 0;
 
