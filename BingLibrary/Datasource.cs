@@ -284,19 +284,20 @@ namespace BingLibrary.hjb
             {
                 return null;
             }
-
+            List<ParameterExpression> pe = new List<ParameterExpression>();
             for (int i = 0; i < handlerType.GetMethod("Invoke").GetParameters().Length; i++)
             {
-                new List<ParameterExpression>().Add(System.Linq.Expressions.Expression.Parameter(handlerType.GetMethod("Invoke").GetParameters()[i].ParameterType));
+                pe.Add(System.Linq.Expressions.Expression.Parameter(handlerType.GetMethod("Invoke").GetParameters()[i].ParameterType));
             }
-
-            new List<System.Linq.Expressions.Expression>().Add(new List<ParameterExpression>()[0]);
-            new List<System.Linq.Expressions.Expression>().Add(System.Linq.Expressions.Expression.Convert(new List<ParameterExpression>()[1], typeof(object)));
-            return Delegate.CreateDelegate(handlerType, System.Linq.Expressions.Expression.Lambda(System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression.Constant(new Action<object, object>(handler)), typeof(Action<object, object>).GetMethod("Invoke"), new List<System.Linq.Expressions.Expression>()), new List<ParameterExpression>()).Compile(), "Invoke");
+            List<System.Linq.Expressions.Expression> exp = new List<System.Linq.Expressions.Expression>();
+            exp.Add(pe[0]);
+            exp.Add(System.Linq.Expressions.Expression.Convert(pe[1], typeof(object)));
+            return Delegate.CreateDelegate(handlerType, System.Linq.Expressions.Expression.Lambda(System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression.Constant(new Action<object, object>(handler)), typeof(Action<object, object>).GetMethod("Invoke"), exp), pe).Compile(), "Invoke");
         }
 
         public static object createAction(IServiceProvider provider, Action method)
         {
+            string s = ExtensionTool.getDestinationType(provider).Name;
             switch (ExtensionTool.getDestinationType(provider).Name)
             {
                 case "ICommand":

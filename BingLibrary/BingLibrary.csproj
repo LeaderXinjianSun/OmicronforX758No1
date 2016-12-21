@@ -56,6 +56,10 @@
       <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.3.10\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
@@ -80,6 +84,8 @@
     <Compile Include="Async.cs" />
     <Compile Include="Csvfile.cs" />
     <Compile Include="DataSource.cs" />
+    <Compile Include="DoWithException.cs" />
+    <Compile Include="FTP.cs" />
     <Compile Include="Inifile.cs" />
     <Compile Include="Intercepts\BingAttribute.cs" />
     <Compile Include="Intercepts\Intercept.cs" />
@@ -92,9 +98,11 @@
     <Compile Include="PagabledCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialize.cs" />
+    <Compile Include="SingletonApplication.cs" />
     <Compile Include="SongXiaPLC.cs" />
     <Compile Include="TaiDaPLC.cs" />
     <Compile Include="TCP.cs" />
+    <Compile Include="Tool.cs" />
     <Compile Include="XinjiePlc.cs" />
     <Compile Include="XmlRW.cs" />
   </ItemGroup>

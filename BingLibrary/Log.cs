@@ -50,6 +50,16 @@ namespace BingLibrary.hjb
                 logger.Info(err, msg);
             }
 
+            public void Warn(string msg, params object[] args)
+            {
+                logger.Warn(msg, args);
+            }
+
+            public void Warn(string msg, Exception err)
+            {
+                logger.Warn(err, msg);
+            }
+
             public void Trace(string msg, params object[] args)
             {
                 logger.Trace(msg, args);

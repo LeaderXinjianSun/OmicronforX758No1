@@ -15,6 +15,7 @@ using ViewROI;
 using HalconDotNet;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Windows.Threading;
 //using MahApps.Metro.Controls.Dialogs;
 
 namespace Omicron.ViewModel
@@ -96,7 +97,8 @@ namespace Omicron.ViewModel
         public virtual string TesterBracodeBL { set; get; } = "Null";
         public virtual string TesterBracodeBR { set; get; } = "Null";
 
-        public virtual DataTable TestRecodeDT { set; get; } = new DataTable();
+        //public virtual DataTable TestRecodeDT { set; get; } = new DataTable();
+        public virtual ObservableCollection<TestRecord> testRecord { set; get; } = new ObservableCollection<TestRecord>();
 
         public virtual double TestTime0 { set; get; } = 0;
         public virtual int TestCount0 { set; get; } = 0;
@@ -158,6 +160,8 @@ namespace Omicron.ViewModel
         private bool NeedLoadMaters = false;
         private bool NeedUnloadMaters = false;
         private string PreFeedFillStr = "FeedFill;0;0;0;0;0;0;";
+        Queue<TestRecord> myTestRecordQueue = new Queue<TestRecord>();
+        public static DispatcherTimer dispatcherTimer = new DispatcherTimer();
         #endregion
         #region 构造函数
         public MainDataContext()
@@ -166,14 +170,11 @@ namespace Omicron.ViewModel
             epsonRC90.EpsonStatusUpdate += EpsonStatusUpdateProcess;
             epsonRC90.ScanUpdate += ScanUpdateProcess;
             epsonRC90.TestFinished += StartUpdateProcess;
-
-            TestRecodeDT.Columns.Add("Time",typeof(string));
-            TestRecodeDT.Columns.Add("Barcode", typeof(string));
-            TestRecodeDT.Columns.Add("Result", typeof(string));
-            TestRecodeDT.Columns.Add("Cycle", typeof(double));
-            TestRecodeDT.Columns.Add("Index", typeof(int));
-
+            dispatcherTimer.Tick += new EventHandler(DispatcherTimerTickUpdateUi);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            dispatcherTimer.Start();
             Async.RunFuncAsync(UpdateUI,null);
+            Log.Default.Error("123");
         }
         #endregion
         #region 功能和方法
@@ -671,18 +672,13 @@ namespace Omicron.ViewModel
         }
         private void StartUpdateProcess(int index)
         {
-            TestRecord tr = new TestRecord();
-            DataRow dr = TestRecodeDT.NewRow();
+            TestRecord tr = new TestRecord(DateTime.Now.ToString(), epsonRC90.tester[index].TesterBracode, epsonRC90.tester[index].testResult.ToString(), epsonRC90.tester[index].TestSpan.ToString() + " s", (index + 1).ToString());
+            lock (this)
+            {
+                myTestRecordQueue.Enqueue(tr);
+            }
+            //testRecord.Add(tr);
 
-            dr["Time"] = tr.TestTime = DateTime.Now.ToString();
-            dr["Barcode"] = tr.Barcode = epsonRC90.tester[index].TesterBracode;
-            dr["Result"] = tr.TestResult = epsonRC90.tester[index].testResult.ToString();
-            tr.TestCycleTime = epsonRC90.tester[index].TestSpan.ToString() + " s";
-            dr["Cycle"] = epsonRC90.tester[index].TestSpan;
-            tr.Index = (index + 1).ToString();
-            dr["Index"] = index + 1;
-            SaveCSVfileRecord(tr);
-            TestRecodeDT.Rows.Add(dr);
             Msg = messagePrint.AddMessage("测试机 " + (index + 1).ToString() + " 测试完成");
         }
         #endregion
@@ -1011,6 +1007,20 @@ namespace Omicron.ViewModel
                 //TesterBracodeAR = epsonRC90.TesterBracodeAR;
                 //TesterBracodeBL = epsonRC90.TesterBracodeBL;
                 //TesterBracodeBR = epsonRC90.TesterBracodeBR;
+            }
+        }
+        private void DispatcherTimerTickUpdateUi(Object sender, EventArgs e)
+        {
+            if (myTestRecordQueue.Count > 0)
+            {
+                lock (this)
+                {
+                    foreach (TestRecord item in myTestRecordQueue)
+                    {
+                        testRecord.Add(item);
+                    }
+                    myTestRecordQueue.Clear();
+                }
             }
         }
         #endregion

@@ -30,6 +30,8 @@ namespace BingLibrary.hjb
     {
         简体中文 = 0,
         English = 1,
+        繁体中文 = 2,
+        日文 = 3,
     }
 
     public class LanguageExtension : MarkupExtension
@@ -49,8 +51,4 @@ namespace BingLibrary.hjb
             return LanguagePackage.Packages[LanguageSwitch.Local][index];
         }
     }
-
-
-   
-
 }

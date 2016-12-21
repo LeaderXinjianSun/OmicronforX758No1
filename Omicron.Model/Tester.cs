@@ -399,35 +399,18 @@ namespace Omicron.Model
     }
     public class TestRecord
     {
-        private string testTime;
-        public string TestTime
+        public string TestTime { set; get; }
+        public string Barcode { set; get; }
+        public string TestResult { set; get; }       
+        public string TestCycleTime { set; get; }
+        public string Index { set; get; }
+        public TestRecord(string testTime, string barcode, string testResult, string testCycleTime, string index)
         {
-            get { return testTime; }
-            set { this.testTime = value; }
-        }
-        private string barcode;
-        public string Barcode
-        {
-            get { return barcode; }
-            set { this.barcode = value; }
-        }
-        private string testResult;
-        public string TestResult
-        {
-            get { return testResult; }
-            set { this.testResult = value; }
-        }
-        private string testCycleTime;
-        public string TestCycleTime
-        {
-            get { return testCycleTime; }
-            set { this.testCycleTime = value; }
-        }
-        private string index;
-        public string Index
-        {
-            get { return index; }
-            set { index = value; }
+            TestTime = testTime;
+            Barcode = barcode;
+            TestResult = testResult;
+            TestCycleTime = testCycleTime;
+            Index = index;
         }
     }
 }
