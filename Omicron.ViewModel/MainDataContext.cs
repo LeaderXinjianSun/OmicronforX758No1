@@ -174,7 +174,6 @@ namespace Omicron.ViewModel
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Start();
             Async.RunFuncAsync(UpdateUI,null);
-            Log.Default.Error("123");
         }
         #endregion
         #region 功能和方法
@@ -678,7 +677,7 @@ namespace Omicron.ViewModel
                 myTestRecordQueue.Enqueue(tr);
             }
             //testRecord.Add(tr);
-
+            SaveCSVfileRecord(tr);
             Msg = messagePrint.AddMessage("测试机 " + (index + 1).ToString() + " 测试完成");
         }
         #endregion
@@ -804,6 +803,7 @@ namespace Omicron.ViewModel
                 TestRecordSavePath = Inifile.INIGetStringValue(iniParameterPath, "SavePath", "TestRecordSavePath", "C:\\");
                 AlarmSavePath = Inifile.INIGetStringValue(iniParameterPath, "SavePath", "AlarmSavePath", "C:\\");
                 NGContinueNum = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Tester", "NGContinueNum", "4"));
+
                 return true;
             }
             catch (Exception ex)
@@ -861,6 +861,8 @@ namespace Omicron.ViewModel
             //TestRecodeDT.Rows.Add(dr);
             //epsonRC90.tester[1].Start(epsonRC90.StartProcess);
             //ShowAlarmTextGrid("测试机2，吸取失败");
+            TestRecord tr = new TestRecord(DateTime.Now.ToString(), "bar", "f", "11.1 s", "1");
+            SaveCSVfileRecord(tr);
         }
         #endregion
         #region UI更新
@@ -1059,8 +1061,39 @@ namespace Omicron.ViewModel
             {
                 Msg = messagePrint.AddMessage("读取参数失败");
             }
-            //cameraHcInit();
-            await Task.Delay(100);
+            string filepath = TestRecordSavePath + "\\" + DateTime.Now.ToLongDateString().ToString() + ".csv";
+            DataTable dt = new DataTable();
+            DataTable dt1;
+            dt.Columns.Add("Time", typeof(string));
+            dt.Columns.Add("Barcode", typeof(string));
+            dt.Columns.Add("Result", typeof(string));
+            dt.Columns.Add("Cycle", typeof(string));
+            dt.Columns.Add("Index", typeof(string));
+            try
+            {
+                if (File.Exists(filepath))
+                {
+                    dt1 = Csvfile.csv2dt(filepath, 1, dt);
+                    if (dt1.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in dt1.Rows)
+                        {
+                            TestRecord tr = new TestRecord(item[0].ToString(), item[1].ToString(), item[2].ToString(), item[3].ToString(), item[4].ToString());
+                            lock (this)
+                            {
+                                myTestRecordQueue.Enqueue(tr);
+                            }
+                        }
+                        Msg = messagePrint.AddMessage("读取测试记录完成");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Default.Error("WindowLoadedcsv2dt", ex.Message);
+            }
+                //cameraHcInit();
+                await Task.Delay(100);
             //CameraHcInspect();
             Msg = messagePrint.AddMessage("检测相机初始化完成");
             epsonRC90.scanCameraInit();
