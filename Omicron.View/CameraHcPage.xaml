@@ -124,9 +124,9 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Rectangle Grid.Row="1" Grid.Column="1" Style="{StaticResource CamFillStyle4}"></Rectangle>
+                <Rectangle Grid.Row="1" Grid.Column="1" Style="{StaticResource CamFillStyle6}"></Rectangle>
                 <Rectangle Grid.Row="1" Grid.Column="2" Style="{StaticResource CamFillStyle5}"></Rectangle>
-                <Rectangle Grid.Row="1" Grid.Column="3" Style="{StaticResource CamFillStyle6}"></Rectangle>
+                <Rectangle Grid.Row="1" Grid.Column="3" Style="{StaticResource CamFillStyle4}"></Rectangle>
                 <Rectangle Grid.Row="2" Grid.Column="1" Style="{StaticResource CamFillStyle1}"></Rectangle>
                 <Rectangle Grid.Row="2" Grid.Column="2" Style="{StaticResource CamFillStyle2}"></Rectangle>
                 <Rectangle Grid.Row="2" Grid.Column="3" Style="{StaticResource CamFillStyle3}"></Rectangle>
