@@ -256,4 +256,12 @@
         <Setter Property="TextWrapping" Value="Wrap"></Setter>
         <Setter Property="FontWeight" Value="Bold"></Setter>
     </Style>
+    <Style TargetType="Grid" x:Key="DoorShieldedAlarmGrid">
+        <Setter Property="Visibility" Value="Collapsed"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=IsShieldTheDoor}" Value="true">
+                <Setter Property="Visibility" Value="Visible"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

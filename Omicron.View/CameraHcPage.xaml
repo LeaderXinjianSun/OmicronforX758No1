@@ -55,6 +55,83 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox Grid.Row="1" Grid.Column="1" Header="结果"></GroupBox>
+        <GroupBox Grid.Row="1" Grid.Column="1" Header="结果">
+            <Grid>
+                <Grid.Resources>
+                    <Style TargetType="Rectangle" x:Key="CamFillRectangle">
+                        <Setter Property="Margin" Value="5"></Setter>
+                        <Setter Property="Fill" Value="Pink"></Setter>
+                    </Style>
+                    <Style TargetType="Rectangle" x:Key="CamFillStyle1" BasedOn="{StaticResource CamFillRectangle}">
+                        <Setter Property="Visibility" Value="Collapsed"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=FindFill1}" Value="true">
+                                <Setter Property="Visibility" Value="Visible"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style TargetType="Rectangle" x:Key="CamFillStyle2" BasedOn="{StaticResource CamFillRectangle}">
+                        <Setter Property="Visibility" Value="Collapsed"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=FindFill2}" Value="true">
+                                <Setter Property="Visibility" Value="Visible"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style TargetType="Rectangle" x:Key="CamFillStyle3" BasedOn="{StaticResource CamFillRectangle}">
+                        <Setter Property="Visibility" Value="Collapsed"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=FindFill3}" Value="true">
+                                <Setter Property="Visibility" Value="Visible"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style TargetType="Rectangle" x:Key="CamFillStyle4" BasedOn="{StaticResource CamFillRectangle}">
+                        <Setter Property="Visibility" Value="Collapsed"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=FindFill4}" Value="true">
+                                <Setter Property="Visibility" Value="Visible"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style TargetType="Rectangle" x:Key="CamFillStyle5" BasedOn="{StaticResource CamFillRectangle}">
+                        <Setter Property="Visibility" Value="Collapsed"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=FindFill5}" Value="true">
+                                <Setter Property="Visibility" Value="Visible"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style TargetType="Rectangle" x:Key="CamFillStyle6" BasedOn="{StaticResource CamFillRectangle}">
+                        <Setter Property="Visibility" Value="Collapsed"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=FindFill6}" Value="true">
+                                <Setter Property="Visibility" Value="Visible"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Rectangle Grid.Row="1" Grid.Column="1" Style="{StaticResource CamFillStyle4}"></Rectangle>
+                <Rectangle Grid.Row="1" Grid.Column="2" Style="{StaticResource CamFillStyle5}"></Rectangle>
+                <Rectangle Grid.Row="1" Grid.Column="3" Style="{StaticResource CamFillStyle6}"></Rectangle>
+                <Rectangle Grid.Row="2" Grid.Column="1" Style="{StaticResource CamFillStyle1}"></Rectangle>
+                <Rectangle Grid.Row="2" Grid.Column="2" Style="{StaticResource CamFillStyle2}"></Rectangle>
+                <Rectangle Grid.Row="2" Grid.Column="3" Style="{StaticResource CamFillStyle3}"></Rectangle>
+            </Grid>
+            
+        </GroupBox>
     </Grid>
 </UserControl>

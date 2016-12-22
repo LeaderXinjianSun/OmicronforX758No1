@@ -146,6 +146,7 @@ namespace Omicron.ViewModel
 
         public virtual string AlarmTextString { set; get; }
         public virtual string AlarmTextGridShow { set; get; } = "Collapsed";
+        public virtual bool PLCPause { set; get; } = false;
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -162,6 +163,7 @@ namespace Omicron.ViewModel
         private string PreFeedFillStr = "FeedFill;0;0;0;0;0;0;";
         Queue<TestRecord> myTestRecordQueue = new Queue<TestRecord>();
         public static DispatcherTimer dispatcherTimer = new DispatcherTimer();
+        private bool PLCNeedContinue = false;
         #endregion
         #region 构造函数
         public MainDataContext()
@@ -297,13 +299,14 @@ namespace Omicron.ViewModel
         public async void OperateCiTieFunction()
         {
 
-            if (!IsOperateCiTie)
+            if (IsOperateCiTie)
             {
                 mydialog.changeaccent("red");
                 var r = await mydialog.showconfirm("确定释放电磁铁吗？");
                 if (r)
                 {
                     IsOperateCiTie = !IsOperateCiTie;
+                    Msg = messagePrint.AddMessage("电磁铁释放");
                 }
                 mydialog.changeaccent("blue");
             }
@@ -338,6 +341,10 @@ namespace Omicron.ViewModel
                     if (epsonRC90.CtrlStatus)
                     {
                         await epsonRC90.CtrlNet.SendAsync("$continue");
+                    }
+                    if (PLCPause)
+                    {
+                        PLCNeedContinue = true;
                     }
                     break;
                 //重启
@@ -621,8 +628,8 @@ namespace Omicron.ViewModel
                 case "MsgRev: 上料盘，吸取失败":
                     ShowAlarmTextGrid("上料盘，吸取失败");
                     break;
-                case "MsgRev: 石刻不良":
-                    ShowAlarmTextGrid("石刻不良");
+                case "MsgRev: 蚀刻不良":
+                    ShowAlarmTextGrid("蚀刻不良");
                     break;
                 case "MsgRev: 测试机1，测试超时":
                     ShowAlarmTextGrid("测试机1，测试超时");
@@ -701,8 +708,8 @@ namespace Omicron.ViewModel
                     File.Copy(HcVisionScriptFileName, fullfilename,true);
                 }
             }
-            //hdevEngine.initialengine(System.IO.Path.GetFileNameWithoutExtension(fullfilename));
-            //hdevEngine.loadengine();
+            hdevEngine.initialengine(System.IO.Path.GetFileNameWithoutExtension(fullfilename));
+            hdevEngine.loadengine();
         }
         public void CameraHcInspect()
         {
@@ -861,8 +868,8 @@ namespace Omicron.ViewModel
             //TestRecodeDT.Rows.Add(dr);
             //epsonRC90.tester[1].Start(epsonRC90.StartProcess);
             //ShowAlarmTextGrid("测试机2，吸取失败");
-            TestRecord tr = new TestRecord(DateTime.Now.ToString(), "bar", "f", "11.1 s", "1");
-            SaveCSVfileRecord(tr);
+            //TestRecord tr = new TestRecord(DateTime.Now.ToString(), "bar", "f", "11.1 s", "1");
+            //SaveCSVfileRecord(tr);
         }
         #endregion
         #region UI更新
@@ -1092,9 +1099,9 @@ namespace Omicron.ViewModel
             {
                 Log.Default.Error("WindowLoadedcsv2dt", ex.Message);
             }
-                //cameraHcInit();
-                await Task.Delay(100);
-            //CameraHcInspect();
+            cameraHcInit();
+            await Task.Delay(100);
+            CameraHcInspect();
             Msg = messagePrint.AddMessage("检测相机初始化完成");
             epsonRC90.scanCameraInit();
             await Task.Delay(100);
@@ -1108,6 +1115,7 @@ namespace Omicron.ViewModel
             bool TakePhoteFlage = false, _TakePhoteFlage = false;
             bool _IsShieldTheDoor = false;
             bool _IsOperateCiTie = false;
+            bool _PLCPause = false;
             while (true)
             {
                 await Task.Delay(200);
@@ -1134,6 +1142,7 @@ namespace Omicron.ViewModel
                 else
                 {
                     IsPLCConnect = XinjiePLC.readM(24576);
+                    //拍照
                     TakePhoteFlage = XinjiePLC.readM(2100);
                     if (_TakePhoteFlage != TakePhoteFlage)
                     {
@@ -1144,7 +1153,7 @@ namespace Omicron.ViewModel
                             Async.RunFuncAsync(cameraHcInspect, PLCTakePhoteCallback);
                         }
                     }
-
+                    //安全门
                     if (_IsShieldTheDoor != IsShieldTheDoor)
                     {
                         _IsShieldTheDoor = IsShieldTheDoor;
@@ -1157,7 +1166,7 @@ namespace Omicron.ViewModel
                             XinjiePLC.setM(1000, false);
                         }
                     }
-
+                    //电磁铁
                     if (_IsOperateCiTie != IsOperateCiTie)
                     {
                         _IsOperateCiTie = IsOperateCiTie;
@@ -1170,23 +1179,42 @@ namespace Omicron.ViewModel
                             XinjiePLC.setM(1001, false);
                         }
                     }
-
+                    //消音
                     if (NeedNoiseReduce)
                     {
                         NeedNoiseReduce = false;
                         XinjiePLC.setM(1003, true);
                     }
-
+                    //上料
                     if (NeedLoadMaters)
                     {
                         NeedLoadMaters = false;
                         XinjiePLC.setM(472, true);
                     }
+                    //下料
                     if (NeedUnloadMaters)
                     {
                         NeedUnloadMaters = false;
                         XinjiePLC.setM(473, true);
                     }
+                    //暂停
+                    if (PLCNeedContinue == true)
+                    {
+                        PLCNeedContinue = false;
+                        XinjiePLC.setM(1005, true);
+                    }
+
+                    PLCPause = XinjiePLC.readM(500);
+                    if (_PLCPause != PLCPause)
+                    {
+                        _PLCPause = PLCPause;
+                        if (PLCPause == true)
+                        {
+                            ShowAlarmTextGrid("PLC暂停");
+                            Msg = messagePrint.AddMessage("PLC暂停");
+                        }
+                    }
+
                 }
 
             }
