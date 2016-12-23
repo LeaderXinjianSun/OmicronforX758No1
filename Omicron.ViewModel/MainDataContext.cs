@@ -147,6 +147,9 @@ namespace Omicron.ViewModel
         public virtual string AlarmTextString { set; get; }
         public virtual string AlarmTextGridShow { set; get; } = "Collapsed";
         public virtual bool PLCPause { set; get; } = false;
+
+        public virtual int SingleTestModeStageNum { set; get; } = 1;
+        public virtual bool SingleTestMode { set; get; } = false;
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -325,7 +328,24 @@ namespace Omicron.ViewModel
                     AlarmTextGridShow = "Collapsed";
                     if (epsonRC90.CtrlStatus)
                     {
-                        await epsonRC90.CtrlNet.SendAsync("$start,0");
+                        if (SingleTestMode)
+                        {
+                            string str = "SingleTestModeStageNum;" + SingleTestModeStageNum.ToString();
+                            if (epsonRC90.TestSendStatus)
+                            {
+                                await epsonRC90.TestSentNet.SendAsync(str);
+                                Msg = messagePrint.AddMessage(str);
+                            }
+                            await epsonRC90.CtrlNet.SendAsync("$start,1");
+                            Msg = messagePrint.AddMessage("单穴反复测试模式");
+                        }
+                        else
+                        {
+                            await epsonRC90.CtrlNet.SendAsync("$start,0");
+                            Msg = messagePrint.AddMessage("正常模式");
+                        }
+
+                        
                     }
                     break;
                 //暂停
