@@ -26,13 +26,14 @@
             <MenuItem Header="条码" Command="{mvvm:ActionAuto ChoseBarcodeDisplayPage}"></MenuItem>
             <MenuItem Header="检测相机" Command="{mvvm:ActionAuto ChoseCameraHcPage}"></MenuItem>
             <MenuItem Header="扫码相机" Command="{mvvm:ActionAuto ChoseScanCameraPage}"></MenuItem>
-            <MenuItem Header="参数">
+            <MenuItem Header="参数" IsEnabled="{Binding isLogin}">
                 <MenuItem Header="机台参数" Command="{mvvm:ActionAuto ChoseParameterPage}"></MenuItem>
                 <MenuItem Header="治具参数" Command="{mvvm:ActionAuto ChoseTesterParameterPage}"></MenuItem>
             </MenuItem>
             <MenuItem Header="记录" Command="{mvvm:ActionAuto ChoseTestRecordPage}"></MenuItem>
             <MenuItem Header="帮助"></MenuItem>
             <MenuItem Header="关于" Command="{mvvm:ActionAuto ChoseAboutPage}"></MenuItem>
+            <MenuItem Header="{Binding LoginButtonString}" Command="{mvvm:ActionAuto LoginAction}"></MenuItem>
         </Menu>
         <Grid Grid.RowSpan="2" Grid.Row="1">
             <Grid Visibility="{Binding HomePageVisibility}">

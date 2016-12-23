@@ -153,6 +153,10 @@ namespace Omicron.ViewModel
 
         public virtual int SingleTestTimes { set; get; } = 0;
         public virtual string SingleTestTimesVisibility { set; get; } = "Collapsed";
+        public virtual string LoginButtonString { set; get; } = "登录";
+        public virtual string LoginUserName { set; get; } = "Leader";
+        public virtual string LoginPassword { set; get; } = "jsldr";
+        public virtual bool isLogin { set; get; } = false;
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -170,6 +174,7 @@ namespace Omicron.ViewModel
         Queue<TestRecord> myTestRecordQueue = new Queue<TestRecord>();
         public static DispatcherTimer dispatcherTimer = new DispatcherTimer();
         private bool PLCNeedContinue = false;
+
         #endregion
         #region 构造函数
         public MainDataContext()
@@ -631,6 +636,34 @@ namespace Omicron.ViewModel
         {
             AlarmTextString = str;
             AlarmTextGridShow = "Visible";
+        }
+        public async void LoginAction()
+        {
+            List<string> r;
+            if (isLogin == false)
+            {
+
+                r = await mydialog.showlogin();
+                if (r[0] == LoginUserName && r[1] == LoginPassword)
+                {
+                    isLogin = !isLogin;
+                }
+
+            }
+            else
+            {
+                isLogin = !isLogin;
+            }
+
+            
+            if (isLogin == true)
+            {
+                LoginButtonString = "登出";
+            }
+            else
+            {
+                LoginButtonString = "登录";
+            }
         }
         #endregion
         #region 事件相应函数
