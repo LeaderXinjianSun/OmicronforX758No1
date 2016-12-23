@@ -150,6 +150,9 @@ namespace Omicron.ViewModel
 
         public virtual int SingleTestModeStageNum { set; get; } = 1;
         public virtual bool SingleTestMode { set; get; } = false;
+
+        public virtual int SingleTestTimes { set; get; } = 0;
+        public virtual string SingleTestTimesVisibility { set; get; } = "Collapsed";
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -330,6 +333,7 @@ namespace Omicron.ViewModel
                     {
                         if (SingleTestMode)
                         {
+                            SingleTestTimesVisibility = "Visible";
                             string str = "SingleTestModeStageNum;" + SingleTestModeStageNum.ToString();
                             if (epsonRC90.TestSendStatus)
                             {
@@ -337,10 +341,12 @@ namespace Omicron.ViewModel
                                 Msg = messagePrint.AddMessage(str);
                             }
                             await epsonRC90.CtrlNet.SendAsync("$start,1");
+                            SingleTestTimes = 0;
                             Msg = messagePrint.AddMessage("单穴反复测试模式");
                         }
                         else
                         {
+                            SingleTestTimesVisibility = "Collapsed";
                             await epsonRC90.CtrlNet.SendAsync("$start,0");
                             Msg = messagePrint.AddMessage("正常模式");
                         }
@@ -674,6 +680,9 @@ namespace Omicron.ViewModel
                     break;
                 case "MsgRev: 测试机4，连续NG":
                     ShowAlarmTextGrid("测试机4，连续NG");
+                    break;
+                case "MsgRev: 单穴测试，一次完成":
+                    SingleTestTimes++;
                     break;
                 default:
                     break;
