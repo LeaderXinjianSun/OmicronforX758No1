@@ -30,7 +30,7 @@ namespace Omicron.ViewModel
         public virtual string CameraHcPageVisibility { set; get; } = "Collapsed";
         public virtual string ScanCameraPageVisibility { set; get; } = "Collapsed";
         public virtual string BarcodeDisplayPageVisibility { set; get; } = "Collapsed";
-        public virtual string TesterParameterPageVisibility { set; get; } = "Collapsed";
+        public virtual string OperaterActionPageVisibility { set; get; } = "Collapsed";
         public virtual string TestRecordPageVisibility { set; get; } = "Collapsed";
         public virtual bool IsPLCConnect { set; get; } = false;
         public virtual bool IsTCPConnect { set; get; } = false;
@@ -197,7 +197,7 @@ namespace Omicron.ViewModel
             HomePageVisibility = "Visible";
             CameraHcPageVisibility = "Collapsed";
             ScanCameraPageVisibility = "Collapsed";
-            TesterParameterPageVisibility = "Collapsed";
+            OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
         }
@@ -208,7 +208,7 @@ namespace Omicron.ViewModel
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
             ScanCameraPageVisibility = "Collapsed";
-            TesterParameterPageVisibility = "Collapsed";
+            OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
         }
@@ -219,18 +219,18 @@ namespace Omicron.ViewModel
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
             ScanCameraPageVisibility = "Collapsed";
-            TesterParameterPageVisibility = "Collapsed";
+            OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
         }
-        public void ChoseTesterParameterPage()
+        public void ChoseOperaterActionPage()
         {
             ParameterPageVisibility = "Collapsed";
             AboutPageVisibility = "Collapsed";
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
             ScanCameraPageVisibility = "Collapsed";
-            TesterParameterPageVisibility = "Visible";
+            OperaterActionPageVisibility = "Visible";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
         }
@@ -241,7 +241,7 @@ namespace Omicron.ViewModel
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
             ScanCameraPageVisibility = "Collapsed";
-            TesterParameterPageVisibility = "Collapsed";
+            OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
         }
@@ -252,7 +252,7 @@ namespace Omicron.ViewModel
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Visible";
             ScanCameraPageVisibility = "Collapsed";
-            TesterParameterPageVisibility = "Collapsed";
+            OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
         }
@@ -263,7 +263,7 @@ namespace Omicron.ViewModel
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
             ScanCameraPageVisibility = "Visible";
-            TesterParameterPageVisibility = "Collapsed";
+            OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
         }
@@ -274,7 +274,7 @@ namespace Omicron.ViewModel
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
             ScanCameraPageVisibility = "Collapsed";
-            TesterParameterPageVisibility = "Collapsed";
+            OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Visible";
             TestRecordPageVisibility = "Collapsed";
         }
@@ -285,7 +285,7 @@ namespace Omicron.ViewModel
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
             ScanCameraPageVisibility = "Collapsed";
-            TesterParameterPageVisibility = "Collapsed";
+            OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Visible";
         }
@@ -352,7 +352,7 @@ namespace Omicron.ViewModel
                         else
                         {
                             SingleTestTimesVisibility = "Collapsed";
-                            await epsonRC90.CtrlNet.SendAsync("$start,0");
+                            await epsonRC90.CtrlNet.SendAsync("$start,2");
                             Msg = messagePrint.AddMessage("正常模式");
                         }
 
@@ -663,6 +663,33 @@ namespace Omicron.ViewModel
             else
             {
                 LoginButtonString = "登录";
+            }
+        }
+        public async void XQTActionFunction(object p)
+        {
+            string s = p.ToString();
+            switch (s)
+            {
+                case "1":
+                    if (epsonRC90.CtrlStatus)
+                    {
+                        await epsonRC90.TestSentNet.SendAsync("XQTAction;1");
+                    }
+                    break;
+                case "2":
+                    if (epsonRC90.CtrlStatus)
+                    {
+                        await epsonRC90.TestSentNet.SendAsync("XQTAction;2");
+                    }
+                    break;
+                case "3":
+                    if (epsonRC90.CtrlStatus)
+                    {
+                        await epsonRC90.TestSentNet.SendAsync("XQTAction;3");
+                    }
+                    break;
+                default:
+                    break;
             }
         }
         #endregion

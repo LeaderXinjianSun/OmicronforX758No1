@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="Omicron.View.OperaterActionPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mvvm="clr-namespace:BingLibrary.hjb;assembly=BingLibrary"
+             xmlns:control="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Omicron.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="SxjDictionary.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Resources/Icons.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Header="机械手">
+            <StackPanel Margin="0,20,0,8" Orientation="Vertical">
+                <StackPanel Margin="5,15,5,0" Orientation="Horizontal">
+                    <Button Margin="20,0,0,0" IsEnabled="{Binding ClearButtonEnable}" Content="清空" Background="Red" Foreground="Yellow" Command="{mvvm:ActionAuto ClearFlexer}"></Button>
+                </StackPanel>
+                <StackPanel Margin="5,15,5,0" Orientation="Horizontal">
+                    <Button Margin="20,0,0,0" IsEnabled="{Binding ClearButtonEnable}" Content="上料" Background="Green" Foreground="White" Command="{mvvm:ActionAutoWithParam XQTActionFunction}" CommandParameter="1"></Button>
+                    <Button Margin="20,0,0,0" IsEnabled="{Binding ClearButtonEnable}" Content="下料" Background="Green" Foreground="White" Command="{mvvm:ActionAutoWithParam XQTActionFunction}" CommandParameter="2"></Button>
+                    <Button Margin="20,0,0,0" IsEnabled="{Binding ClearButtonEnable}" Content="模组回原点" Background="Green" Foreground="White" Command="{mvvm:ActionAutoWithParam XQTActionFunction}" CommandParameter="3"></Button>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</UserControl>

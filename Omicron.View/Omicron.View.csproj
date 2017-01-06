@@ -74,6 +74,9 @@
     <Compile Include="OperatePage.xaml.cs">
       <DependentUpon>OperatePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OperaterActionPage.xaml.cs">
+      <DependentUpon>OperaterActionPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ParameterPage.xaml.cs">
       <DependentUpon>ParameterPage.xaml</DependentUpon>
     </Compile>
@@ -102,6 +105,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="OperatePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OperaterActionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -127,11 +127,11 @@
                     <TextBlock Style="{StaticResource TextBlockBarcode}">工位（1 - 4）:</TextBlock>
                     <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding SingleTestModeStageNum}"></TextBox>
                 </StackPanel>
-                <StackPanel Margin="5,15,5,0" Orientation="Horizontal">
-                    <!--<CheckBox Content="AB组吸嘴" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding ABChecked}"></CheckBox>
-                    <CheckBox Content="CD组吸嘴" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding CDChecked}"></CheckBox>-->
+                <!--<StackPanel Margin="5,15,5,0" Orientation="Horizontal">
+                    --><!--<CheckBox Content="AB组吸嘴" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding ABChecked}"></CheckBox>
+                    <CheckBox Content="CD组吸嘴" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding CDChecked}"></CheckBox>--><!--
                     <Button Margin="20,0,0,0" IsEnabled="{Binding ClearButtonEnable}" Content="清空" Background="Red" Foreground="Yellow" Command="{mvvm:ActionAuto ClearFlexer}"></Button>
-                </StackPanel>
+                </StackPanel>-->
             </StackPanel>
         </GroupBox>
         <GroupBox Grid.Row="2" Grid.Column="1" Header="文档路径">

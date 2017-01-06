@@ -28,7 +28,7 @@
             <MenuItem Header="扫码相机" Command="{mvvm:ActionAuto ChoseScanCameraPage}"></MenuItem>
             <MenuItem Header="参数" IsEnabled="{Binding isLogin}">
                 <MenuItem Header="机台参数" Command="{mvvm:ActionAuto ChoseParameterPage}"></MenuItem>
-                <MenuItem Header="治具参数" Command="{mvvm:ActionAuto ChoseTesterParameterPage}"></MenuItem>
+                <MenuItem Header="操作" Command="{mvvm:ActionAuto ChoseOperaterActionPage}"></MenuItem>
             </MenuItem>
             <MenuItem Header="记录" Command="{mvvm:ActionAuto ChoseTestRecordPage}"></MenuItem>
             <MenuItem Header="帮助"></MenuItem>
@@ -56,6 +56,9 @@
             </Grid>
             <Grid Visibility="{Binding TestRecordPageVisibility}">
                 <local:TestRecordPage></local:TestRecordPage>
+            </Grid>
+            <Grid Visibility="{Binding OperaterActionPageVisibility}">
+                <local:OperaterActionPage></local:OperaterActionPage>
             </Grid>
         </Grid>
         
