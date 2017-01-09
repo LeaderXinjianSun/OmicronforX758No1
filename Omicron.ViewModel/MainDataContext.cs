@@ -170,7 +170,7 @@ namespace Omicron.ViewModel
         private bool NeedNoiseReduce = false;
         private bool NeedLoadMaters = false;
         private bool NeedUnloadMaters = false;
-        private string PreFeedFillStr = "FeedFill;0;0;0;0;0;0;";
+        //private string PreFeedFillStr = "FeedFill;0;0;0;0;0;0;";
         Queue<TestRecord> myTestRecordQueue = new Queue<TestRecord>();
         public static DispatcherTimer dispatcherTimer = new DispatcherTimer();
         private bool PLCNeedContinue = false;
@@ -1366,11 +1366,11 @@ namespace Omicron.ViewModel
                 str += ";0";
             }
             XinjiePLC.setM(2006, true);
-            if (epsonRC90.TestSendStatus)
-            {
-                await epsonRC90.TestSentNet.SendAsync(PreFeedFillStr);
-            }
-            PreFeedFillStr = str;
+            //if (epsonRC90.TestSendStatus)
+            //{
+            //    await epsonRC90.TestSentNet.SendAsync(PreFeedFillStr);
+            //}
+            //PreFeedFillStr = str;
         }
         #endregion
 
