@@ -48,9 +48,14 @@
         <GroupBox Grid.Row="1" Header="参数">
             <StackPanel Orientation="Vertical">
                 <StackPanel Style="{StaticResource ParameterHorizontalStackPanel}">
-                    <TextBlock Style="{StaticResource TextBlockParameterName}">脚本:</TextBlock>
+                    <TextBlock Style="{StaticResource TextBlockParameterName}">P2脚本:</TextBlock>
                     <TextBox Style="{StaticResource TextBoxPath}" Text="{Binding ScanVisionScriptFileName}"></TextBox>
                     <Button Content="打开" Style="{StaticResource ParameterButton}" Command="{mvvm:ActionAutoWithParam Selectfile}" CommandParameter="2"></Button>
+                </StackPanel>
+                <StackPanel Style="{StaticResource ParameterHorizontalStackPanel}">
+                    <TextBlock Style="{StaticResource TextBlockParameterName}">P3脚本:</TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPath}" Text="{Binding ScanVisionScriptFileNameP3}"></TextBox>
+                    <Button Content="打开" Style="{StaticResource ParameterButton}" Command="{mvvm:ActionAutoWithParam Selectfile}" CommandParameter="3"></Button>
                 </StackPanel>
             </StackPanel>
         </GroupBox>

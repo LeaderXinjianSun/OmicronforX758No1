@@ -184,7 +184,7 @@
         <Setter Property="FontSize" Value="28"></Setter>
     </Style>
     <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}" x:Key="TextBlockParameterName">
-        <Setter Property="Width" Value="50"></Setter>
+        <Setter Property="Width" Value="70"></Setter>
     </Style>
     <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}" x:Key="TextBlockParameterLoneName">
         <Setter Property="Width" Value="120"></Setter>
@@ -205,7 +205,7 @@
         <Setter Property="Width" Value="70"></Setter>
     </Style>
     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxBase}" x:Key="TextBoxPath">
-        <Setter Property="Width" Value="380"></Setter>
+        <Setter Property="Width" Value="350"></Setter>
     </Style>
     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxBase}" x:Key="TextBoxBarcode">
         <Setter Property="Width" Value="220"></Setter>

@@ -59,6 +59,7 @@ namespace Omicron.ViewModel
         public virtual string VisionScriptFileName { set; get; }
         public virtual string HcVisionScriptFileName { set; get; }        
         public virtual string ScanVisionScriptFileName { set; get; }
+        public virtual string ScanVisionScriptFileNameP3 { set; get; }
         public virtual HImage hImage { set; get; }
         public virtual ObservableCollection<HObject> hObjectList { set; get; }
         public virtual ObservableCollection<ROI> ROIList { set; get; } = new ObservableCollection<ROI>();
@@ -157,6 +158,7 @@ namespace Omicron.ViewModel
         public virtual string LoginUserName { set; get; } = "Leader";
         public virtual string LoginPassword { set; get; } = "jsldr";
         public virtual bool isLogin { set; get; } = false;
+        public virtual bool BarcodeMode { set; get; } = true;
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -467,6 +469,14 @@ namespace Omicron.ViewModel
                     {
                         ScanVisionScriptFileName = dlg.FileName;
                         Inifile.INIWriteValue(iniParameterPath, "Camera", "ScanVisionScriptFileName", ScanVisionScriptFileName);
+                    }
+                    break;
+                case "3":
+                    dlg.Filter = "视觉文件(*.hdev)|*.hdev|所有文件(*.*)|*.*";
+                    if (dlg.ShowDialog() == DialogResult.OK)
+                    {
+                        ScanVisionScriptFileNameP3 = dlg.FileName;
+                        Inifile.INIWriteValue(iniParameterPath, "Camera", "ScanVisionScriptFileNameP3", ScanVisionScriptFileNameP3);
                     }
                     break;
                 default:
@@ -881,6 +891,7 @@ namespace Omicron.ViewModel
                 VisionScriptFileName = Inifile.INIGetStringValue(iniParameterPath, "Camera", "VisionScriptFileName", @"C:\test.vbai");
                 HcVisionScriptFileName = Inifile.INIGetStringValue(iniParameterPath, "Camera", "HcVisionScriptFileName", @"C:\test.hdev");
                 ScanVisionScriptFileName = Inifile.INIGetStringValue(iniParameterPath, "Camera", "ScanVisionScriptFileName", @"C:\test.hdev");
+                ScanVisionScriptFileNameP3 = Inifile.INIGetStringValue(iniParameterPath, "Camera", "ScanVisionScriptFileNameP3", @"C:\test.hdev");
                 TestPcIPA = Inifile.INIGetStringValue(iniParameterPath, "Mac", "TestPcIPA", "192.168.1.101");
                 TestPcIPB = Inifile.INIGetStringValue(iniParameterPath, "Mac", "TestPcIPB", "192.168.1.102");
                 TestPcRemotePortA = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Mac", "TestPcRemotePortA", "8000"));
@@ -899,6 +910,7 @@ namespace Omicron.ViewModel
                 TestRecordSavePath = Inifile.INIGetStringValue(iniParameterPath, "SavePath", "TestRecordSavePath", "C:\\");
                 AlarmSavePath = Inifile.INIGetStringValue(iniParameterPath, "SavePath", "AlarmSavePath", "C:\\");
                 NGContinueNum = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Tester", "NGContinueNum", "4"));
+                BarcodeMode = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "BarcodeMode", "BarcodeMode", "True"));
 
                 return true;
             }
@@ -936,6 +948,7 @@ namespace Omicron.ViewModel
                 //Inifile.INIWriteValue(iniParameterPath, "Barcode", "TesterBracodeAR", TesterBracodeAR);
                 //Inifile.INIWriteValue(iniParameterPath, "Barcode", "TesterBracodeBL", TesterBracodeBL);
                 //Inifile.INIWriteValue(iniParameterPath, "Barcode", "TesterBracodeBR", TesterBracodeBR);
+                Inifile.INIWriteValue(iniParameterPath, "BarcodeMode", "BarcodeMode", BarcodeMode.ToString());
                 return true;
             }
             catch (Exception ex)
@@ -1123,26 +1136,26 @@ namespace Omicron.ViewModel
         }
         #endregion
         #region 导入导出
-        [Export(MEF.Contracts.ActionMessage)]
-        [ExportMetadata(MEF.Key, "winclose")]
-        public async void WindowClose()
-        {
-            mydialog.changeaccent("Red");
+        //[Export(MEF.Contracts.ActionMessage)]
+        //[ExportMetadata(MEF.Key, "winclose")]
+        //public async void WindowClose()
+        //{
+        //    mydialog.changeaccent("Red");
             
-            var r = await mydialog.showconfirm("确定要关闭程序吗？");
-            if (r)
-            {
-                //epsonRC90.TestSentNet.client.Close();
-                //epsonRC90.TestReceiveNet.client.Close();
-                //epsonRC90.MsgReceiveNet.client.Close();
-                //epsonRC90.CtrlNet.client.Close();
-                System.Windows.Application.Current.Shutdown();
-            }
-            else
-            {
-                mydialog.changeaccent("Cobalt");
-            }
-        }
+        //    var r = await mydialog.showconfirm("确定要关闭程序吗？");
+        //    if (r)
+        //    {
+        //        //epsonRC90.TestSentNet.client.Close();
+        //        //epsonRC90.TestReceiveNet.client.Close();
+        //        //epsonRC90.MsgReceiveNet.client.Close();
+        //        //epsonRC90.CtrlNet.client.Close();
+        //        System.Windows.Application.Current.Shutdown();
+        //    }
+        //    else
+        //    {
+        //        mydialog.changeaccent("Cobalt");
+        //    }
+        //}
         #endregion
         #region 初始化
         [Initialize]
@@ -1205,8 +1218,11 @@ namespace Omicron.ViewModel
             bool _IsShieldTheDoor = false;
             bool _IsOperateCiTie = false;
             bool _PLCPause = false;
+            bool LoadMasterMsg = false, _LoadMasterMsg = false;
+            bool UnloadMasterMsg = false, _UnloadMasterMsg = false;
             while (true)
             {
+                //414,460
                 await Task.Delay(200);
                 if (!IsPLCConnect)
                 {
@@ -1273,6 +1289,28 @@ namespace Omicron.ViewModel
                     {
                         NeedNoiseReduce = false;
                         XinjiePLC.setM(1003, true);
+                    }
+
+                    LoadMasterMsg = XinjiePLC.readM(414);
+                    if (_LoadMasterMsg != LoadMasterMsg)
+                    {
+                        _LoadMasterMsg = LoadMasterMsg;
+                        if (LoadMasterMsg == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 需要上料");
+
+                        }
+                    }
+
+                    UnloadMasterMsg = XinjiePLC.readM(460);
+                    if (_UnloadMasterMsg != UnloadMasterMsg)
+                    {
+                        _UnloadMasterMsg = UnloadMasterMsg;
+                        if (UnloadMasterMsg == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 需要下料");
+
+                        }
                     }
                     //上料
                     if (NeedLoadMaters)
@@ -1366,6 +1404,8 @@ namespace Omicron.ViewModel
                 str += ";0";
             }
             XinjiePLC.setM(2006, true);
+            await Task.Delay(1);
+            Msg = messagePrint.AddMessage(str);
             //if (epsonRC90.TestSendStatus)
             //{
             //    await epsonRC90.TestSentNet.SendAsync(PreFeedFillStr);

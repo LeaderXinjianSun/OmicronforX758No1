@@ -28,6 +28,7 @@ namespace Omicron.Model
         public double Coord_Z { set; get; } = 0;
         public double Coord_U { set; get; } = 0;
         public string ScanVisionScriptFileName { set; get; }
+        public virtual bool BarcodeMode { set; get; } = true;
 
         public bool TestCheckedAL { set; get; } = true;
         public bool TestCheckedAR { set; get; } = true;
@@ -81,8 +82,17 @@ namespace Omicron.Model
                 TestReceivePort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonTestReceivePort", "2001"));
                 MsgReceivePort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonMsgReceivePort", "2002"));
                 CtrlPort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonRemoteControlPort", "5000"));
+                BarcodeMode = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "BarcodeMode", "BarcodeMode", "True"));
+                if (BarcodeMode)
+                {
+                    ScanVisionScriptFileName = Inifile.INIGetStringValue(iniParameterPath, "Camera", "ScanVisionScriptFileName", @"C:\test.hdev");
+                }
+                else
+                {
+                    ScanVisionScriptFileName = Inifile.INIGetStringValue(iniParameterPath, "Camera", "ScanVisionScriptFileNameP3", @"C:\test.hdev");
+                }
 
-                ScanVisionScriptFileName = Inifile.INIGetStringValue(iniParameterPath, "Camera", "ScanVisionScriptFileName", @"C:\test.hdev");
+                
 
                 TestPcIPA = Inifile.INIGetStringValue(iniParameterPath, "Mac", "TestPcIPA", "192.168.1.101");
                 TestPcIPB = Inifile.INIGetStringValue(iniParameterPath, "Mac", "TestPcIPB", "192.168.1.102");
@@ -268,7 +278,7 @@ namespace Omicron.Model
                         Log.Default.Error("EpsonRC90.GetStatus", ex.Message);
                     }
                 }
-                await Task.Delay(200);
+                await Task.Delay(1000);
             }
         }
         private async void TestRevAnalysis()
@@ -306,6 +316,9 @@ namespace Omicron.Model
                             {
                                 case "Scan":
                                     EpsonScanAction(strs[1], BacodeProcess);
+                                    break;
+                                case "ScanP3":
+                                    EpsonScanActionP3(strs[1], BacodeProcess);
                                     break;
                                 case "Start":
                                     switch (strs[2])
@@ -425,6 +438,10 @@ namespace Omicron.Model
         }
         private delegate void EpsonScanProcessedDelegate(string bar,string pick);
         private void EpsonScanAction(string pick, EpsonScanProcessedDelegate callback)
+        {
+            callback(scanCameraInspect(), pick);
+        }
+        private void EpsonScanActionP3(string pick, EpsonScanProcessedDelegate callback)
         {
             callback(scanCameraInspect(), pick);
         }
