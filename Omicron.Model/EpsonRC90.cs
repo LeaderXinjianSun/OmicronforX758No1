@@ -509,8 +509,29 @@ namespace Omicron.Model
             var barcodeString = aa.ToString();
             ScanUpdate(barcodeString, hImageScan);
             return barcodeString;
+            //return "1111111122222222";
         }
-
+        public string getString(int count)
+        {
+            int number;
+            string checkCode = String.Empty;
+            System.Random myRandom = new Random();
+            for (int i = 0; i < count; i++)
+            {
+                number = myRandom.Next();
+                number = number % 36;
+                if (number < 10)
+                {
+                    number += 48;
+                }
+                else
+                {
+                    number += 55;
+                }
+                checkCode += ((char)number).ToString();
+            }
+            return checkCode;
+        }
         #endregion
 
     }

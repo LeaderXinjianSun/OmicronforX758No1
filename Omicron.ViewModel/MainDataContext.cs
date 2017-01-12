@@ -167,7 +167,7 @@ namespace Omicron.ViewModel
         private string iniTesterResutPath = System.Environment.CurrentDirectory + "\\TesterResut.ini";
         private XinjiePlc XinjiePLC;
         private HdevEngine hdevEngine = new HdevEngine();
-        private HdevEngine hdevScanEngine = new HdevEngine();
+        //private HdevEngine hdevScanEngine = new HdevEngine();
         private EpsonRC90 epsonRC90 = new EpsonRC90();
         private bool NeedNoiseReduce = false;
         private bool NeedLoadMaters = false;
@@ -547,6 +547,12 @@ namespace Omicron.ViewModel
 
             Inifile.INIWriteValue(iniParameterPath, "Tester", "NGContinueNum", NGContinueNum.ToString());
 
+            str = "BarcodeMode;" + BarcodeMode.ToString();
+            if (epsonRC90.TestSendStatus)
+            {
+                await epsonRC90.TestSentNet.SendAsync(str);
+                Msg = messagePrint.AddMessage(str);
+            }
         }
         public async void ClearFlexer()
         {
