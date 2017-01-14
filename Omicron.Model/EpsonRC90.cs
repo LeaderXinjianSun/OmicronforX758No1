@@ -68,7 +68,9 @@ namespace Omicron.Model
         public delegate void EpsonStatusEventHandler(string EpsonStatusString);
         public event EpsonStatusEventHandler EpsonStatusUpdate;
         public delegate void ScanEventHandler(string bar, HImage img);
+        public delegate void ScanP3EventHandler(string bar, HImage img, HObject hObject);
         public event ScanEventHandler ScanUpdate;
+        public event ScanP3EventHandler ScanP3Update;
         public delegate void TestFinishedHandler(int index);
         public event TestFinishedHandler TestFinished;
         #endregion
@@ -318,7 +320,7 @@ namespace Omicron.Model
                                     EpsonScanAction(strs[1], BacodeProcess);
                                     break;
                                 case "ScanP3":
-                                    EpsonScanActionP3(strs[1], BacodeProcess);
+                                    EpsonScanAction(strs[1], BacodeProcess);
                                     break;
                                 case "Start":
                                     switch (strs[2])
@@ -441,10 +443,6 @@ namespace Omicron.Model
         {
             callback(scanCameraInspect(), pick);
         }
-        private void EpsonScanActionP3(string pick, EpsonScanProcessedDelegate callback)
-        {
-            callback(scanCameraInspect(), pick);
-        }
         private async void BacodeProcess(string barcode, string pick)
         {
             switch (pick)
@@ -458,11 +456,35 @@ namespace Omicron.Model
             }
             if (barcode == "")
             {
-                ModelPrint("扫码失败");
-                if (TestSendStatus)
+                if (BarcodeMode)
                 {
-                    await TestSentNet.SendAsync("ScanResult;Ng;" + pick);
+                    ModelPrint("蚀刻不良");
+                    if (TestSendStatus)
+                    {
+                        await TestSentNet.SendAsync("ScanResult;ShikeNg;" + pick);
+                    }
                 }
+                else
+                {
+                    var Cfind = hdevScanEngine.getmeasurements("Cfind");
+                    if (Cfind.ToString() != "1")
+                    {
+                        ModelPrint("蚀刻不良");
+                        if (TestSendStatus)
+                        {
+                            await TestSentNet.SendAsync("ScanResult;ShikeNg;" + pick);
+                        }
+                    }
+                    else
+                    {
+                        ModelPrint("扫码不良");
+                        if (TestSendStatus)
+                        {
+                            await TestSentNet.SendAsync("ScanResult;Ng;" + pick);
+                        }
+                    }
+                }
+
             }
             else
             {
@@ -506,8 +528,18 @@ namespace Omicron.Model
             hdevScanEngine.inspectengine();
             var hImageScan = hdevScanEngine.getImage("Image");
             var aa = hdevScanEngine.getmeasurements("DecodedDataStrings");
+
             var barcodeString = aa.ToString();
-            ScanUpdate(barcodeString, hImageScan);
+            if (BarcodeMode)
+            {
+                ScanUpdate(barcodeString, hImageScan);
+            }
+            else
+            {
+                var hObject = hdevScanEngine.getRegion("Rectangle_FindConnecter");
+                ScanP3Update(barcodeString, hImageScan, hObject);
+            }
+            
             return barcodeString;
             //return "1111111122222222";
         }

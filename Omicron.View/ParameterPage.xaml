@@ -18,8 +18,8 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="0.7*"></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -124,6 +124,11 @@
                     <CheckBox Content="单穴循环测试模式"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding SingleTestMode}"></CheckBox>
                     <TextBlock Style="{StaticResource TextBlockBarcode}">工位（1 - 4）:</TextBlock>
                     <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding SingleTestModeStageNum}"></TextBox>
+                </StackPanel>
+                <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
+
+                    <CheckBox Content="AAB复测测试模式"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding AABReTest}"></CheckBox>
+
                 </StackPanel>
                 <StackPanel Margin="5,15,5,0" Orientation="Horizontal">
                     <TextBlock Style="{StaticResource TextBlockBase}" Text="连续NG次数："></TextBlock>

@@ -152,6 +152,8 @@ namespace Omicron.ViewModel
         public virtual int SingleTestModeStageNum { set; get; } = 1;
         public virtual bool SingleTestMode { set; get; } = false;
 
+        public virtual bool AABReTest { set; get; } = false;
+
         public virtual int SingleTestTimes { set; get; } = 0;
         public virtual string SingleTestTimesVisibility { set; get; } = "Collapsed";
         public virtual string LoginButtonString { set; get; } = "登录";
@@ -184,6 +186,7 @@ namespace Omicron.ViewModel
             epsonRC90.ModelPrint += ModelPrintEventProcess;
             epsonRC90.EpsonStatusUpdate += EpsonStatusUpdateProcess;
             epsonRC90.ScanUpdate += ScanUpdateProcess;
+            epsonRC90.ScanP3Update += ScanP3UpdateProcess;
             epsonRC90.TestFinished += StartUpdateProcess;
             dispatcherTimer.Tick += new EventHandler(DispatcherTimerTickUpdateUi);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
@@ -553,6 +556,15 @@ namespace Omicron.ViewModel
                 await epsonRC90.TestSentNet.SendAsync(str);
                 Msg = messagePrint.AddMessage(str);
             }
+            Inifile.INIWriteValue(iniParameterPath, "BarcodeMode", "BarcodeMode", BarcodeMode.ToString());
+
+            str = "AABReTest;" + AABReTest.ToString();
+            if (epsonRC90.TestSendStatus)
+            {
+                await epsonRC90.TestSentNet.SendAsync(str);
+                Msg = messagePrint.AddMessage(str);
+            }
+            Inifile.INIWriteValue(iniParameterPath, "ReTest", "AABReTest", AABReTest.ToString());
         }
         public async void ClearFlexer()
         {
@@ -781,6 +793,14 @@ namespace Omicron.ViewModel
             hImageScan = img;
             BarcodeDisplay = bar;
         }
+        private void ScanP3UpdateProcess(string bar, HImage img, HObject hObject)
+        {
+            ObservableCollection<HObject> objectList = new ObservableCollection<HObject>();
+            hImageScan = img;
+            BarcodeDisplay = bar;
+            objectList.Add(hObject);
+            hObjectListScan = objectList;
+        }
         private void StartUpdateProcess(int index)
         {
             TestRecord tr = new TestRecord(DateTime.Now.ToString(), epsonRC90.tester[index].TesterBracode, epsonRC90.tester[index].testResult.ToString(), epsonRC90.tester[index].TestSpan.ToString() + " s", (index + 1).ToString());
@@ -917,7 +937,7 @@ namespace Omicron.ViewModel
                 AlarmSavePath = Inifile.INIGetStringValue(iniParameterPath, "SavePath", "AlarmSavePath", "C:\\");
                 NGContinueNum = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Tester", "NGContinueNum", "4"));
                 BarcodeMode = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "BarcodeMode", "BarcodeMode", "True"));
-
+                AABReTest = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "ReTest", "AABReTest", "False"));
                 return true;
             }
             catch (Exception ex)
@@ -955,6 +975,7 @@ namespace Omicron.ViewModel
                 //Inifile.INIWriteValue(iniParameterPath, "Barcode", "TesterBracodeBL", TesterBracodeBL);
                 //Inifile.INIWriteValue(iniParameterPath, "Barcode", "TesterBracodeBR", TesterBracodeBR);
                 Inifile.INIWriteValue(iniParameterPath, "BarcodeMode", "BarcodeMode", BarcodeMode.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "ReTest", "AABReTest", AABReTest.ToString());
                 return true;
             }
             catch (Exception ex)
@@ -1354,7 +1375,7 @@ namespace Omicron.ViewModel
         }
         private async void PLCTakePhoteCallback()
         {
-            string str = "FeedFill;";
+            string str = "FeedFill";
             if (FindFill1)
             {
                 XinjiePLC.setM(2000, true);
