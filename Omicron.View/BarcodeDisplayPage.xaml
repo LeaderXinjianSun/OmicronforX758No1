@@ -24,15 +24,15 @@
                 <StackPanel Orientation="Horizontal" Margin="0,5">
                     <TextBlock Style="{StaticResource TextBlockBarcode}" Text="爪手A： "></TextBlock>
                     <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding PickBracodeA}"></TextBox>
-                    <!--<TextBlock Style="{StaticResource TextBlockBarcode}" Text="爪手B： "></TextBlock>
+                    <TextBlock Style="{StaticResource TextBlockBarcode}" Text="爪手B： "></TextBlock>
                     <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding PickBracodeB}"></TextBox>
-                    <TextBlock Style="{StaticResource TextBlockBarcode}" Text="爪手C： "></TextBlock>
-                    <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding PickBracodeC}"></TextBox>
+                    <!--<TextBlock Style="{StaticResource TextBlockBarcode}" Text="爪手C： "></TextBlock>
+                    <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding PickBracodeC}"></TextBox>-->
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,5">
+                <!--<StackPanel Orientation="Horizontal" Margin="0,5">
                     <TextBlock Style="{StaticResource TextBlockBarcode}" Text="爪手D： "></TextBlock>
-                    <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding PickBracodeD}"></TextBox>-->
-                </StackPanel>
+                    <TextBox Style="{StaticResource TextBoxBarcode}" Text="{Binding PickBracodeD}"></TextBox>
+                </StackPanel>-->
             </StackPanel>
 
         </GroupBox>

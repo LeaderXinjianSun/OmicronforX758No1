@@ -93,6 +93,7 @@ namespace Omicron.ViewModel
         public virtual bool TestCheckedBR { set; get; } = true;
 
         public virtual string PickBracodeA { set; get; } = "Null";
+        public virtual string PickBracodeB { set; get; } = "Null";
         public virtual string TesterBracodeAL { set; get; } = "Null";
         public virtual string TesterBracodeAR { set; get; } = "Null";
         public virtual string TesterBracodeBL { set; get; } = "Null";
@@ -434,6 +435,7 @@ namespace Omicron.ViewModel
         }
         public void SaveParameter()
         {
+
             var r1 = WriteParameter();
             if (r1)
             {
@@ -493,19 +495,22 @@ namespace Omicron.ViewModel
         public async void UpdateSelectFlexer()
         {
             string str = "Select;";
-
+            int num = 0;
             if (TestCheckedAL)
             {
                 str += "1;";
+                num++;
             }
             else
             {
                 str += "0;";
+                
             }
 
             if (TestCheckedAR)
             {
                 str += "1;";
+                num++;
             }
             else
             {
@@ -515,6 +520,7 @@ namespace Omicron.ViewModel
             if (TestCheckedBL)
             {
                 str += "1;";
+                num++;
             }
             else
             {
@@ -524,6 +530,7 @@ namespace Omicron.ViewModel
             if (TestCheckedBR)
             {
                 str += "1;";
+                num++;
             }
             else
             {
@@ -558,6 +565,10 @@ namespace Omicron.ViewModel
             }
             Inifile.INIWriteValue(iniParameterPath, "BarcodeMode", "BarcodeMode", BarcodeMode.ToString());
 
+            if (num < 2)
+            {
+                AABReTest = false;
+            }
             str = "AABReTest;" + AABReTest.ToString();
             if (epsonRC90.TestSendStatus)
             {
@@ -929,6 +940,7 @@ namespace Omicron.ViewModel
                 TestCheckedBL = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Tester", "TestCheckedBL", "True"));
                 TestCheckedBR = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Tester", "TestCheckedBR", "True"));
                 PickBracodeA = Inifile.INIGetStringValue(iniParameterPath, "Barcode", "PickBracodeA", "Null");
+                PickBracodeB = Inifile.INIGetStringValue(iniParameterPath, "Barcode", "PickBracodeB", "Null");
                 TesterBracodeAL = Inifile.INIGetStringValue(iniParameterPath, "Barcode", "TesterBracodeAL", "Null");
                 TesterBracodeAR = Inifile.INIGetStringValue(iniParameterPath, "Barcode", "TesterBracodeAR", "Null");
                 TesterBracodeBL = Inifile.INIGetStringValue(iniParameterPath, "Barcode", "TesterBracodeBL", "Null");
@@ -1140,7 +1152,7 @@ namespace Omicron.ViewModel
                 
 
                 PickBracodeA = epsonRC90.PickBracodeA;
-
+                PickBracodeB = epsonRC90.PickBracodeB;
                 //TesterBracodeAL = epsonRC90.TesterBracodeAL;
                 //TesterBracodeAR = epsonRC90.TesterBracodeAR;
                 //TesterBracodeBL = epsonRC90.TesterBracodeBL;

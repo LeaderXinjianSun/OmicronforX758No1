@@ -41,6 +41,7 @@ namespace Omicron.Model
         public int TestPcRemotePortB { set; get; } = 8000;
 
         public string PickBracodeA { set; get; }
+        public string PickBracodeB { set; get; }
 
         public string TesterBracodeAL { set; get; } = "Null";
         public string TesterBracodeAR { set; get; } = "Null";
@@ -322,6 +323,19 @@ namespace Omicron.Model
                                 case "ScanP3":
                                     EpsonScanAction(strs[1], BacodeProcess);
                                     break;
+                                case "SaveBarcode":
+                                    switch (strs[2])
+                                    {
+                                        case "A":
+                                            PickBracodeA = tester[int.Parse(strs[1]) - 1].TesterBracode;
+                                            break;
+                                        case "B":
+                                            PickBracodeB = tester[int.Parse(strs[1]) - 1].TesterBracode;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    break;
                                 case "Start":
                                     switch (strs[2])
                                     {
@@ -352,6 +366,35 @@ namespace Omicron.Model
                                                     break;
                                             }
                                             Inifile.INIWriteValue(iniParameterPath, "Barcode", barstr, PickBracodeA);
+                                            tester[int.Parse(strs[1]) - 1].Start(StartProcess);
+                                            break;
+                                        case "B":
+                                            Tester.IsInSampleMode = false;
+                                            tester[int.Parse(strs[1]) - 1].TesterBracode = PickBracodeB;
+                                            
+                                            switch (int.Parse(strs[1]) - 1)
+                                            {
+                                                case 0:
+                                                    barstr = "TesterBracodeAL";
+                                                    TesterBracodeAL = PickBracodeB;
+                                                    break;
+                                                case 1:
+                                                    barstr = "TesterBracodeAR";
+                                                    TesterBracodeAR = PickBracodeB;
+                                                    break;
+                                                case 2:
+                                                    barstr = "TesterBracodeBL";
+                                                    TesterBracodeBL = PickBracodeB;
+                                                    break;
+                                                case 3:
+                                                    barstr = "TesterBracodeBR";
+                                                    TesterBracodeBR = PickBracodeB;
+                                                    break;
+                                                default:
+                                                    barstr = "";
+                                                    break;
+                                            }
+                                            Inifile.INIWriteValue(iniParameterPath, "Barcode", barstr, PickBracodeB);
                                             tester[int.Parse(strs[1]) - 1].Start(StartProcess);
                                             break;
                                         default:
@@ -450,6 +493,10 @@ namespace Omicron.Model
                 case "A":
                     PickBracodeA = barcode;
                     Inifile.INIWriteValue(iniParameterPath, "Barcode", "PickBracodeA", PickBracodeA);
+                    break;
+                case "B":
+                    PickBracodeB = barcode;
+                    Inifile.INIWriteValue(iniParameterPath, "Barcode", "PickBracodeB", PickBracodeB);
                     break;
                 default:
                     break;

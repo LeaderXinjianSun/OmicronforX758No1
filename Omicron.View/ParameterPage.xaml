@@ -110,13 +110,13 @@
         <GroupBox Header="测试机选择" FontSize="18" Grid.Column="0" Grid.Row="2">
             <StackPanel Margin="0,20,0,8" Orientation="Vertical">
                 <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
-                    <CheckBox Content="测试机AL" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedAL}"></CheckBox>
-                    <CheckBox Content="测试机AR" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedAR}"></CheckBox>
-                    <CheckBox Content="测试机BL" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedBL}"></CheckBox>
+                    <CheckBox x:Name="CheckBox1" Content="测试机AL" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedAL}"></CheckBox>
+                    <CheckBox x:Name="CheckBox2" Content="测试机AR" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedAR}"></CheckBox>
+                    <CheckBox x:Name="CheckBox3" Content="测试机BL" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedBL}"></CheckBox>
                     <Button Margin="20,0,0,0" Content="更新" Command="{mvvm:ActionAuto UpdateSelectFlexer}"></Button>
                 </StackPanel>
                 <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
-                    <CheckBox Content="测试机BR"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedBR}"></CheckBox>
+                    <CheckBox x:Name="CheckBox4" Content="测试机BR"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedBR}"></CheckBox>
                     <!--<CheckBox Content="单穴循环测试模式"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding SingleTestMode}"></CheckBox>-->
                 </StackPanel>
                 <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
@@ -127,7 +127,7 @@
                 </StackPanel>
                 <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
 
-                    <CheckBox Content="AAB复测测试模式"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding AABReTest}"></CheckBox>
+                    <CheckBox x:Name="CheckBox5"  Content="AAB复测测试模式"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding AABReTest}"></CheckBox>
 
                 </StackPanel>
                 <StackPanel Margin="5,15,5,0" Orientation="Horizontal">
