@@ -1259,6 +1259,7 @@ namespace Omicron.ViewModel
             bool _PLCPause = false;
             bool LoadMasterMsg = false, _LoadMasterMsg = false;
             bool UnloadMasterMsg = false, _UnloadMasterMsg = false;
+            bool StartButton = false, _StartButton = false;
             while (true)
             {
                 //414,460
@@ -1341,6 +1342,8 @@ namespace Omicron.ViewModel
                         }
                     }
 
+
+
                     UnloadMasterMsg = XinjiePLC.readM(460);
                     if (_UnloadMasterMsg != UnloadMasterMsg)
                     {
@@ -1381,6 +1384,16 @@ namespace Omicron.ViewModel
                         }
                     }
 
+                    StartButton = XinjiePLC.readM(1005);
+                    if (_StartButton != StartButton)
+                    {
+                        _StartButton = StartButton;
+                        if (StartButton == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 启动按钮被按下");
+                            AlarmTextGridShow = "Collapsed";
+                        }
+                    }
                 }
 
             }

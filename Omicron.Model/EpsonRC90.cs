@@ -586,9 +586,9 @@ namespace Omicron.Model
                 var hObject = hdevScanEngine.getRegion("Rectangle_FindConnecter");
                 ScanP3Update(barcodeString, hImageScan, hObject);
             }
-            
+
             return barcodeString;
-            //return "1111111122222222";
+            //return "Z71A0HB2HP192Z" + getString(2);
         }
         public string getString(int count)
         {
