@@ -783,6 +783,30 @@ namespace Omicron.ViewModel
                 case "MsgRev: 单穴测试，一次完成":
                     SingleTestTimes++;
                     break;
+                case "MsgRev: 测试工位1，产品没放好":
+                    ShowAlarmTextGrid("测试工位1，产品没放好");
+                    break;
+                case "MsgRev: 测试工位2，产品没放好":
+                    ShowAlarmTextGrid("测试工位2，产品没放好");
+                    break;
+                case "MsgRev: 测试工位3，产品没放好":
+                    ShowAlarmTextGrid("测试工位3，产品没放好");
+                    break;
+                case "MsgRev: 测试工位4，产品没放好":
+                    ShowAlarmTextGrid("测试工位4，产品没放好");
+                    break;
+                case "MsgRev: 测试工位1，B爪手掉料":
+                    ShowAlarmTextGrid("测试工位1，B爪手掉料");
+                    break;
+                case "MsgRev: 测试工位2，B爪手掉料":
+                    ShowAlarmTextGrid("测试工位2，B爪手掉料");
+                    break;
+                case "MsgRev: 测试工位3，B爪手掉料":
+                    ShowAlarmTextGrid("测试工位3，B爪手掉料");
+                    break;
+                case "MsgRev: 测试工位4，B爪手掉料":
+                    ShowAlarmTextGrid("测试工位4，B爪手掉料");
+                    break;
                 default:
                     break;
             }
