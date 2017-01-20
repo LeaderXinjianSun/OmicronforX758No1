@@ -488,6 +488,24 @@ namespace Omicron.Model
         }
         private async void BacodeProcess(string barcode, string pick)
         {
+            HTuple Cfind;
+            if (BarcodeMode)
+            {
+                if (barcode == "")
+                {
+                    Cfind = "-1";
+                }
+                else
+                {
+                    Cfind = "1";
+                }
+                    
+            }
+            else
+            {
+                Cfind = hdevScanEngine.getmeasurements("Cfind");
+            }
+                
             switch (pick)
             {
                 case "A":
@@ -501,46 +519,35 @@ namespace Omicron.Model
                 default:
                     break;
             }
-            if (barcode == "")
+            if (Cfind.ToString() != "1")
             {
-                if (BarcodeMode)
+                ModelPrint("蚀刻不良");
+                if (TestSendStatus)
                 {
-                    ModelPrint("蚀刻不良");
-                    if (TestSendStatus)
-                    {
-                        await TestSentNet.SendAsync("ScanResult;ShikeNg;" + pick);
-                    }
+                    await TestSentNet.SendAsync("ScanResult;ShikeNg;" + pick);
                 }
-                else
-                {
-                    var Cfind = hdevScanEngine.getmeasurements("Cfind");
-                    if (Cfind.ToString() != "1")
-                    {
-                        ModelPrint("蚀刻不良");
-                        if (TestSendStatus)
-                        {
-                            await TestSentNet.SendAsync("ScanResult;ShikeNg;" + pick);
-                        }
-                    }
-                    else
-                    {
-                        ModelPrint("扫码不良");
-                        if (TestSendStatus)
-                        {
-                            await TestSentNet.SendAsync("ScanResult;Ng;" + pick);
-                        }
-                    }
-                }
-
             }
             else
             {
-                ModelPrint("扫码成功 " + barcode);
-                if (TestSendStatus)
+                if (barcode == "")
                 {
-                    await TestSentNet.SendAsync("ScanResult;Pass;" + pick);
+
+                    ModelPrint("扫码不良");
+                    if (TestSendStatus)
+                    {
+                        await TestSentNet.SendAsync("ScanResult;Ng;" + pick);
+                    }                   
+                }
+                else
+                {
+                    ModelPrint("扫码成功 " + barcode);
+                    if (TestSendStatus)
+                    {
+                        await TestSentNet.SendAsync("ScanResult;Pass;" + pick);
+                    }
                 }
             }
+
         }
         #endregion
         #region Scan
