@@ -756,6 +756,9 @@ namespace Omicron.ViewModel
                 case "MsgRev: 蚀刻不良":
                     ShowAlarmTextGrid("蚀刻不良");
                     break;
+                case "MsgRev: 扫码不良":
+                    ShowAlarmTextGrid("扫码不良");
+                    break;
                 case "MsgRev: 测试机1，测试超时":
                     ShowAlarmTextGrid("测试机1，测试超时");
                     break;
