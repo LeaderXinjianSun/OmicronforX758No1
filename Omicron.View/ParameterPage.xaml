@@ -130,6 +130,11 @@
                     <CheckBox x:Name="CheckBox5"  Content="AAB复测测试模式"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding AABReTest}"></CheckBox>
 
                 </StackPanel>
+                <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
+
+                    <CheckBox Content="清洁"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding IsTestersClean}"></CheckBox>
+
+                </StackPanel>
                 <StackPanel Margin="5,15,5,0" Orientation="Horizontal">
                     <TextBlock Style="{StaticResource TextBlockBase}" Text="连续NG次数："></TextBlock>
                     <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding NGContinueNum}"></TextBox>

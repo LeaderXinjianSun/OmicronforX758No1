@@ -162,6 +162,10 @@ namespace Omicron.ViewModel
         public virtual string LoginPassword { set; get; } = "jsldr";
         public virtual bool isLogin { set; get; } = false;
         public virtual bool BarcodeMode { set; get; } = true;
+
+        public virtual string LastChuiqiTimeStr { set; get; } = "";
+        public virtual bool IsTestersClean { set; get; }
+
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -179,7 +183,7 @@ namespace Omicron.ViewModel
         Queue<TestRecord> myTestRecordQueue = new Queue<TestRecord>();
         public static DispatcherTimer dispatcherTimer = new DispatcherTimer();
         private bool PLCNeedContinue = false;
-
+        private DateTimeUtility.SYSTEMTIME lastchuiqi = new DateTimeUtility.SYSTEMTIME();
         #endregion
         #region 构造函数
         public MainDataContext()
@@ -710,25 +714,51 @@ namespace Omicron.ViewModel
             switch (s)
             {
                 case "1":
-                    if (epsonRC90.CtrlStatus)
+                    if (epsonRC90.TestSendStatus)
                     {
                         await epsonRC90.TestSentNet.SendAsync("XQTAction;1");
                     }
                     break;
                 case "2":
-                    if (epsonRC90.CtrlStatus)
+                    if (epsonRC90.TestSendStatus)
                     {
                         await epsonRC90.TestSentNet.SendAsync("XQTAction;2");
                     }
                     break;
                 case "3":
-                    if (epsonRC90.CtrlStatus)
+                    if (epsonRC90.TestSendStatus)
                     {
                         await epsonRC90.TestSentNet.SendAsync("XQTAction;3");
                     }
                     break;
+                case "4":
+                    if (epsonRC90.TestSendStatus)
+                    {
+                        await epsonRC90.TestSentNet.SendAsync("TestersCleanAction");
+                    }
+                    break;
                 default:
                     break;
+            }
+        }
+        private void SaveLastSamplTimetoIni()
+        {
+            try
+            {
+                Inifile.INIWriteValue(iniParameterPath, "Chuiqi", "wDay", lastchuiqi.wDay.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Chuiqi", "wDayOfWeek", lastchuiqi.wDayOfWeek.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Chuiqi", "wHour", lastchuiqi.wHour.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Chuiqi", "wMilliseconds", lastchuiqi.wMilliseconds.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Chuiqi", "wMinute", lastchuiqi.wMinute.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Chuiqi", "wMonth", lastchuiqi.wMonth.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Chuiqi", "wSecond", lastchuiqi.wSecond.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Chuiqi", "wYear", lastchuiqi.wYear.ToString());
+
+            }
+            catch (Exception ex)
+            {
+
+                Log.Default.Error("SaveLastSamplTimetoIni", ex);
             }
         }
         #endregion
@@ -809,6 +839,11 @@ namespace Omicron.ViewModel
                     break;
                 case "MsgRev: 测试工位4，B爪手掉料":
                     ShowAlarmTextGrid("测试工位4，B爪手掉料");
+                    break;
+                case "MsgRev: 清洁完成":
+                    DateTimeUtility.GetLocalTime(ref lastchuiqi);
+                    LastChuiqiTimeStr = lastchuiqi.ToDateTime().ToString();
+                    SaveLastSamplTimetoIni();
                     break;
                 default:
                     break;
@@ -977,6 +1012,19 @@ namespace Omicron.ViewModel
                 NGContinueNum = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Tester", "NGContinueNum", "4"));
                 BarcodeMode = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "BarcodeMode", "BarcodeMode", "True"));
                 AABReTest = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "ReTest", "AABReTest", "False"));
+
+                IsTestersClean = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "IsTestersClean", "False"));
+
+                lastchuiqi.wDay = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wDay", "13"));
+                lastchuiqi.wDayOfWeek = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wDayOfWeek", "0"));
+                lastchuiqi.wHour = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wHour", "17"));
+                lastchuiqi.wMilliseconds = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wMilliseconds", "273"));
+                lastchuiqi.wMinute = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wMinute", "5"));
+                lastchuiqi.wMonth = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wMonth", "11"));
+                lastchuiqi.wSecond = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wSecond", "55"));
+                lastchuiqi.wYear = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wYear", "2016"));
+                LastChuiqiTimeStr = lastchuiqi.ToDateTime().ToString();
+
                 return true;
             }
             catch (Exception ex)
@@ -1015,6 +1063,7 @@ namespace Omicron.ViewModel
                 //Inifile.INIWriteValue(iniParameterPath, "Barcode", "TesterBracodeBR", TesterBracodeBR);
                 Inifile.INIWriteValue(iniParameterPath, "BarcodeMode", "BarcodeMode", BarcodeMode.ToString());
                 Inifile.INIWriteValue(iniParameterPath, "ReTest", "AABReTest", AABReTest.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Chuiqi", "IsTestersClean", IsTestersClean.ToString());
                 return true;
             }
             catch (Exception ex)
@@ -1186,7 +1235,7 @@ namespace Omicron.ViewModel
                 //TesterBracodeBR = epsonRC90.TesterBracodeBR;
             }
         }
-        private void DispatcherTimerTickUpdateUi(Object sender, EventArgs e)
+        private async void DispatcherTimerTickUpdateUi(Object sender, EventArgs e)
         {
             if (myTestRecordQueue.Count > 0)
             {
@@ -1198,6 +1247,32 @@ namespace Omicron.ViewModel
                     }
                     myTestRecordQueue.Clear();
                 }
+            }
+
+            try
+            {
+                if (IsTestersClean)
+                {
+                    DateTimeUtility.SYSTEMTIME ds1 = new DateTimeUtility.SYSTEMTIME();
+                    DateTimeUtility.GetLocalTime(ref ds1);
+                    TimeSpan ts1 = ds1.ToDateTime() - lastchuiqi.ToDateTime();
+                    if (ts1.TotalHours > 2)
+                    {
+                        if (IsTestersClean)
+                        {
+                            if (epsonRC90.TestSendStatus)
+                            {
+                                await epsonRC90.TestSentNet.SendAsync("TestersCleanAction");
+                            }
+
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Log.Default.Error("DateTimeUtility.GetLocalTime(ref ds1)", ex);
             }
         }
         #endregion
