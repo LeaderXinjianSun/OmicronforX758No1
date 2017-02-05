@@ -1397,6 +1397,7 @@ namespace Omicron.ViewModel
                         if (TakePhoteFlage == true)
                         {
                             XinjiePLC.setM(2100, false);
+                            XinjiePLC.setM(2006, false);
                             Async.RunFuncAsync(cameraHcInspect, PLCTakePhoteCallback);
                         }
                     }
