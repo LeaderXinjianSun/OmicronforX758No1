@@ -184,6 +184,7 @@ namespace Omicron.ViewModel
         public static DispatcherTimer dispatcherTimer = new DispatcherTimer();
         private bool PLCNeedContinue = false;
         private DateTimeUtility.SYSTEMTIME lastchuiqi = new DateTimeUtility.SYSTEMTIME();
+        public bool AllowSampleTestCommand = true;
         #endregion
         #region 构造函数
         public MainDataContext()
@@ -732,9 +733,10 @@ namespace Omicron.ViewModel
                     }
                     break;
                 case "4":
-                    if (epsonRC90.TestSendStatus)
+                    if (epsonRC90.TestSendStatus && IsTestersClean && AllowSampleTestCommand)
                     {
                         await epsonRC90.TestSentNet.SendAsync("TestersCleanAction");
+                        AllowSampleTestCommand = false;
                     }
                     break;
                 default:
@@ -840,10 +842,11 @@ namespace Omicron.ViewModel
                 case "MsgRev: 测试工位4，B爪手掉料":
                     ShowAlarmTextGrid("测试工位4，B爪手掉料");
                     break;
-                case "MsgRev: 清洁完成":
+                case "MsgRev: 清洁操作，结束":
                     DateTimeUtility.GetLocalTime(ref lastchuiqi);
                     LastChuiqiTimeStr = lastchuiqi.ToDateTime().ToString();
                     SaveLastSamplTimetoIni();
+                    AllowSampleTestCommand = true;
                     break;
                 default:
                     break;
@@ -1251,7 +1254,7 @@ namespace Omicron.ViewModel
 
             try
             {
-                if (IsTestersClean)
+                if (IsTestersClean && AllowSampleTestCommand)
                 {
                     DateTimeUtility.SYSTEMTIME ds1 = new DateTimeUtility.SYSTEMTIME();
                     DateTimeUtility.GetLocalTime(ref ds1);
@@ -1263,6 +1266,7 @@ namespace Omicron.ViewModel
                             if (epsonRC90.TestSendStatus)
                             {
                                 await epsonRC90.TestSentNet.SendAsync("TestersCleanAction");
+                                AllowSampleTestCommand = false;
                             }
 
                         }
