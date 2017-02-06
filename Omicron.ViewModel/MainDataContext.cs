@@ -166,7 +166,7 @@ namespace Omicron.ViewModel
         public virtual string LastChuiqiTimeStr { set; get; } = "";
         public virtual bool IsTestersClean { set; get; }
 
-        public virtual bool AllowSampleTestCommand { set; get; } = true;
+        public virtual bool AllowSampleTestCommand { set; get; } = false;
 
         #endregion
         #region 变量定义区域
@@ -367,6 +367,7 @@ namespace Omicron.ViewModel
                             SingleTestTimesVisibility = "Collapsed";
                             await epsonRC90.CtrlNet.SendAsync("$start,2");
                             Msg = messagePrint.AddMessage("正常模式");
+                            AllowSampleTestCommand = true;
                         }
 
                         
@@ -787,12 +788,12 @@ namespace Omicron.ViewModel
                 case "MsgRev: 上料盘，吸取失败":
                     ShowAlarmTextGrid("上料盘，吸取失败");
                     break;
-                case "MsgRev: 蚀刻不良":
-                    ShowAlarmTextGrid("蚀刻不良");
-                    break;
-                case "MsgRev: 扫码不良":
-                    ShowAlarmTextGrid("扫码不良");
-                    break;
+                //case "MsgRev: 蚀刻不良":
+                //    ShowAlarmTextGrid("蚀刻不良");
+                //    break;
+                //case "MsgRev: 扫码不良":
+                //    ShowAlarmTextGrid("扫码不良");
+                //    break;
                 case "MsgRev: 测试机1，测试超时":
                     ShowAlarmTextGrid("测试机1，测试超时");
                     break;
