@@ -166,6 +166,8 @@ namespace Omicron.ViewModel
         public virtual string LastChuiqiTimeStr { set; get; } = "";
         public virtual bool IsTestersClean { set; get; }
 
+        public virtual bool AllowSampleTestCommand { set; get; } = true;
+
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -184,7 +186,7 @@ namespace Omicron.ViewModel
         public static DispatcherTimer dispatcherTimer = new DispatcherTimer();
         private bool PLCNeedContinue = false;
         private DateTimeUtility.SYSTEMTIME lastchuiqi = new DateTimeUtility.SYSTEMTIME();
-        public bool AllowSampleTestCommand = true;
+        
         #endregion
         #region 构造函数
         public MainDataContext()
@@ -1366,6 +1368,45 @@ namespace Omicron.ViewModel
             bool LoadMasterMsg = false, _LoadMasterMsg = false;
             bool UnloadMasterMsg = false, _UnloadMasterMsg = false;
             bool StartButton = false, _StartButton = false;
+
+            bool M501 = false, _M501 = false;
+            bool M502 = false, _M502 = false;
+            bool M503 = false, _M503 = false;
+            bool M504 = false, _M504 = false;
+            bool M505 = false, _M505 = false;
+            bool M506 = false, _M506 = false;
+            bool M507 = false, _M507 = false;
+            bool M508 = false, _M508 = false;
+            bool M509 = false, _M509 = false;
+            bool M510 = false, _M510 = false;
+            bool M511 = false, _M511 = false;
+            bool M512 = false, _M512 = false;
+            bool M513 = false, _M513 = false;
+            bool M514 = false, _M514 = false;
+            bool M515 = false, _M515 = false;
+            bool M516 = false, _M516 = false;
+            bool M517 = false, _M517 = false;
+            bool M532 = false, _M532 = false;
+            bool M533 = false, _M533 = false;
+            bool M534 = false, _M534 = false;
+            bool M535 = false, _M535 = false;
+            bool M536 = false, _M536 = false;
+            bool M537 = false, _M537 = false;
+            bool M541 = false, _M541 = false;
+            bool M542 = false, _M542 = false;
+            bool M545 = false, _M545 = false;
+            bool M546 = false, _M546 = false;
+            bool M547 = false, _M547 = false;
+            bool M548 = false, _M548 = false;
+            bool M549 = false, _M549 = false;
+            bool M550 = false, _M550 = false;
+            bool M551 = false, _M551 = false;
+            bool M552 = false, _M552 = false;
+            bool M553 = false, _M553 = false;
+            bool M554 = false, _M554 = false;
+            bool M555 = false, _M555 = false;
+            bool M556 = false, _M556 = false;
+
             while (true)
             {
                 //414,460
@@ -1436,6 +1477,382 @@ namespace Omicron.ViewModel
                     {
                         NeedNoiseReduce = false;
                         XinjiePLC.setM(1003, true);
+                    }
+
+                    //PLC报警提示
+                    M501 = XinjiePLC.readM(501);
+                    if (_M501 != M501)
+                    {
+                        _M501 = M501;
+                        if (M501 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 机械手模组定位异常");
+                        }
+                    }
+
+                    M502 = XinjiePLC.readM(502);
+                    if (_M502 != M502)
+                    {
+                        _M502 = M502;
+                        if (M502 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 1产品#吸取失败，按面板“启动”按钮继续");
+                        }
+                    }
+
+                    M503 = XinjiePLC.readM(503);
+                    if (_M503 != M503)
+                    {
+                        _M503 = M503;
+                        if (M503 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 2产品#吸取失败，按面板“启动”按钮继续");
+                        }
+                    }
+
+                    M504 = XinjiePLC.readM(504);
+                    if (_M504 != M504)
+                    {
+                        _M504 = M504;
+                        if (M504 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 3产品#吸取失败，按面板“启动”按钮继续");
+                        }
+                    }
+
+                    M505 = XinjiePLC.readM(505);
+                    if (_M505 != M505)
+                    {
+                        _M505 = M505;
+                        if (M505 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 4产品#吸取失败，按面板“启动”按钮继续");
+                        }
+                    }
+
+                    M506 = XinjiePLC.readM(506);
+                    if (_M506 != M506)
+                    {
+                        _M506 = M506;
+                        if (M506 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 5产品#吸取失败，按面板“启动”按钮继续");
+                        }
+                    }
+
+                    M507 = XinjiePLC.readM(507);
+                    if (_M507 != M507)
+                    {
+                        _M507 = M507;
+                        if (M507 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 6产品#吸取失败，按面板“启动”按钮继续");
+                        }
+                    }
+
+                    M508 = XinjiePLC.readM(508);
+                    if (_M508 != M508)
+                    {
+                        _M508 = M508;
+                        if (M508 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 上料产品盘下极限");
+                        }
+                    }
+
+                    M509 = XinjiePLC.readM(509);
+                    if (_M509 != M509)
+                    {
+                        _M509 = M509;
+                        if (M509 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 上料空料盘下极限");
+                        }
+                    }
+
+                    M510 = XinjiePLC.readM(510);
+                    if (_M510 != M510)
+                    {
+                        _M510 = M510;
+                        if (M510 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 下料空料盘下极限");
+                        }
+                    }
+
+                    M511 = XinjiePLC.readM(511);
+                    if (_M511 != M511)
+                    {
+                        _M511 = M511;
+                        if (M511 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 下料产品盘下极限");
+                        }
+                    }
+
+                    M512 = XinjiePLC.readM(512);
+                    if (_M512 != M512)
+                    {
+                        _M512 = M512;
+                        if (M512 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 机械手模组正极限");
+                        }
+                    }
+
+                    M513 = XinjiePLC.readM(513);
+                    if (_M513 != M513)
+                    {
+                        _M513 = M513;
+                        if (M513 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 上料产品盘上极限");
+                        }
+                    }
+
+                    M514 = XinjiePLC.readM(514);
+                    if (_M514 != M514)
+                    {
+                        _M514 = M514;
+                        if (M514 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 上料空料盘上极限");
+                        }
+                    }
+
+                    M515 = XinjiePLC.readM(515);
+                    if (_M515 != M515)
+                    {
+                        _M515 = M515;
+                        if (M515 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 下料空料盘上极限");
+                        }
+                    }
+
+                    M516 = XinjiePLC.readM(516);
+                    if (_M516 != M516)
+                    {
+                        _M516 = M516;
+                        if (M516 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 下料产品盘上极限");
+                        }
+                    }
+
+                    M517 = XinjiePLC.readM(517);
+                    if (_M517 != M517)
+                    {
+                        _M517 = M517;
+                        if (M517 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 机械手模组负极限");
+                        }
+                    }
+
+                    M532 = XinjiePLC.readM(532);
+                    if (_M532 != M532)
+                    {
+                        _M532 = M532;
+                        if (M532 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 机械手模组伺服异常");
+                        }
+                    }
+
+                    M533 = XinjiePLC.readM(533);
+                    if (_M533 != M533)
+                    {
+                        _M533 = M533;
+                        if (M533 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 上料产品盘步进异常");
+                        }
+                    }
+
+                    M534 = XinjiePLC.readM(534);
+                    if (_M534 != M534)
+                    {
+                        _M534 = M534;
+                        if (M534 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 上料空料盘步进异常");
+                        }
+                    }
+
+                    M535 = XinjiePLC.readM(535);
+                    if (_M535 != M535)
+                    {
+                        _M535 = M535;
+                        if (M535 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 下料空料盘步进异常");
+                        }
+                    }
+
+                    M536 = XinjiePLC.readM(536);
+                    if (_M536 != M536)
+                    {
+                        _M536 = M536;
+                        if (M536 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 下料产品盘步进异常");
+                        }
+                    }
+
+                    M537 = XinjiePLC.readM(537);
+                    if (_M537 != M537)
+                    {
+                        _M537 = M537;
+                        if (M537 == true)
+                        {
+                            ShowAlarmTextGrid("急停按钮被按下");
+                            Msg = messagePrint.AddMessage("急停按钮被按下");
+                        }
+                        else
+                        {
+                            AlarmTextGridShow = "Collapsed";
+                        }
+                    }
+
+                    M541 = XinjiePLC.readM(541);
+                    if (_M541 != M541)
+                    {
+                        _M541 = M541;
+                        if (M541 == true)
+                        {                            
+                            Msg = messagePrint.AddMessage("PLC 上料取空盘吸取故障，拿走后按面板“启动”按钮继续");
+                        }
+                    }
+
+                    M542 = XinjiePLC.readM(542);
+                    if (_M542 != M542)
+                    {
+                        _M542 = M542;
+                        if (M542 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 下料取空盘吸取故障，拿走后按面板“启动”按钮继续");
+                        }
+                    }
+
+                    M545 = XinjiePLC.readM(545);
+                    if (_M545 != M545)
+                    {
+                        _M545 = M545;
+                        if (M545 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 上料前推气缸SET异常");
+                        }
+                    }
+
+                    M546 = XinjiePLC.readM(546);
+                    if (_M546 != M546)
+                    {
+                        _M546 = M546;
+                        if (M546 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 上料前推气缸RST异常");
+                        }
+                    }
+
+                    M547 = XinjiePLC.readM(547);
+                    if (_M547 != M547)
+                    {
+                        _M547 = M547;
+                        if (M547 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 上料取产品上下气缸SET异常");
+                        }
+                    }
+
+                    M548 = XinjiePLC.readM(548);
+                    if (_M548 != M548)
+                    {
+                        _M548 = M548;
+                        if (M548 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 上料取产品上下气缸RST异常");
+                        }
+                    }
+
+                    M549 = XinjiePLC.readM(549);
+                    if (_M549 != M549)
+                    {
+                        _M549 = M549;
+                        if (M549 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 上料左右气缸SET异常");
+                        }
+                    }
+
+                    M550 = XinjiePLC.readM(550);
+                    if (_M550 != M550)
+                    {
+                        _M550 = M550;
+                        if (M550 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 上料左右气缸RST异常");
+                        }
+                    }
+
+                    M551 = XinjiePLC.readM(551);
+                    if (_M551 != M551)
+                    {
+                        _M551 = M551;
+                        if (M551 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 上料取空盘上下气缸SET异常");
+                        }
+                    }
+
+                    M552 = XinjiePLC.readM(552);
+                    if (_M552 != M552)
+                    {
+                        _M552 = M552;
+                        if (M552 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 上料取空盘上下气缸RST异常");
+                        }
+                    }
+
+                    M553 = XinjiePLC.readM(553);
+                    if (_M553 != M553)
+                    {
+                        _M553 = M553;
+                        if (M553 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 下料上下气缸SET异常");
+                        }
+                    }
+
+                    M554 = XinjiePLC.readM(554);
+                    if (_M554 != M554)
+                    {
+                        _M554 = M554;
+                        if (M554 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 下料上下气缸RST异常");
+                        }
+                    }
+
+                    M555 = XinjiePLC.readM(555);
+                    if (_M555 != M555)
+                    {
+                        _M555 = M555;
+                        if (M555 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 下料左右气缸SET异常");
+                        }
+                    }
+
+                    M556 = XinjiePLC.readM(556);
+                    if (_M556 != M556)
+                    {
+                        _M556 = M556;
+                        if (M556 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 下料左右气缸RST异常");
+                        }
                     }
 
                     LoadMasterMsg = XinjiePLC.readM(414);
