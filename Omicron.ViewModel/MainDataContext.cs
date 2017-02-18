@@ -874,11 +874,11 @@ namespace Omicron.ViewModel
         }
         private void ScanP3UpdateProcess(string bar, HImage img, HObject hObject)
         {
-            ObservableCollection<HObject> objectList = new ObservableCollection<HObject>();
+            //ObservableCollection<HObject> objectList = new ObservableCollection<HObject>();
             hImageScan = img;
             BarcodeDisplay = bar;
-            objectList.Add(hObject);
-            hObjectListScan = objectList;
+            //objectList.Add(hObject);
+            //hObjectListScan = objectList;
         }
         private void StartUpdateProcess(int index)
         {

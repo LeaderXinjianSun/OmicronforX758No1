@@ -503,7 +503,8 @@ namespace Omicron.Model
             }
             else
             {
-                Cfind = hdevScanEngine.getmeasurements("Cfind");
+                //Cfind = hdevScanEngine.getmeasurements("Cfind");
+                Cfind = "1";
             }
                 
             switch (pick)
@@ -590,8 +591,8 @@ namespace Omicron.Model
             }
             else
             {
-                var hObject = hdevScanEngine.getRegion("Rectangle_FindConnecter");
-                ScanP3Update(barcodeString, hImageScan, hObject);
+                //var hObject = hdevScanEngine.getRegion("Rectangle_FindConnecter");
+                ScanP3Update(barcodeString, hImageScan, null);
             }
 
             return barcodeString;
