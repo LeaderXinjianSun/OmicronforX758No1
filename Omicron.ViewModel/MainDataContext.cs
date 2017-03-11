@@ -169,6 +169,29 @@ namespace Omicron.ViewModel
 
         public virtual bool AllowSampleTestCommand { set; get; } = false;
 
+        public virtual TwinCATCoil1 XPos { set; get; }
+        public virtual TwinCATCoil1 YPos { set; get; }
+        public virtual TwinCATCoil1 FPos { set; get; }
+        public virtual TwinCATCoil1 TPos { set; get; }
+
+        public virtual TwinCATCoil1 PickPositionX { set; get; }
+        public virtual TwinCATCoil1 PickPositionY { set; get; }
+        public virtual TwinCATCoil1 WaitPositionX { set; get; }
+        public virtual TwinCATCoil1 WaitPositionY { set; get; }
+
+        public virtual TwinCATCoil1 ReleasePositionX1 { set; get; }
+        public virtual TwinCATCoil1 ReleasePositionY1 { set; get; }
+        public virtual TwinCATCoil1 ReleasePositionX2 { set; get; }
+        public virtual TwinCATCoil1 ReleasePositionY2 { set; get; }
+        public virtual TwinCATCoil1 ReleasePositionX3 { set; get; }
+        public virtual TwinCATCoil1 ReleasePositionY3 { set; get; }
+
+        public virtual TwinCATCoil1 PowerOn1 { set; get; }
+        public virtual TwinCATCoil1 PowerOn2 { set; get; }
+        public virtual TwinCATCoil1 PowerOn3 { set; get; }
+        public virtual TwinCATCoil1 PowerOn4 { set; get; }
+
+
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -187,7 +210,9 @@ namespace Omicron.ViewModel
         public static DispatcherTimer dispatcherTimer = new DispatcherTimer();
         private bool PLCNeedContinue = false;
         private DateTimeUtility.SYSTEMTIME lastchuiqi = new DateTimeUtility.SYSTEMTIME();
-        
+
+        TwinCATAds _TwinCATAds = new TwinCATAds();
+
         #endregion
         #region 构造函数
         public MainDataContext()
@@ -200,6 +225,32 @@ namespace Omicron.ViewModel
             dispatcherTimer.Tick += new EventHandler(DispatcherTimerTickUpdateUi);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Start();
+
+            XPos = new TwinCATCoil1(new TwinCATCoil("MAIN.XPos", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            YPos = new TwinCATCoil1(new TwinCATCoil("MAIN.YPos", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            FPos = new TwinCATCoil1(new TwinCATCoil("MAIN.FPos", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            TPos = new TwinCATCoil1(new TwinCATCoil("MAIN.TPos", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            PickPositionX = new TwinCATCoil1(new TwinCATCoil("MAIN.PickPositionX", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            PickPositionY = new TwinCATCoil1(new TwinCATCoil("MAIN.PickPositionY", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            WaitPositionX = new TwinCATCoil1(new TwinCATCoil("MAIN.WaitPositionX", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            WaitPositionY = new TwinCATCoil1(new TwinCATCoil("MAIN.WaitPositionY", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            ReleasePositionX1 = new TwinCATCoil1(new TwinCATCoil("MAIN.ReleasePositionX1", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            ReleasePositionY1 = new TwinCATCoil1(new TwinCATCoil("MAIN.ReleasePositionY1", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            ReleasePositionX2 = new TwinCATCoil1(new TwinCATCoil("MAIN.ReleasePositionX2", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            ReleasePositionY2 = new TwinCATCoil1(new TwinCATCoil("MAIN.ReleasePositionY2", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            ReleasePositionX3 = new TwinCATCoil1(new TwinCATCoil("MAIN.ReleasePositionX3", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            ReleasePositionY3 = new TwinCATCoil1(new TwinCATCoil("MAIN.ReleasePositionY3", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            PowerOn1 = new TwinCATCoil1(new TwinCATCoil("MAIN.PowerOn1", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            PowerOn2 = new TwinCATCoil1(new TwinCATCoil("MAIN.PowerOn2", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            PowerOn3 = new TwinCATCoil1(new TwinCATCoil("MAIN.PowerOn3", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            PowerOn4 = new TwinCATCoil1(new TwinCATCoil("MAIN.PowerOn4", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            _TwinCATAds.StartNotice();
+
+
             Async.RunFuncAsync(UpdateUI,null);
         }
         #endregion
@@ -1265,6 +1316,8 @@ namespace Omicron.ViewModel
                 //TesterBracodeAR = epsonRC90.TesterBracodeAR;
                 //TesterBracodeBL = epsonRC90.TesterBracodeBL;
                 //TesterBracodeBR = epsonRC90.TesterBracodeBR;
+
+                
             }
         }
         private async void DispatcherTimerTickUpdateUi(Object sender, EventArgs e)

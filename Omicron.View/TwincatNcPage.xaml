@@ -33,12 +33,12 @@
                             <StackPanel Orientation="Vertical">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="X轴："></TextBlock>
-                                    <TextBlock Text="123.456" Style="{StaticResource  TextBlockParameterLoneName}"></TextBlock>
+                                    <TextBlock Text="{Binding XPos.Value}" Style="{StaticResource  TextBlockParameterLoneName}"></TextBlock>
                                     <TextBlock Text=" mm" Style="{StaticResource  TextBlockParameterName}"></TextBlock>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Y轴：" Style="{StaticResource  TextBlockParameterName}"></TextBlock>
-                                    <TextBlock Text="123.456" Style="{StaticResource  TextBlockParameterLoneName}"></TextBlock>
+                                    <TextBlock Text="{Binding YPos.Value}" Style="{StaticResource  TextBlockParameterLoneName}"></TextBlock>
                                     <TextBlock Text=" mm" Style="{StaticResource  TextBlockParameterName}"></TextBlock>
                                 </StackPanel>
                             </StackPanel>
@@ -55,13 +55,13 @@
 
                             <StackPanel Grid.Row="1" Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="X轴："></TextBlock>
-                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="SVN" FontSize="18"></ToggleButton>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="SVN" FontSize="18" IsChecked="{Binding PowerOn1.Value}"></ToggleButton>
                                 <Button Width="50" Height="50" Content="Rst" FontSize="18"></Button>
                             </StackPanel>
 
                             <StackPanel Grid.Row="3" Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="Y轴："></TextBlock>
-                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="SVN" FontSize="18"></ToggleButton>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="SVN" FontSize="18" IsChecked="{Binding PowerOn1.Value}"></ToggleButton>
                                 <Button Width="50" Height="50" Content="Rst" FontSize="18"></Button>
                             </StackPanel>
 
@@ -105,32 +105,32 @@
                             <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="点1："></TextBlock>
-                                    <TextBox Style="{StaticResource TextBoxCor}"></TextBox>
-                                    <TextBox Style="{StaticResource TextBoxCor}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxCor}" Text="{Binding ReleasePositionX1.Value}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxCor}" Text="{Binding ReleasePositionY1.Value}"></TextBox>
                                     <Button Style="{StaticResource DebugButton2}" Content="Get"></Button>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="点3："></TextBlock>
-                                    <TextBox Style="{StaticResource TextBoxCor}"></TextBox>
-                                    <TextBox Style="{StaticResource TextBoxCor}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxCor}" Text="{Binding ReleasePositionX2.Value}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxCor}" Text="{Binding ReleasePositionY2.Value}"></TextBox>
                                     <Button Style="{StaticResource DebugButton2}" Content="Get"></Button>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="点10："></TextBlock>
-                                    <TextBox Style="{StaticResource TextBoxCor}"></TextBox>
-                                    <TextBox Style="{StaticResource TextBoxCor}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxCor}" Text="{Binding ReleasePositionX3.Value}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxCor}" Text="{Binding ReleasePositionY3.Value}"></TextBox>
                                     <Button Style="{StaticResource DebugButton2}" Content="Get"></Button>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="吸取点："></TextBlock>
-                                    <TextBox Style="{StaticResource TextBoxCor}"></TextBox>
-                                    <TextBox Style="{StaticResource TextBoxCor}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxCor}" Text="{Binding PickPositionX.Value}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxCor}" Text="{Binding PickPositionY.Value}"></TextBox>
                                     <Button Style="{StaticResource DebugButton2}" Content="Get"></Button>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="等待点："></TextBlock>
-                                    <TextBox Style="{StaticResource TextBoxCor}"></TextBox>
-                                    <TextBox Style="{StaticResource TextBoxCor}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxCor}" Text="{Binding WaitPositionX.Value}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxCor}" Text="{Binding WaitPositionY.Value}"></TextBox>
                                     <Button Style="{StaticResource DebugButton2}" Content="Get"></Button>
                                 </StackPanel>
                             </StackPanel>
