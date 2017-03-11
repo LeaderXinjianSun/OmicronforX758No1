@@ -30,7 +30,11 @@
                     </Grid.ColumnDefinitions>
                     <GroupBox Header="当前坐标">
                         <Grid>
-                            <StackPanel Orientation="Vertical">
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="X轴："></TextBlock>
                                     <TextBlock Text="{Binding XPos.Value}" Style="{StaticResource  TextBlockParameterLoneName}"></TextBlock>
@@ -40,6 +44,16 @@
                                     <TextBlock Text="Y轴：" Style="{StaticResource  TextBlockParameterName}"></TextBlock>
                                     <TextBlock Text="{Binding YPos.Value}" Style="{StaticResource  TextBlockParameterLoneName}"></TextBlock>
                                     <TextBlock Text=" mm" Style="{StaticResource  TextBlockParameterName}"></TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="X轴："></TextBlock>
+                                    <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Width="70" Content="Home" FontSize="18" IsChecked="{Binding ServoHomed1}" Command="{mvvm:ActionAutoWithParam ServoHomeAction}" CommandParameter="1"></ToggleButton>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                    <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="Y轴："></TextBlock>
+                                    <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Width="70" Content="Home" FontSize="18" IsChecked="{Binding ServoHomed2}" Command="{mvvm:ActionAutoWithParam ServoHomeAction}" CommandParameter="2"></ToggleButton>
                                 </StackPanel>
                             </StackPanel>
                         </Grid>
@@ -55,14 +69,14 @@
 
                             <StackPanel Grid.Row="1" Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="X轴："></TextBlock>
-                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="SVN" FontSize="18" IsChecked="{Binding PowerOn1.Value}"></ToggleButton>
-                                <Button Width="50" Height="50" Content="Rst" FontSize="18"></Button>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="SVN" FontSize="18" IsChecked="{Binding PowerOn1.Value}" Command="{mvvm:ActionAutoWithParam ServoONAction}" CommandParameter="1"></ToggleButton>
+                                <Button Width="50" Height="50" Content="Rst" FontSize="18" Command="{mvvm:ActionAutoWithParam ServoResetAction}" CommandParameter="1"></Button>
                             </StackPanel>
 
                             <StackPanel Grid.Row="3" Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="Y轴："></TextBlock>
-                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="SVN" FontSize="18" IsChecked="{Binding PowerOn1.Value}"></ToggleButton>
-                                <Button Width="50" Height="50" Content="Rst" FontSize="18"></Button>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="SVN" FontSize="18" IsChecked="{Binding PowerOn1.Value}" Command="{mvvm:ActionAutoWithParam ServoONAction}" CommandParameter="2"></ToggleButton>
+                                <Button Width="50" Height="50" Content="Rst" FontSize="18" Command="{mvvm:ActionAutoWithParam ServoResetAction}" CommandParameter="2"></Button>
                             </StackPanel>
 
                         </Grid>
@@ -84,10 +98,11 @@
                                     <ColumnDefinition></ColumnDefinition>
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Button Grid.Column="1" Content="X+" FontSize="30"></Button>
-                                <Button Grid.Column="1" Grid.Row="2" Content="X-" FontSize="30"></Button>
-                                <Button Grid.Row="1" Content="Y+" FontSize="30"></Button>
-                                <Button Grid.Column="2" Grid.Row="1" Content="Y-" FontSize="30"></Button>
+                                <Button Grid.Column="1" Content="X+" FontSize="30" PreviewMouseDown="{mvvm:ActionAuto JogActionX_Plus}" PreviewMouseUp="{mvvm:ActionAuto JogActionX_Stop}"></Button>
+                                <Button Grid.Column="1" Grid.Row="2" Content="X-" FontSize="30" PreviewMouseDown="{mvvm:ActionAuto JogActionX_Minus}" PreviewMouseUp="{mvvm:ActionAuto JogActionX_Stop}"></Button>
+
+                                <Button Grid.Row="1" Content="Y+" FontSize="30" PreviewMouseDown="{mvvm:ActionAuto JogActionY_Plus}" PreviewMouseUp="{mvvm:ActionAuto JogActionY_Stop}"></Button>
+                                <Button Grid.Column="2" Grid.Row="1" Content="Y-" FontSize="30" PreviewMouseDown="{mvvm:ActionAuto JogActionY_Minus}" PreviewMouseUp="{mvvm:ActionAuto JogActionY_Stop}"></Button>
                             </Grid>
                             <Grid Grid.Column="1" VerticalAlignment="Center">
                                 <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
@@ -107,31 +122,31 @@
                                     <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="点1："></TextBlock>
                                     <TextBox Style="{StaticResource TextBoxCor}" Text="{Binding ReleasePositionX1.Value}"></TextBox>
                                     <TextBox Style="{StaticResource TextBoxCor}" Text="{Binding ReleasePositionY1.Value}"></TextBox>
-                                    <Button Style="{StaticResource DebugButton2}" Content="Get"></Button>
+                                    <Button Style="{StaticResource DebugButton2}" Content="Get" Command="{mvvm:ActionAutoWithParam GetCoord}" CommandParameter="1"></Button>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="点3："></TextBlock>
                                     <TextBox Style="{StaticResource TextBoxCor}" Text="{Binding ReleasePositionX2.Value}"></TextBox>
                                     <TextBox Style="{StaticResource TextBoxCor}" Text="{Binding ReleasePositionY2.Value}"></TextBox>
-                                    <Button Style="{StaticResource DebugButton2}" Content="Get"></Button>
+                                    <Button Style="{StaticResource DebugButton2}" Content="Get" Command="{mvvm:ActionAutoWithParam GetCoord}" CommandParameter="2"></Button>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="点10："></TextBlock>
                                     <TextBox Style="{StaticResource TextBoxCor}" Text="{Binding ReleasePositionX3.Value}"></TextBox>
                                     <TextBox Style="{StaticResource TextBoxCor}" Text="{Binding ReleasePositionY3.Value}"></TextBox>
-                                    <Button Style="{StaticResource DebugButton2}" Content="Get"></Button>
+                                    <Button Style="{StaticResource DebugButton2}" Content="Get" Command="{mvvm:ActionAutoWithParam GetCoord}" CommandParameter="3"></Button>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="吸取点："></TextBlock>
                                     <TextBox Style="{StaticResource TextBoxCor}" Text="{Binding PickPositionX.Value}"></TextBox>
                                     <TextBox Style="{StaticResource TextBoxCor}" Text="{Binding PickPositionY.Value}"></TextBox>
-                                    <Button Style="{StaticResource DebugButton2}" Content="Get"></Button>
+                                    <Button Style="{StaticResource DebugButton2}" Content="Get" Command="{mvvm:ActionAutoWithParam GetCoord}" CommandParameter="4"></Button>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="等待点："></TextBlock>
                                     <TextBox Style="{StaticResource TextBoxCor}" Text="{Binding WaitPositionX.Value}"></TextBox>
                                     <TextBox Style="{StaticResource TextBoxCor}" Text="{Binding WaitPositionY.Value}"></TextBox>
-                                    <Button Style="{StaticResource DebugButton2}" Content="Get"></Button>
+                                    <Button Style="{StaticResource DebugButton2}" Content="Get" Command="{mvvm:ActionAutoWithParam GetCoord}" CommandParameter="5"></Button>
                                 </StackPanel>
                             </StackPanel>
                         </Grid>

@@ -191,6 +191,42 @@ namespace Omicron.ViewModel
         public virtual TwinCATCoil1 PowerOn3 { set; get; }
         public virtual TwinCATCoil1 PowerOn4 { set; get; }
 
+        public virtual TwinCATCoil1 ServoRst1 { set; get; }
+        public virtual TwinCATCoil1 ServoRst2 { set; get; }
+        public virtual TwinCATCoil1 ServoRst3 { set; get; }
+        public virtual TwinCATCoil1 ServoRst4 { set; get; }
+
+        public virtual TwinCATCoil1 ServoSVN1 { set; get; }
+        public virtual TwinCATCoil1 ServoSVN2 { set; get; }
+        public virtual TwinCATCoil1 ServoSVN3 { set; get; }
+        public virtual TwinCATCoil1 ServoSVN4 { set; get; }
+
+        public virtual bool ServoHomed1 { set; get; }
+        public virtual bool ServoHomed2 { set; get; }
+        public virtual bool ServoHomed3 { set; get; }
+        public virtual bool ServoHomed4 { set; get; }
+
+        public virtual TwinCATCoil1 XRDY { set; get; }
+        public virtual TwinCATCoil1 YRDY { set; get; }
+        public virtual TwinCATCoil1 FRDY { set; get; }
+        public virtual TwinCATCoil1 TRDY { set; get; }
+
+        public virtual TwinCATCoil1 XYInDebug { set; get; }
+
+        public virtual TwinCATCoil1 EF104 { set; get; }
+        public virtual TwinCATCoil1 EF114 { set; get; }
+
+        public virtual TwinCATCoil1 EF100 { set; get; }
+        public virtual TwinCATCoil1 EF101 { set; get; }
+        public virtual TwinCATCoil1 EF102 { set; get; }
+        public virtual TwinCATCoil1 EF110 { set; get; }
+        public virtual TwinCATCoil1 EF111 { set; get; }
+        public virtual TwinCATCoil1 EF112 { set; get; }
+
+        public virtual TwinCATCoil1 DebugXTargetPositon { set; get; }
+        public virtual TwinCATCoil1 DebugYTargetPositon { set; get; }
+
+        public virtual TwinCATCoil1 Calc_Start { set; get; }
 
         #endregion
         #region 变量定义区域
@@ -212,6 +248,10 @@ namespace Omicron.ViewModel
         private DateTimeUtility.SYSTEMTIME lastchuiqi = new DateTimeUtility.SYSTEMTIME();
 
         TwinCATAds _TwinCATAds = new TwinCATAds();
+        double DebugTargetX = 0;
+        double DebugTargetY = 0;
+        double DebugTargetF = 0;
+        double DebugTargetT = 0;
 
         #endregion
         #region 构造函数
@@ -226,6 +266,13 @@ namespace Omicron.ViewModel
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Start();
 
+            TwinCatVarInit();
+
+
+            Async.RunFuncAsync(UpdateUI,null);
+        }
+        private void TwinCatVarInit()
+        {
             XPos = new TwinCATCoil1(new TwinCATCoil("MAIN.XPos", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
             YPos = new TwinCATCoil1(new TwinCATCoil("MAIN.YPos", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
             FPos = new TwinCATCoil1(new TwinCATCoil("MAIN.FPos", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
@@ -248,10 +295,40 @@ namespace Omicron.ViewModel
             PowerOn2 = new TwinCATCoil1(new TwinCATCoil("MAIN.PowerOn2", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
             PowerOn3 = new TwinCATCoil1(new TwinCATCoil("MAIN.PowerOn3", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
             PowerOn4 = new TwinCATCoil1(new TwinCATCoil("MAIN.PowerOn4", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            ServoRst1 = new TwinCATCoil1(new TwinCATCoil("MAIN.E2", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            ServoRst2 = new TwinCATCoil1(new TwinCATCoil("MAIN.F2", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            ServoRst3 = new TwinCATCoil1(new TwinCATCoil("MAIN.G2", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            ServoRst4 = new TwinCATCoil1(new TwinCATCoil("MAIN.H2", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            ServoSVN1 = new TwinCATCoil1(new TwinCATCoil("MAIN.E1", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            ServoSVN2 = new TwinCATCoil1(new TwinCATCoil("MAIN.F1", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            ServoSVN3 = new TwinCATCoil1(new TwinCATCoil("MAIN.G1", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            ServoSVN4 = new TwinCATCoil1(new TwinCATCoil("MAIN.H1", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            XRDY = new TwinCATCoil1(new TwinCATCoil("MAIN.XRDY", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            YRDY = new TwinCATCoil1(new TwinCATCoil("MAIN.YRDY", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            FRDY = new TwinCATCoil1(new TwinCATCoil("MAIN.FRDY", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            TRDY = new TwinCATCoil1(new TwinCATCoil("MAIN.TRDY", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            XYInDebug = new TwinCATCoil1(new TwinCATCoil("MAIN.XYInDebug", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            EF104 = new TwinCATCoil1(new TwinCATCoil("MAIN.EF104", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            EF114 = new TwinCATCoil1(new TwinCATCoil("MAIN.EF114", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            EF100 = new TwinCATCoil1(new TwinCATCoil("MAIN.EF100", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            EF101 = new TwinCATCoil1(new TwinCATCoil("MAIN.EF101", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            EF102 = new TwinCATCoil1(new TwinCATCoil("MAIN.EF102", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            EF110 = new TwinCATCoil1(new TwinCATCoil("MAIN.EF110", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            EF111 = new TwinCATCoil1(new TwinCATCoil("MAIN.EF111", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            EF112 = new TwinCATCoil1(new TwinCATCoil("MAIN.EF112", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            DebugXTargetPositon = new TwinCATCoil1(new TwinCATCoil("MAIN.DebugXTargetPositon", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            DebugYTargetPositon = new TwinCATCoil1(new TwinCATCoil("MAIN.DebugYTargetPositon", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            Calc_Start = new TwinCATCoil1(new TwinCATCoil("MAIN.Calc_Start", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
             _TwinCATAds.StartNotice();
-
-
-            Async.RunFuncAsync(UpdateUI,null);
         }
         #endregion
         #region 功能和方法
@@ -838,6 +915,284 @@ namespace Omicron.ViewModel
             }
         }
         #endregion
+        #region BECKHOFF
+        public void ServoResetAction(object p)
+        {
+            try
+            {
+                switch (p.ToString())
+                {
+                    case "1":
+                        ServoRst1.Value = true;
+                        break;
+                    case "2":
+                        ServoRst2.Value = true;
+                        break;
+                    case "3":
+                        ServoRst3.Value = true;
+                        break;
+                    case "4":
+                        ServoRst4.Value = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch
+            {
+
+                
+            }
+            
+        }
+        public void ServoONAction(object p)
+        {
+            try
+            {
+                switch (p.ToString())
+                {
+                    case "1":
+                        ServoSVN1.Value = !(bool)ServoSVN1.Value;
+                        break;
+                    case "2":
+                        ServoSVN2.Value = !(bool)ServoSVN2.Value;
+                        break;
+                    case "3":
+                        ServoSVN3.Value = !(bool)ServoSVN3.Value;
+                        break;
+                    case "4":
+                        ServoSVN4.Value = !(bool)ServoSVN4.Value;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch 
+            {
+
+                
+            }
+            
+        }
+        public void ServoHomeAction(object p)
+        {
+            try
+            {
+                if ((bool)XYInDebug.Value)
+                {
+                    switch (p.ToString())
+                    {
+                        case "1":
+                            EF104.Value = true;
+                            break;
+                        case "2":
+                            EF114.Value = true;
+                            break;
+                        //case "3":
+                        //    ServoSVN3.Value = !(bool)ServoSVN3.Value;
+                        //    break;
+                        //case "4":
+                        //    ServoSVN4.Value = !(bool)ServoSVN4.Value;
+                            //break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            catch 
+            {
+
+                
+            }
+
+            
+        }
+        public void JogActionX_Plus()
+        {
+            try
+            {
+                if ((bool)XYInDebug.Value)
+                {
+                    EF100.Value = true;
+                }
+            }
+            catch
+            {
+
+                
+            }
+        }
+        public void JogActionX_Minus()
+        {
+            try
+            {
+                if ((bool)XYInDebug.Value)
+                {
+                    EF101.Value = true;
+                }
+            }
+            catch
+            {
+
+
+            }
+        }
+        public void JogActionX_Stop()
+        {
+            try
+            {
+                if ((bool)XYInDebug.Value)
+                {
+                    EF100.Value = false;
+                    EF101.Value = false;
+                }
+            }
+            catch
+            {
+
+
+            }
+        }
+        public void JogActionY_Plus()
+        {
+            try
+            {
+                if ((bool)XYInDebug.Value)
+                {
+                    EF110.Value = true;
+                }
+            }
+            catch
+            {
+
+
+            }
+        }
+        public void JogActionY_Minus()
+        {
+            try
+            {
+                if ((bool)XYInDebug.Value)
+                {
+                    EF111.Value = true;
+                }
+            }
+            catch
+            {
+
+
+            }
+        }
+        public void JogActionY_Stop()
+        {
+            try
+            {
+                if ((bool)XYInDebug.Value)
+                {
+                    EF110.Value = false;
+                    EF111.Value = false;
+                }
+            }
+            catch
+            {
+
+
+            }
+        }
+        private void ServoPTPXY()
+        {
+            DebugXTargetPositon.Value = DebugTargetX;
+            DebugYTargetPositon.Value = DebugTargetY;
+            EF102.Value = true;
+            EF112.Value = true;
+
+        }
+        public void MovetoPointAction(object p)
+        {
+            try
+            {
+                if ((bool)XYInDebug.Value)
+                {
+                    switch (p.ToString())
+                    {
+                        case "1":
+                            DebugTargetX = (double)ReleasePositionX1.Value;
+                            DebugTargetY = (double)ReleasePositionY1.Value;
+                            ServoPTPXY();
+                            break;
+                        case "2":
+                            DebugTargetX = (double)ReleasePositionX2.Value;
+                            DebugTargetY = (double)ReleasePositionY2.Value;
+                            ServoPTPXY();
+                            break;
+                        case "3":
+                            DebugTargetX = (double)ReleasePositionX3.Value;
+                            DebugTargetY = (double)ReleasePositionY3.Value;
+                            ServoPTPXY();
+                            break;
+                        case "4":
+                            DebugTargetX = (double)PickPositionX.Value;
+                            DebugTargetY = (double)PickPositionY.Value;
+                            ServoPTPXY();
+                            break;
+                        case "5":
+                            DebugTargetX = (double)WaitPositionX.Value;
+                            DebugTargetY = (double)WaitPositionY.Value;
+                            ServoPTPXY();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            catch
+            {
+
+
+            }
+        }
+        public void GetCoord(object p)
+        {
+            try
+            {
+                switch (p.ToString())
+                {
+                    case "1":
+                        ReleasePositionX1.Value = (double)XPos.Value;
+                        ReleasePositionY1.Value = (double)YPos.Value;
+                        Calc_Start.Value = true;
+                        break;
+                    case "2":
+                        ReleasePositionX2.Value = (double)XPos.Value;
+                        ReleasePositionY2.Value = (double)YPos.Value;
+                        Calc_Start.Value = true;
+                        break;
+                    case "3":
+                        ReleasePositionX3.Value = (double)XPos.Value;
+                        ReleasePositionY3.Value = (double)YPos.Value;
+                        Calc_Start.Value = true;
+                        break;
+                    case "4":
+                        PickPositionX.Value = (double)XPos.Value;
+                        PickPositionY.Value = (double)YPos.Value;
+                        Calc_Start.Value = true;
+                        break;
+                    case "5":
+                        WaitPositionX.Value = (double)XPos.Value;
+                        WaitPositionY.Value = (double)YPos.Value;
+                        Calc_Start.Value = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch
+            {
+
+                
+            }
+        }
+        #endregion
         #region 事件相应函数
         private void ModelPrintEventProcess(string str)
         {
@@ -1317,6 +1672,18 @@ namespace Omicron.ViewModel
                 //TesterBracodeBL = epsonRC90.TesterBracodeBL;
                 //TesterBracodeBR = epsonRC90.TesterBracodeBR;
 
+                try
+                {
+                    ServoHomed1 = (bool)XRDY.Value;
+                    ServoHomed2 = (bool)YRDY.Value;
+                    ServoHomed3 = (bool)FRDY.Value;
+                    ServoHomed4 = (bool)TRDY.Value;
+                }
+                catch 
+                {
+
+                    
+                }
                 
             }
         }
