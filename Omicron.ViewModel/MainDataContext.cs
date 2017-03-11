@@ -833,17 +833,23 @@ namespace Omicron.ViewModel
                 case "MsgRev: 测试工位4，产品没放好":
                     ShowAlarmTextGrid("测试工位4，产品没放好");
                     break;
-                case "MsgRev: 测试工位1，B爪手掉料":
-                    ShowAlarmTextGrid("测试工位1，B爪手掉料");
+                //case "MsgRev: 测试工位1，B爪手掉料":
+                //    ShowAlarmTextGrid("测试工位1，B爪手掉料");
+                //    break;
+                //case "MsgRev: 测试工位2，B爪手掉料":
+                //    ShowAlarmTextGrid("测试工位2，B爪手掉料");
+                //    break;
+                //case "MsgRev: 测试工位3，B爪手掉料":
+                //    ShowAlarmTextGrid("测试工位3，B爪手掉料");
+                //    break;
+                //case "MsgRev: 测试工位4，B爪手掉料":
+                //    ShowAlarmTextGrid("测试工位4，B爪手掉料");
+                //    break;
+                case "MsgRev: A爪手掉料":
+                    ShowAlarmTextGrid("A爪手掉料");
                     break;
-                case "MsgRev: 测试工位2，B爪手掉料":
-                    ShowAlarmTextGrid("测试工位2，B爪手掉料");
-                    break;
-                case "MsgRev: 测试工位3，B爪手掉料":
-                    ShowAlarmTextGrid("测试工位3，B爪手掉料");
-                    break;
-                case "MsgRev: 测试工位4，B爪手掉料":
-                    ShowAlarmTextGrid("测试工位4，B爪手掉料");
+                case "MsgRev: B爪手掉料":
+                    ShowAlarmTextGrid("B爪手掉料");
                     break;
                 case "MsgRev: 清洁操作，结束":
                     DateTimeUtility.GetLocalTime(ref lastchuiqi);
@@ -1407,6 +1413,10 @@ namespace Omicron.ViewModel
             bool M554 = false, _M554 = false;
             bool M555 = false, _M555 = false;
             bool M556 = false, _M556 = false;
+            bool M557 = false, _M557 = false;
+            bool M558 = false, _M558 = false;
+            bool M559 = false, _M559 = false;
+            bool M560 = false, _M560 = false;
 
             while (true)
             {
@@ -1853,6 +1863,46 @@ namespace Omicron.ViewModel
                         if (M556 == true)
                         {
                             Msg = messagePrint.AddMessage("PLC 下料左右气缸RST异常");
+                        }
+                    }
+
+                    M557 = XinjiePLC.readM(557);
+                    if (_M557 != M557)
+                    {
+                        _M557 = M557;
+                        if (M557 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 上料未放产品TRAY盘");
+                        }
+                    }
+
+                    M558 = XinjiePLC.readM(558);
+                    if (_M558 != M558)
+                    {
+                        _M558 = M558;
+                        if (M558 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 上料未取空TRAY盘");
+                        }
+                    }
+
+                    M559 = XinjiePLC.readM(559);
+                    if (_M559 != M559)
+                    {
+                        _M559 = M559;
+                        if (M559 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 下料未放空TRAY盘");
+                        }
+                    }
+
+                    M560 = XinjiePLC.readM(560);
+                    if (_M560 != M560)
+                    {
+                        _M560 = M560;
+                        if (M560 == true)
+                        {
+                            Msg = messagePrint.AddMessage("PLC 下料未取产品TRAY盘");
                         }
                     }
 
