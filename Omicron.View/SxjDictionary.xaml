@@ -134,6 +134,18 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
+    <Style TargetType="Button" x:Key="DebugButton1">
+        <Setter Property="Margin" Value="0,10,0,0"></Setter>
+        <Setter Property="Width" Value="120"></Setter>
+        <Setter Property="Height" Value="40"></Setter>
+        <Setter Property="FontSize" Value="20"></Setter>
+    </Style>
+    <Style TargetType="Button" x:Key="DebugButton2">
+        <Setter Property="Margin" Value="5,0,0,0"></Setter>
+        <Setter Property="Width" Value="40"></Setter>
+        <Setter Property="Height" Value="20"></Setter>
+        <Setter Property="FontSize" Value="12"></Setter>
+    </Style>
     <Style TargetType="Button" x:Key="ParameterButton">
         <Setter Property="Margin" Value="5,2,5,2"></Setter>
         <Setter Property="Width" Value="50"></Setter>
@@ -194,7 +206,7 @@
     </Style>
     <Style TargetType="{x:Type TextBox}" x:Key="TextBoxBase">
         <Setter Property="FontSize" Value="15"></Setter>
-        <Setter Property="Margin" Value="5,0,5,0"></Setter>
+        <Setter Property="Margin" Value="5,0,0,0"></Setter>
         <Setter Property="VerticalAlignment" Value="Center"></Setter>
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
     </Style>
@@ -206,6 +218,9 @@
     </Style>
     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxBase}" x:Key="TextBoxPath">
         <Setter Property="Width" Value="350"></Setter>
+    </Style>
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxBase}" x:Key="TextBoxCor">
+        <Setter Property="Width" Value="100"></Setter>
     </Style>
     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxBase}" x:Key="TextBoxBarcode">
         <Setter Property="Width" Value="220"></Setter>
@@ -262,6 +277,57 @@
             <DataTrigger Binding="{Binding Path=IsShieldTheDoor}" Value="true">
                 <Setter Property="Visibility" Value="Visible"></Setter>
             </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="MetroToggleButtonSVN"  TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource MetroToggleButton}">
+        <Setter Property="Width" Value="50"></Setter>
+        <Setter Property="Height" Value="50"></Setter>
+        <Setter Property="Margin" Value="10"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Grid>
+                        <Border x:Name="Background" Background="{TemplateBinding Background}" CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(control:ControlsHelper.CornerRadius), Mode=OneWay}" />
+                        <Border x:Name="Border"
+                                Background="{x:Null}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(control:ControlsHelper.CornerRadius), Mode=OneWay}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        <Border x:Name="DisabledVisualElement"
+                                Background="{DynamicResource ControlsDisabledBrush}"
+                                Opacity="0"
+                                CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(control:ControlsHelper.CornerRadius), Mode=OneWay}"
+                                IsHitTestVisible="False"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        <control:ContentControlEx x:Name="PART_ContentPresenter"
+                                                   Padding="{TemplateBinding Padding}"
+                                                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                   Content="{TemplateBinding Content}"
+                                                   ContentCharacterCasing="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(control:ControlsHelper.ContentCharacterCasing)}"
+                                                   ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                                   ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                   ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                                   RecognizesAccessKey="True"
+                                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="DisabledVisualElement" Property="Opacity" Value="0.7" />
+                            <Setter TargetName="PART_ContentPresenter" Property="Opacity" Value="0.3" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <!--<Setter Property="Background" Value="{DynamicResource GrayBrush2}" />-->
+                <Setter Property="Background" Value= "Yellow" />
+                <Setter Property="BorderBrush" Value="{DynamicResource GrayBrush5}" />
+                <Setter Property="BorderThickness" Value="2" />
+            </Trigger>
         </Style.Triggers>
     </Style>
 </ResourceDictionary>

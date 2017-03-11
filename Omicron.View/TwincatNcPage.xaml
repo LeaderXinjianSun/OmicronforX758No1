@@ -1,0 +1,145 @@
+﻿<UserControl x:Class="Omicron.View.TwincatNcPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mvvm="clr-namespace:BingLibrary.hjb;assembly=BingLibrary"
+             xmlns:control="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Omicron.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="SxjDictionary.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Resources/Icons.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <TabControl TabStripPlacement="Left">
+            <TabItem Header="下料">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Header="当前坐标">
+                        <Grid>
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="X轴："></TextBlock>
+                                    <TextBlock Text="123.456" Style="{StaticResource  TextBlockParameterLoneName}"></TextBlock>
+                                    <TextBlock Text=" mm" Style="{StaticResource  TextBlockParameterName}"></TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Y轴：" Style="{StaticResource  TextBlockParameterName}"></TextBlock>
+                                    <TextBlock Text="123.456" Style="{StaticResource  TextBlockParameterLoneName}"></TextBlock>
+                                    <TextBlock Text=" mm" Style="{StaticResource  TextBlockParameterName}"></TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.Column="1" Header="轴状态">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="X轴："></TextBlock>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="SVN" FontSize="18"></ToggleButton>
+                                <Button Width="50" Height="50" Content="Rst" FontSize="18"></Button>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="3" Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="Y轴："></TextBlock>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="SVN" FontSize="18"></ToggleButton>
+                                <Button Width="50" Height="50" Content="Rst" FontSize="18"></Button>
+                            </StackPanel>
+
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.Row="1" Header="手动操作">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid Height="200" Width="200">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="1" Content="X+" FontSize="30"></Button>
+                                <Button Grid.Column="1" Grid.Row="2" Content="X-" FontSize="30"></Button>
+                                <Button Grid.Row="1" Content="Y+" FontSize="30"></Button>
+                                <Button Grid.Column="2" Grid.Row="1" Content="Y-" FontSize="30"></Button>
+                            </Grid>
+                            <Grid Grid.Column="1" VerticalAlignment="Center">
+                                <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+                                    <Button Style="{StaticResource DebugButton1}" Content="点1" Margin="0"></Button>
+                                    <Button Style="{StaticResource DebugButton1}" Content="点3"></Button>
+                                    <Button Style="{StaticResource DebugButton1}" Content="点10"></Button>
+                                    <Button Style="{StaticResource DebugButton1}" Content="吸取点"></Button>
+                                    <Button Style="{StaticResource DebugButton1}" Content="等待点"></Button>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.Row="1" Grid.Column="1" Header="坐标记录">
+                        <Grid VerticalAlignment="Center">
+                            <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="点1："></TextBlock>
+                                    <TextBox Style="{StaticResource TextBoxCor}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxCor}"></TextBox>
+                                    <Button Style="{StaticResource DebugButton2}" Content="Get"></Button>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="点3："></TextBlock>
+                                    <TextBox Style="{StaticResource TextBoxCor}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxCor}"></TextBox>
+                                    <Button Style="{StaticResource DebugButton2}" Content="Get"></Button>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="点10："></TextBlock>
+                                    <TextBox Style="{StaticResource TextBoxCor}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxCor}"></TextBox>
+                                    <Button Style="{StaticResource DebugButton2}" Content="Get"></Button>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="吸取点："></TextBlock>
+                                    <TextBox Style="{StaticResource TextBoxCor}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxCor}"></TextBox>
+                                    <Button Style="{StaticResource DebugButton2}" Content="Get"></Button>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="等待点："></TextBlock>
+                                    <TextBox Style="{StaticResource TextBoxCor}"></TextBox>
+                                    <TextBox Style="{StaticResource TextBoxCor}"></TextBox>
+                                    <Button Style="{StaticResource DebugButton2}" Content="Get"></Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="底座"></TabItem>
+            <TabItem Header="运输"></TabItem>
+        </TabControl>   
+    </Grid>
+</UserControl>

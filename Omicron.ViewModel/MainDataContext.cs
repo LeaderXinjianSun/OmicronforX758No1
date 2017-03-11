@@ -32,6 +32,7 @@ namespace Omicron.ViewModel
         public virtual string BarcodeDisplayPageVisibility { set; get; } = "Collapsed";
         public virtual string OperaterActionPageVisibility { set; get; } = "Collapsed";
         public virtual string TestRecordPageVisibility { set; get; } = "Collapsed";
+        public virtual string TwincatNcPageVisibility { set; get; } = "Collapsed";
         public virtual bool IsPLCConnect { set; get; } = false;
         public virtual bool IsTCPConnect { set; get; } = false;
         public virtual bool IsShieldTheDoor { set; get; } = false;
@@ -213,6 +214,7 @@ namespace Omicron.ViewModel
             OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
+            TwincatNcPageVisibility = "Collapsed";
         }
         public void ChoseAboutPage()
         {
@@ -224,6 +226,7 @@ namespace Omicron.ViewModel
             OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
+            TwincatNcPageVisibility = "Collapsed";
         }
         public void ChoseParameterPage()
         {
@@ -235,6 +238,7 @@ namespace Omicron.ViewModel
             OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
+            TwincatNcPageVisibility = "Collapsed";
         }
         public void ChoseOperaterActionPage()
         {
@@ -246,6 +250,7 @@ namespace Omicron.ViewModel
             OperaterActionPageVisibility = "Visible";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
+            TwincatNcPageVisibility = "Collapsed";
         }
         public void ChoseCameraPage()
         {
@@ -257,6 +262,7 @@ namespace Omicron.ViewModel
             OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
+            TwincatNcPageVisibility = "Collapsed";
         }
         public void ChoseCameraHcPage()
         {
@@ -268,14 +274,26 @@ namespace Omicron.ViewModel
             OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
+            TwincatNcPageVisibility = "Collapsed";
         }
-        public void ChoseScanCameraPage()
+        //public void ChoseScanCameraPage()
+        //{
+        //    ParameterPageVisibility = "Collapsed";
+        //    AboutPageVisibility = "Collapsed";
+        //    HomePageVisibility = "Collapsed";
+        //    CameraHcPageVisibility = "Collapsed";
+        //    ScanCameraPageVisibility = "Visible";
+        //    OperaterActionPageVisibility = "Collapsed";
+        //    BarcodeDisplayPageVisibility = "Collapsed";
+        //    TestRecordPageVisibility = "Collapsed";
+        //}
+        public void ChoseTwincatNcPage()
         {
             ParameterPageVisibility = "Collapsed";
             AboutPageVisibility = "Collapsed";
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
-            ScanCameraPageVisibility = "Visible";
+            TwincatNcPageVisibility = "Visible";
             OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
@@ -290,6 +308,7 @@ namespace Omicron.ViewModel
             OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Visible";
             TestRecordPageVisibility = "Collapsed";
+            TwincatNcPageVisibility = "Collapsed";
         }
         public void ChoseTestRecordPage()
         {
@@ -301,6 +320,7 @@ namespace Omicron.ViewModel
             OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Visible";
+            TwincatNcPageVisibility = "Collapsed";
         }
         public async void ShieldDoorFunction()
         {
