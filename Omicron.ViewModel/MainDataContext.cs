@@ -974,10 +974,10 @@ namespace Omicron.ViewModel
         //    hdevScanEngine.initialengine(System.IO.Path.GetFileNameWithoutExtension(fullfilename));
         //    hdevScanEngine.loadengine();
         //}
-        public void ScanCameraInspect()
-        {
-            Async.RunFuncAsync(epsonRC90.scanCameraInspect, null);
-        }
+        //public void ScanCameraInspect()
+        //{
+        //    Async.RunFuncAsync(epsonRC90.scanCameraInspect, null);
+        //}
         //public void scanCameraInspect()
         //{
         //    hdevScanEngine.inspectengine();
@@ -1359,9 +1359,9 @@ namespace Omicron.ViewModel
             await Task.Delay(100);
             CameraHcInspect();
             Msg = messagePrint.AddMessage("检测相机初始化完成");
-            epsonRC90.scanCameraInit();
-            await Task.Delay(100);
-            ScanCameraInspect();
+            //epsonRC90.scanCameraInit();
+            //await Task.Delay(100);
+            //ScanCameraInspect();
             //scanCameraInit();
             //Msg = messagePrint.AddMessage("扫码相机初始化完成");
         }

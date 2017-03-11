@@ -273,8 +273,25 @@ namespace BingLibrary.hjb
                     }
                     else
                         return null;
+                case "RuntimeMethodInfo":
+                    if (new Regex("[Add|Remove].+Handler").IsMatch((((IProvideValueTarget)provider.GetService(typeof(IProvideValueTarget))).TargetProperty as MethodInfo).Name))
+                    {
+                        if ((((IProvideValueTarget)provider.GetService(typeof(IProvideValueTarget))).TargetProperty as MethodInfo).GetParameters().Length == 2)
+                        {
+                            if (typeof(MulticastDelegate).IsAssignableFrom((((IProvideValueTarget)provider.GetService(typeof(IProvideValueTarget))).TargetProperty as MethodInfo).GetParameters()[1].ParameterType))
+                            {
+                                return (((IProvideValueTarget)provider.GetService(typeof(IProvideValueTarget))).TargetProperty as MethodInfo).GetParameters()[1].ParameterType;
+                            }
+                            else
+                                return null;
+                        }
+                        else
+                            return null;
+                    }
+                    else
+                        return null;
             }
-
+            //Console.WriteLine(((IProvideValueTarget)provider.GetService(typeof(IProvideValueTarget))).TargetProperty.GetType().Name);
             return null;
         }
 

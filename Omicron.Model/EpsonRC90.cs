@@ -484,7 +484,7 @@ namespace Omicron.Model
         private delegate void EpsonScanProcessedDelegate(string bar,string pick);
         private void EpsonScanAction(string pick, EpsonScanProcessedDelegate callback)
         {
-            callback(scanCameraInspect(), pick);
+            //callback(scanCameraInspect(), pick);
         }
         private async void BacodeProcess(string barcode, string pick)
         {
