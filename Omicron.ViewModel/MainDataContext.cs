@@ -259,6 +259,10 @@ namespace Omicron.ViewModel
         public virtual TwinCATCoil1 T202 { set; get; }
         public virtual TwinCATCoil1 T204 { set; get; }
 
+        public virtual TwinCATCoil1 FCmdIndex { set; get; }
+        public virtual TwinCATCoil1 FMoveCMD { set; get; }
+        public virtual TwinCATCoil1 FMoveCompleted { set; get; }
+
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -283,6 +287,7 @@ namespace Omicron.ViewModel
         double DebugTargetY = 0;
         double DebugTargetF = 0;
         double DebugTargetT = 0;
+        ushort fti = 1;
 
         #endregion
         #region 构造函数
@@ -386,6 +391,10 @@ namespace Omicron.ViewModel
             T201 = new TwinCATCoil1(new TwinCATCoil("MAIN.T201", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
             T202 = new TwinCATCoil1(new TwinCATCoil("MAIN.T202", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
             T204 = new TwinCATCoil1(new TwinCATCoil("MAIN.T204", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            FMoveCMD = new TwinCATCoil1(new TwinCATCoil("MAIN.FMoveCMD", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            FMoveCompleted = new TwinCATCoil1(new TwinCATCoil("MAIN.FMoveCompleted", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            FCmdIndex = new TwinCATCoil1(new TwinCATCoil("MAIN.FMoveCompleted", typeof(ushort), TwinCATCoil.Mode.Notice), _TwinCATAds);
 
             _TwinCATAds.StartNotice();
         }
@@ -1805,6 +1814,30 @@ namespace Omicron.ViewModel
         }
         #endregion
         #region FunctionTest
+        public delegate void FuncTProcessedDelegate();
+        public async void FuncTStart(FuncTProcessedDelegate callback)
+        {
+            Func<Task> startTask = () =>
+            {
+                return Task.Run(async () =>
+                {
+                    if (fti > 7)
+                    {
+                        fti = 1;
+                    }
+                    FCmdIndex.Value = fti++;
+                    FMoveCMD.Value = true;
+                    FMoveCompleted.Value = false;
+                    while (!(bool)FMoveCompleted.Value)
+                    {
+                        await Task.Delay(100);
+                    }
+                    callback();
+                }
+                );
+            };
+            await startTask();
+        }
         public void FunctionTest()
         {
             //DataRow dr = TestRecodeDT.NewRow();
@@ -1818,6 +1851,11 @@ namespace Omicron.ViewModel
             //ShowAlarmTextGrid("测试机2，吸取失败");
             //TestRecord tr = new TestRecord(DateTime.Now.ToString(), "bar", "f", "11.1 s", "1");
             //SaveCSVfileRecord(tr);
+            FuncTStart(FuncPrint);
+        }
+        public void FuncPrint()
+        {
+            Msg = messagePrint.AddMessage((fti-1).ToString() + " 完成");
         }
         #endregion
         #region UI更新
