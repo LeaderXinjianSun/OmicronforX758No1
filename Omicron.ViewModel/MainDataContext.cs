@@ -212,6 +212,8 @@ namespace Omicron.ViewModel
         public virtual TwinCATCoil1 TRDY { set; get; }
 
         public virtual TwinCATCoil1 XYInDebug { set; get; }
+        public virtual TwinCATCoil1 FInDebug { set; get; }
+        public virtual TwinCATCoil1 TInDebug { set; get; }
 
         public virtual TwinCATCoil1 EF104 { set; get; }
         public virtual TwinCATCoil1 EF114 { set; get; }
@@ -226,7 +228,36 @@ namespace Omicron.ViewModel
         public virtual TwinCATCoil1 DebugXTargetPositon { set; get; }
         public virtual TwinCATCoil1 DebugYTargetPositon { set; get; }
 
+        public virtual TwinCATCoil1 DebugFTargetPositon { set; get; }
+        public virtual TwinCATCoil1 DebugTTargetPositon { set; get; }
+
         public virtual TwinCATCoil1 Calc_Start { set; get; }
+
+        public virtual TwinCATCoil1 FPosition1 { set; get; }
+        public virtual TwinCATCoil1 FPosition2 { set; get; }
+        public virtual TwinCATCoil1 FPosition3 { set; get; }
+        public virtual TwinCATCoil1 FPosition4 { set; get; }
+        public virtual TwinCATCoil1 FPosition5 { set; get; }
+        public virtual TwinCATCoil1 FPosition6 { set; get; }
+        public virtual TwinCATCoil1 FPosition7 { set; get; }
+
+        public virtual TwinCATCoil1 TPosition1 { set; get; }
+        public virtual TwinCATCoil1 TPosition2 { set; get; }
+        public virtual TwinCATCoil1 TPosition3 { set; get; }
+        public virtual TwinCATCoil1 TPosition4 { set; get; }
+        public virtual TwinCATCoil1 TPosition5 { set; get; }
+        public virtual TwinCATCoil1 TPosition6 { set; get; }
+        public virtual TwinCATCoil1 TPosition7 { set; get; }
+
+        public virtual TwinCATCoil1 F200 { set; get; }
+        public virtual TwinCATCoil1 F201 { set; get; }
+        public virtual TwinCATCoil1 F202 { set; get; }
+        public virtual TwinCATCoil1 F204 { set; get; }
+
+        public virtual TwinCATCoil1 T200 { set; get; }
+        public virtual TwinCATCoil1 T201 { set; get; }
+        public virtual TwinCATCoil1 T202 { set; get; }
+        public virtual TwinCATCoil1 T204 { set; get; }
 
         #endregion
         #region 变量定义区域
@@ -312,6 +343,8 @@ namespace Omicron.ViewModel
             TRDY = new TwinCATCoil1(new TwinCATCoil("MAIN.TRDY", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
 
             XYInDebug = new TwinCATCoil1(new TwinCATCoil("MAIN.XYInDebug", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            FInDebug = new TwinCATCoil1(new TwinCATCoil("MAIN.FInDebug", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            TInDebug = new TwinCATCoil1(new TwinCATCoil("MAIN.TInDebug", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
 
             EF104 = new TwinCATCoil1(new TwinCATCoil("MAIN.EF104", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
             EF114 = new TwinCATCoil1(new TwinCATCoil("MAIN.EF114", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
@@ -327,6 +360,32 @@ namespace Omicron.ViewModel
             DebugYTargetPositon = new TwinCATCoil1(new TwinCATCoil("MAIN.DebugYTargetPositon", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
 
             Calc_Start = new TwinCATCoil1(new TwinCATCoil("MAIN.Calc_Start", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            FPosition1 = new TwinCATCoil1(new TwinCATCoil("MAIN.FPosition1", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            FPosition2 = new TwinCATCoil1(new TwinCATCoil("MAIN.FPosition2", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            FPosition3 = new TwinCATCoil1(new TwinCATCoil("MAIN.FPosition3", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            FPosition4 = new TwinCATCoil1(new TwinCATCoil("MAIN.FPosition4", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            FPosition5 = new TwinCATCoil1(new TwinCATCoil("MAIN.FPosition5", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            FPosition6 = new TwinCATCoil1(new TwinCATCoil("MAIN.FPosition6", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            FPosition7 = new TwinCATCoil1(new TwinCATCoil("MAIN.FPosition7", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            TPosition1 = new TwinCATCoil1(new TwinCATCoil("MAIN.TPosition1", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            TPosition2 = new TwinCATCoil1(new TwinCATCoil("MAIN.TPosition2", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            TPosition3 = new TwinCATCoil1(new TwinCATCoil("MAIN.TPosition3", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            TPosition4 = new TwinCATCoil1(new TwinCATCoil("MAIN.TPosition4", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            TPosition5 = new TwinCATCoil1(new TwinCATCoil("MAIN.TPosition5", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            TPosition6 = new TwinCATCoil1(new TwinCATCoil("MAIN.TPosition6", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            TPosition7 = new TwinCATCoil1(new TwinCATCoil("MAIN.TPosition7", typeof(double), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            F200 = new TwinCATCoil1(new TwinCATCoil("MAIN.F200", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            F201 = new TwinCATCoil1(new TwinCATCoil("MAIN.F200", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            F202 = new TwinCATCoil1(new TwinCATCoil("MAIN.F200", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            F204 = new TwinCATCoil1(new TwinCATCoil("MAIN.F200", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            T200 = new TwinCATCoil1(new TwinCATCoil("MAIN.T200", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            T201 = new TwinCATCoil1(new TwinCATCoil("MAIN.T201", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            T202 = new TwinCATCoil1(new TwinCATCoil("MAIN.T202", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            T204 = new TwinCATCoil1(new TwinCATCoil("MAIN.T204", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
 
             _TwinCATAds.StartNotice();
         }
@@ -998,6 +1057,28 @@ namespace Omicron.ViewModel
                             break;
                     }
                 }
+                if ((bool)FInDebug.Value)
+                {
+                    switch (p.ToString())
+                    {
+                        case "3":
+                            F204.Value = true;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                if ((bool)TInDebug.Value)
+                {
+                    switch (p.ToString())
+                    {
+                        case "4":
+                            T204.Value = true;
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
             catch 
             {
@@ -1107,6 +1188,116 @@ namespace Omicron.ViewModel
             EF112.Value = true;
 
         }
+        public void JogActionF_Plus()
+        {
+            try
+            {
+                if ((bool)FInDebug.Value)
+                {
+                    F200.Value = true;
+                }
+            }
+            catch
+            {
+
+
+            }
+        }
+        public void JogActionF_Minus()
+        {
+            try
+            {
+                if ((bool)FInDebug.Value)
+                {
+                    F201.Value = true;
+                }
+            }
+            catch
+            {
+
+
+            }
+        }
+        public void JogActionF_Stop()
+        {
+            try
+            {
+                if ((bool)FInDebug.Value)
+                {
+                    F200.Value = false;
+                    F201.Value = false;
+                }
+            }
+            catch
+            {
+
+
+            }
+        }
+        private void ServoPTPF()
+        {
+            DebugFTargetPositon.Value = DebugTargetF;
+            
+            F202.Value = true;
+            
+
+        }
+
+        public void JogActionT_Plus()
+        {
+            try
+            {
+                if ((bool)FInDebug.Value)
+                {
+                    T200.Value = true;
+                }
+            }
+            catch
+            {
+
+
+            }
+        }
+        public void JogActionT_Minus()
+        {
+            try
+            {
+                if ((bool)FInDebug.Value)
+                {
+                    T201.Value = true;
+                }
+            }
+            catch
+            {
+
+
+            }
+        }
+        public void JogActionT_Stop()
+        {
+            try
+            {
+                if ((bool)TInDebug.Value)
+                {
+                    T200.Value = false;
+                    T201.Value = false;
+                }
+            }
+            catch
+            {
+
+
+            }
+        }
+        private void ServoPTPT()
+        {
+            DebugTTargetPositon.Value = DebugTargetT;
+
+            T202.Value = true;
+
+
+        }
+
         public void MovetoPointAction(object p)
         {
             try
@@ -1140,6 +1331,72 @@ namespace Omicron.ViewModel
                             DebugTargetY = (double)WaitPositionY.Value;
                             ServoPTPXY();
                             break;
+                        default:
+                            break;
+                    }
+                }
+                if ((bool)FInDebug.Value)
+                {
+                    switch (p.ToString())
+                    {
+                        case "6":
+                            DebugTargetF = (double)FPosition1.Value;                            
+                            ServoPTPF();
+                            break;
+                        case "7":
+                            DebugTargetF = (double)FPosition2.Value;
+                            ServoPTPF();
+                            break;
+                        case "8":
+                            DebugTargetF = (double)FPosition3.Value;
+                            ServoPTPF();
+                            break;
+                        case "9":
+                            DebugTargetF = (double)FPosition4.Value;
+                            ServoPTPF();
+                            break;
+                        case "10":
+                            DebugTargetF = (double)FPosition5.Value;
+                            ServoPTPF();
+                            break;
+                        case "11":
+                            DebugTargetF = (double)FPosition6.Value;
+                            ServoPTPF();
+                            break;
+                        case "12":
+                            DebugTargetF = (double)FPosition7.Value;
+                            ServoPTPF();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                if ((bool)TInDebug.Value)
+                {
+                    switch (p.ToString())
+                    {
+                        case "13":
+                            DebugTargetT = (double)TPosition1.Value;
+                            ServoPTPT();
+                            break;
+                        case "14":
+                            DebugTargetT = (double)TPosition2.Value;
+                            ServoPTPT();
+                            break;
+                        case "15":
+                            DebugTargetT = (double)TPosition3.Value;
+                            ServoPTPT();
+                            break;
+                        case "16":
+                            DebugTargetT = (double)TPosition4.Value;
+                            ServoPTPT();
+                            break;
+                        case "17":
+                            DebugTargetT = (double)TPosition5.Value;
+                            ServoPTPT();
+                            break;
+                       
                         default:
                             break;
                     }
@@ -1181,6 +1438,42 @@ namespace Omicron.ViewModel
                         WaitPositionX.Value = (double)XPos.Value;
                         WaitPositionY.Value = (double)YPos.Value;
                         Calc_Start.Value = true;
+                        break;
+                    case "6":
+                        FPosition1.Value = (double)FPos.Value;
+                        break;
+                    case "7":
+                        FPosition2.Value = (double)FPos.Value;
+                        break;
+                    case "8":
+                        FPosition3.Value = (double)FPos.Value;
+                        break;
+                    case "9":
+                        FPosition4.Value = (double)FPos.Value;
+                        break;
+                    case "10":
+                        FPosition5.Value = (double)FPos.Value;
+                        break;
+                    case "11":
+                        FPosition6.Value = (double)FPos.Value;
+                        break;
+                    case "12":
+                        FPosition7.Value = (double)FPos.Value;
+                        break;
+                    case "13":
+                        TPosition1.Value = (double)TPos.Value;
+                        break;
+                    case "14":
+                        TPosition2.Value = (double)TPos.Value;
+                        break;
+                    case "15":
+                        TPosition3.Value = (double)TPos.Value;
+                        break;
+                    case "16":
+                        TPosition4.Value = (double)TPos.Value;
+                        break;
+                    case "17":
+                        TPosition5.Value = (double)TPos.Value;
                         break;
                     default:
                         break;
