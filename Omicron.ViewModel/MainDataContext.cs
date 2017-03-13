@@ -263,6 +263,18 @@ namespace Omicron.ViewModel
         public virtual TwinCATCoil1 FMoveCMD { set; get; }
         public virtual TwinCATCoil1 FMoveCompleted { set; get; }
 
+        public virtual TwinCATCoil1 TCmdIndex { set; get; }
+        public virtual TwinCATCoil1 TMoveCMD { set; get; }
+        public virtual TwinCATCoil1 TMoveCompleted { set; get; }
+
+        public virtual TwinCATCoil1 TUnloadCMD { set; get; }
+        public virtual TwinCATCoil1 TUnloadCompleted { set; get; }
+
+        public virtual TwinCATCoil1 ResetCMDComplete { set; get; }
+        public virtual TwinCATCoil1 ResetCMD { set; get; }
+
+        public virtual TwinCATCoil1 PLCUnload { set; get; }
+        public virtual TwinCATCoil1 WaitPLCUnload { set; get; }
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -294,6 +306,7 @@ namespace Omicron.ViewModel
         public MainDataContext()
         {
             epsonRC90.ModelPrint += ModelPrintEventProcess;
+            epsonRC90.EPSONCommTwincat += EPSONCommTwincatEventProcess;
             epsonRC90.EpsonStatusUpdate += EpsonStatusUpdateProcess;
             epsonRC90.ScanUpdate += ScanUpdateProcess;
             epsonRC90.ScanP3Update += ScanP3UpdateProcess;
@@ -397,6 +410,19 @@ namespace Omicron.ViewModel
             FMoveCMD = new TwinCATCoil1(new TwinCATCoil("MAIN.FMoveCMD", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
             FMoveCompleted = new TwinCATCoil1(new TwinCATCoil("MAIN.FMoveCompleted", typeof(bool), TwinCATCoil.Mode.Notice, 10), _TwinCATAds);
             FCmdIndex = new TwinCATCoil1(new TwinCATCoil("MAIN.FCmdIndex", typeof(ushort), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            TMoveCMD = new TwinCATCoil1(new TwinCATCoil("MAIN.TMoveCMD", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            TMoveCompleted = new TwinCATCoil1(new TwinCATCoil("MAIN.TMoveCompleted", typeof(bool), TwinCATCoil.Mode.Notice, 10), _TwinCATAds);
+            TCmdIndex = new TwinCATCoil1(new TwinCATCoil("MAIN.TCmdIndex", typeof(ushort), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            TUnloadCMD = new TwinCATCoil1(new TwinCATCoil("MAIN.TUnloadCMD", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            TUnloadCompleted = new TwinCATCoil1(new TwinCATCoil("MAIN.TUnloadCompleted", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            ResetCMDComplete = new TwinCATCoil1(new TwinCATCoil("MAIN.ResetCMDComplete", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            ResetCMD = new TwinCATCoil1(new TwinCATCoil("MAIN.ResetCMD", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            PLCUnload = new TwinCATCoil1(new TwinCATCoil("MAIN.PLCUnload", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            WaitPLCUnload = new TwinCATCoil1(new TwinCATCoil("MAIN.WaitPLCUnload", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
 
             _TwinCATAds.StartNotice();
         }
@@ -1496,8 +1522,113 @@ namespace Omicron.ViewModel
                 
             }
         }
+        public delegate void TwinCatProcessedDelegate(string s);
+        public async void FMoveProcessStart(TwinCatProcessedDelegate callback,string s)
+        {
+            Func<Task> startTask = () =>
+            {
+                return Task.Run(async () =>
+                {
+                    FMoveCMD.Value = true;
+                    FMoveCompleted.Value = false;
+                    FCmdIndex.Value = ushort.Parse(s);
+                    while (!(bool)FMoveCompleted.Value)
+                    {
+                        await Task.Delay(100);
+                    }
+                    callback("FMOVE");
+                }
+                );
+            };
+            await startTask();
+        }
+        public async void TMoveProcessStart(TwinCatProcessedDelegate callback, string s)
+        {
+            Func<Task> startTask = () =>
+            {
+                return Task.Run(async () =>
+                {
+                    TMoveCMD.Value = true;
+                    TMoveCompleted.Value = false;
+                    TCmdIndex.Value = ushort.Parse(s);
+                    while (!(bool)TMoveCompleted.Value)
+                    {
+                        await Task.Delay(100);
+                    }
+                    callback("TMOVE");
+                }
+                );
+            };
+            await startTask();
+        }
+        public async void ULoadProcessStart(TwinCatProcessedDelegate callback)
+        {
+            Func<Task> startTask = () =>
+            {
+                return Task.Run(async () =>
+                {
+                    TUnloadCMD.Value = true;
+                    TUnloadCompleted.Value = false;
+                   
+                    while (!(bool)TUnloadCompleted.Value)
+                    {
+                        await Task.Delay(100);
+                    }
+                    callback("ULOAD");
+                }
+                );
+            };
+            await startTask();
+        }
+        public async void ResetCMDProcessStart(TwinCatProcessedDelegate callback)
+        {
+            Func<Task> startTask = () =>
+            {
+                return Task.Run(async () =>
+                {
+                    ResetCMD.Value = true;
+                    
+
+                    while (!(bool)ResetCMDComplete.Value)
+                    {
+                        await Task.Delay(100);
+                    }
+                    callback("ResetCMD");
+                }
+                );
+            };
+            await startTask();
+        }
+        public async void TwinCatProcessStartCallback(string str)
+        {
+            if (epsonRC90.TestSendStatus)
+            {
+                await epsonRC90.TestSentNet.SendAsync(str);
+            }
+        }
         #endregion
         #region 事件相应函数
+        private void EPSONCommTwincatEventProcess(string str)
+        {
+            string[] strs = str.Split(',');
+            switch (strs[0])
+            {
+                case "FMOVE":
+                    FMoveProcessStart(TwinCatProcessStartCallback, strs[1]);
+                    break;
+                case "TMOVE":
+                    TMoveProcessStart(TwinCatProcessStartCallback, strs[1]);
+                    break;
+                case "ULOAD":
+                    ULoadProcessStart(TwinCatProcessStartCallback);
+                    break;
+                case "ResetCMD":
+                    ResetCMDProcessStart(TwinCatProcessStartCallback);
+                    break;
+                default:
+                    break;
+            }
+        }
         private void ModelPrintEventProcess(string str)
         {
             Msg = messagePrint.AddMessage(str);
@@ -2212,21 +2343,21 @@ namespace Omicron.ViewModel
                     }
                     if (IsPLCConnect)
                     {
-                        IsPLCConnect = XinjiePLC.readM(24576);
+                        IsPLCConnect = XinjiePLC.readM(36864);
                     }
                 }
                 else
                 {
-                    IsPLCConnect = XinjiePLC.readM(24576);
+                    IsPLCConnect = XinjiePLC.readM(36864);
                     //拍照
-                    TakePhoteFlage = XinjiePLC.readM(2100);
+                    TakePhoteFlage = XinjiePLC.readM(406);
                     if (_TakePhoteFlage != TakePhoteFlage)
                     {
                         _TakePhoteFlage = TakePhoteFlage;
                         if (TakePhoteFlage == true)
                         {
-                            XinjiePLC.setM(2100, false);
-                            XinjiePLC.setM(2006, false);
+                            XinjiePLC.setM(406, false);
+                            XinjiePLC.setM(407, false);
                             Async.RunFuncAsync(cameraHcInspect, PLCTakePhoteCallback);
                         }
                     }
@@ -2236,11 +2367,11 @@ namespace Omicron.ViewModel
                         _IsShieldTheDoor = IsShieldTheDoor;
                         if (IsShieldTheDoor)
                         {
-                            XinjiePLC.setM(1000, true);
+                            XinjiePLC.setM(1200, true);
                         }
                         else
                         {
-                            XinjiePLC.setM(1000, false);
+                            XinjiePLC.setM(1200, false);
                         }
                     }
                     //电磁铁
@@ -2751,7 +2882,7 @@ namespace Omicron.ViewModel
             string str = "FeedFill";
             if (FindFill1)
             {
-                XinjiePLC.setM(2000, true);
+                XinjiePLC.setM(400, true);
                 str += ";1";
             }
             else
@@ -2760,7 +2891,7 @@ namespace Omicron.ViewModel
             }
             if (FindFill2)
             {
-                XinjiePLC.setM(2001, true);
+                XinjiePLC.setM(401, true);
                 str += ";1";
             }
             else
@@ -2769,7 +2900,7 @@ namespace Omicron.ViewModel
             }
             if (FindFill3)
             {
-                XinjiePLC.setM(2002, true);
+                XinjiePLC.setM(402, true);
                 str += ";1";
             }
             else
@@ -2778,7 +2909,7 @@ namespace Omicron.ViewModel
             }
             if (FindFill4)
             {
-                XinjiePLC.setM(2003, true);
+                XinjiePLC.setM(403, true);
                 str += ";1";
             }
             else
@@ -2787,7 +2918,7 @@ namespace Omicron.ViewModel
             }
             if (FindFill5)
             {
-                XinjiePLC.setM(2004, true);
+                XinjiePLC.setM(404, true);
                 str += ";1";
             }
             else
@@ -2796,14 +2927,14 @@ namespace Omicron.ViewModel
             }
             if (FindFill6)
             {
-                XinjiePLC.setM(2005, true);
+                XinjiePLC.setM(405, true);
                 str += ";1";
             }
             else
             {
                 str += ";0";
             }
-            XinjiePLC.setM(2006, true);
+            XinjiePLC.setM(407, true);
             await Task.Delay(1);
             Msg = messagePrint.AddMessage(str);
             //if (epsonRC90.TestSendStatus)

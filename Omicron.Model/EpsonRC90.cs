@@ -66,6 +66,7 @@ namespace Omicron.Model
         #region 事件定义
         public delegate void PrintEventHandler(string ModelMessageStr);
         public event PrintEventHandler ModelPrint;
+        public event PrintEventHandler EPSONCommTwincat;
         public delegate void EpsonStatusEventHandler(string EpsonStatusString);
         public event EpsonStatusEventHandler EpsonStatusUpdate;
         public delegate void ScanEventHandler(string bar, HImage img);
@@ -400,6 +401,18 @@ namespace Omicron.Model
                                         default:
                                             break;
                                     }
+                                    break;
+                                case "FMOVE":
+                                    EPSONCommTwincat(s);
+                                    break;
+                                case "TMOVE":
+                                    EPSONCommTwincat(s);
+                                    break;
+                                case "ULOAD":
+                                    EPSONCommTwincat(s);
+                                    break;
+                                case "ResetCMD":
+                                    EPSONCommTwincat(s);
                                     break;
                                 default:
                                     ModelPrint("无效指令： " + s);
