@@ -61,7 +61,7 @@ namespace Omicron.Model
         private bool isLogined = false;
         public Tester[] tester = new Tester[4];
         //private string barcodeString = "";
-
+        private string BarcodeString = "";
         #endregion
         #region 事件定义
         public delegate void PrintEventHandler(string ModelMessageStr);
@@ -71,8 +71,10 @@ namespace Omicron.Model
         public event EpsonStatusEventHandler EpsonStatusUpdate;
         public delegate void ScanEventHandler(string bar, HImage img);
         public delegate void ScanP3EventHandler(string bar, HImage img, HObject hObject);
+        public delegate void ScanP3EventHandler1(string bar);
         public event ScanEventHandler ScanUpdate;
         public event ScanP3EventHandler ScanP3Update;
+        public event ScanP3EventHandler1 ScanP3Update1;
         public delegate void TestFinishedHandler(int index);
         public event TestFinishedHandler TestFinished;
         #endregion
@@ -81,6 +83,7 @@ namespace Omicron.Model
         {
             try
             {
+                Scan.ini("COM1");
                 IP = Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonIp", "192.168.1.2");
                 TestSentPort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonTestSendPort", "2000"));
                 TestReceivePort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonTestReceivePort", "2001"));
@@ -319,10 +322,12 @@ namespace Omicron.Model
                             switch (strs[0])
                             {
                                 case "Scan":
-                                    EpsonScanAction(strs[1], BacodeProcess);
+                                    //EpsonScanAction(strs[1], BacodeProcess);
+                                    R750Inspect();
                                     break;
                                 case "ScanP3":
-                                    EpsonScanAction(strs[1], BacodeProcess);
+                                    //EpsonScanAction(strs[1], BacodeProcess);
+                                    R750Inspect();
                                     break;
                                 case "SaveBarcode":
                                     switch (strs[2])
@@ -367,7 +372,7 @@ namespace Omicron.Model
                                                     break;
                                             }
                                             Inifile.INIWriteValue(iniParameterPath, "Barcode", barstr, PickBracodeA);
-                                            tester[int.Parse(strs[1]) - 1].Start(StartProcess);
+                                            tester[int.Parse(strs[1]) - 1].Start1(StartProcess);
                                             break;
                                         case "B":
                                             Tester.IsInSampleMode = false;
@@ -396,7 +401,7 @@ namespace Omicron.Model
                                                     break;
                                             }
                                             Inifile.INIWriteValue(iniParameterPath, "Barcode", barstr, PickBracodeB);
-                                            tester[int.Parse(strs[1]) - 1].Start(StartProcess);
+                                            tester[int.Parse(strs[1]) - 1].Start1(StartProcess);
                                             break;
                                         default:
                                             break;
@@ -497,7 +502,7 @@ namespace Omicron.Model
         private delegate void EpsonScanProcessedDelegate(string bar,string pick);
         private void EpsonScanAction(string pick, EpsonScanProcessedDelegate callback)
         {
-            //callback(scanCameraInspect(), pick);
+            callback(scanCameraInspect(), pick);
         }
         private async void BacodeProcess(string barcode, string pick)
         {
@@ -610,6 +615,36 @@ namespace Omicron.Model
 
             return barcodeString;
             //return "Z71A0HB2HP192Z" + getString(2);
+        }
+        public void R750Inspect()
+        {
+            Scan.GetBarCode(R750InspectCallback);
+            
+            //return barcodeString;
+            //return "Z71A0HB2HP192Z" + getString(2);
+        }
+        private async void R750InspectCallback(string barcode)
+        {
+            PickBracodeA = barcode;
+            Inifile.INIWriteValue(iniParameterPath, "Barcode", "PickBracodeA", PickBracodeA);
+            if (barcode == "Error")
+            {
+
+                ModelPrint("扫码不良");
+                if (TestSendStatus)
+                {
+                    await TestSentNet.SendAsync("ScanResult;Ng;A");
+                }
+            }
+            else
+            {
+                ModelPrint("扫码成功 " + barcode);
+                if (TestSendStatus)
+                {
+                    await TestSentNet.SendAsync("ScanResult;Pass;A");
+                }
+            }
+            ScanP3Update1(barcode);
         }
         public string getString(int count)
         {

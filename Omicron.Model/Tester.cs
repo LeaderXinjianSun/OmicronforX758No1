@@ -108,6 +108,21 @@ namespace Omicron.Model
             }
         }
         public delegate void StartProcessedDelegate(int index);
+        public async void Start1(StartProcessedDelegate callback)
+        {
+            Stopwatch sw = new Stopwatch();
+            int mResult = 1;
+            sw.Start();
+            testResult = TestResult.Unknow;
+            testStatus = TestStatus.Testing;
+            for (int i = 0; i < 50; i++)
+            {
+                await Task.Delay(1000);
+                TestSpan = Math.Round(sw.Elapsed.TotalSeconds, 2);
+            }
+            UpdateTester(mResult);
+            callback(Index);
+        }
         public async void Start(StartProcessedDelegate callback)
         {
             Stopwatch sw = new Stopwatch();
