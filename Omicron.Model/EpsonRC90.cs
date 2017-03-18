@@ -372,7 +372,7 @@ namespace Omicron.Model
                                                     break;
                                             }
                                             Inifile.INIWriteValue(iniParameterPath, "Barcode", barstr, PickBracodeA);
-                                            tester[int.Parse(strs[1]) - 1].Start1(StartProcess);
+                                            tester[int.Parse(strs[1]) - 1].Start(StartProcess);
                                             break;
                                         case "B":
                                             Tester.IsInSampleMode = false;
@@ -401,7 +401,7 @@ namespace Omicron.Model
                                                     break;
                                             }
                                             Inifile.INIWriteValue(iniParameterPath, "Barcode", barstr, PickBracodeB);
-                                            tester[int.Parse(strs[1]) - 1].Start1(StartProcess);
+                                            tester[int.Parse(strs[1]) - 1].Start(StartProcess);
                                             break;
                                         default:
                                             break;
@@ -619,7 +619,8 @@ namespace Omicron.Model
         public void R750Inspect()
         {
             Scan.GetBarCode(R750InspectCallback);
-            
+            //R750InspectCallback("123");
+
             //return barcodeString;
             //return "Z71A0HB2HP192Z" + getString(2);
         }

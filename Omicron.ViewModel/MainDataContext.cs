@@ -280,6 +280,7 @@ namespace Omicron.ViewModel
         private MessagePrint messagePrint = new MessagePrint();
         private dialog mydialog = new dialog();
         private string iniParameterPath = System.Environment.CurrentDirectory + "\\Parameter.ini";
+        private string TwincatParameterPath = System.Environment.CurrentDirectory + "\\TwincatParameter.ini";
         private string iniTesterResutPath = System.Environment.CurrentDirectory + "\\TesterResut.ini";
         private XinjiePlc XinjiePLC;
         private HdevEngine hdevEngine = new HdevEngine();
@@ -410,11 +411,11 @@ namespace Omicron.ViewModel
 
             FMoveCMD = new TwinCATCoil1(new TwinCATCoil("MAIN.FMoveCMD", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
             FMoveCompleted = new TwinCATCoil1(new TwinCATCoil("MAIN.FMoveCompleted", typeof(bool), TwinCATCoil.Mode.Notice, 1), _TwinCATAds);
-            FCmdIndex = new TwinCATCoil1(new TwinCATCoil("MAIN.FCmdIndex", typeof(ushort), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            FCmdIndex = new TwinCATCoil1(new TwinCATCoil("MAIN.FCmdIndex", typeof(ushort), TwinCATCoil.Mode.Notice, 1), _TwinCATAds);
 
             TMoveCMD = new TwinCATCoil1(new TwinCATCoil("MAIN.TMoveCMD", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
             TMoveCompleted = new TwinCATCoil1(new TwinCATCoil("MAIN.TMoveCompleted", typeof(bool), TwinCATCoil.Mode.Notice, 1), _TwinCATAds);
-            TCmdIndex = new TwinCATCoil1(new TwinCATCoil("MAIN.TCmdIndex", typeof(ushort), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            TCmdIndex = new TwinCATCoil1(new TwinCATCoil("MAIN.TCmdIndex", typeof(ushort), TwinCATCoil.Mode.Notice, 1), _TwinCATAds);
 
             TUnloadCMD = new TwinCATCoil1(new TwinCATCoil("MAIN.TUnloadCMD", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
             TUnloadCompleted = new TwinCATCoil1(new TwinCATCoil("MAIN.TUnloadCompleted", typeof(bool), TwinCATCoil.Mode.Notice,1), _TwinCATAds);
@@ -1011,6 +1012,20 @@ namespace Omicron.ViewModel
                 Log.Default.Error("SaveLastSamplTimetoIni", ex);
             }
         }
+        public void SaveTwincatDateAction()
+        {
+            try
+            {
+                Inifile.INIWriteValue(TwincatParameterPath, "XY", "ReleasePositionX1", ReleasePositionX1.Value.ToString());
+                Inifile.INIWriteValue(TwincatParameterPath, "XY", "ReleasePositionY1", ReleasePositionY1.Value.ToString());
+                Msg = messagePrint.AddMessage("保存轴控参数完成");
+            }
+            catch 
+            {
+
+                Msg = messagePrint.AddMessage("保存轴控参数失败");
+            }
+        }
         #endregion
         #region BECKHOFF
         public void ServoResetAction(object p)
@@ -1530,9 +1545,11 @@ namespace Omicron.ViewModel
             {
                 return Task.Run(async () =>
                 {
+                    FCmdIndex.Value = ushort.Parse(s);
+                    await Task.Delay(100);
                     FMoveCMD.Value = true;
                     FMoveCompleted.Value = false;
-                    FCmdIndex.Value = ushort.Parse(s);
+                    
                     while (!(bool)FMoveCompleted.Value)
                     {
                         await Task.Delay(100);
@@ -1568,9 +1585,11 @@ namespace Omicron.ViewModel
             {
                 return Task.Run(async () =>
                 {
+                    TCmdIndex.Value = ushort.Parse(s);
+                    await Task.Delay(100);
                     TMoveCMD.Value = true;
                     TMoveCompleted.Value = false;
-                    TCmdIndex.Value = ushort.Parse(s);
+                    
                     while (!(bool)TMoveCompleted.Value)
                     {
                         await Task.Delay(100);
@@ -2356,23 +2375,35 @@ namespace Omicron.ViewModel
                             XinjiePLC.setM(1200, false);
                         }
                     }
-
-
- 
-
-
-    
-                    
-
-                    if (_PLCUnload != (bool)PLCUnload.Value)
+                    if (NeedNoiseReduce)
                     {
-                        _PLCUnload = (bool)PLCUnload.Value;
-                        if ((bool)PLCUnload.Value)
+                        NeedNoiseReduce = false;
+                        XinjiePLC.setM(1301, true);
+                    }
+
+                    try
+                    {
+                        if (_PLCUnload != (bool)PLCUnload.Value)
                         {
-                            XinjiePLC.setM(901,true);
-                            PLCUnLoadProcessStart(PLCUnLoadCallback);
+                            _PLCUnload = (bool)PLCUnload.Value;
+                            if ((bool)PLCUnload.Value)
+                            {
+                                XinjiePLC.setM(901, true);
+                                PLCUnLoadProcessStart(PLCUnLoadCallback);
+                            }
                         }
                     }
+                    catch 
+                    {
+
+                       
+                    }
+
+
+
+
+
+
                 }
 
             }

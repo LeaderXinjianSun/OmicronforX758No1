@@ -413,6 +413,15 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
+            <TabItem Header="记录">
+                <Grid>
+                    <StackPanel Orientation="Vertical">
+                        <Button Width="100" Content="记录" Command="{mvvm:ActionAuto SaveTwincatDateAction}">
+
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
         </TabControl>   
     </Grid>
 </UserControl>

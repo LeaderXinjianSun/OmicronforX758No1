@@ -115,7 +115,7 @@ namespace Omicron.Model
             sw.Start();
             testResult = TestResult.Unknow;
             testStatus = TestStatus.Testing;
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 35; i++)
             {
                 await Task.Delay(1000);
                 TestSpan = Math.Round(sw.Elapsed.TotalSeconds, 2);

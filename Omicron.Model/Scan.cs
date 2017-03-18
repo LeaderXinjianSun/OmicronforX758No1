@@ -28,8 +28,8 @@ namespace Omicron.Model
         public static void ini(string Com)
         {
             mSerialPort = new SerialPort(Com, 115200, System.IO.Ports.Parity.Even, 8, System.IO.Ports.StopBits.One);
-            mSerialPort.ReadTimeout = 1000;
-            mSerialPort.WriteTimeout = 1000;
+            mSerialPort.ReadTimeout = 10000;
+            mSerialPort.WriteTimeout = 10000;
         }
         public static void Connect()
         {
@@ -66,6 +66,8 @@ namespace Omicron.Model
                             mSerialPort.ReadExisting();
                             mSerialPort.Write(START_DECODE, 0, START_DECODE.Length);
                             BarCode = mSerialPort.ReadLine();
+                            string[] ss = BarCode.Split(new string[] { "\r" }, StringSplitOptions.RemoveEmptyEntries);
+                            BarCode = ss[0];
                         }
                         State = true;
                     }
