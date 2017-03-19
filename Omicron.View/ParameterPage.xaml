@@ -110,21 +110,21 @@
         <GroupBox Header="测试机选择" FontSize="18" Grid.Column="0" Grid.Row="2">
             <StackPanel Margin="0,20,0,8" Orientation="Vertical">
                 <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
-                    <CheckBox x:Name="CheckBox1" Content="测试机AL" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedAL}"></CheckBox>
-                    <CheckBox x:Name="CheckBox2" Content="测试机AR" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedAR}"></CheckBox>
-                    <CheckBox x:Name="CheckBox3" Content="测试机BL" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedBL}"></CheckBox>
+                    <CheckBox x:Name="CheckBox1" Content="测试机A" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedAL}"></CheckBox>
+                    <!--<CheckBox x:Name="CheckBox2" Content="测试机AR" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedAR}"></CheckBox>-->
+                    <CheckBox x:Name="CheckBox3" Content="测试机B" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedBL}"></CheckBox>
                     <Button Margin="20,0,0,0" Content="更新" Command="{mvvm:ActionAuto UpdateSelectFlexer}"></Button>
                 </StackPanel>
-                <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
+                <!--<StackPanel Margin="5,5,5,0" Orientation="Horizontal">
                     <CheckBox x:Name="CheckBox4" Content="测试机BR"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedBR}"></CheckBox>
-                    <!--<CheckBox Content="单穴循环测试模式"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding SingleTestMode}"></CheckBox>-->
-                </StackPanel>
-                <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
+                    --><!--<CheckBox Content="单穴循环测试模式"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding SingleTestMode}"></CheckBox>--><!--
+                </StackPanel>-->
+                <!--<StackPanel Margin="5,5,5,0" Orientation="Horizontal">
                     
                     <CheckBox Content="单穴循环测试模式"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding SingleTestMode}"></CheckBox>
                     <TextBlock Style="{StaticResource TextBlockBarcode}">工位（1 - 4）:</TextBlock>
                     <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding SingleTestModeStageNum}"></TextBox>
-                </StackPanel>
+                </StackPanel>-->
                 <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
 
                     <CheckBox x:Name="CheckBox5"  Content="AAB复测测试模式"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding AABReTest}"></CheckBox>
@@ -139,7 +139,7 @@
                     <TextBlock Style="{StaticResource TextBlockBase}" Text="连续NG次数："></TextBlock>
                     <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding NGContinueNum}"></TextBox>
                     <TextBlock Style="{StaticResource TextBlockBase}" Text="次"></TextBlock>
-                    <control:ToggleSwitch Margin="30,0,0,0" Width="100" Foreground="Red" FontSize="20" OnLabel="P2" OffSwitchBrush="Gold" OffLabel="P3" IsChecked="{Binding BarcodeMode}"></control:ToggleSwitch>
+                    <!--<control:ToggleSwitch Margin="30,0,0,0" Width="100" Foreground="Red" FontSize="20" OnLabel="P2" OffSwitchBrush="Gold" OffLabel="P3" IsChecked="{Binding BarcodeMode}"></control:ToggleSwitch>-->
                 </StackPanel>
                 <!--<StackPanel Margin="5,15,5,0" Orientation="Horizontal">
                     --><!--<CheckBox Content="AB组吸嘴" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding ABChecked}"></CheckBox>

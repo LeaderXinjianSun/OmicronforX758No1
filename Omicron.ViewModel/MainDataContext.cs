@@ -277,6 +277,26 @@ namespace Omicron.ViewModel
         public virtual TwinCATCoil1 WaitPLCUnload { set; get; }
 
         public virtual TwinCATCoil1 SaveButton { set; get; }
+        public virtual TwinCATCoil1 SuckFailedFlag { set; get; }
+        public virtual TwinCATCoil1 SuckAlarmRst { set; get; }
+        public virtual bool _SuckFailedFlag { set; get; }
+
+        public virtual TwinCATCoil1 M420 { set; get; }
+        public virtual TwinCATCoil1 M1202 { set; get; }
+
+        public virtual TwinCATCoil1 AlarmStr { set; get; }
+
+        public virtual TwinCATCoil1 XYRDYtoDebug { set; get; }
+        public virtual TwinCATCoil1 FRDYtoDebug { set; get; }
+        public virtual TwinCATCoil1 TRDYtoDebug { set; get; }
+
+        public virtual TwinCATCoil1 XYDebugCMD { set; get; }
+        public virtual TwinCATCoil1 FDebugCMD { set; get; }
+        public virtual TwinCATCoil1 TDebugCMD { set; get; }
+
+        public virtual TwinCATCoil1 XYDebugComplete { set; get; }
+        public virtual TwinCATCoil1 FDebugComplete { set; get; }
+        public virtual TwinCATCoil1 TDebugComplete { set; get; }
 
         #endregion
         #region 变量定义区域
@@ -430,6 +450,28 @@ namespace Omicron.ViewModel
             WaitPLCUnload = new TwinCATCoil1(new TwinCATCoil("MAIN.WaitPLCUnload", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
 
             SaveButton = new TwinCATCoil1(new TwinCATCoil("MAIN.SaveButton", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            SuckFailedFlag = new TwinCATCoil1(new TwinCATCoil("MAIN.SuckFailedFlag", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            SuckAlarmRst = new TwinCATCoil1(new TwinCATCoil("MAIN.SuckAlarmRst", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            M420 = new TwinCATCoil1(new TwinCATCoil("MAIN.M420", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            M1202 = new TwinCATCoil1(new TwinCATCoil("MAIN.M1202", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            AlarmStr = new TwinCATCoil1(new TwinCATCoil("MAIN.AlarmStr", typeof(string), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            XYRDYtoDebug = new TwinCATCoil1(new TwinCATCoil("MAIN.XYRDYtoDebug", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            FRDYtoDebug = new TwinCATCoil1(new TwinCATCoil("MAIN.FRDYtoDebug", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            TRDYtoDebug = new TwinCATCoil1(new TwinCATCoil("MAIN.TRDYtoDebug", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            XYDebugCMD = new TwinCATCoil1(new TwinCATCoil("MAIN.XYDebugCMD", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            FDebugCMD = new TwinCATCoil1(new TwinCATCoil("MAIN.FDebugCMD", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            TDebugCMD = new TwinCATCoil1(new TwinCATCoil("MAIN.TDebugCMD", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+
+            XYDebugComplete = new TwinCATCoil1(new TwinCATCoil("MAIN.XYDebugComplete", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            FDebugComplete = new TwinCATCoil1(new TwinCATCoil("MAIN.FDebugComplete", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            TDebugComplete = new TwinCATCoil1(new TwinCATCoil("MAIN.TDebugComplete", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
 
             _TwinCATAds.StartNotice();
         }
@@ -1095,6 +1137,76 @@ namespace Omicron.ViewModel
         }
         #endregion
         #region BECKHOFF
+        public void TwincatOperateAction(object p)
+        {
+            try
+            {
+                switch (p.ToString())
+                {
+                    case "1":
+                        if ((bool)SuckFailedFlag.Value)
+                        {
+                            SuckAlarmRst.Value = true;
+                        }
+                        break;
+                    case "2":
+                        if ((bool)XYRDYtoDebug.Value)
+                        {
+                            XYDebugCMD.Value = true;
+                        }
+                        
+                        
+                        break;
+                    case "3":
+                        if ((bool)XYInDebug.Value)
+                        {
+                            XYDebugComplete.Value = true;
+                        }
+                        
+
+                        break;
+                    case "4":
+                        if ((bool)FRDYtoDebug.Value)
+                        {
+                            FDebugCMD.Value = true;
+                        }
+
+
+                        break;
+                    case "5":
+                        if ((bool)FInDebug.Value)
+                        {
+                            FDebugComplete.Value = true;
+                        }
+
+
+                        break;
+                    case "6":
+                        if ((bool)TRDYtoDebug.Value)
+                        {
+                            TDebugCMD.Value = true;
+                        }
+
+
+                        break;
+                    case "7":
+                        if ((bool)TInDebug.Value)
+                        {
+                            TDebugComplete.Value = true;
+                        }
+
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch 
+            {
+
+                
+            }
+        }
         public void ServoResetAction(object p)
         {
             try
@@ -2104,6 +2216,8 @@ namespace Omicron.ViewModel
         #region UI更新
         private async void UpdateUI()
         {
+            string _AlarmStr = "";
+            bool TwincatNeedAlarm = false;
             while (true)
             {
                 await Task.Delay(100);
@@ -2252,6 +2366,15 @@ namespace Omicron.ViewModel
                     ServoHomed2 = (bool)YRDY.Value;
                     ServoHomed3 = (bool)FRDY.Value;
                     ServoHomed4 = (bool)TRDY.Value;
+                    _SuckFailedFlag = (bool)SuckFailedFlag.Value;
+                    if (_AlarmStr != (string)AlarmStr.Value)
+                    {
+                        _AlarmStr = (string)AlarmStr.Value;
+                        if (_AlarmStr.Length > 0)
+                        {
+                            Msg = messagePrint.AddMessage(_AlarmStr);
+                        }
+                    }
                 }
                 catch 
                 {
@@ -2385,7 +2508,7 @@ namespace Omicron.ViewModel
             bool TakePhoteFlage = false, _TakePhoteFlage = false;
             bool _IsShieldTheDoor = false;
 
-
+            bool beckhoff_SuckFailedFlag = false;
 
             bool _PLCUnload = false;
 
@@ -2459,6 +2582,21 @@ namespace Omicron.ViewModel
                                 PLCUnLoadProcessStart(PLCUnLoadCallback);
                             }
                         }
+                        if (beckhoff_SuckFailedFlag != (bool)SuckFailedFlag.Value)
+                        {
+                            beckhoff_SuckFailedFlag = (bool)SuckFailedFlag.Value;
+                            if ((bool)SuckFailedFlag.Value)
+                            {
+                                XinjiePLC.setM(1201, true);//倍福吸取失败报警
+                            }
+                            else
+                            {
+                                XinjiePLC.setM(1201, true);
+                            }
+                        }
+
+                        M420.Value = XinjiePLC.readM(420);
+                        M1202.Value = XinjiePLC.readM(1202);
                     }
                     catch 
                     {

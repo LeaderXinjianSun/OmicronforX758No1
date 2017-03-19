@@ -66,7 +66,11 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="X、Y轴："></TextBlock>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="调试&#13;开始" FontSize="12" IsChecked="{Binding XYRDYtoDebug.Value}" Command="{mvvm:ActionAutoWithParam TwincatOperateAction}" CommandParameter="2"></ToggleButton>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="调试&#13;复位" FontSize="12" IsChecked="{Binding XYInDebug.Value}" Command="{mvvm:ActionAutoWithParam TwincatOperateAction}" CommandParameter="3"></ToggleButton>
+                            </StackPanel>
                             <StackPanel Grid.Row="1" Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="X轴："></TextBlock>
                                 <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="SVN" FontSize="18" IsChecked="{Binding PowerOn1.Value}" Command="{mvvm:ActionAutoWithParam ServoONAction}" CommandParameter="1"></ToggleButton>
@@ -193,8 +197,12 @@
                                 <RowDefinition></RowDefinition>
 
                             </Grid.RowDefinitions>
-
                             <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="F轴："></TextBlock>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="调试&#13;开始" FontSize="12" IsChecked="{Binding FRDYtoDebug.Value}" Command="{mvvm:ActionAutoWithParam TwincatOperateAction}" CommandParameter="4"></ToggleButton>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="调试&#13;复位" FontSize="12" IsChecked="{Binding FInDebug.Value}" Command="{mvvm:ActionAutoWithParam TwincatOperateAction}" CommandParameter="5"></ToggleButton>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="F轴："></TextBlock>
                                 <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="SVN" FontSize="18" IsChecked="{Binding PowerOn3.Value}" Command="{mvvm:ActionAutoWithParam ServoONAction}" CommandParameter="3"></ToggleButton>
                                 <Button Width="50" Height="50" Content="Rst" FontSize="18" Command="{mvvm:ActionAutoWithParam ServoResetAction}" CommandParameter="3"></Button>
@@ -328,8 +336,12 @@
                                 <RowDefinition></RowDefinition>
 
                             </Grid.RowDefinitions>
-
                             <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="T轴："></TextBlock>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="调试&#13;开始" FontSize="12" IsChecked="{Binding TRDYtoDebug.Value}" Command="{mvvm:ActionAutoWithParam TwincatOperateAction}" CommandParameter="6"></ToggleButton>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="调试&#13;复位" FontSize="12" IsChecked="{Binding TInDebug.Value}" Command="{mvvm:ActionAutoWithParam TwincatOperateAction}" CommandParameter="7"></ToggleButton>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="T轴："></TextBlock>
                                 <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="SVN" FontSize="18" IsChecked="{Binding PowerOn4.Value}" Command="{mvvm:ActionAutoWithParam ServoONAction}" CommandParameter="4"></ToggleButton>
                                 <Button Width="50" Height="50" Content="Rst" FontSize="18" Command="{mvvm:ActionAutoWithParam ServoResetAction}" CommandParameter="4"></Button>
