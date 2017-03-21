@@ -28,8 +28,8 @@ namespace Omicron.Model
         public static void ini(string Com)
         {
             mSerialPort = new SerialPort(Com, 115200, System.IO.Ports.Parity.Even, 8, System.IO.Ports.StopBits.One);
-            mSerialPort.ReadTimeout = 10000;
-            mSerialPort.WriteTimeout = 10000;
+            mSerialPort.ReadTimeout = 1000;
+            mSerialPort.WriteTimeout = 1000;
         }
         public static void Connect()
         {

@@ -68,8 +68,8 @@
                             </Grid.RowDefinitions>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="X、Y轴："></TextBlock>
-                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="调试&#13;开始" FontSize="12" IsChecked="{Binding XYRDYtoDebug.Value}" Command="{mvvm:ActionAutoWithParam TwincatOperateAction}" CommandParameter="2"></ToggleButton>
-                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="调试&#13;复位" FontSize="12" IsChecked="{Binding XYInDebug.Value}" Command="{mvvm:ActionAutoWithParam TwincatOperateAction}" CommandParameter="3"></ToggleButton>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="调试&#13;开始" FontSize="12" IsChecked="{Binding _XYRDYtoDebug}" Command="{mvvm:ActionAutoWithParam TwincatOperateAction}" CommandParameter="2"></ToggleButton>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="调试&#13;复位" FontSize="12" IsChecked="{Binding _XYInDebug}" Command="{mvvm:ActionAutoWithParam TwincatOperateAction}" CommandParameter="3"></ToggleButton>
                             </StackPanel>
                             <StackPanel Grid.Row="1" Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="X轴："></TextBlock>
@@ -199,8 +199,8 @@
                             </Grid.RowDefinitions>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="F轴："></TextBlock>
-                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="调试&#13;开始" FontSize="12" IsChecked="{Binding FRDYtoDebug.Value}" Command="{mvvm:ActionAutoWithParam TwincatOperateAction}" CommandParameter="4"></ToggleButton>
-                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="调试&#13;复位" FontSize="12" IsChecked="{Binding FInDebug.Value}" Command="{mvvm:ActionAutoWithParam TwincatOperateAction}" CommandParameter="5"></ToggleButton>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="调试&#13;开始" FontSize="12" IsChecked="{Binding _FRDYtoDebug}" Command="{mvvm:ActionAutoWithParam TwincatOperateAction}" CommandParameter="4"></ToggleButton>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="调试&#13;复位" FontSize="12" IsChecked="{Binding _FInDebug}" Command="{mvvm:ActionAutoWithParam TwincatOperateAction}" CommandParameter="5"></ToggleButton>
                             </StackPanel>
                             <StackPanel Grid.Row="1" Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="F轴："></TextBlock>
@@ -338,8 +338,8 @@
                             </Grid.RowDefinitions>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="T轴："></TextBlock>
-                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="调试&#13;开始" FontSize="12" IsChecked="{Binding TRDYtoDebug.Value}" Command="{mvvm:ActionAutoWithParam TwincatOperateAction}" CommandParameter="6"></ToggleButton>
-                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="调试&#13;复位" FontSize="12" IsChecked="{Binding TInDebug.Value}" Command="{mvvm:ActionAutoWithParam TwincatOperateAction}" CommandParameter="7"></ToggleButton>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="调试&#13;开始" FontSize="12" IsChecked="{Binding _TRDYtoDebug}" Command="{mvvm:ActionAutoWithParam TwincatOperateAction}" CommandParameter="6"></ToggleButton>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="调试&#13;复位" FontSize="12" IsChecked="{Binding _TInDebug}" Command="{mvvm:ActionAutoWithParam TwincatOperateAction}" CommandParameter="7"></ToggleButton>
                             </StackPanel>
                             <StackPanel Grid.Row="1" Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource  TextBlockParameterName}" Text="T轴："></TextBlock>

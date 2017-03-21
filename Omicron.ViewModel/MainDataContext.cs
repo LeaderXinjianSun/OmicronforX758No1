@@ -215,6 +215,10 @@ namespace Omicron.ViewModel
         public virtual TwinCATCoil1 FInDebug { set; get; }
         public virtual TwinCATCoil1 TInDebug { set; get; }
 
+        public virtual bool _XYInDebug { set; get; }
+        public virtual bool _FInDebug { set; get; }
+        public virtual bool _TInDebug { set; get; }
+
         public virtual TwinCATCoil1 EF104 { set; get; }
         public virtual TwinCATCoil1 EF114 { set; get; }
 
@@ -290,6 +294,10 @@ namespace Omicron.ViewModel
         public virtual TwinCATCoil1 FRDYtoDebug { set; get; }
         public virtual TwinCATCoil1 TRDYtoDebug { set; get; }
 
+        public virtual bool _XYRDYtoDebug { set; get; }
+        public virtual bool _FRDYtoDebug { set; get; }
+        public virtual bool _TRDYtoDebug { set; get; }
+
         public virtual TwinCATCoil1 XYDebugCMD { set; get; }
         public virtual TwinCATCoil1 FDebugCMD { set; get; }
         public virtual TwinCATCoil1 TDebugCMD { set; get; }
@@ -297,6 +305,8 @@ namespace Omicron.ViewModel
         public virtual TwinCATCoil1 XYDebugComplete { set; get; }
         public virtual TwinCATCoil1 FDebugComplete { set; get; }
         public virtual TwinCATCoil1 TDebugComplete { set; get; }
+
+        public virtual TwinCATCoil1 M1202_1 { set; get; }
 
         #endregion
         #region 变量定义区域
@@ -471,6 +481,8 @@ namespace Omicron.ViewModel
             XYDebugComplete = new TwinCATCoil1(new TwinCATCoil("MAIN.XYDebugComplete", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
             FDebugComplete = new TwinCATCoil1(new TwinCATCoil("MAIN.FDebugComplete", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
             TDebugComplete = new TwinCATCoil1(new TwinCATCoil("MAIN.TDebugComplete", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            M1202_1 = new TwinCATCoil1(new TwinCATCoil("MAIN.M1202_1", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
 
 
             _TwinCATAds.StartNotice();
@@ -2217,7 +2229,7 @@ namespace Omicron.ViewModel
         private async void UpdateUI()
         {
             string _AlarmStr = "";
-            bool TwincatNeedAlarm = false;
+            //bool TwincatNeedAlarm = false;
             while (true)
             {
                 await Task.Delay(100);
@@ -2367,14 +2379,22 @@ namespace Omicron.ViewModel
                     ServoHomed3 = (bool)FRDY.Value;
                     ServoHomed4 = (bool)TRDY.Value;
                     _SuckFailedFlag = (bool)SuckFailedFlag.Value;
-                    if (_AlarmStr != (string)AlarmStr.Value)
-                    {
-                        _AlarmStr = (string)AlarmStr.Value;
-                        if (_AlarmStr.Length > 0)
-                        {
-                            Msg = messagePrint.AddMessage(_AlarmStr);
-                        }
-                    }
+                    //if (_AlarmStr != (string)AlarmStr.Value)
+                    //{
+                    //    _AlarmStr = (string)AlarmStr.Value;
+                    //    if (_AlarmStr.Length > 0)
+                    //    {
+                    //        Msg = messagePrint.AddMessage(_AlarmStr);
+                    //    }
+                    //}
+                    _XYInDebug = (bool)XYInDebug.Value;
+                    _FInDebug = (bool)FInDebug.Value;
+                    _TInDebug = (bool)TInDebug.Value;
+
+                    
+                    _XYRDYtoDebug = (bool)XYRDYtoDebug.Value;
+                    _FRDYtoDebug = (bool)FRDYtoDebug.Value;
+                    _TRDYtoDebug = (bool)TRDYtoDebug.Value;
                 }
                 catch 
                 {
@@ -2591,7 +2611,7 @@ namespace Omicron.ViewModel
                             }
                             else
                             {
-                                XinjiePLC.setM(1201, true);
+                                XinjiePLC.setM(1201, false);
                             }
                         }
 

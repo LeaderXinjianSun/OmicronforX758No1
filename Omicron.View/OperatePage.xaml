@@ -47,6 +47,7 @@
                     <!--<Button  Grid.Row="2" Grid.Column="0" Style="{StaticResource OperationButton}" Content="上料" Command="{mvvm:ActionAuto LoadMaters}"></Button>
                     <Button  Grid.Row="2" Grid.Column="1" Style="{StaticResource OperationButton}" Content="下料" Command="{mvvm:ActionAuto UnLoadMaters}"></Button>-->
                     <ToggleButton Grid.Row="2" Grid.Column="0" Style="{DynamicResource MetroToggleButtonSVN}" Content="吸" FontSize="18" IsChecked="{Binding _SuckFailedFlag}" Command="{mvvm:ActionAutoWithParam TwincatOperateAction}" CommandParameter="1"></ToggleButton>
+                    <ToggleButton Grid.Row="2" Grid.Column="1" Style="{DynamicResource MetroToggleButtonSVN}" Content="盘" FontSize="18" IsChecked="{Binding M1202_1.Value}"></ToggleButton>
                 </Grid>
                 <Grid Grid.Row="1">
                     <Grid.Resources>
