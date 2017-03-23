@@ -335,6 +335,8 @@ namespace Omicron.ViewModel
         double DebugTargetT = 0;
         ushort fti = 1;
 
+        bool EStop = false;
+
         #endregion
         #region 构造函数
         public MainDataContext()
@@ -1744,8 +1746,16 @@ namespace Omicron.ViewModel
                     while (!(bool)FMoveCompleted.Value)
                     {
                         await Task.Delay(100);
+                        if (EStop)
+                        {
+                            break;
+                        }
                     }
-                    callback("FMOVE;" + s);
+                    if (!EStop)
+                    {
+                        callback("FMOVE;" + s);
+                    }
+                    
                 }
                 );
             };
@@ -1762,8 +1772,16 @@ namespace Omicron.ViewModel
                     while (!XinjiePLC.readM(420))
                     {
                         await Task.Delay(100);
+                        if (EStop)
+                        {
+                            break;
+                        }
                     }
-                    callback();
+                    if (!EStop)
+                    {
+                        callback();
+                    }
+                    
                 }
                 );
             };
@@ -1784,8 +1802,16 @@ namespace Omicron.ViewModel
                     while (!(bool)TMoveCompleted.Value)
                     {
                         await Task.Delay(100);
+                        if (EStop)
+                        {
+                            break;
+                        }
                     }
-                    callback("TMOVE;" + s);
+                    if (!EStop)
+                    {
+                        callback("TMOVE;" + s);
+                    }
+                    
                 }
                 );
             };
@@ -1803,8 +1829,16 @@ namespace Omicron.ViewModel
                     while (!(bool)TUnloadCompleted.Value)
                     {
                         await Task.Delay(100);
+                        if (EStop)
+                        {
+                            break;
+                        }
                     }
-                    callback("ULOAD");
+                    if (!EStop)
+                    {
+                        callback("ULOAD");
+                    }
+                    
                 }
                 );
             };
@@ -1822,8 +1856,16 @@ namespace Omicron.ViewModel
                     while (!(bool)ResetCMDComplete.Value)
                     {
                         await Task.Delay(100);
+                        if (EStop)
+                        {
+                            break;
+                        }
                     }
-                    callback("ResetCMD");
+                    if (!EStop)
+                    {
+                        callback("ResetCMD");
+                    }
+                    
                 }
                 );
             };
@@ -2531,6 +2573,7 @@ namespace Omicron.ViewModel
             bool beckhoff_SuckFailedFlag = false;
 
             bool _PLCUnload = false;
+            bool _EStop = false;
 
             while (true)
             {
@@ -2559,6 +2602,15 @@ namespace Omicron.ViewModel
                 }
                 else
                 {
+                    EStop = XinjiePLC.readM(1204);
+                    if (_EStop != EStop)
+                    {
+                        _EStop = EStop;
+                        if (_EStop)
+                        {
+                            Msg = messagePrint.AddMessage("急停按钮被按下");
+                        }
+                    }
                     IsPLCConnect = XinjiePLC.readM(36864);
                     //拍照
                     TakePhoteFlage = XinjiePLC.readM(406);
