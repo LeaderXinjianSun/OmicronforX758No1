@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="988445936">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="1034024150">
 <procedure name="main">
 <interface/>
 <body>
@@ -22,12 +22,12 @@
 <l>    grab_image (Image, AcqHandle)</l>
 <l>endtry</l>
 <c></c>
-<l>gen_rectangle1 (Rectangle1, 780, 200, 865, 360)</l>
-<l>gen_rectangle1 (Rectangle2, 1078, 786, 1179, 948)</l>
-<l>gen_rectangle1 (Rectangle3, 764, 900, 845, 1051)</l>
-<l>gen_rectangle1 (Rectangle4, 1068, 1523, 1159, 1697)</l>
-<l>gen_rectangle1 (Rectangle5, 749, 1635, 830, 1788)</l>
-<l>gen_rectangle1 (Rectangle6, 1047, 2244, 1144, 2422)</l>
+<l>gen_rectangle1 (Rectangle1, 774, 160, 916, 330)</l>
+<l>gen_rectangle1 (Rectangle2, 1078, 786, 1204, 948)</l>
+<l>gen_rectangle1 (Rectangle3, 764, 900, 895, 1051)</l>
+<l>gen_rectangle1 (Rectangle4, 1068, 1523, 1200, 1697)</l>
+<l>gen_rectangle1 (Rectangle5, 749, 1635, 880, 1788)</l>
+<l>gen_rectangle1 (Rectangle6, 1022, 2244, 1169, 2422)</l>
 <l>reduce_domain (Image, Rectangle1, ImageReduced1)</l>
 <l>reduce_domain (Image, Rectangle2, ImageReduced2)</l>
 <l>reduce_domain (Image, Rectangle3, ImageReduced3)</l>
@@ -81,6 +81,10 @@
 <l>    fill6 := 1</l>
 <l>else</l>
 <l>    fill6 := 0</l>
+<l>endif</l>
+<l>get_image_time (Image, MSecond, Second, Minute, Hour, Day, YDay, Month, Year)</l>
+<l>if(fill1 = 0 or fill2 = 0 or fill3 = 0 or fill4 = 0 or fill5 = 0 or fill6 = 0)</l>
+<l>    write_image (Image, 'bmp', 0, 'E:/images/' + Year + Month + Day + Hour + Minute + Second + MSecond + '.bmp')</l>
 <l>endif</l>
 <c as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,4]" as_ord="1">* Do something</c>
 <l>*close_framegrabber (AcqHandle)</l>

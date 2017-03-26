@@ -2057,6 +2057,19 @@ namespace Omicron.ViewModel
             }
             hdevEngine.initialengine(System.IO.Path.GetFileNameWithoutExtension(fullfilename));
             hdevEngine.loadengine();
+            try
+            {
+                if (!Directory.Exists(@"E:\images"))
+                {
+                    Directory.CreateDirectory(@"E:\images");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Log.Default.Error(@"CreateDirectory E:\images", ex.Message);
+            }
+
         }
         public void CameraHcInspect()
         {
