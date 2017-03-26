@@ -308,6 +308,11 @@ namespace Omicron.ViewModel
 
         public virtual TwinCATCoil1 M1202_1 { set; get; }
 
+        public virtual TwinCATCoil1 XErrorCode { set; get; }
+        public virtual TwinCATCoil1 YErrorCode { set; get; }
+        public virtual TwinCATCoil1 FErrorCode { set; get; }
+        public virtual TwinCATCoil1 TErrorCode { set; get; }
+
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -485,6 +490,11 @@ namespace Omicron.ViewModel
             TDebugComplete = new TwinCATCoil1(new TwinCATCoil("MAIN.TDebugComplete", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
 
             M1202_1 = new TwinCATCoil1(new TwinCATCoil("MAIN.M1202_1", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            XErrorCode = new TwinCATCoil1(new TwinCATCoil("MAIN.XErrorCode", typeof(uint), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            YErrorCode = new TwinCATCoil1(new TwinCATCoil("MAIN.YErrorCode", typeof(uint), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            FErrorCode = new TwinCATCoil1(new TwinCATCoil("MAIN.FErrorCode", typeof(uint), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            TErrorCode = new TwinCATCoil1(new TwinCATCoil("MAIN.TErrorCode", typeof(uint), TwinCATCoil.Mode.Notice), _TwinCATAds);
 
 
             _TwinCATAds.StartNotice();
