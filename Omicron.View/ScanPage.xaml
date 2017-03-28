@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="Omicron.View.ScanPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mvvm="clr-namespace:BingLibrary.hjb;assembly=BingLibrary"
+             xmlns:control="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:local="clr-namespace:Omicron.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="SxjDictionary.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Resources/Icons.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="参数">
+            <TextBlock Style="{StaticResource TextBlockBase}" Text="串口：COM1&#13;波特率： 115200&#13;数据位： 8&#13;停止位： 1&#13;奇偶校验： Even"></TextBlock>
+        </GroupBox>
+        <GroupBox Header="操作" Grid.Column="1">
+            <control:Tile Style="{StaticResource TileBase}" Grid.Column="1" Command="{mvvm:ActionAuto ScanAction}" Title="扫码">
+                <Rectangle Style="{StaticResource MetroTileRectangle}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill"
+                                     Visual="{DynamicResource appbar_barcode}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </control:Tile>
+        </GroupBox>
+        <GroupBox Header="结果" Grid.Column="1" Grid.Row="1">
+            <Border Style="{StaticResource ForBarcodeDisplay}" Grid.Row="1">
+                <TextBlock Style="{StaticResource TextBlockTitle}" Text="{Binding BarcodeDisplay}" Background="AntiqueWhite"></TextBlock>
+            </Border>
+        </GroupBox>
+    </Grid>
+</UserControl>

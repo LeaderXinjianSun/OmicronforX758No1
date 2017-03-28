@@ -33,6 +33,7 @@ namespace Omicron.ViewModel
         public virtual string OperaterActionPageVisibility { set; get; } = "Collapsed";
         public virtual string TestRecordPageVisibility { set; get; } = "Collapsed";
         public virtual string TwincatNcPageVisibility { set; get; } = "Collapsed";
+        public virtual string ScanPageVisibility { set; get; } = "Collapsed";
         public virtual bool IsPLCConnect { set; get; } = false;
         public virtual bool IsTCPConnect { set; get; } = false;
         public virtual bool IsShieldTheDoor { set; get; } = false;
@@ -534,11 +535,12 @@ namespace Omicron.ViewModel
             AboutPageVisibility = "Collapsed";
             HomePageVisibility = "Visible";
             CameraHcPageVisibility = "Collapsed";
-            ScanCameraPageVisibility = "Collapsed";
+            ScanPageVisibility = "Collapsed";
             OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
             TwincatNcPageVisibility = "Collapsed";
+
         }
         public void ChoseAboutPage()
         {
@@ -546,7 +548,7 @@ namespace Omicron.ViewModel
             AboutPageVisibility = "Visible";
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
-            ScanCameraPageVisibility = "Collapsed";
+            ScanPageVisibility = "Collapsed";
             OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
@@ -558,7 +560,7 @@ namespace Omicron.ViewModel
             AboutPageVisibility = "Collapsed";
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
-            ScanCameraPageVisibility = "Collapsed";
+            ScanPageVisibility = "Collapsed";
             OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
@@ -570,7 +572,7 @@ namespace Omicron.ViewModel
             AboutPageVisibility = "Collapsed";
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
-            ScanCameraPageVisibility = "Collapsed";
+            ScanPageVisibility = "Collapsed";
             OperaterActionPageVisibility = "Visible";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
@@ -582,7 +584,7 @@ namespace Omicron.ViewModel
             AboutPageVisibility = "Collapsed";
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
-            ScanCameraPageVisibility = "Collapsed";
+            ScanPageVisibility = "Collapsed";
             OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
@@ -594,7 +596,7 @@ namespace Omicron.ViewModel
             AboutPageVisibility = "Collapsed";
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Visible";
-            ScanCameraPageVisibility = "Collapsed";
+            ScanPageVisibility = "Collapsed";
             OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
@@ -611,6 +613,18 @@ namespace Omicron.ViewModel
         //    BarcodeDisplayPageVisibility = "Collapsed";
         //    TestRecordPageVisibility = "Collapsed";
         //}
+        public void ChoseScanPage()
+        {
+            ParameterPageVisibility = "Collapsed";
+            AboutPageVisibility = "Collapsed";
+            HomePageVisibility = "Collapsed";
+            CameraHcPageVisibility = "Collapsed";
+            ScanPageVisibility = "Visible";
+            OperaterActionPageVisibility = "Collapsed";
+            BarcodeDisplayPageVisibility = "Collapsed";
+            TestRecordPageVisibility = "Collapsed";
+            TwincatNcPageVisibility = "Collapsed";
+        }
         public void ChoseTwincatNcPage()
         {
             ParameterPageVisibility = "Collapsed";
@@ -621,6 +635,7 @@ namespace Omicron.ViewModel
             OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
+            ScanPageVisibility = "Collapsed";
         }
         public void ChoseBarcodeDisplayPage()
         {
@@ -628,7 +643,7 @@ namespace Omicron.ViewModel
             AboutPageVisibility = "Collapsed";
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
-            ScanCameraPageVisibility = "Collapsed";
+            ScanPageVisibility = "Collapsed";
             OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Visible";
             TestRecordPageVisibility = "Collapsed";
@@ -640,7 +655,7 @@ namespace Omicron.ViewModel
             AboutPageVisibility = "Collapsed";
             HomePageVisibility = "Collapsed";
             CameraHcPageVisibility = "Collapsed";
-            ScanCameraPageVisibility = "Collapsed";
+            ScanPageVisibility = "Collapsed";
             OperaterActionPageVisibility = "Collapsed";
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Visible";
@@ -1185,6 +1200,14 @@ namespace Omicron.ViewModel
 
                 Msg = messagePrint.AddMessage("保存轴控参数失败");
             }
+        }
+        public void ScanAction()
+        {
+            Scan.GetBarCode(ScanActionCallback);
+        }
+        public void ScanActionCallback(string str)
+        {
+            BarcodeDisplay = str;
         }
         #endregion
         #region BECKHOFF

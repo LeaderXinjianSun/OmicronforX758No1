@@ -25,6 +25,7 @@
             <MenuItem Header="主页" Command="{mvvm:ActionAuto ChoseHomePage}"></MenuItem>
             <MenuItem Header="条码" Command="{mvvm:ActionAuto ChoseBarcodeDisplayPage}"></MenuItem>
             <MenuItem Header="检测相机" Command="{mvvm:ActionAuto ChoseCameraHcPage}"></MenuItem>
+            <MenuItem Header="扫码" Command="{mvvm:ActionAuto ChoseScanPage}"></MenuItem>
             <MenuItem Header="轴控" IsEnabled="{Binding isLogin}" Command="{mvvm:ActionAuto ChoseTwincatNcPage}"></MenuItem>
             <MenuItem Header="参数" IsEnabled="{Binding isLogin}">
                 <MenuItem Header="机台参数" Command="{mvvm:ActionAuto ChoseParameterPage}"></MenuItem>
@@ -59,6 +60,9 @@
             </Grid>
             <Grid Visibility="{Binding TwincatNcPageVisibility}">
                 <local:TwincatNcPage></local:TwincatNcPage>
+            </Grid>
+            <Grid Visibility="{Binding ScanPageVisibility}">
+                <local:ScanPage></local:ScanPage>
             </Grid>
         </Grid>
         
