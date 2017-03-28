@@ -425,6 +425,71 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
+            <TabItem Header="IO">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Header="输入">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource  TextBlockParameterName}" Width="250" Text="机械手底座模组，原点"></TextBlock>
+                                <Ellipse Style="{StaticResource BFI1}"></Ellipse>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource  TextBlockParameterName}" Width="250" Text="运料模组，原点"></TextBlock>
+                                <Ellipse Style="{StaticResource BFI2}"></Ellipse>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource  TextBlockParameterName}" Width="250" Text="下料X轴模组，原点"></TextBlock>
+                                <Ellipse Style="{StaticResource BFI3}"></Ellipse>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource  TextBlockParameterName}" Width="250" Text="下料Y轴模组，原点"></TextBlock>
+                                <Ellipse Style="{StaticResource BFI4}"></Ellipse>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource  TextBlockParameterName}" Width="250" Text="上下气缸，下料，产品，SET"></TextBlock>
+                                <Ellipse Style="{StaticResource BFI5}"></Ellipse>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource  TextBlockParameterName}" Width="250" Text="上下气缸，下料，产品，RST"></TextBlock>
+                                <Ellipse Style="{StaticResource BFI6}"></Ellipse>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource  TextBlockParameterName}" Width="250" Text="负压表，下料，产品"></TextBlock>
+                                <Ellipse Style="{StaticResource BFI7}"></Ellipse>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource  TextBlockParameterName}" Width="250" Text="急停信号"></TextBlock>
+                                <Ellipse Style="{StaticResource BFI8}"></Ellipse>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource  TextBlockParameterName}" Width="250" Text="安全门信号"></TextBlock>
+                                <Ellipse Style="{StaticResource BFI9}"></Ellipse>
+                            </StackPanel>
+                        </StackPanel>
+
+                    </GroupBox>
+                    <GroupBox Grid.Column="1" Header="输出">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource  TextBlockParameterName}" Width="250" Text="上下气缸，下料，产品"></TextBlock>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="BFO1" FontSize="12" IsChecked="{Binding BFO1.Value}"></ToggleButton>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource  TextBlockParameterName}" Width="250" Text="真空吸，下料，产品"></TextBlock>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="BFO2" FontSize="12" IsChecked="{Binding BFO2.Value}"></ToggleButton>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource  TextBlockParameterName}" Width="250" Text="真空吸，运料"></TextBlock>
+                                <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="BFO3" FontSize="12" IsChecked="{Binding BFO3.Value}"></ToggleButton>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
             <TabItem Header="记录">
                 <Grid>
                     <StackPanel Orientation="Vertical">

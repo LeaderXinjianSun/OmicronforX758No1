@@ -20,6 +20,74 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
+    <Style TargetType="Ellipse" x:Key="EllipseIOBase">
+        <Setter Property="Fill" Value="Gray"></Setter>
+        <Setter Property="Width" Value="20"></Setter>
+        <Setter Property="Height" Value="20"></Setter>
+    </Style>
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseIOBase}" x:Key="BFI1">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding BFI1.Value}" Value="true">
+                <Setter Property="Fill" Value="Green"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseIOBase}" x:Key="BFI2">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding BFI2.Value}" Value="true">
+                <Setter Property="Fill" Value="Green"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseIOBase}" x:Key="BFI3">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding BFI3.Value}" Value="true">
+                <Setter Property="Fill" Value="Green"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseIOBase}" x:Key="BFI4">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding BFI4.Value}" Value="true">
+                <Setter Property="Fill" Value="Green"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseIOBase}" x:Key="BFI5">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding BFI5.Value}" Value="true">
+                <Setter Property="Fill" Value="Green"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseIOBase}" x:Key="BFI6">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding BFI6.Value}" Value="true">
+                <Setter Property="Fill" Value="Green"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseIOBase}" x:Key="BFI7">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding BFI7.Value}" Value="true">
+                <Setter Property="Fill" Value="Green"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseIOBase}" x:Key="BFI8">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding BFI8.Value}" Value="true">
+                <Setter Property="Fill" Value="Green"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseIOBase}" x:Key="BFI9">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding BFI9.Value}" Value="true">
+                <Setter Property="Fill" Value="Green"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
     <Style TargetType="TextBlock" x:Key="EpsonStatusTextBlock">
         <Setter Property="FontSize" Value="18"></Setter>
         <Setter Property="FontFamily" Value="宋体"></Setter>

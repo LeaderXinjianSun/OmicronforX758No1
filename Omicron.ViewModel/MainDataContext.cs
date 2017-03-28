@@ -313,6 +313,20 @@ namespace Omicron.ViewModel
         public virtual TwinCATCoil1 FErrorCode { set; get; }
         public virtual TwinCATCoil1 TErrorCode { set; get; }
 
+        public virtual TwinCATCoil1 BFI1 { set; get; }
+        public virtual TwinCATCoil1 BFI2 { set; get; }
+        public virtual TwinCATCoil1 BFI3 { set; get; }
+        public virtual TwinCATCoil1 BFI4 { set; get; }
+        public virtual TwinCATCoil1 BFI5 { set; get; }
+        public virtual TwinCATCoil1 BFI6 { set; get; }
+        public virtual TwinCATCoil1 BFI7 { set; get; }
+        public virtual TwinCATCoil1 BFI8 { set; get; }
+        public virtual TwinCATCoil1 BFI9 { set; get; }
+
+        public virtual TwinCATCoil1 BFO1 { set; get; }
+        public virtual TwinCATCoil1 BFO2 { set; get; }
+        public virtual TwinCATCoil1 BFO3 { set; get; }
+
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -496,6 +510,19 @@ namespace Omicron.ViewModel
             FErrorCode = new TwinCATCoil1(new TwinCATCoil("MAIN.FErrorCode", typeof(uint), TwinCATCoil.Mode.Notice), _TwinCATAds);
             TErrorCode = new TwinCATCoil1(new TwinCATCoil("MAIN.TErrorCode", typeof(uint), TwinCATCoil.Mode.Notice), _TwinCATAds);
 
+            BFI1 = new TwinCATCoil1(new TwinCATCoil("MAIN.BFI1", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            BFI2 = new TwinCATCoil1(new TwinCATCoil("MAIN.BFI2", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            BFI3 = new TwinCATCoil1(new TwinCATCoil("MAIN.BFI3", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            BFI4 = new TwinCATCoil1(new TwinCATCoil("MAIN.BFI4", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            BFI5 = new TwinCATCoil1(new TwinCATCoil("MAIN.BFI5", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            BFI6 = new TwinCATCoil1(new TwinCATCoil("MAIN.BFI6", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            BFI7 = new TwinCATCoil1(new TwinCATCoil("MAIN.BFI7", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            BFI8 = new TwinCATCoil1(new TwinCATCoil("MAIN.BFI8", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            BFI9 = new TwinCATCoil1(new TwinCATCoil("MAIN.BFI9", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            BFO1 = new TwinCATCoil1(new TwinCATCoil("MAIN.BFO1", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            BFO2 = new TwinCATCoil1(new TwinCATCoil("MAIN.BFO2", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+            BFO3 = new TwinCATCoil1(new TwinCATCoil("MAIN.BFO3", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
 
             _TwinCATAds.StartNotice();
         }

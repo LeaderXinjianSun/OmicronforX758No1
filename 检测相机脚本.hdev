@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="1034024150">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="828504086">
 <procedure name="main">
 <interface/>
 <body>
@@ -8,7 +8,7 @@
 <l>    if(AcqHandle &gt; 0)</l>
 <l>    endif</l>
 <l>catch(exception)</l>
-<l>    open_framegrabber ('DirectShow', 1, 1, 0, 0, 0, 0, 'default', 8, 'gray', -1, 'false', 'default', 'DMx 72AUC02', 0, -1, AcqHandle)</l>
+<l>    open_framegrabber ('DirectShow', 1, 1, 0, 0, 0, 0, 'default', 8, 'gray', -1, 'false', 'default', 'DMK 72AUC02', 0, -1, AcqHandle)</l>
 <l>    set_framegrabber_param (AcqHandle, 'grab_timeout', 3000)</l>
 <l>    set_framegrabber_param (AcqHandle, 'exposure', -6)</l>
 <l>    grab_image (Image, AcqHandle)</l>
@@ -18,7 +18,7 @@
 <l>    grab_image (Image, AcqHandle)</l>
 <l>catch(exceptiongrab)</l>
 <l>    close_framegrabber (AcqHandle)</l>
-<l>    open_framegrabber ('DirectShow', 1, 1, 0, 0, 0, 0, 'default', 8, 'gray', -1, 'false', 'default', 'DMx 72AUC02', 0, -1, AcqHandle)</l>
+<l>    open_framegrabber ('DirectShow', 1, 1, 0, 0, 0, 0, 'default', 8, 'gray', -1, 'false', 'default', 'DMK 72AUC02', 0, -1, AcqHandle)</l>
 <l>    grab_image (Image, AcqHandle)</l>
 <l>endtry</l>
 <c></c>
