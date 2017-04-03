@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="828504086">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="377701925">
 <procedure name="main">
 <interface/>
 <body>
@@ -22,12 +22,12 @@
 <l>    grab_image (Image, AcqHandle)</l>
 <l>endtry</l>
 <c></c>
-<l>gen_rectangle1 (Rectangle1, 774, 160, 916, 330)</l>
-<l>gen_rectangle1 (Rectangle2, 1078, 786, 1204, 948)</l>
-<l>gen_rectangle1 (Rectangle3, 764, 900, 895, 1051)</l>
-<l>gen_rectangle1 (Rectangle4, 1068, 1523, 1200, 1697)</l>
-<l>gen_rectangle1 (Rectangle5, 749, 1635, 880, 1788)</l>
-<l>gen_rectangle1 (Rectangle6, 1022, 2244, 1169, 2422)</l>
+<l>gen_rectangle1 (Rectangle6, 744, 194, 906, 380)</l>
+<l>gen_rectangle1 (Rectangle1, 1047, 799, 1189, 1002)</l>
+<l>gen_rectangle1 (Rectangle5, 749, 919, 891, 1101)</l>
+<l>gen_rectangle1 (Rectangle2, 1037, 1527, 1189, 1726)</l>
+<l>gen_rectangle1 (Rectangle4, 739, 1652, 885, 1846)</l>
+<l>gen_rectangle1 (Rectangle3, 1017, 2269, 1174, 2455)</l>
 <l>reduce_domain (Image, Rectangle1, ImageReduced1)</l>
 <l>reduce_domain (Image, Rectangle2, ImageReduced2)</l>
 <l>reduce_domain (Image, Rectangle3, ImageReduced3)</l>
@@ -35,12 +35,12 @@
 <l>reduce_domain (Image, Rectangle5, ImageReduced5)</l>
 <l>reduce_domain (Image, Rectangle6, ImageReduced6)</l>
 <c></c>
-<l>threshold (ImageReduced1, Regions1, 0, 160)</l>
-<l>threshold (ImageReduced2, Regions2, 0, 160)</l>
-<l>threshold (ImageReduced3, Regions3, 0, 160)</l>
-<l>threshold (ImageReduced4, Regions4, 0, 160)</l>
-<l>threshold (ImageReduced5, Regions5, 0, 160)</l>
-<l>threshold (ImageReduced6, Regions6, 0, 160)</l>
+<l>threshold (ImageReduced1, Regions1, 0, 90)</l>
+<l>threshold (ImageReduced2, Regions2, 0, 90)</l>
+<l>threshold (ImageReduced3, Regions3, 0, 100)</l>
+<l>threshold (ImageReduced4, Regions4, 0, 90)</l>
+<l>threshold (ImageReduced5, Regions5, 0, 90)</l>
+<l>threshold (ImageReduced6, Regions6, 0, 120)</l>
 <l>area_center (Regions1, Area1, Row1, Column1)</l>
 <l>area_center (Regions2, Area2, Row2, Column2)</l>
 <l>area_center (Regions3, Area3, Row3, Column3)</l>
