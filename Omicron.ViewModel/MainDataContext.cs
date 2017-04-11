@@ -16,6 +16,7 @@ using HalconDotNet;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Windows.Threading;
+using 臻鼎科技OraDB;
 //using MahApps.Metro.Controls.Dialogs;
 
 namespace Omicron.ViewModel
@@ -34,6 +35,7 @@ namespace Omicron.ViewModel
         public virtual string TestRecordPageVisibility { set; get; } = "Collapsed";
         public virtual string TwincatNcPageVisibility { set; get; } = "Collapsed";
         public virtual string ScanPageVisibility { set; get; } = "Collapsed";
+        public virtual string SampleTestPageVisibility { set; get; } = "Collapsed";
         public virtual bool IsPLCConnect { set; get; } = false;
         public virtual bool IsTCPConnect { set; get; } = false;
         public virtual bool IsShieldTheDoor { set; get; } = false;
@@ -74,7 +76,7 @@ namespace Omicron.ViewModel
         public virtual int ActiveIndexScan { set; get; }
         public virtual bool RepaintScan { set; get; }
 
-        public virtual string BarcodeDisplay { set; get; }
+        public virtual string BarcodeDisplay { set; get; } = "C4671110MYFGXCLBJ";
 
         public virtual bool FindFill1 { set; get; } = false;
         public virtual bool FindFill2 { set; get; } = false;
@@ -165,9 +167,11 @@ namespace Omicron.ViewModel
         public virtual bool isLogin { set; get; } = false;
         public virtual bool BarcodeMode { set; get; } = true;
 
-        public virtual string LastChuiqiTimeStr { set; get; } = "";
+        public virtual string LastChuiqiTimeStr { set; get; } 
         public virtual bool IsTestersClean { set; get; }
+        public virtual bool IsTestersSample { set; get; }
 
+        public virtual bool AllowCleanActionCommand { set; get; } = false;
         public virtual bool AllowSampleTestCommand { set; get; } = false;
 
         public virtual TwinCATCoil1 XPos { set; get; }
@@ -328,6 +332,47 @@ namespace Omicron.ViewModel
         public virtual TwinCATCoil1 BFO2 { set; get; }
         public virtual TwinCATCoil1 BFO3 { set; get; }
 
+        public virtual string SQL_ora_server { set; get; }
+        public virtual string SQL_ora_user { set; get; }
+        public virtual string SQL_ora_pwd { set; get; }
+
+        public virtual string Barsamuser_Uname { set; get; } = "ADMIN";
+        public virtual string Barsamuser_Psw { set; get; }
+        public virtual bool SamCheckinIsEnabled { set; get; }
+
+        public virtual string Barsaminfo_Partnum { set; get; }
+        public virtual string Barsaminfo_Barcode { set; get; }
+        public virtual uint Barsaminfo_Stnum { set; get; } = 1000;
+        public virtual uint Barsaminfo_Unum { set; get; } = 0;
+
+        public virtual string DBSearch_Barcode { set; get; }
+
+        public virtual string[] BarsamTableNames { set; get; } = new string[2] { "BARSAMINFO", "BARSAMREC" };
+        public virtual ushort BarsamTableIndex { set; get; } = 0;
+
+        public virtual string[] SamNgItemsTableNames { set; get; } = new string[2] { "OK", "NG" };
+        public virtual ushort SamNgItemsTableIndex { set; get; } = 0;
+
+        public virtual DataTable SinglDt { set; get; }
+        public virtual bool IsDBConnect { set; get; }
+
+        public virtual bool SampleHave1 { set; get; }
+        public virtual bool SampleHave2 { set; get; }
+        public virtual bool SampleHave3 { set; get; }
+        public virtual bool SampleHave4 { set; get; }
+
+        public virtual string Barsamrec_Partnum { set; get; }
+        public virtual string Barsamrec_Mno { set; get; }
+
+        public virtual double SampleTimeElapse { set; get; }
+
+        public virtual string LastSampleTestTimeStr { set; get; } 
+
+        public virtual string SampleRetestButtonVisibility { set; get; } = "Collapsed";
+
+        public virtual ushort SampleNgitemsNum { set; get; } = 2;
+
+
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -348,6 +393,8 @@ namespace Omicron.ViewModel
         private bool PLCNeedContinue = false;
         private DateTimeUtility.SYSTEMTIME lastchuiqi = new DateTimeUtility.SYSTEMTIME();
 
+        private DateTimeUtility.SYSTEMTIME lastSample = new DateTimeUtility.SYSTEMTIME();
+
         TwinCATAds _TwinCATAds = new TwinCATAds();
         double DebugTargetX = 0;
         double DebugTargetY = 0;
@@ -357,12 +404,22 @@ namespace Omicron.ViewModel
 
         bool EStop = false;
 
+        bool isCheckined, isCheckinSuccessed;
+        bool SampleAlarm_IsNeedCheckin = false, SampleAlarm_IsNeedCheckin_finish = false, NeedCheckin = false;
+
+        DataTable SampleDt = new DataTable();
+
+
+
         #endregion
         #region 构造函数
         public MainDataContext()
         {
             epsonRC90.ModelPrint += ModelPrintEventProcess;
             epsonRC90.EPSONCommTwincat += EPSONCommTwincatEventProcess;
+            epsonRC90.EPSONDBSearch += EPSONDBSearchEventProcess;
+            epsonRC90.EPSONSampleResult += EPSONSampleResultProcess;
+            epsonRC90.EPSONSampleHave += EPSONSampleHaveProcess;
             epsonRC90.EpsonStatusUpdate += EpsonStatusUpdateProcess;
             epsonRC90.ScanUpdate += ScanUpdateProcess;
             epsonRC90.ScanP3Update += ScanP3UpdateProcess;
@@ -371,6 +428,15 @@ namespace Omicron.ViewModel
             dispatcherTimer.Tick += new EventHandler(DispatcherTimerTickUpdateUi);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Start();
+
+            SampleDt.Columns.Add("PARTNUM", typeof(string));
+            SampleDt.Columns.Add("SITEM", typeof(string));
+            SampleDt.Columns.Add("BARCODE", typeof(string));
+            SampleDt.Columns.Add("NGITEM", typeof(string));
+            SampleDt.Columns.Add("TRES", typeof(string));
+            SampleDt.Columns.Add("MNO", typeof(string));
+            SampleDt.Columns.Add("CDATE", typeof(string));
+            SampleDt.Columns.Add("CTIME", typeof(string));            
 
             TwinCatVarInit();
 
@@ -540,7 +606,10 @@ namespace Omicron.ViewModel
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
             TwincatNcPageVisibility = "Collapsed";
-
+            SampleTestPageVisibility = "Collapsed";
+            SamCheckinIsEnabled = false;
+            isLogin = false;
+            Barsamuser_Psw = "";
         }
         public void ChoseAboutPage()
         {
@@ -553,6 +622,7 @@ namespace Omicron.ViewModel
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
             TwincatNcPageVisibility = "Collapsed";
+            SampleTestPageVisibility = "Collapsed";
         }
         public void ChoseParameterPage()
         {
@@ -565,6 +635,7 @@ namespace Omicron.ViewModel
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
             TwincatNcPageVisibility = "Collapsed";
+            SampleTestPageVisibility = "Collapsed";
         }
         public void ChoseOperaterActionPage()
         {
@@ -577,6 +648,7 @@ namespace Omicron.ViewModel
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
             TwincatNcPageVisibility = "Collapsed";
+            SampleTestPageVisibility = "Collapsed";
         }
         public void ChoseCameraPage()
         {
@@ -589,6 +661,7 @@ namespace Omicron.ViewModel
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
             TwincatNcPageVisibility = "Collapsed";
+            SampleTestPageVisibility = "Collapsed";
         }
         public void ChoseCameraHcPage()
         {
@@ -601,6 +674,7 @@ namespace Omicron.ViewModel
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
             TwincatNcPageVisibility = "Collapsed";
+            SampleTestPageVisibility = "Collapsed";
         }
         //public void ChoseScanCameraPage()
         //{
@@ -624,6 +698,7 @@ namespace Omicron.ViewModel
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
             TwincatNcPageVisibility = "Collapsed";
+            SampleTestPageVisibility = "Collapsed";
         }
         public void ChoseTwincatNcPage()
         {
@@ -636,6 +711,7 @@ namespace Omicron.ViewModel
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Collapsed";
             ScanPageVisibility = "Collapsed";
+            SampleTestPageVisibility = "Collapsed";
         }
         public void ChoseBarcodeDisplayPage()
         {
@@ -648,6 +724,7 @@ namespace Omicron.ViewModel
             BarcodeDisplayPageVisibility = "Visible";
             TestRecordPageVisibility = "Collapsed";
             TwincatNcPageVisibility = "Collapsed";
+            SampleTestPageVisibility = "Collapsed";
         }
         public void ChoseTestRecordPage()
         {
@@ -660,6 +737,20 @@ namespace Omicron.ViewModel
             BarcodeDisplayPageVisibility = "Collapsed";
             TestRecordPageVisibility = "Visible";
             TwincatNcPageVisibility = "Collapsed";
+            SampleTestPageVisibility = "Collapsed";
+        }
+        public void ChoseSampleTestPage()
+        {
+            ParameterPageVisibility = "Collapsed";
+            AboutPageVisibility = "Collapsed";
+            HomePageVisibility = "Collapsed";
+            CameraHcPageVisibility = "Collapsed";
+            ScanPageVisibility = "Collapsed";
+            OperaterActionPageVisibility = "Collapsed";
+            BarcodeDisplayPageVisibility = "Collapsed";
+            TestRecordPageVisibility = "Collapsed";
+            TwincatNcPageVisibility = "Collapsed";
+            SampleTestPageVisibility = "Visible";
         }
         public async void ShieldDoorFunction()
         {
@@ -726,6 +817,7 @@ namespace Omicron.ViewModel
                             SingleTestTimesVisibility = "Collapsed";
                             await epsonRC90.CtrlNet.SendAsync("$start,2");
                             Msg = messagePrint.AddMessage("正常模式");
+                            AllowCleanActionCommand = true;
                             AllowSampleTestCommand = true;
                         }
 
@@ -1095,10 +1187,24 @@ namespace Omicron.ViewModel
                     }
                     break;
                 case "4":
-                    if (epsonRC90.TestSendStatus && IsTestersClean && AllowSampleTestCommand)
+                    if (epsonRC90.TestSendStatus && IsTestersClean && AllowCleanActionCommand)
                     {
                         await epsonRC90.TestSentNet.SendAsync("TestersCleanAction");
+                        AllowCleanActionCommand = false;
+                    }
+                    break;
+                case "5":
+                    if (epsonRC90.TestSendStatus && IsTestersSample && AllowSampleTestCommand)
+                    {
+                        await epsonRC90.TestSentNet.SendAsync("GONOGOAction;" + SampleNgitemsNum.ToString());
                         AllowSampleTestCommand = false;
+                    }
+                    break;
+                case "6":
+                    if (epsonRC90.TestSendStatus && IsTestersSample)
+                    {
+                        await epsonRC90.TestSentNet.SendAsync("SamRetest");
+                        SampleRetestButtonVisibility = "Collapsed";
                     }
                     break;
                 default:
@@ -1117,6 +1223,17 @@ namespace Omicron.ViewModel
                 Inifile.INIWriteValue(iniParameterPath, "Chuiqi", "wMonth", lastchuiqi.wMonth.ToString());
                 Inifile.INIWriteValue(iniParameterPath, "Chuiqi", "wSecond", lastchuiqi.wSecond.ToString());
                 Inifile.INIWriteValue(iniParameterPath, "Chuiqi", "wYear", lastchuiqi.wYear.ToString());
+
+                //lastSample
+
+                Inifile.INIWriteValue(iniParameterPath, "Sample", "wDay", lastSample.wDay.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Sample", "wDayOfWeek", lastSample.wDayOfWeek.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Sample", "wHour", lastSample.wHour.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Sample", "wMilliseconds", lastSample.wMilliseconds.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Sample", "wMinute", lastSample.wMinute.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Sample", "wMonth", lastSample.wMonth.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Sample", "wSecond", lastSample.wSecond.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Sample", "wYear", lastSample.wYear.ToString());
 
             }
             catch (Exception ex)
@@ -1209,6 +1326,436 @@ namespace Omicron.ViewModel
         {
             BarcodeDisplay = str;
         }
+        /// <summary>
+        /// 样本录入用户登录
+        /// </summary>
+        public async void SamCheckinLoadAction()
+        {            
+            if (samCheckinLoadAction(Barsamuser_Uname))
+            {
+                SamCheckinIsEnabled = true;
+                await mydialog.showmessage("录入用户登录 成功");
+            }
+            else
+            {
+                SamCheckinIsEnabled = false;
+                await mydialog.showmessage("录入用户登录 失败");
+
+            }
+        }
+        public async void SamCheckinAction()
+        {
+            if (samCheckinAction())
+            {
+                await mydialog.showmessage("样本数据录入 成功");
+            }
+            else
+            {
+                await mydialog.showmessage("样本数据录入 失败");
+            }
+        }
+        public async void SampleHaveUpdateAction(object p)
+        {
+            switch (p.ToString())
+            {
+                case "1":
+                    if (epsonRC90.TestSendStatus)
+                    {
+                        await epsonRC90.TestSentNet.SendAsync("SampleHave;1;" + SampleHave1.ToString());
+                    }
+                    Inifile.INIWriteValue(iniParameterPath, "Sample", "SampleHave1", SampleHave1.ToString());
+                    break;
+                case "2":
+                    if (epsonRC90.TestSendStatus)
+                    {
+                        await epsonRC90.TestSentNet.SendAsync("SampleHave;2;" + SampleHave2.ToString());
+                    }
+                    Inifile.INIWriteValue(iniParameterPath, "Sample", "SampleHave2", SampleHave2.ToString());
+                    break;
+                case "3":
+                    if (epsonRC90.TestSendStatus)
+                    {
+                        await epsonRC90.TestSentNet.SendAsync("SampleHave;3;" + SampleHave3.ToString());
+                    }
+                    Inifile.INIWriteValue(iniParameterPath, "Sample", "SampleHave3", SampleHave3.ToString());
+                    break;
+                case "4":
+                    if (epsonRC90.TestSendStatus)
+                    {
+                        await epsonRC90.TestSentNet.SendAsync("SampleHave;4;" + SampleHave4.ToString());
+                    }
+                    Inifile.INIWriteValue(iniParameterPath, "Sample", "SampleHave4", SampleHave4.ToString());
+                    break;
+                default:
+                    break;
+            }
+        }
+        private void SaveSampleRecordLocal()
+        {
+            //TestRecordSavePath
+            if (!Directory.Exists(TestRecordSavePath + @"\" + DateTime.Now.ToLongDateString().ToString()))
+            {
+                Directory.CreateDirectory(TestRecordSavePath + @"\" + DateTime.Now.ToLongDateString().ToString());
+            }
+            string filepath = TestRecordSavePath + @"\" + DateTime.Now.ToLongDateString().ToString() + @"\" + (DateTime.Now.ToShortDateString()).Replace("/", "") + (DateTime.Now.ToShortTimeString()).Replace(":", "") + ".csv";
+            if (SampleDt.Rows.Count > 0)
+            {
+                Csvfile.dt2csv(SampleDt, filepath, "SampleTest", "PARTNUM,SITEM,BARCODE,NGITEM,TRES,MNO,CDATE,CTIME");
+                SampleDt.Rows.Clear();
+            }
+        }
+        #region 数据库
+        private void setLocalTime(string strDateTime)
+        {
+            DateTimeUtility.SYSTEMTIME st = new DateTimeUtility.SYSTEMTIME();
+            DateTime dt = Convert.ToDateTime(strDateTime);
+            st.FromDateTime(dt);
+            DateTimeUtility.SetLocalTime(ref st);
+        }
+        private void ConnectDBTest()
+        {
+            try
+            {
+                OraDB oraDB = new OraDB(SQL_ora_server, SQL_ora_user, SQL_ora_pwd);
+                if (oraDB.isConnect())
+                {
+                    string dbtime = oraDB.sfc_getServerDateTime();
+                    setLocalTime(dbtime);
+                    Msg = messagePrint.AddMessage("获取数据库时间： " + dbtime);
+
+                    IsDBConnect = true;
+                }
+                else
+                {
+                    Msg = messagePrint.AddMessage("数据库未连接");
+
+                    IsDBConnect = false;
+                }
+                oraDB.disconnect();
+            }
+            catch (Exception ex)
+            {
+                Msg = messagePrint.AddMessage("获取数据库时间失败");
+                IsDBConnect = false;
+            }
+        }
+        public void SQLGetBarcode(object p)
+        {
+            switch (p.ToString())
+            {
+                case "1":
+                    Barsaminfo_Barcode = BarcodeDisplay;
+                    break;
+                case "2":
+                    DBSearch_Barcode = BarcodeDisplay;
+                    break;
+                default:
+                    break;
+            }
+        }
+        public void SearchAction()
+        {
+            try
+            {
+                if (DBSearch_Barcode.Length > 10)
+                {
+                    LookforDt(DBSearch_Barcode, BarsamTableIndex);
+                }
+            }
+            catch 
+            {
+
+   
+            }
+
+        }
+        private bool LookforDt(string barcode,ushort index)
+        {
+            bool r = false;
+            string[] arrField = new string[1];
+            string[] arrValue = new string[1];
+            try
+            {
+                string tablename = BarsamTableNames[index];
+                OraDB oraDB = new OraDB(SQL_ora_server, SQL_ora_user, SQL_ora_pwd);
+                if (oraDB.isConnect())
+                {
+                    IsDBConnect = true;
+                    arrField[0] = "BARCODE";
+                    arrValue[0] = barcode;
+                    DataSet s = oraDB.selectSQL(tablename.ToUpper(), arrField, arrValue);
+                    SinglDt = s.Tables[0];
+                    if (SinglDt.Rows.Count == 0)
+                    {
+                        Msg = messagePrint.AddMessage("未查询到 " + barcode + " 信息");
+                        r = false;
+
+                    }
+                    else
+                    {
+                        Msg = messagePrint.AddMessage("查询到 " + barcode + " 信息");
+                        r = true;
+                    }
+                    
+
+                }
+                else
+                {
+                    IsDBConnect = true;
+                    Msg = messagePrint.AddMessage("数据库连接失败");
+                    
+                    r = false;
+                }
+                oraDB.disconnect();
+            }
+            catch (Exception ex)
+            {
+                r = false;
+                Log.Default.Error("LookforDt", ex.Message);
+            }
+            return r;
+        }
+        private bool samCheckinLoadAction(string user)
+        {
+            bool r = false;
+            string[] arrField = new string[1];
+            string[] arrValue = new string[1];
+            try
+            {
+                string tablename = "BARSAMUSER";
+                OraDB oraDB = new OraDB(SQL_ora_server, SQL_ora_user, SQL_ora_pwd);
+                if (oraDB.isConnect())
+                {
+                    IsDBConnect = true;
+                    arrField[0] = "UNAME";
+                    arrValue[0] = user.ToUpper();
+                    DataSet s = oraDB.selectSQL(tablename.ToUpper(), arrField, arrValue);
+                    DataTable singlDt = s.Tables[0];
+                    if (singlDt.Rows.Count == 0)
+                    {
+                        Msg = messagePrint.AddMessage("未查询到 " + user + " 信息");
+                        r = false;
+
+                    }
+                    else
+                    {
+                        Msg = messagePrint.AddMessage("查询到 " + user + " 信息");
+                        if ((string)singlDt.Rows[0]["PSW"] == Barsamuser_Psw)
+                        {
+                            Msg = messagePrint.AddMessage("用户 " + user + " 登录成功");
+                            SinglDt = singlDt;
+                            r = true;
+                        }
+                        else
+                        {
+                            Msg = messagePrint.AddMessage("用户 " + user + " 登录失败");
+                            r = false;
+                        }
+                    }
+
+
+                }
+                else
+                {
+                    IsDBConnect = true;
+                    Msg = messagePrint.AddMessage("数据库连接失败");
+
+                    r = false;
+                }
+                oraDB.disconnect();
+            }
+            catch (Exception ex)
+            {
+                r = false;
+                Log.Default.Error("samCheckinLoadAction", ex.Message);
+            }
+            return r;
+        }
+        private bool samUpdateAction1()
+        {
+            bool r = false;
+            try
+            {
+                X758SamCheckinData x758SamCheckinData = new X758SamCheckinData();
+                x758SamCheckinData.Partnum = Barsaminfo_Partnum.ToUpper();
+                x758SamCheckinData.Barcode = Barsaminfo_Barcode.ToUpper();
+                x758SamCheckinData.Stnum = Barsaminfo_Stnum;
+                x758SamCheckinData.Unum = Barsaminfo_Unum;
+                x758SamCheckinData.Ngitem = SamNgItemsTableNames[SamNgItemsTableIndex].ToUpper();
+                string tablename = "BARSAMINFO";
+                OraDB oraDB = new OraDB(SQL_ora_server, SQL_ora_user, SQL_ora_pwd);
+                if (oraDB.isConnect())
+                {
+                    IsDBConnect = true;
+                    string[,] arrFieldAndNewValue = { { "PARTNUM", x758SamCheckinData.Partnum } , { "SITEM", "FLUKE" }, { "STNUM", x758SamCheckinData.Stnum.ToString() }, { "UNUM", x758SamCheckinData.Unum.ToString() }, { "NGITEM", x758SamCheckinData.Ngitem } };
+                    string[,] arrFieldAndOldValue = { { "BARCODE", x758SamCheckinData.Barcode } };
+                    oraDB.updateSQL1(tablename.ToUpper(), arrFieldAndNewValue, arrFieldAndOldValue);
+                    Msg = messagePrint.AddMessage("数据更新完成");
+                    r = true;
+                }
+                else
+                {
+                    IsDBConnect = false;
+                    Msg = messagePrint.AddMessage("数据库连接失败");
+                    r = false;
+                }
+                oraDB.disconnect();
+            }
+            catch (Exception ex)
+            {
+                r = false;
+                Log.Default.Error("samUpdateAction1", ex.Message);
+            }
+            return r;
+        }
+        private bool samInsertAction1()
+        {
+            bool r = false;
+            try
+            {
+                X758SamCheckinData x758SamCheckinData = new X758SamCheckinData();
+                x758SamCheckinData.Partnum = Barsaminfo_Partnum.ToUpper();
+                x758SamCheckinData.Barcode = Barsaminfo_Barcode.ToUpper();
+                x758SamCheckinData.Stnum = Barsaminfo_Stnum;
+                x758SamCheckinData.Unum = Barsaminfo_Unum;
+                x758SamCheckinData.Ngitem = SamNgItemsTableNames[SamNgItemsTableIndex].ToUpper();
+                string tablename = "BARSAMINFO";
+                OraDB oraDB = new OraDB(SQL_ora_server, SQL_ora_user, SQL_ora_pwd);
+                if (oraDB.isConnect())
+                {
+                    IsDBConnect = true;
+                    string[] arrFieldAndNewValue = { "PARTNUM", "BARCODE", "SITEM", "STNUM", "UNUM", "NGITEM" };
+                    string[] arrFieldAndOldValue = { x758SamCheckinData.Partnum, x758SamCheckinData.Barcode, "FLUKE", x758SamCheckinData.Stnum.ToString(), x758SamCheckinData.Unum.ToString(), x758SamCheckinData.Ngitem };
+                    oraDB.insertSQL1(tablename.ToUpper(), arrFieldAndNewValue, arrFieldAndOldValue);
+                    Msg = messagePrint.AddMessage("数据插入完成");
+                    r = true;
+                }
+                else
+                {
+                    IsDBConnect = false;
+                    Msg = messagePrint.AddMessage("数据库连接失败");
+                    r = false;
+                }
+                oraDB.disconnect();
+            }
+            catch (Exception ex)
+            {
+                r = false;
+                Log.Default.Error("samUpdateAction1", ex.Message);
+            }
+            return r;
+        }
+        private bool samInsertAction2(string bar,string ngitem,string tresult,string mno)
+        {
+            bool r = false;
+            try
+            {
+                X758SampleResultData x758SampleResultData = new X758SampleResultData();
+                x758SampleResultData.PARTNUM = Barsamrec_Partnum.ToUpper();
+                x758SampleResultData.SITEM = "FLUKE";
+                x758SampleResultData.BARCODE = bar.ToUpper();
+                x758SampleResultData.NGITEM = ngitem.ToUpper();
+                x758SampleResultData.TRES = tresult.ToUpper();
+                x758SampleResultData.MNO = mno.ToUpper();
+                x758SampleResultData.CDATE = (DateTime.Now.ToShortDateString()).Replace("/", "");
+                x758SampleResultData.CTIME = (DateTime.Now.ToShortTimeString()).Replace(":", "");
+
+                DataRow dr = SampleDt.NewRow();
+                dr["PARTNUM"] = x758SampleResultData.PARTNUM;
+                dr["SITEM"] = x758SampleResultData.SITEM;
+                dr["BARCODE"] = x758SampleResultData.BARCODE;
+                dr["NGITEM"] = x758SampleResultData.NGITEM;
+                dr["TRES"] = x758SampleResultData.TRES;
+                dr["MNO"] = x758SampleResultData.MNO;
+                dr["CDATE"] = x758SampleResultData.CDATE;
+                dr["CTIME"] = x758SampleResultData.CTIME;
+
+                SampleDt.Rows.Add(dr);
+
+                string tablename = "BARSAMREC";
+                OraDB oraDB = new OraDB(SQL_ora_server, SQL_ora_user, SQL_ora_pwd);
+                if (oraDB.isConnect())
+                {
+                    IsDBConnect = true;
+                    string[] arrFieldAndNewValue = { "PARTNUM", "SITEM", "BARCODE", "NGITEM", "TRES", "MNO", "CDATE", "CTIME" };
+                    string[] arrFieldAndOldValue = { x758SampleResultData.PARTNUM, x758SampleResultData.SITEM, x758SampleResultData.BARCODE, x758SampleResultData.NGITEM, x758SampleResultData.TRES, x758SampleResultData.MNO, x758SampleResultData.CDATE, x758SampleResultData.CTIME };
+                    oraDB.insertSQL1(tablename.ToUpper(), arrFieldAndNewValue, arrFieldAndOldValue);
+                    Msg = messagePrint.AddMessage("数据插入完成");
+                    r = true;
+                }
+                else
+                {
+                    IsDBConnect = false;
+                    Msg = messagePrint.AddMessage("数据库连接失败");
+                    r = false;
+                }
+                oraDB.disconnect();
+            }
+            catch (Exception ex)
+            {
+                r = false;
+                Log.Default.Error("samInsertAction2", ex.Message);
+            }
+            return r;
+        }
+        private bool samCheckinAction()
+        {
+            bool r = false;
+            try
+            {
+                //Barsaminfo_Barcode
+                if (LookforDt(Barsaminfo_Barcode, 0))
+                {
+                    //查询到条码信息。执行更新操作
+                    r = samUpdateAction1();
+                }
+                else
+                {
+                    //未查询到条码信息。
+                    if (Barsaminfo_Barcode.Length > 10)
+                    {
+                        //执行插入操作
+                        r = samInsertAction1();
+                    }
+                    else
+                    {
+                        r = false;
+                    }
+                }
+            }
+            catch 
+            {
+                    
+            }
+            isCheckinSuccessed = r;
+            isCheckined = true;
+            return r;
+        }
+        private async Task<bool> WaitCheckinProcess()
+        {
+            bool r = false;
+            isCheckined = false;
+            isCheckinSuccessed = false;
+            while (!isCheckined)
+            {
+                await Task.Delay(100);
+            }
+            r = isCheckinSuccessed;
+            return r;
+        }
+        //private async Task WaitSampleAlarmIsNeedCheckinProcess()
+        //{
+            
+
+        //    SampleAlarm_IsNeedCheckin_finish = false;
+        //    while (!SampleAlarm_IsNeedCheckin_finish)
+        //    {
+        //        await Task.Delay(100);
+        //    }
+            
+            
+        //}
+        #endregion
         #endregion
         #region BECKHOFF
         public void TwincatOperateAction(object p)
@@ -1961,6 +2508,53 @@ namespace Omicron.ViewModel
                     break;
             }
         }
+        private void EPSONSampleResultProcess(string str)
+        {
+            string[] strs = str.Split(',');
+            ushort index = ushort.Parse(strs[1]);
+            string bar = epsonRC90.tester[index - 1].TesterBracode;
+            string ngitem = strs[2];
+            string tresult = strs[3];
+            string mno = Barsamrec_Mno + "Flex" + strs[1];
+            samInsertAction2(bar, ngitem, tresult, mno);
+
+        }
+        private void EPSONSampleHaveProcess(string str)
+        {
+            string[] strs = str.Split(',');
+            try
+            {
+                switch (strs[2])
+                {
+                    case "0":
+                        SampleHave1 = bool.Parse(strs[1]);
+                        Inifile.INIWriteValue(iniParameterPath, "Sample", "SampleHave1", SampleHave1.ToString());
+                        break;
+                    case "1":
+                        SampleHave2 = bool.Parse(strs[1]);
+                        Inifile.INIWriteValue(iniParameterPath, "Sample", "SampleHave2", SampleHave2.ToString());
+                        break;
+                    case "2":
+                        SampleHave3 = bool.Parse(strs[1]);
+                        Inifile.INIWriteValue(iniParameterPath, "Sample", "SampleHave3", SampleHave3.ToString());
+                        break;
+                    case "3":
+                        SampleHave4 = bool.Parse(strs[1]);
+                        Inifile.INIWriteValue(iniParameterPath, "Sample", "SampleHave4", SampleHave4.ToString());
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch 
+            {
+
+              
+            }
+
+
+
+        }
         private void ModelPrintEventProcess(string str)
         {
             Msg = messagePrint.AddMessage(str);
@@ -2048,7 +2642,17 @@ namespace Omicron.ViewModel
                     DateTimeUtility.GetLocalTime(ref lastchuiqi);
                     LastChuiqiTimeStr = lastchuiqi.ToDateTime().ToString();
                     SaveLastSamplTimetoIni();
+                    AllowCleanActionCommand = true;
+                    break;
+                case "MsgRev: 样本测试，结束":
+                    DateTimeUtility.GetLocalTime(ref lastSample);
+                    LastSampleTestTimeStr = lastSample.ToDateTime().ToString();
+                    SaveLastSamplTimetoIni();
                     AllowSampleTestCommand = true;
+                    SaveSampleRecordLocal();
+                    break;
+                case "MsgRev: 样本测试错误":
+                    SampleRetestButtonVisibility = "Visible";
                     break;
                 default:
                     break;
@@ -2093,6 +2697,121 @@ namespace Omicron.ViewModel
             //testRecord.Add(tr);
             SaveCSVfileRecord(tr);
             Msg = messagePrint.AddMessage("测试机 " + (index + 1).ToString() + " 测试完成");
+        }
+        private async void EPSONDBSearchEventProcess(string pickstr)
+        {
+            string NgItem;
+            switch (pickstr)
+            {
+                case "A":
+                    Barsaminfo_Barcode = epsonRC90.PickBracodeA;
+                    DBSearch_Barcode = epsonRC90.PickBracodeA;
+                    if (LookforDt(DBSearch_Barcode, 0))
+                    {
+                        NgItem = (string)SinglDt.Rows[0]["NGITEM"];
+                        if (epsonRC90.TestSendStatus)
+                        {
+                            await epsonRC90.TestSentNet.SendAsync("SamDBSearch;A;" + NgItem);
+                        }
+
+                    }
+                    else
+                    {
+                        NgItem = "Error";
+                        if (epsonRC90.TestSendStatus)
+                        {
+                            await epsonRC90.TestSentNet.SendAsync("SamDBSearch;A;" + NgItem);
+                        }
+                        //bool r = await mydialog.showconfirm("样本数据库查询 失败。是否录入样本");
+                        //SampleAlarm_IsNeedCheckin = true;
+                        //await WaitSampleAlarmIsNeedCheckinProcess();
+                        //if (NeedCheckin)
+                        //{
+                        //    //等待录入操作
+                        //    bool rr = await WaitCheckinProcess();
+                        //    if (rr)
+                        //    {
+                        //        NgItem = SamNgItemsTableNames[SamNgItemsTableIndex];
+                        //        if (epsonRC90.TestSendStatus)
+                        //        {
+                        //            await epsonRC90.TestSentNet.SendAsync("SamDBSearch;A;" + NgItem);
+                        //        }
+                        //    }
+                        //    else
+                        //    {
+                        //        NgItem = "Error";
+                        //        if (epsonRC90.TestSendStatus)
+                        //        {
+                        //            await epsonRC90.TestSentNet.SendAsync("SamDBSearch;A;" + NgItem);
+                        //        }
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    NgItem = "Error";
+                        //    if (epsonRC90.TestSendStatus)
+                        //    {
+                        //        await epsonRC90.TestSentNet.SendAsync("SamDBSearch;A;" + NgItem);
+                        //    }
+                        //}
+                    }
+                    break;
+                case "B":
+                    Barsaminfo_Barcode = epsonRC90.PickBracodeB;
+                    DBSearch_Barcode = epsonRC90.PickBracodeB;
+                    if (LookforDt(DBSearch_Barcode, 0))
+                    {
+                        NgItem = (string)SinglDt.Rows[0]["NGITEM"];
+                        if (epsonRC90.TestSendStatus)
+                        {
+                            await epsonRC90.TestSentNet.SendAsync("SamDBSearch;B;" + NgItem);
+                        }
+
+                    }
+                    else
+                    {
+                        NgItem = "Error";
+                        if (epsonRC90.TestSendStatus)
+                        {
+                            await epsonRC90.TestSentNet.SendAsync("SamDBSearch;B;" + NgItem);
+                        }
+                        //bool r = await mydialog.showconfirm("样本数据库查询 失败。是否录入样本");
+                        //SampleAlarm_IsNeedCheckin = true;
+                        //await WaitSampleAlarmIsNeedCheckinProcess();
+                        //if (NeedCheckin)
+                        //{
+                        //    //等待录入操作
+                        //    bool rr = await WaitCheckinProcess();
+                        //    if (rr)
+                        //    {
+                        //        NgItem = SamNgItemsTableNames[SamNgItemsTableIndex];
+                        //        if (epsonRC90.TestSendStatus)
+                        //        {
+                        //            await epsonRC90.TestSentNet.SendAsync("SamDBSearch;B;" + NgItem);
+                        //        }
+                        //    }
+                        //    else
+                        //    {
+                        //        NgItem = "Error";
+                        //        if (epsonRC90.TestSendStatus)
+                        //        {
+                        //            await epsonRC90.TestSentNet.SendAsync("SamDBSearch;B;" + NgItem);
+                        //        }
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    NgItem = "Error";
+                        //    if (epsonRC90.TestSendStatus)
+                        //    {
+                        //        await epsonRC90.TestSentNet.SendAsync("SamDBSearch;B;" + NgItem);
+                        //    }
+                        //}
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
         #endregion
         #region 视觉
@@ -2236,6 +2955,7 @@ namespace Omicron.ViewModel
                 AABReTest = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "ReTest", "AABReTest", "False"));
 
                 IsTestersClean = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "IsTestersClean", "False"));
+                IsTestersSample = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "IsTestersSample", "False"));
 
                 lastchuiqi.wDay = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wDay", "13"));
                 lastchuiqi.wDayOfWeek = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wDayOfWeek", "0"));
@@ -2247,6 +2967,31 @@ namespace Omicron.ViewModel
                 lastchuiqi.wYear = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wYear", "2016"));
                 LastChuiqiTimeStr = lastchuiqi.ToDateTime().ToString();
 
+                lastSample.wDay = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "wDay", "13"));
+                lastSample.wDayOfWeek = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "wDayOfWeek", "0"));
+                lastSample.wHour = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "wHour", "17"));
+                lastSample.wMilliseconds = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wMilliseconds", "273"));
+                lastSample.wMinute = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "wMinute", "5"));
+                lastSample.wMonth = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "wMonth", "11"));
+                lastSample.wSecond = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "wSecond", "55"));
+                lastSample.wYear = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "wYear", "2016"));
+                LastSampleTestTimeStr = lastSample.ToDateTime().ToString();
+
+                SQL_ora_server = Inifile.INIGetStringValue(iniParameterPath, "Oracle", "Server", "zdtdb");
+                SQL_ora_user = Inifile.INIGetStringValue(iniParameterPath, "Oracle", "User", "ictdata");
+                SQL_ora_pwd = Inifile.INIGetStringValue(iniParameterPath, "Oracle", "Passwold", "ictdata*168");
+
+                SampleHave1 = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "SampleHave1", "False"));
+                SampleHave2 = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "SampleHave2", "False"));
+                SampleHave3 = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "SampleHave3", "False"));
+                SampleHave4 = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "SampleHave4", "False"));
+
+                Barsaminfo_Partnum = Barsamrec_Partnum = Inifile.INIGetStringValue(iniParameterPath, "Sample", "PARTNUM", "CA9");
+                Barsamrec_Mno = Inifile.INIGetStringValue(iniParameterPath, "Sample", "MNO", "L1");
+
+                SampleTimeElapse = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "SampleTimeElapse","2"));
+                //SampleNgitemsNum
+                SampleNgitemsNum = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "SampleNgitemsNum", "2"));
                 return true;
             }
             catch (Exception ex)
@@ -2286,6 +3031,17 @@ namespace Omicron.ViewModel
                 Inifile.INIWriteValue(iniParameterPath, "BarcodeMode", "BarcodeMode", BarcodeMode.ToString());
                 Inifile.INIWriteValue(iniParameterPath, "ReTest", "AABReTest", AABReTest.ToString());
                 Inifile.INIWriteValue(iniParameterPath, "Chuiqi", "IsTestersClean", IsTestersClean.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Sample", "IsTestersSample", IsTestersSample.ToString());
+
+                Inifile.INIWriteValue(iniParameterPath, "Oracle", "Server", SQL_ora_server);
+                Inifile.INIWriteValue(iniParameterPath, "Oracle", "User", SQL_ora_user);
+                Inifile.INIWriteValue(iniParameterPath, "Oracle", "Passwold", SQL_ora_pwd);
+
+                Inifile.INIWriteValue(iniParameterPath, "Sample", "PARTNUM", Barsamrec_Partnum);
+                Inifile.INIWriteValue(iniParameterPath, "Sample", "MNO", Barsamrec_Mno);
+                Inifile.INIWriteValue(iniParameterPath, "Sample", "SampleTimeElapse", SampleTimeElapse.ToString());
+
+                Inifile.INIWriteValue(iniParameterPath, "Sample", "SampleNgitemsNum", SampleNgitemsNum.ToString());
                 return true;
             }
             catch (Exception ex)
@@ -2535,7 +3291,7 @@ namespace Omicron.ViewModel
 
             try
             {
-                if (IsTestersClean && AllowSampleTestCommand)
+                if (IsTestersClean && AllowCleanActionCommand)
                 {
                     DateTimeUtility.SYSTEMTIME ds1 = new DateTimeUtility.SYSTEMTIME();
                     DateTimeUtility.GetLocalTime(ref ds1);
@@ -2547,6 +3303,25 @@ namespace Omicron.ViewModel
                             if (epsonRC90.TestSendStatus)
                             {
                                 await epsonRC90.TestSentNet.SendAsync("TestersCleanAction");
+                                AllowCleanActionCommand = false;
+                            }
+
+                        }
+                    }
+                }
+
+                if (IsTestersSample && AllowSampleTestCommand)
+                {
+                    DateTimeUtility.SYSTEMTIME ds1 = new DateTimeUtility.SYSTEMTIME();
+                    DateTimeUtility.GetLocalTime(ref ds1);
+                    TimeSpan ts1 = ds1.ToDateTime() - lastSample.ToDateTime();
+                    if (ts1.TotalHours > SampleTimeElapse)
+                    {
+                        if (IsTestersSample)
+                        {
+                            if (epsonRC90.TestSendStatus)
+                            {
+                                await epsonRC90.TestSentNet.SendAsync("GONOGOAction;" + SampleNgitemsNum.ToString());
                                 AllowSampleTestCommand = false;
                             }
 
@@ -2559,6 +3334,13 @@ namespace Omicron.ViewModel
             {
                 Log.Default.Error("DateTimeUtility.GetLocalTime(ref ds1)", ex);
             }
+
+            //if (SampleAlarm_IsNeedCheckin)
+            //{
+            //    SampleAlarm_IsNeedCheckin = false;
+            //    NeedCheckin = await mydialog.showconfirm("样本数据库查询 失败。是否录入样本");
+            //    SampleAlarm_IsNeedCheckin_finish = true;
+            //}
         }
         #endregion
         #region 导入导出
@@ -2631,6 +3413,7 @@ namespace Omicron.ViewModel
             await Task.Delay(100);
             CameraHcInspect();
             Msg = messagePrint.AddMessage("检测相机初始化完成");
+            ConnectDBTest();
             //epsonRC90.scanCameraInit();
             //await Task.Delay(100);
             //ScanCameraInspect();
@@ -2647,7 +3430,7 @@ namespace Omicron.ViewModel
 
             bool _PLCUnload = false;
             bool _EStop = false;
-
+            await Task.Delay(1000);
             while (true)
             {
                 //414,460
@@ -2675,7 +3458,9 @@ namespace Omicron.ViewModel
                 }
                 else
                 {
-                    EStop = XinjiePLC.readM(1204);
+                   
+
+                    EStop = XinjiePLC.readM(1206);
                     if (_EStop != EStop)
                     {
                         _EStop = EStop;
@@ -2742,11 +3527,15 @@ namespace Omicron.ViewModel
 
                         M420.Value = XinjiePLC.readM(420);
                         M1202.Value = XinjiePLC.readM(1202);
-                    }
-                    catch 
-                    {
 
-                       
+                        double delta = (double)YPos.Value - (double)WaitPositionY.Value;
+                        bool UnloadYSafe = delta < 1 && delta > -1;
+                        XinjiePLC.setM(1204, UnloadYSafe);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Default.Error("delta_YPos.Value", ex.Message);
+
                     }
 
 
@@ -2830,5 +3619,24 @@ namespace Omicron.ViewModel
         }
         #endregion
 
+    }
+    public class X758SamCheckinData
+    {
+        public string Partnum { set; get; }
+        public string Barcode { set; get; }
+        public uint Stnum { set; get; }
+        public uint Unum { set; get; }
+        public string Ngitem { set; get; }
+    }
+    public class X758SampleResultData
+    {
+        public string PARTNUM { set; get; }
+        public string SITEM { set; get; }
+        public string BARCODE { set; get; }
+        public string NGITEM { set; get; }
+        public string TRES { set; get; }
+        public string MNO { set; get; }
+        public string CDATE { set; get; }
+        public string CTIME { set; get; }
     }
 }

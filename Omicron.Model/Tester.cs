@@ -120,7 +120,7 @@ namespace Omicron.Model
                 await Task.Delay(1000);
                 TestSpan = Math.Round(sw.Elapsed.TotalSeconds, 2);
             }
-            UpdateTester(mResult);
+            //UpdateTester(mResult);
             callback(Index);
         }
         public async void Start(StartProcessedDelegate callback)
@@ -358,6 +358,49 @@ namespace Omicron.Model
             UpdateTester(mResult);
             callback(Index);
         }
+        public void UpdateTester1(int rst)
+        {
+            /*result = 0 -> Ng
+                   * result = 1 -> Pass
+                   * result = 2 -> Timeout
+                   */
+            switch (rst)
+            {
+                case 0:
+                    if (!IsInSampleMode)
+                    {
+                        FailCount++;
+                    }
+                    break;
+                case 1:
+                    if (!IsInSampleMode)
+                    {
+                        PassCount++;
+                    }
+                    break;
+                default:
+
+                    break;
+            }
+            if (!IsInSampleMode)
+            {
+                TestCount++;
+            }
+            Yield = Math.Round((double)PassCount / (PassCount + FailCount) * 100, 2);
+            try
+            {
+                //Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "TestSpan", TestSpan.ToString());
+                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "PassCount", PassCount.ToString());
+                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "FailCount", FailCount.ToString());
+                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "TestCount", TestCount.ToString());
+                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "Yield", Yield.ToString());
+            }
+            catch
+            {
+
+
+            }
+        }
         private void UpdateTester(int rst)
         {
         /*result = 0 -> Ng
@@ -369,18 +412,12 @@ namespace Omicron.Model
                 case 0:
                     testStatus = TestStatus.Tested;
                     testResult = TestResult.Ng;
-                    if (!IsInSampleMode)
-                    {
-                        FailCount++;
-                    }
+
                     break;
                 case 1:
                     testStatus = TestStatus.Tested;
                     testResult = TestResult.Pass;
-                    if (!IsInSampleMode)
-                    {
-                        PassCount++;
-                    }
+
                     break;
                 case 2:
                     testStatus = TestStatus.Tested;
@@ -391,18 +428,13 @@ namespace Omicron.Model
                     testResult = TestResult.TimeOut;
                     break;
             }
-            if (!IsInSampleMode)
-            {
-                TestCount++;
-            }
-            Yield = Math.Round((double)PassCount / (PassCount + FailCount) * 100, 2);
             try
             {
                 Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "TestSpan", TestSpan.ToString());
-                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "PassCount", PassCount.ToString());
-                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "FailCount", FailCount.ToString());
-                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "TestCount", TestCount.ToString());
-                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "Yield", Yield.ToString());
+                //Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "PassCount", PassCount.ToString());
+                //Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "FailCount", FailCount.ToString());
+                //Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "TestCount", TestCount.ToString());
+                //Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "Yield", Yield.ToString());
             }
             catch
             {

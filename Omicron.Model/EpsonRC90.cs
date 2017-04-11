@@ -67,6 +67,9 @@ namespace Omicron.Model
         public delegate void PrintEventHandler(string ModelMessageStr);
         public event PrintEventHandler ModelPrint;
         public event PrintEventHandler EPSONCommTwincat;
+        public event PrintEventHandler EPSONDBSearch;
+        public event PrintEventHandler EPSONSampleResult;
+        public event PrintEventHandler EPSONSampleHave;
         public delegate void EpsonStatusEventHandler(string EpsonStatusString);
         public event EpsonStatusEventHandler EpsonStatusUpdate;
         public delegate void ScanEventHandler(string bar, HImage img);
@@ -406,6 +409,39 @@ namespace Omicron.Model
                                         default:
                                             break;
                                     }
+                                    break;
+                                case "SamDBSearch":
+                                    switch (strs[1])
+                                    {
+                                        case "A":
+                                            EPSONDBSearch("A");
+                                            break;
+                                        case "B":
+                                            EPSONDBSearch("B");
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    break;
+                                case "TestResultCount":
+                                    switch (strs[1])
+                                    {
+                                        case "OK":
+                                            tester[int.Parse(strs[2]) - 1].UpdateTester1(1);
+                                            break;
+                                        case "NG":
+                                            tester[int.Parse(strs[2]) - 1].UpdateTester1(0);
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    break;
+
+                                case "SampleResult":
+                                    EPSONSampleResult(s);
+                                    break;
+                                case "SamPanelHave":
+                                    EPSONSampleHave(s);
                                     break;
                                 case "FMOVE":
                                     EPSONCommTwincat(s);

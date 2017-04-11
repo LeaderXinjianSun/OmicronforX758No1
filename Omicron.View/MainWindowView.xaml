@@ -31,6 +31,7 @@
                 <MenuItem Header="机台参数" Command="{mvvm:ActionAuto ChoseParameterPage}"></MenuItem>
                 <MenuItem Header="操作" Command="{mvvm:ActionAuto ChoseOperaterActionPage}"></MenuItem>
             </MenuItem>
+            <MenuItem Header="样本" Command="{mvvm:ActionAuto ChoseSampleTestPage}"></MenuItem>
             <MenuItem Header="记录" Command="{mvvm:ActionAuto ChoseTestRecordPage}"></MenuItem>
             <MenuItem Header="帮助"></MenuItem>
             <MenuItem Header="关于" Command="{mvvm:ActionAuto ChoseAboutPage}"></MenuItem>
@@ -64,6 +65,9 @@
             <Grid Visibility="{Binding ScanPageVisibility}">
                 <local:ScanPage></local:ScanPage>
             </Grid>
+            <Grid Visibility="{Binding SampleTestPageVisibility}">
+                <local:SampleTestPage></local:SampleTestPage>
+            </Grid>
         </Grid>
         
         <StatusBar Grid.Row="3">
@@ -74,10 +78,16 @@
                 <Ellipse Style="{StaticResource PLCConnectStatus}"></Ellipse>
             </StatusBarItem>
             <StatusBarItem>
-                <TextBlock>TCP</TextBlock>
+                <TextBlock>机械手</TextBlock>
             </StatusBarItem>
             <StatusBarItem>
                 <Ellipse Style="{StaticResource TCPConnectStatus}"></Ellipse>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock>数据库</TextBlock>
+            </StatusBarItem>
+            <StatusBarItem>
+                <Ellipse Style="{StaticResource DBConnectStatus}"></Ellipse>
             </StatusBarItem>
         </StatusBar>
     </Grid>

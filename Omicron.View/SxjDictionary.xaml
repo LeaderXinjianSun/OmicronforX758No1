@@ -20,6 +20,13 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
+    <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseStatusBase}" x:Key="DBConnectStatus">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsDBConnect}" Value="true">
+                <Setter Property="Fill" Value="Green"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
     <Style TargetType="Ellipse" x:Key="EllipseIOBase">
         <Setter Property="Fill" Value="Gray"></Setter>
         <Setter Property="Width" Value="20"></Setter>
@@ -265,6 +272,9 @@
     </Style>
     <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}" x:Key="TextBlockParameterName">
         <Setter Property="Width" Value="70"></Setter>
+    </Style>
+    <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}" x:Key="TextBlockParameterMidName">
+        <Setter Property="Width" Value="80"></Setter>
     </Style>
     <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}" x:Key="TextBlockParameterLoneName">
         <Setter Property="Width" Value="120"></Setter>

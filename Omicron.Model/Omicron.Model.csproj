@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="DateTimeUtility.cs" />
     <Compile Include="EpsonRC90.cs" />
+    <Compile Include="OraDB.cs" />
+    <Compile Include="OraDBBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scan.cs" />
     <Compile Include="Tester.cs" />

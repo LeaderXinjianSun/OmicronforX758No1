@@ -133,7 +133,7 @@
                 <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
 
                     <CheckBox Content="清洁"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding IsTestersClean}"></CheckBox>
-
+                    <CheckBox Content="样本"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding IsTestersSample}"></CheckBox>
                 </StackPanel>
                 <StackPanel Margin="5,15,5,0" Orientation="Horizontal">
                     <TextBlock Style="{StaticResource TextBlockBase}" Text="连续NG次数："></TextBlock>
