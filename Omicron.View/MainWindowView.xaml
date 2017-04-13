@@ -31,8 +31,12 @@
                 <MenuItem Header="机台参数" Command="{mvvm:ActionAuto ChoseParameterPage}"></MenuItem>
                 <MenuItem Header="操作" Command="{mvvm:ActionAuto ChoseOperaterActionPage}"></MenuItem>
             </MenuItem>
-            <MenuItem Header="样本" Command="{mvvm:ActionAuto ChoseSampleTestPage}"></MenuItem>
+            <MenuItem Header="样本">
+                <MenuItem Header="数据库" Command="{mvvm:ActionAuto ChoseSampleTestPage}"></MenuItem>
+                <MenuItem Header="不良项" Command="{mvvm:ActionAuto ChoseSampleTestPage1}"></MenuItem>
+            </MenuItem>
             <MenuItem Header="记录" Command="{mvvm:ActionAuto ChoseTestRecordPage}"></MenuItem>
+            <MenuItem Header="报警" Command="{mvvm:ActionAuto ChoseAlarmRecordPage}"></MenuItem>
             <MenuItem Header="帮助"></MenuItem>
             <MenuItem Header="关于" Command="{mvvm:ActionAuto ChoseAboutPage}"></MenuItem>
             <MenuItem Header="{Binding LoginButtonString}" Command="{mvvm:ActionAuto LoginAction}"></MenuItem>
@@ -68,6 +72,12 @@
             <Grid Visibility="{Binding SampleTestPageVisibility}">
                 <local:SampleTestPage></local:SampleTestPage>
             </Grid>
+            <Grid Visibility="{Binding AlarmRecordPageVisibility}">
+                <local:AlarmRecordPage></local:AlarmRecordPage>
+            </Grid>
+            <Grid Visibility="{Binding SampleTestPage1Visibility}">
+                <local:SampleTestPage1></local:SampleTestPage1>
+            </Grid>
         </Grid>
         
         <StatusBar Grid.Row="3">
@@ -88,6 +98,13 @@
             </StatusBarItem>
             <StatusBarItem>
                 <Ellipse Style="{StaticResource DBConnectStatus}"></Ellipse>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right" Margin="50,0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="MODE:" Margin="10,0"></TextBlock>
+                    <TextBlock Text="{Binding OperateModeStr}"></TextBlock>
+                </StackPanel>
+                
             </StatusBarItem>
         </StatusBar>
     </Grid>

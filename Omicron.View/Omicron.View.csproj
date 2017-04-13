@@ -60,6 +60,9 @@
     <Compile Include="AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AlarmRecordPage.xaml.cs">
+      <DependentUpon>AlarmRecordPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BarcodeDisplayPage.xaml.cs">
       <DependentUpon>BarcodeDisplayPage.xaml</DependentUpon>
     </Compile>
@@ -85,6 +88,9 @@
     <Compile Include="SampleTestPage.xaml.cs">
       <DependentUpon>SampleTestPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SampleTestPage1.xaml.cs">
+      <DependentUpon>SampleTestPage1.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ScanPage.xaml.cs">
       <DependentUpon>ScanPage.xaml</DependentUpon>
     </Compile>
@@ -100,6 +106,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="AboutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AlarmRecordPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -132,6 +142,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SampleTestPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SampleTestPage1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

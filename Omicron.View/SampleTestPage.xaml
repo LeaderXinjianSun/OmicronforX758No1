@@ -161,47 +161,8 @@
             </Grid>
         </GroupBox>
         <Grid Grid.Row="1" Grid.ColumnSpan="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1.5*"></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
             <GroupBox Header="结果">
                 <DataGrid ItemsSource="{Binding SinglDt}"></DataGrid>
-            </GroupBox>
-            <GroupBox Grid.Row="1" Header="机械手交互">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <StackPanel Orientation="Horizontal">
-                            <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="1" FontSize="18" IsChecked="{Binding SampleHave1}" Command="{mvvm:ActionAutoWithParam SampleHaveUpdateAction}" CommandParameter="1"></ToggleButton>
-                            <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="2" FontSize="18" IsChecked="{Binding SampleHave2}" Command="{mvvm:ActionAutoWithParam SampleHaveUpdateAction}" CommandParameter="2"></ToggleButton>
-                            <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="3" FontSize="18" IsChecked="{Binding SampleHave3}" Command="{mvvm:ActionAutoWithParam SampleHaveUpdateAction}" CommandParameter="3"></ToggleButton>
-                            <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="4" FontSize="18" IsChecked="{Binding SampleHave4}" Command="{mvvm:ActionAutoWithParam SampleHaveUpdateAction}" CommandParameter="4"></ToggleButton>
-                        </StackPanel>
-                    </StackPanel>
-                    <StackPanel Orientation="Vertical">
-                        <StackPanel  Margin="5,0,5,0" Orientation="Horizontal">
-                            <TextBlock Margin="5,5" Text="样本测试时间间隔： "></TextBlock>
-                            <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding SampleTimeElapse}" IsEnabled="{Binding SamCheckinIsEnabled}"></TextBox>
-                            <TextBlock Margin="5,5" Text="时(h)"></TextBlock>
-                            <TextBlock Margin="5,5" Text="测试项数： "></TextBlock>
-                            <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding SampleNgitemsNum}" IsEnabled="{Binding SamCheckinIsEnabled}"></TextBox>
-                            <TextBlock Margin="5,5" Text="个"></TextBlock>
-                        </StackPanel>
-                        <StackPanel  Margin="5,0,5,0" Orientation="Horizontal">
-                            <Button IsEnabled="{Binding SamCheckinIsEnabled}" Content="测样本" Background="Green" Foreground="White" Command="{mvvm:ActionAutoWithParam XQTActionFunction}" CommandParameter="5"></Button>
-                            <TextBlock Margin="20,5" Text="上次测样本时刻： "></TextBlock>
-                            <TextBlock FontStyle="Italic" Text="{Binding LastSampleTestTimeStr}" VerticalAlignment="Center"></TextBlock>
-                        </StackPanel>
-                        <StackPanel  Margin="5,0,5,0" Orientation="Horizontal">
-                            <Button Visibility="{Binding SampleRetestButtonVisibility}" Content="复测样本" Background="Green" Foreground="White" Command="{mvvm:ActionAutoWithParam XQTActionFunction}" CommandParameter="6"></Button>
-                        </StackPanel>
-                    </StackPanel>
-
-                </Grid>
             </GroupBox>
         </Grid>
     </Grid>

@@ -134,18 +134,19 @@
 
                     <CheckBox Content="清洁"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding IsTestersClean}"></CheckBox>
                     <CheckBox Content="样本"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding IsTestersSample}"></CheckBox>
+                    <control:ToggleSwitch Margin="30,0,0,0" Width="120" Foreground="Red" FontSize="20" OnLabel="GRR" OffSwitchBrush="LightBlue" OnSwitchBrush="Gold" OffLabel="正常" IsChecked="{Binding isGRRMode}"></control:ToggleSwitch>
                 </StackPanel>
-                <StackPanel Margin="5,15,5,0" Orientation="Horizontal">
+                <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
                     <TextBlock Style="{StaticResource TextBlockBase}" Text="连续NG次数："></TextBlock>
                     <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding NGContinueNum}"></TextBox>
                     <TextBlock Style="{StaticResource TextBlockBase}" Text="次"></TextBlock>
-                    <!--<control:ToggleSwitch Margin="30,0,0,0" Width="100" Foreground="Red" FontSize="20" OnLabel="P2" OffSwitchBrush="Gold" OffLabel="P3" IsChecked="{Binding BarcodeMode}"></control:ToggleSwitch>-->
                 </StackPanel>
-                <!--<StackPanel Margin="5,15,5,0" Orientation="Horizontal">
-                    --><!--<CheckBox Content="AB组吸嘴" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding ABChecked}"></CheckBox>
-                    <CheckBox Content="CD组吸嘴" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding CDChecked}"></CheckBox>--><!--
-                    <Button Margin="20,0,0,0" IsEnabled="{Binding ClearButtonEnable}" Content="清空" Background="Red" Foreground="Yellow" Command="{mvvm:ActionAuto ClearFlexer}"></Button>
-                </StackPanel>-->
+                <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource TextBlockBase}" Text="GRR 片数 × 次数："></TextBlock>
+                    <ComboBox Width="80" SelectedIndex="{Binding PcsGrrNeedNum}" ItemsSource="{Binding PcsGrrNeedNums}"></ComboBox>
+                    <TextBlock Style="{StaticResource TextBlockBase}" Text=" × "></TextBlock>
+                    <ComboBox Width="80" SelectedIndex="{Binding PcsGrrNeedCount}" ItemsSource="{Binding PcsGrrNeedCounts}"></ComboBox>
+                </StackPanel>
             </StackPanel>
         </GroupBox>
         <GroupBox Grid.Row="2" Grid.Column="1" Header="文档路径">

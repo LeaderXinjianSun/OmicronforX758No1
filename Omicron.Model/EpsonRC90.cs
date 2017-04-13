@@ -70,6 +70,7 @@ namespace Omicron.Model
         public event PrintEventHandler EPSONDBSearch;
         public event PrintEventHandler EPSONSampleResult;
         public event PrintEventHandler EPSONSampleHave;
+        public event PrintEventHandler EPSONGRRTimesAsk;
         public delegate void EpsonStatusEventHandler(string EpsonStatusString);
         public event EpsonStatusEventHandler EpsonStatusUpdate;
         public delegate void ScanEventHandler(string bar, HImage img);
@@ -442,6 +443,9 @@ namespace Omicron.Model
                                     break;
                                 case "SamPanelHave":
                                     EPSONSampleHave(s);
+                                    break;
+                                case "GRRTimesAsk":
+                                    EPSONGRRTimesAsk("GRRTimesAsk");
                                     break;
                                 case "FMOVE":
                                     EPSONCommTwincat(s);

@@ -36,6 +36,8 @@ namespace Omicron.ViewModel
         public virtual string TwincatNcPageVisibility { set; get; } = "Collapsed";
         public virtual string ScanPageVisibility { set; get; } = "Collapsed";
         public virtual string SampleTestPageVisibility { set; get; } = "Collapsed";
+        public virtual string SampleTestPage1Visibility { set; get; } = "Collapsed";
+        public virtual string AlarmRecordPageVisibility { set; get; } = "Collapsed";
         public virtual bool IsPLCConnect { set; get; } = false;
         public virtual bool IsTCPConnect { set; get; } = false;
         public virtual bool IsShieldTheDoor { set; get; } = false;
@@ -105,6 +107,7 @@ namespace Omicron.ViewModel
 
         //public virtual DataTable TestRecodeDT { set; get; } = new DataTable();
         public virtual ObservableCollection<TestRecord> testRecord { set; get; } = new ObservableCollection<TestRecord>();
+        public virtual ObservableCollection<AlarmRecord> alarmRecord { set; get; } = new ObservableCollection<AlarmRecord>();
 
         public virtual double TestTime0 { set; get; } = 0;
         public virtual int TestCount0 { set; get; } = 0;
@@ -156,6 +159,8 @@ namespace Omicron.ViewModel
 
         public virtual int SingleTestModeStageNum { set; get; } = 1;
         public virtual bool SingleTestMode { set; get; } = false;
+
+        public virtual bool isGRRMode { set; get; } = false;
 
         public virtual bool AABReTest { set; get; } = false;
 
@@ -360,6 +365,11 @@ namespace Omicron.ViewModel
         public virtual bool SampleHave2 { set; get; }
         public virtual bool SampleHave3 { set; get; }
         public virtual bool SampleHave4 { set; get; }
+        public virtual bool SampleHave5 { set; get; }
+        public virtual bool SampleHave6 { set; get; }
+        public virtual bool SampleHave7 { set; get; }
+        public virtual bool SampleHave8 { set; get; }
+
 
         public virtual string Barsamrec_Partnum { set; get; }
         public virtual string Barsamrec_Mno { set; get; }
@@ -371,7 +381,22 @@ namespace Omicron.ViewModel
         public virtual string SampleRetestButtonVisibility { set; get; } = "Collapsed";
 
         public virtual ushort SampleNgitemsNum { set; get; } = 2;
+        public virtual string OperateModeStr { set; get; } = "正常";
+        public virtual ushort[] PcsGrrNeedNums { set; get; } = new ushort[20] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+        public virtual ushort PcsGrrNeedNum { set; get; } = 0;
+        public virtual ushort[] PcsGrrNeedCounts { set; get; } = new ushort[20] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+        public virtual ushort PcsGrrNeedCount { set; get; } = 0;
 
+        public virtual string SampleNgitem1 { set; get; }
+        public virtual string SampleNgitem2 { set; get; }
+        public virtual string SampleNgitem3 { set; get; }
+        public virtual string SampleNgitem4 { set; get; }
+        public virtual string SampleNgitem5 { set; get; }
+        public virtual string SampleNgitem6 { set; get; }
+        public virtual string SampleNgitem7 { set; get; }
+        public virtual string SampleNgitem8 { set; get; }
+        public virtual string SampleNgitem9 { set; get; }
+        public virtual string SampleNgitem10 { set; get; }
 
         #endregion
         #region 变量定义区域
@@ -389,6 +414,7 @@ namespace Omicron.ViewModel
         private bool NeedUnloadMaters = false;
         //private string PreFeedFillStr = "FeedFill;0;0;0;0;0;0;";
         Queue<TestRecord> myTestRecordQueue = new Queue<TestRecord>();
+        Queue<AlarmRecord> myAlarmRecordQueue = new Queue<AlarmRecord>();
         public static DispatcherTimer dispatcherTimer = new DispatcherTimer();
         private bool PLCNeedContinue = false;
         private DateTimeUtility.SYSTEMTIME lastchuiqi = new DateTimeUtility.SYSTEMTIME();
@@ -420,6 +446,7 @@ namespace Omicron.ViewModel
             epsonRC90.EPSONDBSearch += EPSONDBSearchEventProcess;
             epsonRC90.EPSONSampleResult += EPSONSampleResultProcess;
             epsonRC90.EPSONSampleHave += EPSONSampleHaveProcess;
+            epsonRC90.EPSONGRRTimesAsk += EPSONEPSONGRRTimesAskProcess;
             epsonRC90.EpsonStatusUpdate += EpsonStatusUpdateProcess;
             epsonRC90.ScanUpdate += ScanUpdateProcess;
             epsonRC90.ScanP3Update += ScanP3UpdateProcess;
@@ -607,9 +634,12 @@ namespace Omicron.ViewModel
             TestRecordPageVisibility = "Collapsed";
             TwincatNcPageVisibility = "Collapsed";
             SampleTestPageVisibility = "Collapsed";
+            AlarmRecordPageVisibility = "Collapsed";
+            SampleTestPage1Visibility = "Collapsed";
             SamCheckinIsEnabled = false;
             isLogin = false;
             Barsamuser_Psw = "";
+            LoginButtonString = "登录";
         }
         public void ChoseAboutPage()
         {
@@ -623,6 +653,9 @@ namespace Omicron.ViewModel
             TestRecordPageVisibility = "Collapsed";
             TwincatNcPageVisibility = "Collapsed";
             SampleTestPageVisibility = "Collapsed";
+            AlarmRecordPageVisibility = "Collapsed";
+            SampleTestPage1Visibility = "Collapsed";
+            MaopaoPaixu();
         }
         public void ChoseParameterPage()
         {
@@ -636,6 +669,8 @@ namespace Omicron.ViewModel
             TestRecordPageVisibility = "Collapsed";
             TwincatNcPageVisibility = "Collapsed";
             SampleTestPageVisibility = "Collapsed";
+            AlarmRecordPageVisibility = "Collapsed";
+            SampleTestPage1Visibility = "Collapsed";
         }
         public void ChoseOperaterActionPage()
         {
@@ -649,6 +684,8 @@ namespace Omicron.ViewModel
             TestRecordPageVisibility = "Collapsed";
             TwincatNcPageVisibility = "Collapsed";
             SampleTestPageVisibility = "Collapsed";
+            AlarmRecordPageVisibility = "Collapsed";
+            SampleTestPage1Visibility = "Collapsed";
         }
         public void ChoseCameraPage()
         {
@@ -662,6 +699,8 @@ namespace Omicron.ViewModel
             TestRecordPageVisibility = "Collapsed";
             TwincatNcPageVisibility = "Collapsed";
             SampleTestPageVisibility = "Collapsed";
+            AlarmRecordPageVisibility = "Collapsed";
+            SampleTestPage1Visibility = "Collapsed";
         }
         public void ChoseCameraHcPage()
         {
@@ -675,6 +714,8 @@ namespace Omicron.ViewModel
             TestRecordPageVisibility = "Collapsed";
             TwincatNcPageVisibility = "Collapsed";
             SampleTestPageVisibility = "Collapsed";
+            AlarmRecordPageVisibility = "Collapsed";
+            SampleTestPage1Visibility = "Collapsed";
         }
         //public void ChoseScanCameraPage()
         //{
@@ -699,6 +740,8 @@ namespace Omicron.ViewModel
             TestRecordPageVisibility = "Collapsed";
             TwincatNcPageVisibility = "Collapsed";
             SampleTestPageVisibility = "Collapsed";
+            AlarmRecordPageVisibility = "Collapsed";
+            SampleTestPage1Visibility = "Collapsed";
         }
         public void ChoseTwincatNcPage()
         {
@@ -712,6 +755,8 @@ namespace Omicron.ViewModel
             TestRecordPageVisibility = "Collapsed";
             ScanPageVisibility = "Collapsed";
             SampleTestPageVisibility = "Collapsed";
+            AlarmRecordPageVisibility = "Collapsed";
+            SampleTestPage1Visibility = "Collapsed";
         }
         public void ChoseBarcodeDisplayPage()
         {
@@ -725,6 +770,8 @@ namespace Omicron.ViewModel
             TestRecordPageVisibility = "Collapsed";
             TwincatNcPageVisibility = "Collapsed";
             SampleTestPageVisibility = "Collapsed";
+            AlarmRecordPageVisibility = "Collapsed";
+            SampleTestPage1Visibility = "Collapsed";
         }
         public void ChoseTestRecordPage()
         {
@@ -738,6 +785,23 @@ namespace Omicron.ViewModel
             TestRecordPageVisibility = "Visible";
             TwincatNcPageVisibility = "Collapsed";
             SampleTestPageVisibility = "Collapsed";
+            AlarmRecordPageVisibility = "Collapsed";
+            SampleTestPage1Visibility = "Collapsed";
+        }
+        public void ChoseAlarmRecordPage()
+        {
+            ParameterPageVisibility = "Collapsed";
+            AboutPageVisibility = "Collapsed";
+            HomePageVisibility = "Collapsed";
+            CameraHcPageVisibility = "Collapsed";
+            ScanPageVisibility = "Collapsed";
+            OperaterActionPageVisibility = "Collapsed";
+            BarcodeDisplayPageVisibility = "Collapsed";
+            TestRecordPageVisibility = "Collapsed";
+            TwincatNcPageVisibility = "Collapsed";
+            SampleTestPageVisibility = "Collapsed";
+            AlarmRecordPageVisibility = "Visible";
+            SampleTestPage1Visibility = "Collapsed";
         }
         public void ChoseSampleTestPage()
         {
@@ -751,6 +815,23 @@ namespace Omicron.ViewModel
             TestRecordPageVisibility = "Collapsed";
             TwincatNcPageVisibility = "Collapsed";
             SampleTestPageVisibility = "Visible";
+            AlarmRecordPageVisibility = "Collapsed";
+            SampleTestPage1Visibility = "Collapsed";
+        }
+        public void ChoseSampleTestPage1()
+        {
+            ParameterPageVisibility = "Collapsed";
+            AboutPageVisibility = "Collapsed";
+            HomePageVisibility = "Collapsed";
+            CameraHcPageVisibility = "Collapsed";
+            ScanPageVisibility = "Collapsed";
+            OperaterActionPageVisibility = "Collapsed";
+            BarcodeDisplayPageVisibility = "Collapsed";
+            TestRecordPageVisibility = "Collapsed";
+            TwincatNcPageVisibility = "Collapsed";
+            SampleTestPageVisibility = "Collapsed";
+            AlarmRecordPageVisibility = "Collapsed";
+            SampleTestPage1Visibility = "Visible";
         }
         public async void ShieldDoorFunction()
         {
@@ -789,6 +870,53 @@ namespace Omicron.ViewModel
                 IsOperateCiTie = !IsOperateCiTie;
             }
         }
+        private string MaopaoPaixu()
+        {
+            string str = "";
+            double[] Array_A = new double[4];
+            ushort[] Array_B = new ushort[4];
+
+            for (ushort k = 0; k < 4; k++)
+            {
+                Array_A[k] = epsonRC90.tester[k].Yield;
+                Array_B[k] = k;
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 3 - i; j++)
+                {
+                    if (Array_A[j] < Array_A[j + 1])
+                    {
+                        var temp1 = Array_A[j];
+                        var temp2 = Array_B[j];
+                        Array_A[j] = Array_A[j + 1];
+                        Array_B[j] = Array_B[j + 1];
+                        Array_A[j + 1] = temp1;
+                        Array_B[j + 1] = temp2;
+                    }
+                }
+            }
+            int i_index = 0;
+            for (int m = 0; m < 4; m++)
+            {
+                if (Array_B[m] == 0)
+                {
+                    i_index = m;
+                    break;
+                }
+            }
+            if (i_index != 3)
+            {
+                var temp5 = Array_B[i_index];
+                Array_B[i_index] = Array_B[3];
+                Array_B[3] = temp5;
+            }
+            for (int l = 0; l < 4; l++)
+            {
+                str += Array_B[l].ToString() + ";";
+            }
+            return str;
+        }
         public async void EpsonOpetate(object p)
         {
             string s = p.ToString();
@@ -797,31 +925,29 @@ namespace Omicron.ViewModel
                 //启动
                 case "1":
                     AlarmTextGridShow = "Collapsed";
-                    if (epsonRC90.CtrlStatus)
+                    if (epsonRC90.CtrlStatus && EpsonStatusReady && !EpsonStatusEStop)
                     {
-                        if (SingleTestMode)
+                        if (isGRRMode)
                         {
-                            SingleTestTimesVisibility = "Visible";
-                            string str = "SingleTestModeStageNum;" + SingleTestModeStageNum.ToString();
-                            if (epsonRC90.TestSendStatus)
-                            {
-                                await epsonRC90.TestSentNet.SendAsync(str);
-                                Msg = messagePrint.AddMessage(str);
-                            }
-                            await epsonRC90.CtrlNet.SendAsync("$start,1");
-                            SingleTestTimes = 0;
-                            Msg = messagePrint.AddMessage("单穴反复测试模式");
+                            await epsonRC90.CtrlNet.SendAsync("$start,3");
+                            Msg = messagePrint.AddMessage("GRR模式");
+                            OperateModeStr = "GRR";
                         }
                         else
                         {
-                            SingleTestTimesVisibility = "Collapsed";
+                            string maopaostr = MaopaoPaixu();
+
                             await epsonRC90.CtrlNet.SendAsync("$start,2");
                             Msg = messagePrint.AddMessage("正常模式");
+                            OperateModeStr = "正常";
                             AllowCleanActionCommand = true;
                             AllowSampleTestCommand = true;
-                        }
-
-                        
+                            await Task.Delay(200);
+                            if (epsonRC90.TestSendStatus)
+                            {
+                                await epsonRC90.TestSentNet.SendAsync("IndexArray_i;" + maopaostr);
+                            }
+                        }                       
                     }
                     break;
                 //暂停
@@ -862,7 +988,7 @@ namespace Omicron.ViewModel
                 case "5":
                     mydialog.changeaccent("red");
                     r = await mydialog.showconfirm("确定进行排料操作吗？");
-                    if (r && epsonRC90.CtrlStatus)
+                    if (r && epsonRC90.TestSendStatus && EpsonStatusRunning && !isGRRMode)
                     {
                         await epsonRC90.TestSentNet.SendAsync("Discharge");
                     }
@@ -1094,6 +1220,10 @@ namespace Omicron.ViewModel
         private void SaveCSVfileRecord(TestRecord tr)
         {
             string filepath = TestRecordSavePath + "\\" + DateTime.Now.ToLongDateString().ToString() + ".csv";
+            if (!Directory.Exists(TestRecordSavePath))
+            {
+                Directory.CreateDirectory(TestRecordSavePath);
+            }
             try
             {
 
@@ -1114,6 +1244,10 @@ namespace Omicron.ViewModel
         private void SaveCSVfileAlarm(string str)
         {
             string filepath = AlarmSavePath + "\\Alarm" + DateTime.Now.ToLongDateString().ToString() + ".csv";
+            if (!Directory.Exists(AlarmSavePath))
+            {
+                Directory.CreateDirectory(AlarmSavePath);
+            }
             try
             {
                 if (!File.Exists(filepath))
@@ -1129,6 +1263,19 @@ namespace Omicron.ViewModel
                 Msg = messagePrint.AddMessage("写入CSV文件失败");
                 Log.Default.Error("写入CSV文件失败", ex.Message);
             }
+        }
+        private void addAlarm(string almstr)
+        {
+            AlarmRecord alarmRecord = new AlarmRecord();
+            alarmRecord.AlarmTime = System.DateTime.Now.ToString();
+            alarmRecord.AlarmString = almstr;
+            lock (this)
+            {
+                myAlarmRecordQueue.Enqueue(alarmRecord);
+            }
+            
+
+
         }
         private void ShowAlarmTextGrid(string str)
         {
@@ -1206,6 +1353,9 @@ namespace Omicron.ViewModel
                         await epsonRC90.TestSentNet.SendAsync("SamRetest");
                         SampleRetestButtonVisibility = "Collapsed";
                     }
+                    break;
+                case "7":
+                    alarmRecord.Clear();
                     break;
                 default:
                     break;
@@ -1386,6 +1536,34 @@ namespace Omicron.ViewModel
                     }
                     Inifile.INIWriteValue(iniParameterPath, "Sample", "SampleHave4", SampleHave4.ToString());
                     break;
+                case "5":
+                    if (epsonRC90.TestSendStatus)
+                    {
+                        await epsonRC90.TestSentNet.SendAsync("SampleHave;5;" + SampleHave4.ToString());
+                    }
+                    Inifile.INIWriteValue(iniParameterPath, "Sample", "SampleHave5", SampleHave5.ToString());
+                    break;
+                case "6":
+                    if (epsonRC90.TestSendStatus)
+                    {
+                        await epsonRC90.TestSentNet.SendAsync("SampleHave;6;" + SampleHave4.ToString());
+                    }
+                    Inifile.INIWriteValue(iniParameterPath, "Sample", "SampleHave6", SampleHave6.ToString());
+                    break;
+                case "7":
+                    if (epsonRC90.TestSendStatus)
+                    {
+                        await epsonRC90.TestSentNet.SendAsync("SampleHave;7;" + SampleHave4.ToString());
+                    }
+                    Inifile.INIWriteValue(iniParameterPath, "Sample", "SampleHave7", SampleHave7.ToString());
+                    break;
+                case "8":
+                    if (epsonRC90.TestSendStatus)
+                    {
+                        await epsonRC90.TestSentNet.SendAsync("SampleHave;8;" + SampleHave4.ToString());
+                    }
+                    Inifile.INIWriteValue(iniParameterPath, "Sample", "SampleHave8", SampleHave8.ToString());
+                    break;
                 default:
                     break;
             }
@@ -1459,7 +1637,7 @@ namespace Omicron.ViewModel
             {
                 if (DBSearch_Barcode.Length > 10)
                 {
-                    LookforDt(DBSearch_Barcode, BarsamTableIndex);
+                    LookforDt(DBSearch_Barcode.Replace(" ", ""), BarsamTableIndex);
                 }
             }
             catch 
@@ -1650,6 +1828,15 @@ namespace Omicron.ViewModel
             bool r = false;
             try
             {
+                if (ngitem.Length > 20)
+                {
+                    ngitem = ngitem.Substring(0, 19);
+                }
+                if (tresult.Length > 20)
+                {
+                    tresult = tresult.Substring(0, 19);
+                }
+
                 X758SampleResultData x758SampleResultData = new X758SampleResultData();
                 x758SampleResultData.PARTNUM = Barsamrec_Partnum.ToUpper();
                 x758SampleResultData.SITEM = "FLUKE";
@@ -2510,11 +2697,82 @@ namespace Omicron.ViewModel
         }
         private void EPSONSampleResultProcess(string str)
         {
+            string ngitem = "",tresult = "";
             string[] strs = str.Split(',');
             ushort index = ushort.Parse(strs[1]);
             string bar = epsonRC90.tester[index - 1].TesterBracode;
-            string ngitem = strs[2];
-            string tresult = strs[3];
+            switch (strs[2])
+            {
+                case "OK":
+                    ngitem = SampleNgitem1;
+                    break;
+                case "NG":
+                    ngitem = SampleNgitem2;
+                    break;
+                case "NG1":
+                    ngitem = SampleNgitem3;
+                    break;
+                case "NG2":
+                    ngitem = SampleNgitem4;
+                    break;
+                case "NG3":
+                    ngitem = SampleNgitem5;
+                    break;
+                case "NG4":
+                    ngitem = SampleNgitem6;
+                    break;
+                case "NG5":
+                    ngitem = SampleNgitem7;
+                    break;
+                case "NG6":
+                    ngitem = SampleNgitem8;
+                    break;
+                case "NG7":
+                    ngitem = SampleNgitem9;
+                    break;
+                case "NG8":
+                    ngitem = SampleNgitem10;
+                    break;
+                default:
+                    
+                    break;
+            }
+            switch (strs[3])
+            {
+                case "OK":
+                    tresult = SampleNgitem1;
+                    break;
+                case "NG":
+                    tresult = SampleNgitem2;
+                    break;
+                case "NG1":
+                    tresult = SampleNgitem3;
+                    break;
+                case "NG2":
+                    tresult = SampleNgitem4;
+                    break;
+                case "NG3":
+                    tresult = SampleNgitem5;
+                    break;
+                case "NG4":
+                    tresult = SampleNgitem6;
+                    break;
+                case "NG5":
+                    tresult = SampleNgitem7;
+                    break;
+                case "NG6":
+                    tresult = SampleNgitem8;
+                    break;
+                case "NG7":
+                    tresult = SampleNgitem9;
+                    break;
+                case "NG8":
+                    tresult = SampleNgitem10;
+                    break;
+                default:
+
+                    break;
+            }
             string mno = Barsamrec_Mno + "Flex" + strs[1];
             samInsertAction2(bar, ngitem, tresult, mno);
 
@@ -2555,6 +2813,13 @@ namespace Omicron.ViewModel
 
 
         }
+        private async void EPSONEPSONGRRTimesAskProcess(string str)
+        {
+            if (epsonRC90.TestSendStatus)
+            {
+                await epsonRC90.TestSentNet.SendAsync("GRRTimesAsk;" + PcsGrrNeedNum.ToString() + ";" + PcsGrrNeedCount.ToString());
+            }
+        }
         private void ModelPrintEventProcess(string str)
         {
             Msg = messagePrint.AddMessage(str);
@@ -2562,18 +2827,28 @@ namespace Omicron.ViewModel
             {
                 case "MsgRev: 测试机1，吸取失败":
                     ShowAlarmTextGrid("测试机1，吸取失败");
+                    addAlarm("测试机1，吸取失败");
+                    SaveCSVfileAlarm("测试机1，吸取失败");
                     break;
                 case "MsgRev: 测试机2，吸取失败":
                     ShowAlarmTextGrid("测试机2，吸取失败");
+                    addAlarm("测试机2，吸取失败");
+                    SaveCSVfileAlarm("测试机2，吸取失败");
                     break;
                 case "MsgRev: 测试机3，吸取失败":
                     ShowAlarmTextGrid("测试机3，吸取失败");
+                    addAlarm("测试机3，吸取失败");
+                    SaveCSVfileAlarm("测试机3，吸取失败");
                     break;
                 case "MsgRev: 测试机4，吸取失败":
                     ShowAlarmTextGrid("测试机4，吸取失败");
+                    addAlarm("测试机4，吸取失败");
+                    SaveCSVfileAlarm("测试机4，吸取失败");
                     break;
                 case "MsgRev: 上料盘，吸取失败":
                     ShowAlarmTextGrid("上料盘，吸取失败");
+                    addAlarm("上料盘，吸取失败");
+                    SaveCSVfileAlarm("上料盘，吸取失败");
                     break;
                 //case "MsgRev: 蚀刻不良":
                 //    ShowAlarmTextGrid("蚀刻不良");
@@ -2583,42 +2858,66 @@ namespace Omicron.ViewModel
                 //    break;
                 case "MsgRev: 测试机1，测试超时":
                     ShowAlarmTextGrid("测试机1，测试超时");
+                    addAlarm("测试机1，测试超时");
+                    SaveCSVfileAlarm("测试机1，测试超时");
                     break;
                 case "MsgRev: 测试机2，测试超时":
                     ShowAlarmTextGrid("测试机2，测试超时");
+                    addAlarm("测试机2，测试超时");
+                    SaveCSVfileAlarm("测试机2，测试超时");
                     break;
                 case "MsgRev: 测试机3，测试超时":
                     ShowAlarmTextGrid("测试机3，测试超时");
+                    addAlarm("测试机3，测试超时");
+                    SaveCSVfileAlarm("测试机3，测试超时");
                     break;
                 case "MsgRev: 测试机4，测试超时":
                     ShowAlarmTextGrid("测试机4，测试超时");
+                    addAlarm("测试机4，测试超时");
+                    SaveCSVfileAlarm("测试机4，测试超时");
                     break;
                 case "MsgRev: 测试机1，连续NG":
                     ShowAlarmTextGrid("测试机1，连续NG");
+                    addAlarm("测试机1，连续NG");
+                    SaveCSVfileAlarm("测试机1，连续NG");
                     break;
                 case "MsgRev: 测试机2，连续NG":
                     ShowAlarmTextGrid("测试机2，连续NG");
+                    addAlarm("测试机2，连续NG");
+                    SaveCSVfileAlarm("测试机2，连续NG");
                     break;
                 case "MsgRev: 测试机3，连续NG":
                     ShowAlarmTextGrid("测试机3，连续NG");
+                    addAlarm("测试机3，连续NG");
+                    SaveCSVfileAlarm("测试机3，连续NG");
                     break;
                 case "MsgRev: 测试机4，连续NG":
                     ShowAlarmTextGrid("测试机4，连续NG");
+                    addAlarm("测试机4，连续NG");
+                    SaveCSVfileAlarm("测试机4，连续NG");
                     break;
                 case "MsgRev: 单穴测试，一次完成":
                     SingleTestTimes++;
                     break;
                 case "MsgRev: 测试工位1，产品没放好":
                     ShowAlarmTextGrid("测试工位1，产品没放好");
+                    addAlarm("测试工位1，产品没放好");
+                    SaveCSVfileAlarm("测试工位1，产品没放好");
                     break;
                 case "MsgRev: 测试工位2，产品没放好":
                     ShowAlarmTextGrid("测试工位2，产品没放好");
+                    addAlarm("测试工位2，产品没放好");
+                    SaveCSVfileAlarm("测试工位2，产品没放好");
                     break;
                 case "MsgRev: 测试工位3，产品没放好":
                     ShowAlarmTextGrid("测试工位3，产品没放好");
+                    addAlarm("测试工位3，产品没放好");
+                    SaveCSVfileAlarm("测试工位3，产品没放好");
                     break;
                 case "MsgRev: 测试工位4，产品没放好":
                     ShowAlarmTextGrid("测试工位4，产品没放好");
+                    addAlarm("测试工位4，产品没放好");
+                    SaveCSVfileAlarm("测试工位4，产品没放好");
                     break;
                 //case "MsgRev: 测试工位1，B爪手掉料":
                 //    ShowAlarmTextGrid("测试工位1，B爪手掉料");
@@ -2634,9 +2933,13 @@ namespace Omicron.ViewModel
                 //    break;
                 case "MsgRev: A爪手掉料":
                     ShowAlarmTextGrid("A爪手掉料");
+                    addAlarm("A爪手掉料");
+                    SaveCSVfileAlarm("A爪手掉料");
                     break;
                 case "MsgRev: B爪手掉料":
                     ShowAlarmTextGrid("B爪手掉料");
+                    addAlarm("B爪手掉料");
+                    SaveCSVfileAlarm("B爪手掉料");
                     break;
                 case "MsgRev: 清洁操作，结束":
                     DateTimeUtility.GetLocalTime(ref lastchuiqi);
@@ -2653,6 +2956,17 @@ namespace Omicron.ViewModel
                     break;
                 case "MsgRev: 样本测试错误":
                     SampleRetestButtonVisibility = "Visible";
+                    ShowAlarmTextGrid("样本测试错误");
+                    addAlarm("样本测试错误");
+                    SaveCSVfileAlarm("样本测试错误");
+                    break;
+                case "MsgRev: 样本盘缺料":                 
+                    ShowAlarmTextGrid("样本盘缺料");
+                    addAlarm("样本盘缺料");
+                    SaveCSVfileAlarm("样本盘缺料");
+                    break;
+                case "MsgRev: 测试机有料，请清空":
+                    ShowAlarmTextGrid("测试机有料，请清空");
                     break;
                 default:
                     break;
@@ -2700,7 +3014,7 @@ namespace Omicron.ViewModel
         }
         private async void EPSONDBSearchEventProcess(string pickstr)
         {
-            string NgItem;
+            string NgItem = "Error";
             switch (pickstr)
             {
                 case "A":
@@ -2708,7 +3022,83 @@ namespace Omicron.ViewModel
                     DBSearch_Barcode = epsonRC90.PickBracodeA;
                     if (LookforDt(DBSearch_Barcode, 0))
                     {
-                        NgItem = (string)SinglDt.Rows[0]["NGITEM"];
+                        //NgItem = (string)SinglDt.Rows[0]["NGITEM"];
+                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem1)
+                        {
+                            NgItem = "OK";
+                        }
+                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem2)
+                        {
+                            NgItem = "NG";
+                        }
+                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem3)
+                        {
+                            NgItem = "NG1";
+                        }
+                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem4)
+                        {
+                            NgItem = "NG2";
+                        }
+                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem5)
+                        {
+                            NgItem = "NG3";
+                        }
+                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem6)
+                        {
+                            NgItem = "NG4";
+                        }
+                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem7)
+                        {
+                            NgItem = "NG5";
+                        }
+                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem8)
+                        {
+                            NgItem = "NG6";
+                        }
+                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem9)
+                        {
+                            NgItem = "NG7";
+                        }
+                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem10)
+                        {
+                            NgItem = "NG8";
+                        }
+                        //switch ((string)SinglDt.Rows[0]["NGITEM"])
+                        //{
+                        //    case "PASS":
+                        //        NgItem = "OK";
+                        //        break;
+                        //    case "X758FlexOpened":
+                        //        NgItem = "NG";
+                        //        break;
+                        //    case "PixelOpenShortTest_OOS":
+                        //        NgItem = "NG1";
+                        //        break;
+                        //    case "PowerTest_OOS":
+                        //        NgItem = "NG2";
+                        //        break;
+                        //    case "NG3":
+                        //        NgItem = "NG3";
+                        //        break;
+                        //    case "NG4":
+                        //        NgItem = "NG4";
+                        //        break;
+                        //    case "NG5":
+                        //        NgItem = "NG5";
+                        //        break;
+                        //    case "NG6":
+                        //        NgItem = "NG6";
+                        //        break;
+                        //    case "NG7":
+                        //        NgItem = "NG7";
+                        //        break;
+                        //    case "NG8":
+                        //        NgItem = "NG8";
+                        //        break;
+                        //    default:
+                        //        NgItem = "Error";
+                        //        break;
+                        //}
                         if (epsonRC90.TestSendStatus)
                         {
                             await epsonRC90.TestSentNet.SendAsync("SamDBSearch;A;" + NgItem);
@@ -2761,7 +3151,83 @@ namespace Omicron.ViewModel
                     DBSearch_Barcode = epsonRC90.PickBracodeB;
                     if (LookforDt(DBSearch_Barcode, 0))
                     {
-                        NgItem = (string)SinglDt.Rows[0]["NGITEM"];
+                        //NgItem = (string)SinglDt.Rows[0]["NGITEM"];
+                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem1)
+                        {
+                            NgItem = "OK";
+                        }
+                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem2)
+                        {
+                            NgItem = "NG";
+                        }
+                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem3)
+                        {
+                            NgItem = "NG1";
+                        }
+                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem4)
+                        {
+                            NgItem = "NG2";
+                        }
+                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem5)
+                        {
+                            NgItem = "NG3";
+                        }
+                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem6)
+                        {
+                            NgItem = "NG4";
+                        }
+                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem7)
+                        {
+                            NgItem = "NG5";
+                        }
+                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem8)
+                        {
+                            NgItem = "NG6";
+                        }
+                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem9)
+                        {
+                            NgItem = "NG7";
+                        }
+                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem10)
+                        {
+                            NgItem = "NG8";
+                        }
+                        //switch ((string)SinglDt.Rows[0]["NGITEM"])
+                        //{
+                        //    case "PASS":
+                        //        NgItem = "OK";
+                        //        break;
+                        //    case "X758FlexOpened":
+                        //        NgItem = "NG";
+                        //        break;
+                        //    case "PixelOpenShortTest_OOS":
+                        //        NgItem = "NG1";
+                        //        break;
+                        //    case "PowerTest_OOS":
+                        //        NgItem = "NG2";                             
+                        //        break;
+                        //    case "NG3":
+                        //        NgItem = "NG3";
+                        //        break;
+                        //    case "NG4":
+                        //        NgItem = "NG4";
+                        //        break;
+                        //    case "NG5":
+                        //        NgItem = "NG5";
+                        //        break;
+                        //    case "NG6":
+                        //        NgItem = "NG6";
+                        //        break;
+                        //    case "NG7":
+                        //        NgItem = "NG7";
+                        //        break;
+                        //    case "NG8":
+                        //        NgItem = "NG8";
+                        //        break;
+                        //    default:
+                        //        NgItem = "Error";
+                        //        break;
+                        //}
                         if (epsonRC90.TestSendStatus)
                         {
                             await epsonRC90.TestSentNet.SendAsync("SamDBSearch;B;" + NgItem);
@@ -2992,6 +3458,19 @@ namespace Omicron.ViewModel
                 SampleTimeElapse = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "SampleTimeElapse","2"));
                 //SampleNgitemsNum
                 SampleNgitemsNum = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "SampleNgitemsNum", "2"));
+                PcsGrrNeedNum = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "GRR", "PcsGrrNeedNum", "4"));
+                PcsGrrNeedCount = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "GRR", "PcsGrrNeedCount", "4"));
+                //SampleNgitem1
+                SampleNgitem1 = Inifile.INIGetStringValue(iniParameterPath, "SampleNgitems", "SampleNgitem1", "PASS");
+                SampleNgitem2 = Inifile.INIGetStringValue(iniParameterPath, "SampleNgitems", "SampleNgitem2", "X758FlexOpened");
+                SampleNgitem3 = Inifile.INIGetStringValue(iniParameterPath, "SampleNgitems", "SampleNgitem3", "PixelOpenShortTest_OOS");
+                SampleNgitem4 = Inifile.INIGetStringValue(iniParameterPath, "SampleNgitems", "SampleNgitem4", "PowerTest_OOS");
+                SampleNgitem5 = Inifile.INIGetStringValue(iniParameterPath, "SampleNgitems", "SampleNgitem5", "NG3");
+                SampleNgitem6 = Inifile.INIGetStringValue(iniParameterPath, "SampleNgitems", "SampleNgitem6", "NG4");
+                SampleNgitem7 = Inifile.INIGetStringValue(iniParameterPath, "SampleNgitems", "SampleNgitem7", "NG5");
+                SampleNgitem8 = Inifile.INIGetStringValue(iniParameterPath, "SampleNgitems", "SampleNgitem8", "NG6");
+                SampleNgitem9 = Inifile.INIGetStringValue(iniParameterPath, "SampleNgitems", "SampleNgitem9", "NG7");
+                SampleNgitem10 = Inifile.INIGetStringValue(iniParameterPath, "SampleNgitems", "SampleNgitem10", "NG8");
                 return true;
             }
             catch (Exception ex)
@@ -3042,6 +3521,18 @@ namespace Omicron.ViewModel
                 Inifile.INIWriteValue(iniParameterPath, "Sample", "SampleTimeElapse", SampleTimeElapse.ToString());
 
                 Inifile.INIWriteValue(iniParameterPath, "Sample", "SampleNgitemsNum", SampleNgitemsNum.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "GRR", "PcsGrrNeedNum", PcsGrrNeedNum.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "GRR", "PcsGrrNeedCount", PcsGrrNeedCount.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "SampleNgitems", "SampleNgitem1", SampleNgitem1);
+                Inifile.INIWriteValue(iniParameterPath, "SampleNgitems", "SampleNgitem2", SampleNgitem2);
+                Inifile.INIWriteValue(iniParameterPath, "SampleNgitems", "SampleNgitem3", SampleNgitem3);
+                Inifile.INIWriteValue(iniParameterPath, "SampleNgitems", "SampleNgitem4", SampleNgitem4);
+                Inifile.INIWriteValue(iniParameterPath, "SampleNgitems", "SampleNgitem5", SampleNgitem5);
+                Inifile.INIWriteValue(iniParameterPath, "SampleNgitems", "SampleNgitem6", SampleNgitem6);
+                Inifile.INIWriteValue(iniParameterPath, "SampleNgitems", "SampleNgitem7", SampleNgitem7);
+                Inifile.INIWriteValue(iniParameterPath, "SampleNgitems", "SampleNgitem8", SampleNgitem8);
+                Inifile.INIWriteValue(iniParameterPath, "SampleNgitems", "SampleNgitem9", SampleNgitem9);
+                Inifile.INIWriteValue(iniParameterPath, "SampleNgitems", "SampleNgitem10", SampleNgitem10);
                 return true;
             }
             catch (Exception ex)
@@ -3286,6 +3777,18 @@ namespace Omicron.ViewModel
                         testRecord.Add(item);
                     }
                     myTestRecordQueue.Clear();
+                }
+            }
+
+            if (myAlarmRecordQueue.Count > 0)
+            {
+                lock (this)
+                {
+                    foreach (AlarmRecord item in myAlarmRecordQueue)
+                    {
+                        alarmRecord.Add(item);
+                    }
+                    myAlarmRecordQueue.Clear();
                 }
             }
 
@@ -3638,5 +4141,10 @@ namespace Omicron.ViewModel
         public string MNO { set; get; }
         public string CDATE { set; get; }
         public string CTIME { set; get; }
+    }
+    public class AlarmRecord
+    {
+        public string AlarmTime { set; get; }
+        public string AlarmString { set; get; }
     }
 }

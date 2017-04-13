@@ -332,7 +332,7 @@
     </Style>
     <Style TargetType="CheckBox" x:Key="CheckBoxBase">
         <Setter Property="Margin" Value="20,0"></Setter>
-        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
     </Style>
     <Style TargetType="TextBlock" x:Key="LabelBase">
         <Setter Property="FontSize" Value="42"></Setter>

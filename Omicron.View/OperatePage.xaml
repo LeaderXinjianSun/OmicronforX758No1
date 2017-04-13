@@ -115,9 +115,12 @@
                         </StackPanel>
                     </StackPanel>
                     <Border Grid.Row="1" Grid.RowSpan="2" BorderThickness="0,1,0,1" BorderBrush="LightBlue">
-                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding SingleTestTimesVisibility}">
-                            <TextBlock FontSize="40" Foreground="GreenYellow" Text="{Binding SingleTestTimes}"></TextBlock>
+                        <Grid>
+                            <!--<ProgressBar Margin="10,0" Height="20" ></ProgressBar>-->
                         </Grid>
+                        <!--<Grid HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding SingleTestTimesVisibility}">
+                            <TextBlock FontSize="40" Foreground="GreenYellow" Text="{Binding SingleTestTimes}"></TextBlock>
+                        </Grid>-->
                         <!--<Grid Grid.Row="1" Grid.RowSpan="2">
                             <Grid.Resources>
                                 <Style TargetType="TextBlock">
