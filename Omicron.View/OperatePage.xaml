@@ -116,6 +116,18 @@
                     </StackPanel>
                     <Border Grid.Row="1" Grid.RowSpan="2" BorderThickness="0,1,0,1" BorderBrush="LightBlue">
                         <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Style="{StaticResource YieldTextBlock}" Text="{Binding PassStatusDisplay1}" Foreground="{Binding PassStatusColor1}"></TextBlock>
+                            <TextBlock Style="{StaticResource YieldTextBlock}" Grid.Row="1" Text="{Binding PassStatusDisplay2}" Foreground="{Binding PassStatusColor2}"></TextBlock>
+                            <TextBlock Style="{StaticResource YieldTextBlock}" Grid.Column="1" Text="{Binding PassStatusDisplay3}" Foreground="{Binding PassStatusColor3}"></TextBlock>
+                            <TextBlock Style="{StaticResource YieldTextBlock}" Grid.Column="1" Grid.Row="1" Text="{Binding PassStatusDisplay4}" Foreground="{Binding PassStatusColor4}"></TextBlock>
                             <!--<ProgressBar Margin="10,0" Height="20" ></ProgressBar>-->
                         </Grid>
                         <!--<Grid HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding SingleTestTimesVisibility}">

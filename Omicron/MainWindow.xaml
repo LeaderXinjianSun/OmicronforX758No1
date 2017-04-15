@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:Omicron"
         xmlns:view="clr-namespace:Omicron.View;assembly=Omicron.View"
         mc:Ignorable="d"
-        Title="Omicron for X758 Ver20170412.01 No.2" WindowStartupLocation="CenterScreen"
+        Title="Omicron for X758 Ver20170415.02 No.2" WindowStartupLocation="CenterScreen"
                      BorderThickness="0" GlowBrush="Black"  ResizeMode="CanResizeWithGrip" WindowTransitionsEnabled="True"
                      Icon="/icons/google_earth_64px_1099826_easyicon.net.ico" Height="768" Width="1024" Closing="MetroWindow_Closing">
     <Grid>

@@ -147,6 +147,16 @@
                     <TextBlock Style="{StaticResource TextBlockBase}" Text=" × "></TextBlock>
                     <ComboBox Width="80" SelectedIndex="{Binding PcsGrrNeedCount}" ItemsSource="{Binding PcsGrrNeedCounts}"></ComboBox>
                 </StackPanel>
+                <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource TextBlockBase}" Text="良率阀值： "></TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PassMid}"></TextBox>
+                    <TextBlock Style="{StaticResource TextBlockBase}" Text="%"></TextBlock>
+                </StackPanel>
+                <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource TextBlockBase}" Text="良率报警： "></TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PassLowLimit}"></TextBox>
+                    <TextBlock Style="{StaticResource TextBlockBase}" Text="%"></TextBlock>
+                </StackPanel>
             </StackPanel>
         </GroupBox>
         <GroupBox Grid.Row="2" Grid.Column="1" Header="文档路径">

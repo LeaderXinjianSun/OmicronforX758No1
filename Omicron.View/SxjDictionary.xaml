@@ -101,6 +101,11 @@
         <Setter Property="HorizontalAlignment" Value="Center"></Setter>
         <Setter Property="Margin" Value="1"></Setter>
     </Style>
+    <Style TargetType="TextBlock" x:Key="YieldTextBlock">
+        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        <Setter Property="FontSize" Value="20"></Setter>
+    </Style>
     <Style TargetType="StackPanel" x:Key="EpsonStatusStackPanel">
         <Setter Property="Margin" Value="8,0"></Setter>
         <Setter Property="Orientation" Value="Vertical"></Setter>

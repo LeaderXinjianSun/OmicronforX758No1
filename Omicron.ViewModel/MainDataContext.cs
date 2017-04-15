@@ -108,6 +108,8 @@ namespace Omicron.ViewModel
         //public virtual DataTable TestRecodeDT { set; get; } = new DataTable();
         public virtual ObservableCollection<TestRecord> testRecord { set; get; } = new ObservableCollection<TestRecord>();
         public virtual ObservableCollection<AlarmRecord> alarmRecord { set; get; } = new ObservableCollection<AlarmRecord>();
+        public virtual ObservableCollection<AlarmTableItem> alarmTableItems { set; get; } = new ObservableCollection<AlarmTableItem>();
+
 
         public virtual double TestTime0 { set; get; } = 0;
         public virtual int TestCount0 { set; get; } = 0;
@@ -132,6 +134,30 @@ namespace Omicron.ViewModel
         public virtual int PassCount3 { set; get; } = 0;
         public virtual int FailCount3 { set; get; } = 0;
         public virtual double Yield3 { set; get; } = 0;
+
+ 
+        public virtual int TestCount0_Nomal { set; get; } = 0;
+        public virtual int PassCount0_Nomal { set; get; } = 0;
+        public virtual int FailCount0_Nomal { set; get; } = 0;
+        public virtual double Yield0_Nomal { set; get; } = 0;
+
+ 
+        public virtual int TestCount1_Nomal { set; get; } = 0;
+        public virtual int PassCount1_Nomal { set; get; } = 0;
+        public virtual int FailCount1_Nomal { set; get; } = 0;
+        public virtual double Yield1_Nomal { set; get; } = 0;
+
+
+        public virtual int TestCount2_Nomal { set; get; } = 0;
+        public virtual int PassCount2_Nomal { set; get; } = 0;
+        public virtual int FailCount2_Nomal { set; get; } = 0;
+        public virtual double Yield2_Nomal { set; get; } = 0;
+
+
+        public virtual int TestCount3_Nomal { set; get; } = 0;
+        public virtual int PassCount3_Nomal { set; get; } = 0;
+        public virtual int FailCount3_Nomal { set; get; } = 0;
+        public virtual double Yield3_Nomal { set; get; } = 0;
 
         public virtual string TesterResult0 { set; get; } = "Unknow";
         public virtual string TesterResult1 { set; get; } = "Unknow";
@@ -398,11 +424,25 @@ namespace Omicron.ViewModel
         public virtual string SampleNgitem9 { set; get; }
         public virtual string SampleNgitem10 { set; get; }
 
+        public virtual double PassMid { set; get; }
+        public virtual double PassLowLimit { set; get; }
+
+        public virtual string PassStatusDisplay1 { set; get; }
+        public virtual string PassStatusDisplay2 { set; get; }
+        public virtual string PassStatusDisplay3 { set; get; }
+        public virtual string PassStatusDisplay4 { set; get; }
+
+        public virtual string PassStatusColor1 { set; get; }
+        public virtual string PassStatusColor2 { set; get; }
+        public virtual string PassStatusColor3 { set; get; }
+        public virtual string PassStatusColor4 { set; get; }
+
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
         private dialog mydialog = new dialog();
         private string iniParameterPath = System.Environment.CurrentDirectory + "\\Parameter.ini";
+        private string iniAlarmRecordPath = System.Environment.CurrentDirectory + "\\AlarmRecord.ini";
         private string TwincatParameterPath = System.Environment.CurrentDirectory + "\\TwincatParameter.ini";
         private string iniTesterResutPath = System.Environment.CurrentDirectory + "\\TesterResut.ini";
         private XinjiePlc XinjiePLC;
@@ -435,6 +475,8 @@ namespace Omicron.ViewModel
 
         DataTable SampleDt = new DataTable();
 
+        List<AlarmTableItem> alarmTableItemsList = new List<AlarmTableItem>();
+
 
 
         #endregion
@@ -463,7 +505,20 @@ namespace Omicron.ViewModel
             SampleDt.Columns.Add("TRES", typeof(string));
             SampleDt.Columns.Add("MNO", typeof(string));
             SampleDt.Columns.Add("CDATE", typeof(string));
-            SampleDt.Columns.Add("CTIME", typeof(string));            
+            SampleDt.Columns.Add("CTIME", typeof(string));
+
+            alarmTableItemsList.Add(new AlarmTableItem("测试机穴1"));
+            alarmTableItemsList.Add(new AlarmTableItem("测试机穴2"));
+            alarmTableItemsList.Add(new AlarmTableItem("测试机穴3"));
+            alarmTableItemsList.Add(new AlarmTableItem("测试机穴4"));
+            alarmTableItemsList.Add(new AlarmTableItem("上料盘位1"));
+            alarmTableItemsList.Add(new AlarmTableItem("上料盘位2"));
+            alarmTableItemsList.Add(new AlarmTableItem("上料盘位3"));
+            alarmTableItemsList.Add(new AlarmTableItem("上料盘位4"));
+            alarmTableItemsList.Add(new AlarmTableItem("上料盘位5"));
+            alarmTableItemsList.Add(new AlarmTableItem("上料盘位6"));
+
+            ReadAlarmRecord();
 
             TwinCatVarInit();
 
@@ -655,7 +710,7 @@ namespace Omicron.ViewModel
             SampleTestPageVisibility = "Collapsed";
             AlarmRecordPageVisibility = "Collapsed";
             SampleTestPage1Visibility = "Collapsed";
-            MaopaoPaixu();
+            //MaopaoPaixu();
         }
         public void ChoseParameterPage()
         {
@@ -947,6 +1002,11 @@ namespace Omicron.ViewModel
                             {
                                 await epsonRC90.TestSentNet.SendAsync("IndexArray_i;" + maopaostr);
                             }
+                            if (!IsTestersSample && epsonRC90.TestSendStatus)
+                            {
+                                await Task.Delay(200);
+                                await epsonRC90.TestSentNet.SendAsync("GONOGOCancel");
+                            }
                         }                       
                     }
                     break;
@@ -1177,17 +1237,35 @@ namespace Omicron.ViewModel
             int i = int.Parse(s);
             try
             {
-                epsonRC90.tester[i].TestSpan = 0;
-                epsonRC90.tester[i].PassCount = 0;
-                epsonRC90.tester[i].FailCount = 0;
-                epsonRC90.tester[i].TestCount = 0;
-                epsonRC90.tester[i].Yield = 0;
-                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + i.ToString(), "TestSpan", "0");
-                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + i.ToString(), "PassCount", "0");
-                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + i.ToString(), "FailCount", "0");
-                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + i.ToString(), "TestCount", "0");
-                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + i.ToString(), "Yield", "0");
-                Msg = messagePrint.AddMessage("测试机 " + (i+ 1).ToString() + " 数据清空");
+                if (i < 4)
+                {
+                    epsonRC90.tester[i].TestSpan = 0;
+                    epsonRC90.tester[i].PassCount = 0;
+                    epsonRC90.tester[i].FailCount = 0;
+                    epsonRC90.tester[i].TestCount = 0;
+                    epsonRC90.tester[i].Yield = 0;
+                    Inifile.INIWriteValue(iniTesterResutPath, "Tester" + i.ToString(), "TestSpan", "0");
+                    Inifile.INIWriteValue(iniTesterResutPath, "Tester" + i.ToString(), "PassCount", "0");
+                    Inifile.INIWriteValue(iniTesterResutPath, "Tester" + i.ToString(), "FailCount", "0");
+                    Inifile.INIWriteValue(iniTesterResutPath, "Tester" + i.ToString(), "TestCount", "0");
+                    Inifile.INIWriteValue(iniTesterResutPath, "Tester" + i.ToString(), "Yield", "0");
+                    Msg = messagePrint.AddMessage("测试机 " + (i + 1).ToString() + " AAB 数据清空");
+                }
+                else
+                {
+                    epsonRC90.tester[i - 4].TestSpan = 0;
+                    epsonRC90.tester[i - 4].PassCount_Nomal = 0;
+                    epsonRC90.tester[i - 4].FailCount_Nomal = 0;
+                    epsonRC90.tester[i - 4].TestCount_Nomal = 0;
+                    epsonRC90.tester[i - 4].Yield_Nomal = 0;
+                    Inifile.INIWriteValue(iniTesterResutPath, "Tester" + (i - 4).ToString(), "TestSpan", "0");
+                    Inifile.INIWriteValue(iniTesterResutPath, "Tester" + (i - 4).ToString(), "PassCount_Nomal", "0");
+                    Inifile.INIWriteValue(iniTesterResutPath, "Tester" + (i - 4).ToString(), "FailCount_Nomal", "0");
+                    Inifile.INIWriteValue(iniTesterResutPath, "Tester" + (i - 4).ToString(), "TestCount_Nomal", "0");
+                    Inifile.INIWriteValue(iniTesterResutPath, "Tester" + (i - 4).ToString(), "Yield_Nomal", "0");
+                    Msg = messagePrint.AddMessage("测试机 " + (i - 4 + 1).ToString() + " 数据清空");
+                }
+
             }
             catch
             {
@@ -1264,19 +1342,19 @@ namespace Omicron.ViewModel
                 Log.Default.Error("写入CSV文件失败", ex.Message);
             }
         }
-        private void addAlarm(string almstr)
-        {
-            AlarmRecord alarmRecord = new AlarmRecord();
-            alarmRecord.AlarmTime = System.DateTime.Now.ToString();
-            alarmRecord.AlarmString = almstr;
-            lock (this)
-            {
-                myAlarmRecordQueue.Enqueue(alarmRecord);
-            }
+        //private void addAlarm(string almstr)
+        //{
+        //    AlarmRecord alarmRecord = new AlarmRecord();
+        //    alarmRecord.AlarmTime = System.DateTime.Now.ToString();
+        //    alarmRecord.AlarmString = almstr;
+        //    lock (this)
+        //    {
+        //        myAlarmRecordQueue.Enqueue(alarmRecord);
+        //    }
             
 
 
-        }
+        //}
         private void ShowAlarmTextGrid(string str)
         {
             AlarmTextString = str;
@@ -1355,11 +1433,23 @@ namespace Omicron.ViewModel
                     }
                     break;
                 case "7":
-                    alarmRecord.Clear();
+                    //alarmRecord.Clear();
+                    ClearAlarmRecord();
                     break;
                 default:
                     break;
             }
+        }
+        private void ClearAlarmRecord()
+        {
+            foreach (var item in alarmTableItemsList)
+            {
+                item.产品没放好 = 0;
+                item.吸取失败 = 0;
+                item.测试机超时 = 0;
+                item.连续NG = 0;
+            }
+            WriteAlarmRecord();
         }
         private void SaveLastSamplTimetoIni()
         {
@@ -1581,6 +1671,38 @@ namespace Omicron.ViewModel
                 Csvfile.dt2csv(SampleDt, filepath, "SampleTest", "PARTNUM,SITEM,BARCODE,NGITEM,TRES,MNO,CDATE,CTIME");
                 SampleDt.Rows.Clear();
             }
+        }
+        private string[] PassStatusProcess(double f)
+        {
+            string[] strs = new string[2];
+            if (f > PassMid)
+            {
+                strs[0] = "良率" + f.ToString() + "% 优秀";
+                strs[1] = "Green";
+            }
+            else
+            {
+                if (f > PassLowLimit)
+                {
+                    strs[0] = "良率" + f.ToString() + "% 正常";
+                    strs[1] = "Gold";
+                }
+                else
+                {
+                    if (f == 0)
+                    {
+                        strs[0] = "良率" + f.ToString() + "% 未知";
+                        strs[1] = "Blue";
+                    }
+                    else
+                    {
+                        strs[0] = "良率" + f.ToString() + "% 异常";
+                        strs[1] = "Red";
+                    }
+
+                }
+            }
+            return strs;
         }
         #region 数据库
         private void setLocalTime(string strDateTime)
@@ -2827,28 +2949,73 @@ namespace Omicron.ViewModel
             {
                 case "MsgRev: 测试机1，吸取失败":
                     ShowAlarmTextGrid("测试机1，吸取失败");
-                    addAlarm("测试机1，吸取失败");
+                    //addAlarm("测试机1，吸取失败");
+                    alarmTableItemsList[0].吸取失败 += 1;
+                    WriteAlarmRecord();
                     SaveCSVfileAlarm("测试机1，吸取失败");
                     break;
                 case "MsgRev: 测试机2，吸取失败":
                     ShowAlarmTextGrid("测试机2，吸取失败");
-                    addAlarm("测试机2，吸取失败");
+                    //addAlarm("测试机2，吸取失败");
+                    alarmTableItemsList[1].吸取失败 += 1;
+                    WriteAlarmRecord();
                     SaveCSVfileAlarm("测试机2，吸取失败");
                     break;
                 case "MsgRev: 测试机3，吸取失败":
                     ShowAlarmTextGrid("测试机3，吸取失败");
-                    addAlarm("测试机3，吸取失败");
+                    //addAlarm("测试机3，吸取失败");
+                    alarmTableItemsList[2].吸取失败 += 1;
+                    WriteAlarmRecord();
                     SaveCSVfileAlarm("测试机3，吸取失败");
                     break;
                 case "MsgRev: 测试机4，吸取失败":
                     ShowAlarmTextGrid("测试机4，吸取失败");
-                    addAlarm("测试机4，吸取失败");
+                    //addAlarm("测试机4，吸取失败");
+                    alarmTableItemsList[3].吸取失败 += 1;
+                    WriteAlarmRecord();
                     SaveCSVfileAlarm("测试机4，吸取失败");
                     break;
-                case "MsgRev: 上料盘，吸取失败":
-                    ShowAlarmTextGrid("上料盘，吸取失败");
-                    addAlarm("上料盘，吸取失败");
-                    SaveCSVfileAlarm("上料盘，吸取失败");
+                case "MsgRev: 上料盘1，吸取失败":
+                    ShowAlarmTextGrid("上料盘1，吸取失败");
+                    //addAlarm("上料盘，吸取失败");
+                    SaveCSVfileAlarm("上料盘1，吸取失败");
+                    alarmTableItemsList[4].吸取失败 += 1;
+                    WriteAlarmRecord();
+                    break;
+                case "MsgRev: 上料盘2，吸取失败":
+                    ShowAlarmTextGrid("上料盘2，吸取失败");
+                    //addAlarm("上料盘，吸取失败");
+                    SaveCSVfileAlarm("上料盘2，吸取失败");
+                    alarmTableItemsList[5].吸取失败 += 1;
+                    WriteAlarmRecord();
+                    break;
+                case "MsgRev: 上料盘3，吸取失败":
+                    ShowAlarmTextGrid("上料盘3，吸取失败");
+                    //addAlarm("上料盘，吸取失败");
+                    SaveCSVfileAlarm("上料盘3，吸取失败");
+                    alarmTableItemsList[6].吸取失败 += 1;
+                    WriteAlarmRecord();
+                    break;
+                case "MsgRev: 上料盘4，吸取失败":
+                    ShowAlarmTextGrid("上料盘4，吸取失败");
+                    //addAlarm("上料盘，吸取失败");
+                    SaveCSVfileAlarm("上料盘4，吸取失败");
+                    alarmTableItemsList[7].吸取失败 += 1;
+                    WriteAlarmRecord();
+                    break;
+                case "MsgRev: 上料盘5，吸取失败":
+                    ShowAlarmTextGrid("上料盘5，吸取失败");
+                    //addAlarm("上料盘，吸取失败");
+                    SaveCSVfileAlarm("上料盘5，吸取失败");
+                    alarmTableItemsList[8].吸取失败 += 1;
+                    WriteAlarmRecord();
+                    break;
+                case "MsgRev: 上料盘6，吸取失败":
+                    ShowAlarmTextGrid("上料盘6，吸取失败");
+                    //addAlarm("上料盘，吸取失败");
+                    SaveCSVfileAlarm("上料盘6，吸取失败");
+                    alarmTableItemsList[9].吸取失败 += 1;
+                    WriteAlarmRecord();
                     break;
                 //case "MsgRev: 蚀刻不良":
                 //    ShowAlarmTextGrid("蚀刻不良");
@@ -2858,42 +3025,58 @@ namespace Omicron.ViewModel
                 //    break;
                 case "MsgRev: 测试机1，测试超时":
                     ShowAlarmTextGrid("测试机1，测试超时");
-                    addAlarm("测试机1，测试超时");
+                    //addAlarm("测试机1，测试超时");
+                    alarmTableItemsList[0].测试机超时 += 1;
+                    WriteAlarmRecord();
                     SaveCSVfileAlarm("测试机1，测试超时");
                     break;
                 case "MsgRev: 测试机2，测试超时":
                     ShowAlarmTextGrid("测试机2，测试超时");
-                    addAlarm("测试机2，测试超时");
+                    //addAlarm("测试机2，测试超时");
+                    alarmTableItemsList[1].测试机超时 += 1;
+                    WriteAlarmRecord();
                     SaveCSVfileAlarm("测试机2，测试超时");
                     break;
                 case "MsgRev: 测试机3，测试超时":
                     ShowAlarmTextGrid("测试机3，测试超时");
-                    addAlarm("测试机3，测试超时");
+                    //addAlarm("测试机3，测试超时");
+                    alarmTableItemsList[2].测试机超时 += 1;
+                    WriteAlarmRecord();
                     SaveCSVfileAlarm("测试机3，测试超时");
                     break;
                 case "MsgRev: 测试机4，测试超时":
                     ShowAlarmTextGrid("测试机4，测试超时");
-                    addAlarm("测试机4，测试超时");
+                    //addAlarm("测试机4，测试超时");
+                    alarmTableItemsList[3].测试机超时 += 1;
+                    WriteAlarmRecord();
                     SaveCSVfileAlarm("测试机4，测试超时");
                     break;
                 case "MsgRev: 测试机1，连续NG":
                     ShowAlarmTextGrid("测试机1，连续NG");
-                    addAlarm("测试机1，连续NG");
+                    //addAlarm("测试机1，连续NG");
+                    alarmTableItemsList[0].连续NG += 1;
+                    WriteAlarmRecord();
                     SaveCSVfileAlarm("测试机1，连续NG");
                     break;
                 case "MsgRev: 测试机2，连续NG":
                     ShowAlarmTextGrid("测试机2，连续NG");
-                    addAlarm("测试机2，连续NG");
+                    //addAlarm("测试机2，连续NG");
+                    alarmTableItemsList[1].连续NG += 1;
+                    WriteAlarmRecord();
                     SaveCSVfileAlarm("测试机2，连续NG");
                     break;
                 case "MsgRev: 测试机3，连续NG":
                     ShowAlarmTextGrid("测试机3，连续NG");
-                    addAlarm("测试机3，连续NG");
+                    //addAlarm("测试机3，连续NG");
+                    alarmTableItemsList[2].连续NG += 1;
+                    WriteAlarmRecord();
                     SaveCSVfileAlarm("测试机3，连续NG");
                     break;
                 case "MsgRev: 测试机4，连续NG":
                     ShowAlarmTextGrid("测试机4，连续NG");
-                    addAlarm("测试机4，连续NG");
+                    //addAlarm("测试机4，连续NG");
+                    alarmTableItemsList[3].连续NG += 1;
+                    WriteAlarmRecord();
                     SaveCSVfileAlarm("测试机4，连续NG");
                     break;
                 case "MsgRev: 单穴测试，一次完成":
@@ -2901,22 +3084,30 @@ namespace Omicron.ViewModel
                     break;
                 case "MsgRev: 测试工位1，产品没放好":
                     ShowAlarmTextGrid("测试工位1，产品没放好");
-                    addAlarm("测试工位1，产品没放好");
+                    //addAlarm("测试工位1，产品没放好");
+                    alarmTableItemsList[0].产品没放好 += 1;
+                    WriteAlarmRecord();
                     SaveCSVfileAlarm("测试工位1，产品没放好");
                     break;
                 case "MsgRev: 测试工位2，产品没放好":
                     ShowAlarmTextGrid("测试工位2，产品没放好");
-                    addAlarm("测试工位2，产品没放好");
+                    //addAlarm("测试工位2，产品没放好");
+                    alarmTableItemsList[1].产品没放好 += 1;
+                    WriteAlarmRecord();
                     SaveCSVfileAlarm("测试工位2，产品没放好");
                     break;
                 case "MsgRev: 测试工位3，产品没放好":
                     ShowAlarmTextGrid("测试工位3，产品没放好");
-                    addAlarm("测试工位3，产品没放好");
+                    //addAlarm("测试工位3，产品没放好");
+                    alarmTableItemsList[2].产品没放好 += 1;
+                    WriteAlarmRecord();
                     SaveCSVfileAlarm("测试工位3，产品没放好");
                     break;
                 case "MsgRev: 测试工位4，产品没放好":
                     ShowAlarmTextGrid("测试工位4，产品没放好");
-                    addAlarm("测试工位4，产品没放好");
+                    //addAlarm("测试工位4，产品没放好");
+                    alarmTableItemsList[3].产品没放好 += 1;
+                    WriteAlarmRecord();
                     SaveCSVfileAlarm("测试工位4，产品没放好");
                     break;
                 //case "MsgRev: 测试工位1，B爪手掉料":
@@ -2933,12 +3124,12 @@ namespace Omicron.ViewModel
                 //    break;
                 case "MsgRev: A爪手掉料":
                     ShowAlarmTextGrid("A爪手掉料");
-                    addAlarm("A爪手掉料");
+                    //addAlarm("A爪手掉料");
                     SaveCSVfileAlarm("A爪手掉料");
                     break;
                 case "MsgRev: B爪手掉料":
                     ShowAlarmTextGrid("B爪手掉料");
-                    addAlarm("B爪手掉料");
+                    //addAlarm("B爪手掉料");
                     SaveCSVfileAlarm("B爪手掉料");
                     break;
                 case "MsgRev: 清洁操作，结束":
@@ -2957,12 +3148,12 @@ namespace Omicron.ViewModel
                 case "MsgRev: 样本测试错误":
                     SampleRetestButtonVisibility = "Visible";
                     ShowAlarmTextGrid("样本测试错误");
-                    addAlarm("样本测试错误");
+                    //addAlarm("样本测试错误");
                     SaveCSVfileAlarm("样本测试错误");
                     break;
                 case "MsgRev: 样本盘缺料":                 
                     ShowAlarmTextGrid("样本盘缺料");
-                    addAlarm("样本盘缺料");
+                    //addAlarm("样本盘缺料");
                     SaveCSVfileAlarm("样本盘缺料");
                     break;
                 case "MsgRev: 测试机有料，请清空":
@@ -3471,6 +3662,9 @@ namespace Omicron.ViewModel
                 SampleNgitem8 = Inifile.INIGetStringValue(iniParameterPath, "SampleNgitems", "SampleNgitem8", "NG6");
                 SampleNgitem9 = Inifile.INIGetStringValue(iniParameterPath, "SampleNgitems", "SampleNgitem9", "NG7");
                 SampleNgitem10 = Inifile.INIGetStringValue(iniParameterPath, "SampleNgitems", "SampleNgitem10", "NG8");
+
+                PassMid = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "PassYield", "PassMid", "98"));
+                PassLowLimit = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "PassYield", "PassLowLimit", "94"));
                 return true;
             }
             catch (Exception ex)
@@ -3533,6 +3727,10 @@ namespace Omicron.ViewModel
                 Inifile.INIWriteValue(iniParameterPath, "SampleNgitems", "SampleNgitem8", SampleNgitem8);
                 Inifile.INIWriteValue(iniParameterPath, "SampleNgitems", "SampleNgitem9", SampleNgitem9);
                 Inifile.INIWriteValue(iniParameterPath, "SampleNgitems", "SampleNgitem10", SampleNgitem10);
+
+                Inifile.INIWriteValue(iniParameterPath, "PassYield", "PassMid", PassMid.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "PassYield", "PassLowLimit", PassLowLimit.ToString());
+
                 return true;
             }
             catch (Exception ex)
@@ -3540,6 +3738,80 @@ namespace Omicron.ViewModel
                 Log.Default.Error("WriteParameter", ex);
                 return false;
             }
+        }
+        private void ReadAlarmRecord()
+        {
+            //iniAlarmRecordPath
+            try
+            {
+                alarmTableItemsList[0].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴1", "吸取失败", "100"));
+                alarmTableItemsList[0].产品没放好 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴1", "产品没放好", "0"));
+                alarmTableItemsList[0].测试机超时 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴1", "测试机超时", "0"));
+                alarmTableItemsList[0].连续NG = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴1", "连续NG", "0"));
+
+                alarmTableItemsList[1].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴2", "吸取失败", "0"));
+                alarmTableItemsList[1].产品没放好 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴2", "产品没放好", "0"));
+                alarmTableItemsList[1].测试机超时 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴2", "测试机超时", "0"));
+                alarmTableItemsList[1].连续NG = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴2", "连续NG", "0"));
+
+                alarmTableItemsList[2].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴3", "吸取失败", "0"));
+                alarmTableItemsList[2].产品没放好 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴3", "产品没放好", "0"));
+                alarmTableItemsList[2].测试机超时 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴3", "测试机超时", "0"));
+                alarmTableItemsList[2].连续NG = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴3", "连续NG", "0"));
+
+                alarmTableItemsList[3].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴4", "吸取失败", "0"));
+                alarmTableItemsList[3].产品没放好 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴4", "产品没放好", "0"));
+                alarmTableItemsList[3].测试机超时 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴4", "测试机超时", "0"));
+                alarmTableItemsList[3].连续NG = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴4", "连续NG", "0"));
+
+                alarmTableItemsList[4].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "上料盘位1", "吸取失败", "0"));
+                alarmTableItemsList[5].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "上料盘位2", "吸取失败", "0"));
+                alarmTableItemsList[6].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "上料盘位3", "吸取失败", "0"));
+                alarmTableItemsList[7].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "上料盘位4", "吸取失败", "0"));
+                alarmTableItemsList[8].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "上料盘位5", "吸取失败", "0"));
+                alarmTableItemsList[9].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "上料盘位6", "吸取失败", "0"));
+            }
+            catch (Exception ex)
+            {
+                Log.Default.Error("ReadAlarmRecord", ex);
+            }
+ 
+        }
+        private void WriteAlarmRecord()
+        {
+            try
+            {
+                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴1", "吸取失败", alarmTableItemsList[0].吸取失败.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴1", "产品没放好", alarmTableItemsList[0].产品没放好.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴1", "测试机超时", alarmTableItemsList[0].测试机超时.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴1", "连续NG", alarmTableItemsList[0].连续NG.ToString());
+
+                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴2", "吸取失败", alarmTableItemsList[1].吸取失败.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴2", "产品没放好", alarmTableItemsList[1].产品没放好.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴2", "测试机超时", alarmTableItemsList[1].测试机超时.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴2", "连续NG", alarmTableItemsList[1].连续NG.ToString());
+
+                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴3", "吸取失败", alarmTableItemsList[2].吸取失败.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴3", "产品没放好", alarmTableItemsList[2].产品没放好.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴3", "测试机超时", alarmTableItemsList[2].测试机超时.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴3", "连续NG", alarmTableItemsList[2].连续NG.ToString());
+
+                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴4", "吸取失败", alarmTableItemsList[3].吸取失败.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴4", "产品没放好", alarmTableItemsList[3].产品没放好.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴4", "测试机超时", alarmTableItemsList[3].测试机超时.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴4", "连续NG", alarmTableItemsList[3].连续NG.ToString());
+
+                Inifile.INIWriteValue(iniAlarmRecordPath, "上料盘位1", "吸取失败", alarmTableItemsList[4].吸取失败.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "上料盘位2", "吸取失败", alarmTableItemsList[5].吸取失败.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "上料盘位3", "吸取失败", alarmTableItemsList[6].吸取失败.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "上料盘位4", "吸取失败", alarmTableItemsList[7].吸取失败.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "上料盘位5", "吸取失败", alarmTableItemsList[8].吸取失败.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "上料盘位6", "吸取失败", alarmTableItemsList[9].吸取失败.ToString());
+            }
+            catch (Exception ex)
+            {
+                Log.Default.Error("WriteAlarmRecord", ex);
+            }            
         }
         #endregion
         #region FunctionTest
@@ -3630,6 +3902,26 @@ namespace Omicron.ViewModel
                     FailCount3 = epsonRC90.tester[3].FailCount;
                     Yield3 = epsonRC90.tester[3].Yield;
                     TesterBracodeBR = epsonRC90.tester[3].TesterBracode;
+
+                    TestCount0_Nomal = epsonRC90.tester[0].TestCount_Nomal;
+                    PassCount0_Nomal = epsonRC90.tester[0].PassCount_Nomal;
+                    FailCount0_Nomal = epsonRC90.tester[0].FailCount_Nomal;
+                    Yield0_Nomal = epsonRC90.tester[0].Yield_Nomal;
+
+                    TestCount1_Nomal = epsonRC90.tester[1].TestCount_Nomal;
+                    PassCount1_Nomal = epsonRC90.tester[1].PassCount_Nomal;
+                    FailCount1_Nomal = epsonRC90.tester[1].FailCount_Nomal;
+                    Yield1_Nomal = epsonRC90.tester[1].Yield_Nomal;
+
+                    TestCount2_Nomal = epsonRC90.tester[2].TestCount_Nomal;
+                    PassCount2_Nomal = epsonRC90.tester[2].PassCount_Nomal;
+                    FailCount2_Nomal = epsonRC90.tester[2].FailCount_Nomal;
+                    Yield2_Nomal = epsonRC90.tester[2].Yield_Nomal;
+
+                    TestCount3_Nomal = epsonRC90.tester[3].TestCount_Nomal;
+                    PassCount3_Nomal = epsonRC90.tester[3].PassCount_Nomal;
+                    FailCount3_Nomal = epsonRC90.tester[3].FailCount_Nomal;
+                    Yield3_Nomal = epsonRC90.tester[3].Yield_Nomal;
 
                     TesterResult0 = epsonRC90.tester[0].testResult.ToString();
                     switch (TesterResult0)
@@ -3780,17 +4072,39 @@ namespace Omicron.ViewModel
                 }
             }
 
-            if (myAlarmRecordQueue.Count > 0)
+            //if (myAlarmRecordQueue.Count > 0)
+            //{
+            //    lock (this)
+            //    {
+            //        foreach (AlarmRecord item in myAlarmRecordQueue)
+            //        {
+            //            alarmRecord.Add(item);
+            //        }
+            //        myAlarmRecordQueue.Clear();
+            //    }
+            //}
+            alarmTableItems.Clear();
+            foreach (var item in alarmTableItemsList)
             {
-                lock (this)
-                {
-                    foreach (AlarmRecord item in myAlarmRecordQueue)
-                    {
-                        alarmRecord.Add(item);
-                    }
-                    myAlarmRecordQueue.Clear();
-                }
+                alarmTableItems.Add(item);
             }
+
+            //Text = "{Binding PassStatusDisplay1}" Foreground = "{Binding PassStatusColor1}"
+            string[] Yieldstrs1 = PassStatusProcess(Yield0_Nomal);
+            PassStatusDisplay1 = "测试机1" + Yieldstrs1[0];
+            PassStatusColor1 = Yieldstrs1[1];
+
+            string[] Yieldstrs2 = PassStatusProcess(Yield1_Nomal);
+            PassStatusDisplay2 = "测试机2" + Yieldstrs2[0];
+            PassStatusColor2 = Yieldstrs2[1];
+
+            string[] Yieldstrs3 = PassStatusProcess(Yield2_Nomal);
+            PassStatusDisplay3 = "测试机3" + Yieldstrs3[0];
+            PassStatusColor3 = Yieldstrs3[1];
+
+            string[] Yieldstrs4 = PassStatusProcess(Yield3_Nomal);
+            PassStatusDisplay4 = "测试机4" + Yieldstrs4[0];
+            PassStatusColor4 = Yieldstrs4[1];
 
             try
             {
@@ -4146,5 +4460,21 @@ namespace Omicron.ViewModel
     {
         public string AlarmTime { set; get; }
         public string AlarmString { set; get; }
+    }
+    public class AlarmTableItem
+    {
+        public string 工位 { set; get; }
+        public ushort 吸取失败 { set; get; }
+        public ushort 产品没放好 { set; get; }
+        public ushort 测试机超时 { set; get; }
+        public ushort 连续NG { set; get; }
+        public AlarmTableItem(string position)
+        {
+            工位 = position;
+            吸取失败 = 0;
+            产品没放好 = 0;
+            测试机超时 = 0;
+            连续NG = 0;
+        }
     }
 }

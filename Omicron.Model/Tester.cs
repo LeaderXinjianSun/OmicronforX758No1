@@ -33,6 +33,11 @@ namespace Omicron.Model
         public int TestCount { set; get; }
         public double Yield { set; get; }
 
+        public int PassCount_Nomal { set; get; }
+        public int FailCount_Nomal { set; get; }
+        public int TestCount_Nomal { set; get; }
+        public double Yield_Nomal { set; get; }
+
         public double TestSpan { set; get; } = 0;
         public TestResult testResult { set; get; } = TestResult.Unknow;
         public TestStatus testStatus { set; get; } = TestStatus.PreTest;
@@ -77,9 +82,13 @@ namespace Omicron.Model
             {
                 TestSpan = double.Parse(Inifile.INIGetStringValue(iniTesterResutPath, "Tester" + Index.ToString(), "TestSpan", "0"));
                 PassCount = int.Parse(Inifile.INIGetStringValue(iniTesterResutPath, "Tester" + Index.ToString(), "PassCount", "0"));
+                PassCount_Nomal = int.Parse(Inifile.INIGetStringValue(iniTesterResutPath, "Tester" + Index.ToString(), "PassCount_Nomal", "0"));
                 FailCount = int.Parse(Inifile.INIGetStringValue(iniTesterResutPath, "Tester" + Index.ToString(), "FailCount", "0"));
+                FailCount_Nomal = int.Parse(Inifile.INIGetStringValue(iniTesterResutPath, "Tester" + Index.ToString(), "FailCount_Nomal", "0"));
                 TestCount = int.Parse(Inifile.INIGetStringValue(iniTesterResutPath, "Tester" + Index.ToString(), "TestCount", "0"));
+                TestCount_Nomal = int.Parse(Inifile.INIGetStringValue(iniTesterResutPath, "Tester" + Index.ToString(), "TestCount_Nomal", "0"));
                 Yield = double.Parse(Inifile.INIGetStringValue(iniTesterResutPath, "Tester" + Index.ToString(), "Yield", "0"));
+                Yield_Nomal = double.Parse(Inifile.INIGetStringValue(iniTesterResutPath, "Tester" + Index.ToString(), "Yield_Nomal", "0"));
                 string str;
                 switch (Index)
                 {
@@ -412,12 +421,12 @@ namespace Omicron.Model
                 case 0:
                     testStatus = TestStatus.Tested;
                     testResult = TestResult.Ng;
-
+                    FailCount_Nomal++;
                     break;
                 case 1:
                     testStatus = TestStatus.Tested;
                     testResult = TestResult.Pass;
-
+                    PassCount_Nomal++;
                     break;
                 case 2:
                     testStatus = TestStatus.Tested;
@@ -428,13 +437,15 @@ namespace Omicron.Model
                     testResult = TestResult.TimeOut;
                     break;
             }
+            TestCount_Nomal++;
+            Yield_Nomal = Math.Round((double)PassCount_Nomal / (PassCount_Nomal + FailCount_Nomal) * 100, 2);
             try
             {
                 Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "TestSpan", TestSpan.ToString());
-                //Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "PassCount", PassCount.ToString());
-                //Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "FailCount", FailCount.ToString());
-                //Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "TestCount", TestCount.ToString());
-                //Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "Yield", Yield.ToString());
+                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "PassCount_Nomal", PassCount_Nomal.ToString());
+                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "FailCount_Nomal", FailCount_Nomal.ToString());
+                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "TestCount_Nomal", TestCount_Nomal.ToString());
+                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "Yield_Nomal", Yield_Nomal.ToString());
             }
             catch
             {
