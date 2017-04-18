@@ -4345,9 +4345,12 @@ namespace Omicron.ViewModel
                         M420.Value = XinjiePLC.readM(420);
                         M1202.Value = XinjiePLC.readM(1202);
 
-                        double delta = (double)YPos.Value - (double)WaitPositionY.Value;
-                        bool UnloadYSafe = delta < 1 && delta > -1;
+                        double deltaY = (double)YPos.Value - (double)WaitPositionY.Value;
+                        bool UnloadYSafe = deltaY < 1 && deltaY > -1;
                         XinjiePLC.setM(1204, UnloadYSafe);
+
+                        bool FSafePosition = (double)FPos.Value > 0 && (double)FPos.Value < (double)FPosition1.Value + 1;
+                        XinjiePLC.setM(1207, FSafePosition);
                     }
                     catch (Exception ex)
                     {
