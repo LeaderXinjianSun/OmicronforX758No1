@@ -982,6 +982,7 @@ namespace Omicron.ViewModel
                     AlarmTextGridShow = "Collapsed";
                     if (epsonRC90.CtrlStatus && EpsonStatusReady && !EpsonStatusEStop)
                     {
+                        Testerwith4item.IsInSampleMode = false;
                         if (isGRRMode)
                         {
                             await epsonRC90.CtrlNet.SendAsync("$start,3");
@@ -3138,12 +3139,16 @@ namespace Omicron.ViewModel
                     SaveLastSamplTimetoIni();
                     AllowCleanActionCommand = true;
                     break;
+                case "MsgRev: 样本测试，开始":
+                    Testerwith4item.IsInSampleMode = true;
+                    break;
                 case "MsgRev: 样本测试，结束":
                     DateTimeUtility.GetLocalTime(ref lastSample);
                     LastSampleTestTimeStr = lastSample.ToDateTime().ToString();
                     SaveLastSamplTimetoIni();
                     AllowSampleTestCommand = true;
                     SaveSampleRecordLocal();
+                    Testerwith4item.IsInSampleMode = false;
                     break;
                 case "MsgRev: 样本测试错误":
                     SampleRetestButtonVisibility = "Visible";
@@ -3155,6 +3160,7 @@ namespace Omicron.ViewModel
                     SaveLastSamplTimetoIni();
                     AllowSampleTestCommand = true;
                     SaveSampleRecordLocal();
+                    Testerwith4item.IsInSampleMode = false;
                     break;
                 case "MsgRev: 样本盘缺料":                 
                     ShowAlarmTextGrid("样本盘缺料");

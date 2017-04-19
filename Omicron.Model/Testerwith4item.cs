@@ -13,6 +13,7 @@ namespace Omicron.Model
 {
     public class Testerwith4item
     {
+        public static bool IsInSampleMode { set; get; } = false;
         #region 属性定义
         public string TestPcIP { set; get; } = "192.168.1.100";
         public int TestPcRemotePort { set; get; } = 8000;
@@ -196,12 +197,20 @@ namespace Omicron.Model
                 case 0:
                     testStatus[index_i] = TestStatus.Tested;
                     testResult[index_i] = TestResult.Ng;
-                    FailCount_Nomal[index_i]++;
+                    if (!IsInSampleMode)
+                    {
+                        FailCount_Nomal[index_i]++;
+                    }
+                    
                     break;
                 case 1:
                     testStatus[index_i] = TestStatus.Tested;
                     testResult[index_i] = TestResult.Pass;
-                    PassCount_Nomal[index_i]++;
+                    if (!IsInSampleMode)
+                    {
+                        PassCount_Nomal[index_i]++;
+                    }
+                    
                     break;
                 case 2:
                     testStatus[index_i] = TestStatus.Tested;
@@ -212,15 +221,26 @@ namespace Omicron.Model
                     testResult[index_i] = TestResult.TimeOut;
                     break;
             }
-            TestCount_Nomal[index_i]++;
-            Yield_Nomal[index_i] = Math.Round((double)PassCount_Nomal[index_i] / (PassCount_Nomal[index_i] + FailCount_Nomal[index_i]) * 100, 2);
+            if (!IsInSampleMode)
+            {
+                TestCount_Nomal[index_i]++;
+            }
+            if (!IsInSampleMode)
+            {
+                Yield_Nomal[index_i] = Math.Round((double)PassCount_Nomal[index_i] / (PassCount_Nomal[index_i] + FailCount_Nomal[index_i]) * 100, 2);
+            }
+            
             try
             {
-                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + (Index * 2 + index_i).ToString(), "TestSpan", TestSpan[index_i].ToString());
-                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + (Index * 2 + index_i).ToString(), "PassCount_Nomal", PassCount_Nomal[index_i].ToString());
-                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + (Index * 2 + index_i).ToString(), "FailCount_Nomal", FailCount_Nomal[index_i].ToString());
-                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + (Index * 2 + index_i).ToString(), "TestCount_Nomal", TestCount_Nomal[index_i].ToString());
-                Inifile.INIWriteValue(iniTesterResutPath, "Tester" + (Index * 2 + index_i).ToString(), "Yield_Nomal", Yield_Nomal[index_i].ToString());
+                if (!IsInSampleMode)
+                {
+                    Inifile.INIWriteValue(iniTesterResutPath, "Tester" + (Index * 2 + index_i).ToString(), "TestSpan", TestSpan[index_i].ToString());
+                    Inifile.INIWriteValue(iniTesterResutPath, "Tester" + (Index * 2 + index_i).ToString(), "PassCount_Nomal", PassCount_Nomal[index_i].ToString());
+                    Inifile.INIWriteValue(iniTesterResutPath, "Tester" + (Index * 2 + index_i).ToString(), "FailCount_Nomal", FailCount_Nomal[index_i].ToString());
+                    Inifile.INIWriteValue(iniTesterResutPath, "Tester" + (Index * 2 + index_i).ToString(), "TestCount_Nomal", TestCount_Nomal[index_i].ToString());
+                    Inifile.INIWriteValue(iniTesterResutPath, "Tester" + (Index * 2 + index_i).ToString(), "Yield_Nomal", Yield_Nomal[index_i].ToString());
+                }
+
             }
             catch
             {
