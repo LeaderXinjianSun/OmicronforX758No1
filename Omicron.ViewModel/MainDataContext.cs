@@ -933,7 +933,7 @@ namespace Omicron.ViewModel
 
             for (ushort k = 0; k < 4; k++)
             {
-                Array_A[k] = epsonRC90.tester[k].Yield;
+                Array_A[k] = epsonRC90.testerwith4item[k / 2].Yield[k % 2];
                 Array_B[k] = k;
             }
             for (int i = 0; i < 4; i++)
@@ -1239,11 +1239,11 @@ namespace Omicron.ViewModel
             {
                 if (i < 4)
                 {
-                    epsonRC90.tester[i].TestSpan = 0;
-                    epsonRC90.tester[i].PassCount = 0;
-                    epsonRC90.tester[i].FailCount = 0;
-                    epsonRC90.tester[i].TestCount = 0;
-                    epsonRC90.tester[i].Yield = 0;
+                    epsonRC90.testerwith4item[i / 2].TestSpan[i % 2] = 0;
+                    epsonRC90.testerwith4item[i / 2].PassCount[i % 2] = 0;
+                    epsonRC90.testerwith4item[i / 2].FailCount[i % 2] = 0;
+                    epsonRC90.testerwith4item[i / 2].TestCount[i % 2] = 0;
+                    epsonRC90.testerwith4item[i / 2].Yield[i % 2] = 0;
                     Inifile.INIWriteValue(iniTesterResutPath, "Tester" + i.ToString(), "TestSpan", "0");
                     Inifile.INIWriteValue(iniTesterResutPath, "Tester" + i.ToString(), "PassCount", "0");
                     Inifile.INIWriteValue(iniTesterResutPath, "Tester" + i.ToString(), "FailCount", "0");
@@ -1253,11 +1253,11 @@ namespace Omicron.ViewModel
                 }
                 else
                 {
-                    epsonRC90.tester[i - 4].TestSpan = 0;
-                    epsonRC90.tester[i - 4].PassCount_Nomal = 0;
-                    epsonRC90.tester[i - 4].FailCount_Nomal = 0;
-                    epsonRC90.tester[i - 4].TestCount_Nomal = 0;
-                    epsonRC90.tester[i - 4].Yield_Nomal = 0;
+                    epsonRC90.testerwith4item[(i - 4) / 2].TestSpan[(i - 4) % 2] = 0;
+                    epsonRC90.testerwith4item[(i - 4) / 2].PassCount_Nomal[(i - 4) % 2] = 0;
+                    epsonRC90.testerwith4item[(i - 4) / 2].FailCount_Nomal[(i - 4) % 2] = 0;
+                    epsonRC90.testerwith4item[(i - 4) / 2].TestCount_Nomal[(i - 4) % 2] = 0;
+                    epsonRC90.testerwith4item[(i - 4) / 2].Yield_Nomal[(i - 4) % 2] = 0;
                     Inifile.INIWriteValue(iniTesterResutPath, "Tester" + (i - 4).ToString(), "TestSpan", "0");
                     Inifile.INIWriteValue(iniTesterResutPath, "Tester" + (i - 4).ToString(), "PassCount_Nomal", "0");
                     Inifile.INIWriteValue(iniTesterResutPath, "Tester" + (i - 4).ToString(), "FailCount_Nomal", "0");
@@ -2819,10 +2819,10 @@ namespace Omicron.ViewModel
         }
         private void EPSONSampleResultProcess(string str)
         {
-            string ngitem = "",tresult = "";
+            string ngitem = "", tresult = "";
             string[] strs = str.Split(',');
             ushort index = ushort.Parse(strs[1]);
-            string bar = epsonRC90.tester[index - 1].TesterBracode;
+            string bar = epsonRC90.testerwith4item[(index - 1) / 2].TesterBracode[(index - 1) % 2];
             switch (strs[2])
             {
                 case "OK":
@@ -3199,7 +3199,7 @@ namespace Omicron.ViewModel
         }
         private void StartUpdateProcess(int index)
         {
-            TestRecord tr = new TestRecord(DateTime.Now.ToString(), epsonRC90.tester[index].TesterBracode, epsonRC90.tester[index].testResult.ToString(), epsonRC90.tester[index].TestSpan.ToString() + " s", (index + 1).ToString());
+            TestRecord tr = new TestRecord(DateTime.Now.ToString(), epsonRC90.testerwith4item[index / 2].TesterBracode[index % 2], epsonRC90.testerwith4item[index / 2].testResult[index % 2].ToString(), epsonRC90.testerwith4item[index / 2].TestSpan[index % 2].ToString() + " s", (index + 1).ToString());
             lock (this)
             {
                 myTestRecordQueue.Enqueue(tr);
@@ -3880,55 +3880,55 @@ namespace Omicron.ViewModel
 
                 try
                 {
-                    TestTime0 = epsonRC90.tester[0].TestSpan;
-                    TestCount0 = epsonRC90.tester[0].TestCount;
-                    PassCount0 = epsonRC90.tester[0].PassCount;
-                    FailCount0 = epsonRC90.tester[0].FailCount;
-                    Yield0 = epsonRC90.tester[0].Yield;
-                    TesterBracodeAL = epsonRC90.tester[0].TesterBracode;
+                    TestTime0 = epsonRC90.testerwith4item[0].TestSpan[0];
+                    TestCount0 = epsonRC90.testerwith4item[0].TestCount[0];
+                    PassCount0 = epsonRC90.testerwith4item[0].PassCount[0];
+                    FailCount0 = epsonRC90.testerwith4item[0].FailCount[0];
+                    Yield0 = epsonRC90.testerwith4item[0].Yield[0];
+                    TesterBracodeAL = epsonRC90.testerwith4item[0].TesterBracode[0];
 
-                    TestTime1 = epsonRC90.tester[1].TestSpan;
-                    TestCount1 = epsonRC90.tester[1].TestCount;
-                    PassCount1 = epsonRC90.tester[1].PassCount;
-                    FailCount1 = epsonRC90.tester[1].FailCount;
-                    Yield1 = epsonRC90.tester[1].Yield;
-                    TesterBracodeAR = epsonRC90.tester[1].TesterBracode;
+                    TestTime1 = epsonRC90.testerwith4item[0].TestSpan[1];
+                    TestCount1 = epsonRC90.testerwith4item[0].TestCount[1];
+                    PassCount1 = epsonRC90.testerwith4item[0].PassCount[1];
+                    FailCount1 = epsonRC90.testerwith4item[0].FailCount[1];
+                    Yield1 = epsonRC90.testerwith4item[0].Yield[1];
+                    TesterBracodeAR = epsonRC90.testerwith4item[0].TesterBracode[1];
 
-                    TestTime2 = epsonRC90.tester[2].TestSpan;
-                    TestCount2 = epsonRC90.tester[2].TestCount;
-                    PassCount2 = epsonRC90.tester[2].PassCount;
-                    FailCount2 = epsonRC90.tester[2].FailCount;
-                    Yield2 = epsonRC90.tester[2].Yield;
-                    TesterBracodeBL = epsonRC90.tester[2].TesterBracode;
+                    TestTime2 = epsonRC90.testerwith4item[1].TestSpan[0];
+                    TestCount2 = epsonRC90.testerwith4item[1].TestCount[0];
+                    PassCount2 = epsonRC90.testerwith4item[1].PassCount[0];
+                    FailCount2 = epsonRC90.testerwith4item[1].FailCount[0];
+                    Yield2 = epsonRC90.testerwith4item[1].Yield[0];
+                    TesterBracodeBL = epsonRC90.testerwith4item[1].TesterBracode[0];
 
-                    TestTime3 = epsonRC90.tester[3].TestSpan;
-                    TestCount3 = epsonRC90.tester[3].TestCount;
-                    PassCount3 = epsonRC90.tester[3].PassCount;
-                    FailCount3 = epsonRC90.tester[3].FailCount;
-                    Yield3 = epsonRC90.tester[3].Yield;
-                    TesterBracodeBR = epsonRC90.tester[3].TesterBracode;
+                    TestTime3 = epsonRC90.testerwith4item[1].TestSpan[1];
+                    TestCount3 = epsonRC90.testerwith4item[1].TestCount[1];
+                    PassCount3 = epsonRC90.testerwith4item[1].PassCount[1];
+                    FailCount3 = epsonRC90.testerwith4item[1].FailCount[1];
+                    Yield3 = epsonRC90.testerwith4item[1].Yield[1];
+                    TesterBracodeBR = epsonRC90.testerwith4item[1].TesterBracode[1];
 
-                    TestCount0_Nomal = epsonRC90.tester[0].TestCount_Nomal;
-                    PassCount0_Nomal = epsonRC90.tester[0].PassCount_Nomal;
-                    FailCount0_Nomal = epsonRC90.tester[0].FailCount_Nomal;
-                    Yield0_Nomal = epsonRC90.tester[0].Yield_Nomal;
+                    TestCount0_Nomal = epsonRC90.testerwith4item[0].TestCount_Nomal[0];
+                    PassCount0_Nomal = epsonRC90.testerwith4item[0].PassCount_Nomal[0];
+                    FailCount0_Nomal = epsonRC90.testerwith4item[0].FailCount_Nomal[0];
+                    Yield0_Nomal = epsonRC90.testerwith4item[0].Yield_Nomal[0];
 
-                    TestCount1_Nomal = epsonRC90.tester[1].TestCount_Nomal;
-                    PassCount1_Nomal = epsonRC90.tester[1].PassCount_Nomal;
-                    FailCount1_Nomal = epsonRC90.tester[1].FailCount_Nomal;
-                    Yield1_Nomal = epsonRC90.tester[1].Yield_Nomal;
+                    TestCount1_Nomal = epsonRC90.testerwith4item[0].TestCount_Nomal[1];
+                    PassCount1_Nomal = epsonRC90.testerwith4item[0].PassCount_Nomal[1];
+                    FailCount1_Nomal = epsonRC90.testerwith4item[0].FailCount_Nomal[1];
+                    Yield1_Nomal = epsonRC90.testerwith4item[0].Yield_Nomal[1];
 
-                    TestCount2_Nomal = epsonRC90.tester[2].TestCount_Nomal;
-                    PassCount2_Nomal = epsonRC90.tester[2].PassCount_Nomal;
-                    FailCount2_Nomal = epsonRC90.tester[2].FailCount_Nomal;
-                    Yield2_Nomal = epsonRC90.tester[2].Yield_Nomal;
+                    TestCount2_Nomal = epsonRC90.testerwith4item[1].TestCount_Nomal[0];
+                    PassCount2_Nomal = epsonRC90.testerwith4item[1].PassCount_Nomal[0];
+                    FailCount2_Nomal = epsonRC90.testerwith4item[1].FailCount_Nomal[0];
+                    Yield2_Nomal = epsonRC90.testerwith4item[1].Yield_Nomal[0];
 
-                    TestCount3_Nomal = epsonRC90.tester[3].TestCount_Nomal;
-                    PassCount3_Nomal = epsonRC90.tester[3].PassCount_Nomal;
-                    FailCount3_Nomal = epsonRC90.tester[3].FailCount_Nomal;
-                    Yield3_Nomal = epsonRC90.tester[3].Yield_Nomal;
+                    TestCount3_Nomal = epsonRC90.testerwith4item[1].TestCount_Nomal[1];
+                    PassCount3_Nomal = epsonRC90.testerwith4item[1].PassCount_Nomal[1];
+                    FailCount3_Nomal = epsonRC90.testerwith4item[1].FailCount_Nomal[1];
+                    Yield3_Nomal = epsonRC90.testerwith4item[1].Yield_Nomal[1];
 
-                    TesterResult0 = epsonRC90.tester[0].testResult.ToString();
+                    TesterResult0 = epsonRC90.testerwith4item[0].testResult[0].ToString();
                     switch (TesterResult0)
                     {
                         case "Ng":
@@ -3950,7 +3950,7 @@ namespace Omicron.ViewModel
                         default:
                             break;
                     }
-                    TesterResult1 = epsonRC90.tester[1].testResult.ToString();
+                    TesterResult1 = epsonRC90.testerwith4item[0].testResult[1].ToString();
                     switch (TesterResult1)
                     {
                         case "Ng":
@@ -3972,7 +3972,7 @@ namespace Omicron.ViewModel
                         default:
                             break;
                     }
-                    TesterResult2 = epsonRC90.tester[2].testResult.ToString();
+                    TesterResult2 = epsonRC90.testerwith4item[1].testResult[0].ToString();
                     switch (TesterResult2)
                     {
                         case "Ng":
@@ -3994,7 +3994,7 @@ namespace Omicron.ViewModel
                         default:
                             break;
                     }
-                    TesterResult3 = epsonRC90.tester[3].testResult.ToString();
+                    TesterResult3 = epsonRC90.testerwith4item[1].testResult[1].ToString();
                     switch (TesterResult3)
                     {
                         case "Ng":

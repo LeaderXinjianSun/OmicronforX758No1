@@ -59,7 +59,8 @@ namespace Omicron.Model
         public TCPIPConnect CtrlNet = new TCPIPConnect();
         private string iniParameterPath = System.Environment.CurrentDirectory + "\\Parameter.ini";
         private bool isLogined = false;
-        public Tester[] tester = new Tester[4];
+        //public Tester[] tester = new Tester[4];
+        public Testerwith4item[] testerwith4item = new Testerwith4item[2];
         //private string barcodeString = "";
         private string BarcodeString = "";
         #endregion
@@ -115,15 +116,15 @@ namespace Omicron.Model
                 TestCheckedBL = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Tester", "TestCheckedBL", "True"));
                 TestCheckedBR = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Tester", "TestCheckedBR", "True"));
 
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 2; i++)
                 {
-                    if (i < 2)
+                    if (i < 1)
                     {
-                        tester[i] = new Tester(TestPcIPA, TestPcRemotePortA, i);
+                        testerwith4item[i] = new Testerwith4item(TestPcIPA, TestPcRemotePortA, i);
                     }
                     else
                     {
-                        tester[i] = new Tester(TestPcIPB, TestPcRemotePortB, i);
+                        testerwith4item[i] = new Testerwith4item(TestPcIPB, TestPcRemotePortB, i);
                     }
                     
                 }
@@ -337,10 +338,10 @@ namespace Omicron.Model
                                     switch (strs[2])
                                     {
                                         case "A":
-                                            PickBracodeA = tester[int.Parse(strs[1]) - 1].TesterBracode;
+                                            PickBracodeA = testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2];
                                             break;
                                         case "B":
-                                            PickBracodeB = tester[int.Parse(strs[1]) - 1].TesterBracode;
+                                            PickBracodeB = testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2];
                                             break;
                                         default:
                                             break;
@@ -350,8 +351,8 @@ namespace Omicron.Model
                                     switch (strs[2])
                                     {
                                         case "A":
-                                            Tester.IsInSampleMode = false;
-                                            tester[int.Parse(strs[1]) - 1].TesterBracode = PickBracodeA;
+                                            //Tester.IsInSampleMode = false;
+                                            testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2] = PickBracodeA;
                                             string barstr;
                                             switch (int.Parse(strs[1]) - 1)
                                             {
@@ -376,12 +377,24 @@ namespace Omicron.Model
                                                     break;
                                             }
                                             Inifile.INIWriteValue(iniParameterPath, "Barcode", barstr, PickBracodeA);
-                                            tester[int.Parse(strs[1]) - 1].Start(StartProcess);
+                                            //tester[int.Parse(strs[1]) - 1].Start(StartProcess);
+                                            switch ((int.Parse(strs[1]) - 1) % 2)
+                                            {
+                                                case 0:
+                                                    testerwith4item[(int.Parse(strs[1]) - 1) / 2].Start1(StartProcess);
+                                                    break;
+                                                case 1:
+                                                    testerwith4item[(int.Parse(strs[1]) - 1) / 2].Start2(StartProcess);
+                                                    break;
+                                                default:
+                                                    
+                                                    break;
+                                            }
                                             break;
                                         case "B":
-                                            Tester.IsInSampleMode = false;
-                                            tester[int.Parse(strs[1]) - 1].TesterBracode = PickBracodeB;
-                                            
+                                            //Tester.IsInSampleMode = false;
+
+                                            testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2] = PickBracodeB;
                                             switch (int.Parse(strs[1]) - 1)
                                             {
                                                 case 0:
@@ -405,7 +418,18 @@ namespace Omicron.Model
                                                     break;
                                             }
                                             Inifile.INIWriteValue(iniParameterPath, "Barcode", barstr, PickBracodeB);
-                                            tester[int.Parse(strs[1]) - 1].Start(StartProcess);
+                                            switch ((int.Parse(strs[1]) - 1) % 2)
+                                            {
+                                                case 0:
+                                                    testerwith4item[(int.Parse(strs[1]) - 1) / 2].Start1(StartProcess);
+                                                    break;
+                                                case 1:
+                                                    testerwith4item[(int.Parse(strs[1]) - 1) / 2].Start2(StartProcess);
+                                                    break;
+                                                default:
+
+                                                    break;
+                                            }
                                             break;
                                         default:
                                             break;
@@ -428,10 +452,10 @@ namespace Omicron.Model
                                     switch (strs[1])
                                     {
                                         case "OK":
-                                            tester[int.Parse(strs[2]) - 1].UpdateTester1(1);
+                                            testerwith4item[(int.Parse(strs[2]) - 1) / 2].UpdateTester1(1, (int.Parse(strs[2]) - 1) % 2);
                                             break;
                                         case "NG":
-                                            tester[int.Parse(strs[2]) - 1].UpdateTester1(0);
+                                            testerwith4item[(int.Parse(strs[2]) - 1) / 2].UpdateTester1(0, (int.Parse(strs[2]) - 1) % 2);
                                             break;
                                         default:
                                             break;
@@ -477,17 +501,17 @@ namespace Omicron.Model
         public async void StartProcess(int index)
         {
             TestFinished(index);
-            if (tester[index].testStatus == TestStatus.Err)
+            if (testerwith4item[index / 2].testStatus[index % 2] == TestStatus.Err)
             {
                 Log.Default.Error("测试机 " + (index + 1).ToString() + " 测试过程出错");
                 ModelPrint("测试机 " + (index + 1).ToString() + " 测试过程出错");
             }
             else
             {
-                if (tester[index].testStatus == TestStatus.Tested)
+                if (testerwith4item[index / 2].testStatus[index % 2] == TestStatus.Tested)
                 {
-                    ModelPrint("测试机 " + (index + 1).ToString() + " 测试完成 " + tester[index].testResult.ToString());
-                    string r = await TestSentNet.SendAsync("TestResult;" + tester[index].testResult.ToString() + ";" + (index + 1).ToString());
+                    ModelPrint("测试机 " + (index + 1).ToString() + " 测试完成 " + testerwith4item[index / 2].testResult[index % 2].ToString());
+                    string r = await TestSentNet.SendAsync("TestResult;" + testerwith4item[index / 2].testResult[index % 2].ToString() + ";" + (index + 1).ToString());
                     if (r == "error")
                     {
                         Log.Default.Error("TestSent网络出错");
