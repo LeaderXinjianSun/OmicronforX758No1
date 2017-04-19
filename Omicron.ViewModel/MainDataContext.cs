@@ -3150,6 +3150,11 @@ namespace Omicron.ViewModel
                     ShowAlarmTextGrid("样本测试错误");
                     //addAlarm("样本测试错误");
                     SaveCSVfileAlarm("样本测试错误");
+                    DateTimeUtility.GetLocalTime(ref lastSample);
+                    LastSampleTestTimeStr = lastSample.ToDateTime().ToString();
+                    SaveLastSamplTimetoIni();
+                    AllowSampleTestCommand = true;
+                    SaveSampleRecordLocal();
                     break;
                 case "MsgRev: 样本盘缺料":                 
                     ShowAlarmTextGrid("样本盘缺料");
