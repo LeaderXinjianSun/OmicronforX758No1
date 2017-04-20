@@ -461,12 +461,13 @@ namespace Omicron.Model
                                         Log.Default.Error("Fail转码错误", e.Message);
                                     }
                                 }
-                                if (pc[i] == prePassCount[i] + 1 || fc[0] == preFailCount[0] + 1)
+                                if (pc[i] == prePassCount[i] + 1 || fc[i] == preFailCount[i] + 1)
                                 {
                                     StepFlag[i] = 5;
                                 }
                                 break;
                             case 5://完成
+                                await Task.Delay(100);
                                 break;
                             default:
                                 break;
