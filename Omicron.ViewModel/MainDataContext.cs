@@ -1343,6 +1343,29 @@ namespace Omicron.ViewModel
                 Log.Default.Error("写入CSV文件失败", ex.Message);
             }
         }
+        private void SaveScanBarcodetoCSV(string bar)
+        {
+            if (!Directory.Exists(TestRecordSavePath + @"\Barcode\" + DateTime.Now.ToLongDateString().ToString()))
+            {
+                Directory.CreateDirectory(TestRecordSavePath + @"\Barcode\" + DateTime.Now.ToLongDateString().ToString());
+            }
+            string filepath = TestRecordSavePath + @"\Barcode\" + DateTime.Now.ToLongDateString().ToString() + @"\Scan" + (DateTime.Now.ToShortDateString()).Replace("/", "") + (DateTime.Now.ToShortTimeString()).Replace(":", "") + ".csv";
+            try
+            {
+                if (!File.Exists(filepath))
+                {
+                    string[] heads = { "DateTime", "ScanBarcode" };
+                    Csvfile.savetocsv(filepath, heads);
+                }
+                string[] conte = { System.DateTime.Now.ToString(), bar };
+                Csvfile.savetocsv(filepath, conte);
+            }
+            catch (Exception ex)
+            {
+                Msg = messagePrint.AddMessage("写入CSV文件失败");
+                Log.Default.Error("写入CSV文件失败", ex.Message);
+            }
+        }
         //private void addAlarm(string almstr)
         //{
         //    AlarmRecord alarmRecord = new AlarmRecord();
@@ -3202,6 +3225,7 @@ namespace Omicron.ViewModel
         private void ScanP3Update1Process(string bar)
         {
             BarcodeDisplay = bar;
+            SaveScanBarcodetoCSV(bar);
         }
         private void StartUpdateProcess(int index)
         {

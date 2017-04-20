@@ -63,6 +63,7 @@ namespace Omicron.Model
         public Testerwith4item[] testerwith4item = new Testerwith4item[2];
         //private string barcodeString = "";
         private string BarcodeString = "";
+        private string TestRecordSavePath = "";
         #endregion
         #region 事件定义
         public delegate void PrintEventHandler(string ModelMessageStr);
@@ -129,7 +130,7 @@ namespace Omicron.Model
                     
                 }
 
-
+                TestRecordSavePath = Inifile.INIGetStringValue(iniParameterPath, "SavePath", "TestRecordSavePath", "C:\\");
                 Async.RunFuncAsync(checkCtrlNet, null);
                 Async.RunFuncAsync(checkTestSentNet, null);
                 Async.RunFuncAsync(checkTestReceiveNet, null);
@@ -353,6 +354,7 @@ namespace Omicron.Model
                                         case "A":
                                             //Tester.IsInSampleMode = false;
                                             testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2] = PickBracodeA;
+                                            SaveStartBarcodetoCSV(PickBracodeA, int.Parse(strs[1]));
                                             string barstr;
                                             switch (int.Parse(strs[1]) - 1)
                                             {
@@ -395,6 +397,7 @@ namespace Omicron.Model
                                             //Tester.IsInSampleMode = false;
 
                                             testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2] = PickBracodeB;
+                                            SaveStartBarcodetoCSV(PickBracodeB, int.Parse(strs[1]));
                                             switch (int.Parse(strs[1]) - 1)
                                             {
                                                 case 0:
@@ -520,6 +523,29 @@ namespace Omicron.Model
                         TestSendStatus = false;
                     }
                 }
+            }
+        }
+        private void SaveStartBarcodetoCSV(string bar,int index_ii)
+        {
+            if (!Directory.Exists(TestRecordSavePath + @"\Barcode\" + DateTime.Now.ToLongDateString().ToString()))
+            {
+                Directory.CreateDirectory(TestRecordSavePath + @"\Barcode\" + DateTime.Now.ToLongDateString().ToString());
+            }
+            string filepath = TestRecordSavePath + @"\Barcode\" + DateTime.Now.ToLongDateString().ToString() + @"\Tester" + index_ii.ToString() + (DateTime.Now.ToShortDateString()).Replace("/", "") + (DateTime.Now.ToShortTimeString()).Replace(":", "") + ".csv";
+            try
+            {
+                if (!File.Exists(filepath))
+                {
+                    string[] heads = { "DateTime", "TesterBarcode" };
+                    Csvfile.savetocsv(filepath, heads);
+                }
+                string[] conte = { System.DateTime.Now.ToString(), bar };
+                Csvfile.savetocsv(filepath, conte);
+            }
+            catch (Exception ex)
+            {
+                //Msg = messagePrint.AddMessage("写入CSV文件失败");
+                Log.Default.Error("写入CSV文件失败", ex.Message);
             }
         }
         private async void MsgRevAnalysis()
