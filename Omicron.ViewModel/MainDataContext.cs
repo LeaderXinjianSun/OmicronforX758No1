@@ -1349,7 +1349,7 @@ namespace Omicron.ViewModel
             {
                 Directory.CreateDirectory(TestRecordSavePath + @"\Barcode\" + DateTime.Now.ToLongDateString().ToString());
             }
-            string filepath = TestRecordSavePath + @"\Barcode\" + DateTime.Now.ToLongDateString().ToString() + @"\Scan" + (DateTime.Now.ToShortDateString()).Replace("/", "") + (DateTime.Now.ToShortTimeString()).Replace(":", "") + ".csv";
+            string filepath = TestRecordSavePath + @"\Barcode\" + DateTime.Now.ToLongDateString().ToString() + @"\Scan" + (DateTime.Now.ToShortDateString()).Replace("/", "") + ".csv";
             try
             {
                 if (!File.Exists(filepath))

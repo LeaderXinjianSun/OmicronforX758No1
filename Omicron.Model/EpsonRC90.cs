@@ -354,7 +354,7 @@ namespace Omicron.Model
                                         case "A":
                                             //Tester.IsInSampleMode = false;
                                             testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2] = PickBracodeA;
-                                            SaveStartBarcodetoCSV(PickBracodeA, int.Parse(strs[1]));
+                                            
                                             string barstr;
                                             switch (int.Parse(strs[1]) - 1)
                                             {
@@ -384,9 +384,11 @@ namespace Omicron.Model
                                             {
                                                 case 0:
                                                     testerwith4item[(int.Parse(strs[1]) - 1) / 2].Start1(StartProcess);
+                                                    SaveStartBarcodetoCSV(testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2], int.Parse(strs[1]));
                                                     break;
                                                 case 1:
                                                     testerwith4item[(int.Parse(strs[1]) - 1) / 2].Start2(StartProcess);
+                                                    SaveStartBarcodetoCSV(testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2], int.Parse(strs[1]));
                                                     break;
                                                 default:
                                                     
@@ -397,7 +399,7 @@ namespace Omicron.Model
                                             //Tester.IsInSampleMode = false;
 
                                             testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2] = PickBracodeB;
-                                            SaveStartBarcodetoCSV(PickBracodeB, int.Parse(strs[1]));
+                                            //SaveStartBarcodetoCSV(PickBracodeB, int.Parse(strs[1]));
                                             switch (int.Parse(strs[1]) - 1)
                                             {
                                                 case 0:
@@ -425,9 +427,11 @@ namespace Omicron.Model
                                             {
                                                 case 0:
                                                     testerwith4item[(int.Parse(strs[1]) - 1) / 2].Start1(StartProcess);
+                                                    SaveStartBarcodetoCSV(testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2], int.Parse(strs[1]));
                                                     break;
                                                 case 1:
                                                     testerwith4item[(int.Parse(strs[1]) - 1) / 2].Start2(StartProcess);
+                                                    SaveStartBarcodetoCSV(testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2], int.Parse(strs[1]));
                                                     break;
                                                 default:
 
@@ -531,7 +535,7 @@ namespace Omicron.Model
             {
                 Directory.CreateDirectory(TestRecordSavePath + @"\Barcode\" + DateTime.Now.ToLongDateString().ToString());
             }
-            string filepath = TestRecordSavePath + @"\Barcode\" + DateTime.Now.ToLongDateString().ToString() + @"\Tester" + index_ii.ToString() + (DateTime.Now.ToShortDateString()).Replace("/", "") + (DateTime.Now.ToShortTimeString()).Replace(":", "") + ".csv";
+            string filepath = TestRecordSavePath + @"\Barcode\" + DateTime.Now.ToLongDateString().ToString() + @"\Tester" + index_ii.ToString() + (DateTime.Now.ToShortDateString()).Replace("/", "") + ".csv";
             try
             {
                 if (!File.Exists(filepath))
