@@ -21,7 +21,7 @@
             <RowDefinition Height="9*"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <DataGrid ItemsSource="{Binding alarmTableItems}" AutoGenerateColumns="True"></DataGrid>
+        <DataGrid GridLinesVisibility="All" HorizontalContentAlignment="Center" ItemsSource="{Binding alarmTableItems}" AutoGenerateColumns="True"></DataGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="1">
             <Button Margin="10,0" Content="清空" Command="{mvvm:ActionAutoWithParam XQTActionFunction}" CommandParameter="7" VerticalAlignment="Center"></Button>
         </StackPanel>

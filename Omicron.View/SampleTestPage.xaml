@@ -162,7 +162,7 @@
         </GroupBox>
         <Grid Grid.Row="1" Grid.ColumnSpan="2">
             <GroupBox Header="结果">
-                <DataGrid ItemsSource="{Binding SinglDt}"></DataGrid>
+                <DataGrid GridLinesVisibility="All" ItemsSource="{Binding SinglDt}"></DataGrid>
             </GroupBox>
         </Grid>
     </Grid>
