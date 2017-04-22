@@ -109,14 +109,37 @@
                     
                 </TabItem>-->
                 <TabItem Header="记录">
-                    <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                            <TextBlock Text="料号" Style="{StaticResource TextBlockParameterMidName}"></TextBlock>
-                            <TextBox Style="{StaticResource TextBoxIp}" Text="{Binding Barsamrec_Partnum}"></TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                            <TextBlock Text="机台编号" Style="{StaticResource TextBlockParameterMidName}"></TextBlock>
-                            <TextBox Style="{StaticResource TextBoxIp}" Text="{Binding Barsamrec_Mno}"></TextBox>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <TextBlock Text="料号" Style="{StaticResource TextBlockParameterMidName}"></TextBlock>
+                                <TextBox Style="{StaticResource TextBoxIp}" Text="{Binding Barsamrec_Partnum}"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <TextBlock Text="机台编号" Style="{StaticResource TextBlockParameterMidName}"></TextBlock>
+                                <TextBox Style="{StaticResource TextBoxIp}" Text="{Binding Barsamrec_Mno}"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <TextBlock Text="治具A左 ID" Width="100" Style="{StaticResource TextBlockParameterMidName}"></TextBlock>
+                                <TextBox Style="{StaticResource TextBoxIp}" Text="{Binding Barsamrec_ID1}"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <TextBlock Text="治具A右 ID" Width="100" Style="{StaticResource TextBlockParameterMidName}"></TextBlock>
+                                <TextBox Style="{StaticResource TextBoxIp}" Text="{Binding Barsamrec_ID2}"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <TextBlock Text="治具B左 ID" Width="100" Style="{StaticResource TextBlockParameterMidName}"></TextBlock>
+                                <TextBox Style="{StaticResource TextBoxIp}" Text="{Binding Barsamrec_ID3}"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <TextBlock Text="治具B右 ID" Width="100" Style="{StaticResource TextBlockParameterMidName}"></TextBlock>
+                                <TextBox Style="{StaticResource TextBoxIp}" Text="{Binding Barsamrec_ID4}"></TextBox>
+                            </StackPanel>
+
                         </StackPanel>
                         <control:Tile  Style="{StaticResource TileBase}" Grid.Column="1" Command="{mvvm:ActionAuto SaveParameter}" Title="保存">
                             <Rectangle Style="{StaticResource MetroTileRectangle}">
@@ -126,7 +149,8 @@
                                 </Rectangle.OpacityMask>
                             </Rectangle>
                         </control:Tile>
-                    </StackPanel>
+                    </Grid>
+  
                 </TabItem>
             </TabControl>
         </GroupBox>
