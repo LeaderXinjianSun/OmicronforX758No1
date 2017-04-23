@@ -2982,8 +2982,8 @@ namespace Omicron.ViewModel
             dr["PARTNUM"] = Barsamrec_Partnum.ToUpper();
             dr["SITEM"] = "FLUKE";
             dr["BARCODE"] = bar.ToUpper();
-            dr["NGITEM"] = ngitem.ToUpper();
-            dr["TRES"] = tresult.ToUpper();
+            dr["NGITEM"] = ngitem;
+            dr["TRES"] = tresult;
             dr["MNO"] = mno.ToUpper();
             dr["CDATE"] = (DateTime.Now.ToShortDateString()).Replace("/", "");
             dr["CTIME"] = (DateTime.Now.ToShortTimeString()).Replace(":", "");
@@ -3072,7 +3072,7 @@ namespace Omicron.ViewModel
                     }
                     if (epsonRC90.TestSendStatus && FlexNum > 0)
                     {
-                        await epsonRC90.TestSentNet.SendAsync("SelectSampleResultfromDt;"+ FlexNum.ToString() + "," + NgItem);
+                        await epsonRC90.TestSentNet.SendAsync("SelectSampleResultfromDt;"+ FlexNum.ToString() + ";" + NgItem);
                     }
                 }
             }
