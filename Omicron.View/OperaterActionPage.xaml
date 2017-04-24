@@ -32,8 +32,8 @@
                 </StackPanel>
                 <StackPanel Margin="5,15,5,0" Orientation="Horizontal">
                     <Button Margin="20,0,0,0" IsEnabled="{Binding ClearButtonEnable}" Content="上料" Background="Green" Foreground="White" Command="{mvvm:ActionAutoWithParam XQTActionFunction}" CommandParameter="1"></Button>
-                    <Button Margin="20,0,0,0" IsEnabled="{Binding ClearButtonEnable}" Content="下料" Background="Green" Foreground="White" Command="{mvvm:ActionAutoWithParam XQTActionFunction}" CommandParameter="2"></Button>
-                    <Button Margin="20,0,0,0" IsEnabled="{Binding ClearButtonEnable}" Content="模组回原点" Background="Green" Foreground="White" Command="{mvvm:ActionAutoWithParam XQTActionFunction}" CommandParameter="3"></Button>
+                    <!--<Button Margin="20,0,0,0" IsEnabled="{Binding ClearButtonEnable}" Content="下料" Background="Green" Foreground="White" Command="{mvvm:ActionAutoWithParam XQTActionFunction}" CommandParameter="2"></Button>
+                    <Button Margin="20,0,0,0" IsEnabled="{Binding ClearButtonEnable}" Content="模组回原点" Background="Green" Foreground="White" Command="{mvvm:ActionAutoWithParam XQTActionFunction}" CommandParameter="3"></Button>-->
                 </StackPanel>
                 <StackPanel Margin="5,15,5,0" Orientation="Horizontal">
                     <Button Margin="20,0,0,0" IsEnabled="{Binding AllowCleanActionCommand}" Content="清洁" Background="Green" Foreground="White" Command="{mvvm:ActionAutoWithParam XQTActionFunction}" CommandParameter="4"></Button>

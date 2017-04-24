@@ -199,6 +199,8 @@ namespace Omicron.ViewModel
         public virtual bool BarcodeMode { set; get; } = true;
 
         public virtual string LastChuiqiTimeStr { set; get; }
+        public virtual string LastCleanAlarmStr { set; get; }
+
         public virtual bool IsTestersClean { set; get; }
         public virtual bool IsTestersSample { set; get; }
 
@@ -1480,6 +1482,9 @@ namespace Omicron.ViewModel
                 item.连续NG = 0;
             }
             WriteAlarmRecord();
+            LastCleanAlarmStr = DateTime.Now.ToShortDateString();
+            Inifile.INIWriteValue(iniAlarmRecordPath, "Alarm", "LastCleanAlarmStr", LastCleanAlarmStr);
+
         }
         private void SaveLastSamplTimetoIni()
         {
@@ -2048,7 +2053,7 @@ namespace Omicron.ViewModel
                 {
                     IsDBConnect = true;
                     string[] arrFieldAndNewValue = { "PARTNUM", "SITEM", "BARCODE", "NGITEM", "TRES", "MNO", "CDATE", "CTIME", "SR01" };
-                    string[] arrFieldAndOldValue = { x758SampleResultData.PARTNUM, x758SampleResultData.SITEM, x758SampleResultData.BARCODE, x758SampleResultData.NGITEM, x758SampleResultData.TRES, x758SampleResultData.MNO, x758SampleResultData.CDATE, x758SampleResultData.CTIME, x758SampleResultData.SR01 };
+                    string[] arrFieldAndOldValue = { x758SampleResultData.PARTNUM, x758SampleResultData.SITEM, x758SampleResultData.BARCODE, x758SampleResultData.NGITEM, x758SampleResultData.TRES.Substring(0, 19), x758SampleResultData.MNO, x758SampleResultData.CDATE, x758SampleResultData.CTIME, x758SampleResultData.SR01 };
                     oraDB.insertSQL1(tablename.ToUpper(), arrFieldAndNewValue, arrFieldAndOldValue);
                     Msg = messagePrint.AddMessage("数据插入完成");
                     r = true;
@@ -3949,6 +3954,7 @@ namespace Omicron.ViewModel
             //iniAlarmRecordPath
             try
             {
+                LastCleanAlarmStr = Inifile.INIGetStringValue(iniAlarmRecordPath, "Alarm", "LastCleanAlarmStr", "null");
                 alarmTableItemsList[0].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴1", "吸取失败", "100"));
                 alarmTableItemsList[0].产品没放好 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴1", "产品没放好", "0"));
                 alarmTableItemsList[0].测试机超时 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴1", "测试机超时", "0"));
@@ -4071,7 +4077,7 @@ namespace Omicron.ViewModel
             //bool TwincatNeedAlarm = false;
             while (true)
             {
-                await Task.Delay(100);
+                await Task.Delay(200);
                 TestSendPortStatus = epsonRC90.TestSendStatus;
                 TestRevPortStatus = epsonRC90.TestReceiveStatus;
                 MsgRevPortStatus = epsonRC90.MsgReceiveStatus;
@@ -4265,6 +4271,11 @@ namespace Omicron.ViewModel
         }
         private async void DispatcherTimerTickUpdateUi(Object sender, EventArgs e)
         {
+            if (LastCleanAlarmStr != DateTime.Now.ToShortDateString())
+            {
+                //LastCleanAlarmStr = DateTime.Now.ToShortDateString();
+                ClearAlarmRecord();
+            }
             if (myTestRecordQueue.Count > 0)
             {
                 lock (this)
@@ -4277,17 +4288,7 @@ namespace Omicron.ViewModel
                 }
             }
 
-            //if (myAlarmRecordQueue.Count > 0)
-            //{
-            //    lock (this)
-            //    {
-            //        foreach (AlarmRecord item in myAlarmRecordQueue)
-            //        {
-            //            alarmRecord.Add(item);
-            //        }
-            //        myAlarmRecordQueue.Clear();
-            //    }
-            //}
+
             alarmTableItems.Clear();
             foreach (var item in alarmTableItemsList)
             {
