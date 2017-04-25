@@ -199,7 +199,6 @@ namespace Omicron.ViewModel
         public virtual bool BarcodeMode { set; get; } = true;
 
         public virtual string LastChuiqiTimeStr { set; get; }
-        public virtual string LastCleanAlarmStr { set; get; }
 
         public virtual bool IsTestersClean { set; get; }
         public virtual bool IsTestersSample { set; get; }
@@ -483,6 +482,8 @@ namespace Omicron.ViewModel
 
         List<AlarmTableItem> alarmTableItemsList = new List<AlarmTableItem>();
 
+        int AlarmLastDayofYear = 0;
+        bool Alarm_allowClean = true;
 
 
         #endregion
@@ -1482,8 +1483,10 @@ namespace Omicron.ViewModel
                 item.连续NG = 0;
             }
             WriteAlarmRecord();
-            LastCleanAlarmStr = DateTime.Now.ToShortDateString();
-            Inifile.INIWriteValue(iniAlarmRecordPath, "Alarm", "LastCleanAlarmStr", LastCleanAlarmStr);
+    
+            AlarmLastDayofYear = DateTime.Now.DayOfYear;
+            Inifile.INIWriteValue(iniAlarmRecordPath, "Alarm", "AlarmLastDayofYear", AlarmLastDayofYear.ToString());
+            Msg = messagePrint.AddMessage("清空报警数据");
 
         }
         private void SaveLastSamplTimetoIni()
@@ -2046,14 +2049,17 @@ namespace Omicron.ViewModel
                 //x758SampleResultData.CDATE = (DateTime.Now.ToShortDateString()).Replace("/", "");
                 //x758SampleResultData.CTIME = (DateTime.Now.ToShortTimeString()).Replace(":", "");
                 //x758SampleResultData.SR01 = id;
-
+                if (x758SampleResultData.TRES.Length > 20)
+                {
+                    x758SampleResultData.TRES = x758SampleResultData.TRES.Substring(0, 19);
+                }
                 string tablename = "BARSAMREC";
                 OraDB oraDB = new OraDB(SQL_ora_server, SQL_ora_user, SQL_ora_pwd);
                 if (oraDB.isConnect())
                 {
                     IsDBConnect = true;
                     string[] arrFieldAndNewValue = { "PARTNUM", "SITEM", "BARCODE", "NGITEM", "TRES", "MNO", "CDATE", "CTIME", "SR01" };
-                    string[] arrFieldAndOldValue = { x758SampleResultData.PARTNUM, x758SampleResultData.SITEM, x758SampleResultData.BARCODE, x758SampleResultData.NGITEM, x758SampleResultData.TRES.Substring(0, 19), x758SampleResultData.MNO, x758SampleResultData.CDATE, x758SampleResultData.CTIME, x758SampleResultData.SR01 };
+                    string[] arrFieldAndOldValue = { x758SampleResultData.PARTNUM, x758SampleResultData.SITEM, x758SampleResultData.BARCODE, x758SampleResultData.NGITEM, x758SampleResultData.TRES, x758SampleResultData.MNO, x758SampleResultData.CDATE, x758SampleResultData.CTIME, x758SampleResultData.SR01 };
                     oraDB.insertSQL1(tablename.ToUpper(), arrFieldAndNewValue, arrFieldAndOldValue);
                     Msg = messagePrint.AddMessage("数据插入完成");
                     r = true;
@@ -3954,7 +3960,8 @@ namespace Omicron.ViewModel
             //iniAlarmRecordPath
             try
             {
-                LastCleanAlarmStr = Inifile.INIGetStringValue(iniAlarmRecordPath, "Alarm", "LastCleanAlarmStr", "null");
+                AlarmLastDayofYear = int.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Alarm", "AlarmLastDayofYear", "0"));
+                
                 alarmTableItemsList[0].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴1", "吸取失败", "100"));
                 alarmTableItemsList[0].产品没放好 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴1", "产品没放好", "0"));
                 alarmTableItemsList[0].测试机超时 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴1", "测试机超时", "0"));
@@ -4271,11 +4278,27 @@ namespace Omicron.ViewModel
         }
         private async void DispatcherTimerTickUpdateUi(Object sender, EventArgs e)
         {
-            if (LastCleanAlarmStr != DateTime.Now.ToShortDateString())
+            if ((DateTime.Now.DayOfYear - AlarmLastDayofYear)*24 + DateTime.Now.Hour > 24)
             {
-                //LastCleanAlarmStr = DateTime.Now.ToShortDateString();
-                ClearAlarmRecord();
+                Alarm_allowClean = true;
+                ClearAlarmRecord();              
             }
+            else
+            {
+                if (Alarm_allowClean && (DateTime.Now.Hour == 8 || DateTime.Now.Hour == 20))
+                {
+                    Alarm_allowClean = false;
+                    ClearAlarmRecord();
+                }
+                else
+                {
+                    if (DateTime.Now.Hour != 8 && DateTime.Now.Hour != 20)
+                    {
+                        Alarm_allowClean = true;
+                    }
+                }
+            }
+
             if (myTestRecordQueue.Count > 0)
             {
                 lock (this)
