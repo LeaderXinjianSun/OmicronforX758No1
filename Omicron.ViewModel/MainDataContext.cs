@@ -1059,7 +1059,7 @@ namespace Omicron.ViewModel
                 case "5":
                     mydialog.changeaccent("red");
                     r = await mydialog.showconfirm("确定进行排料操作吗？");
-                    if (r && epsonRC90.TestSendStatus && EpsonStatusRunning && !isGRRMode)
+                    if (r && epsonRC90.TestSendStatus && (EpsonStatusRunning || EpsonStatusPaused) && !isGRRMode)
                     {
                         await epsonRC90.TestSentNet.SendAsync("Discharge");
                     }
