@@ -46,7 +46,7 @@
                 <local:HomePage></local:HomePage>
             </Grid>
             <Grid Visibility="{Binding AboutPageVisibility}">
-                <local:AboutPage></local:AboutPage>
+                <!--<local:AboutPage></local:AboutPage>-->
             </Grid>
             <Grid Visibility="{Binding ParameterPageVisibility}">
                 <local:ParameterPage></local:ParameterPage>

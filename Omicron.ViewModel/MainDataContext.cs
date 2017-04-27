@@ -704,6 +704,7 @@ namespace Omicron.ViewModel
             isLogin = false;
             Barsamuser_Psw = "";
             LoginButtonString = "登录";
+            
         }
         public void ChoseAboutPage()
         {
@@ -3172,42 +3173,42 @@ namespace Omicron.ViewModel
                     SaveCSVfileAlarm("测试机4，吸取失败");
                     break;
                 case "MsgRev: 上料盘1，吸取失败":
-                    ShowAlarmTextGrid("上料盘1，吸取失败");
+                    ShowAlarmTextGrid("上料盘1，吸取失败\n请将产品放回原位");
                     //addAlarm("上料盘，吸取失败");
                     SaveCSVfileAlarm("上料盘1，吸取失败");
                     alarmTableItemsList[4].吸取失败 += 1;
                     WriteAlarmRecord();
                     break;
                 case "MsgRev: 上料盘2，吸取失败":
-                    ShowAlarmTextGrid("上料盘2，吸取失败");
+                    ShowAlarmTextGrid("上料盘2，吸取失败\n请将产品放回原位");
                     //addAlarm("上料盘，吸取失败");
                     SaveCSVfileAlarm("上料盘2，吸取失败");
                     alarmTableItemsList[5].吸取失败 += 1;
                     WriteAlarmRecord();
                     break;
                 case "MsgRev: 上料盘3，吸取失败":
-                    ShowAlarmTextGrid("上料盘3，吸取失败");
+                    ShowAlarmTextGrid("上料盘3，吸取失败\n请将产品放回原位");
                     //addAlarm("上料盘，吸取失败");
                     SaveCSVfileAlarm("上料盘3，吸取失败");
                     alarmTableItemsList[6].吸取失败 += 1;
                     WriteAlarmRecord();
                     break;
                 case "MsgRev: 上料盘4，吸取失败":
-                    ShowAlarmTextGrid("上料盘4，吸取失败");
+                    ShowAlarmTextGrid("上料盘4，吸取失败\n请将产品放回原位");
                     //addAlarm("上料盘，吸取失败");
                     SaveCSVfileAlarm("上料盘4，吸取失败");
                     alarmTableItemsList[7].吸取失败 += 1;
                     WriteAlarmRecord();
                     break;
                 case "MsgRev: 上料盘5，吸取失败":
-                    ShowAlarmTextGrid("上料盘5，吸取失败");
+                    ShowAlarmTextGrid("上料盘5，吸取失败\n请将产品放回原位");
                     //addAlarm("上料盘，吸取失败");
                     SaveCSVfileAlarm("上料盘5，吸取失败");
                     alarmTableItemsList[8].吸取失败 += 1;
                     WriteAlarmRecord();
                     break;
                 case "MsgRev: 上料盘6，吸取失败":
-                    ShowAlarmTextGrid("上料盘6，吸取失败");
+                    ShowAlarmTextGrid("上料盘6，吸取失败\n请将产品放回原位");
                     //addAlarm("上料盘，吸取失败");
                     SaveCSVfileAlarm("上料盘6，吸取失败");
                     alarmTableItemsList[9].吸取失败 += 1;
