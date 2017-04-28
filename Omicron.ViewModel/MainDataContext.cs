@@ -3145,28 +3145,28 @@ namespace Omicron.ViewModel
             switch (str)
             {
                 case "MsgRev: 测试机1，吸取失败":
-                    ShowAlarmTextGrid("测试机1，吸取失败");
+                    ShowAlarmTextGrid("测试机1，吸取失败\n请将产品放回原位");
                     //addAlarm("测试机1，吸取失败");
                     alarmTableItemsList[0].吸取失败 += 1;
                     WriteAlarmRecord();
                     SaveCSVfileAlarm("测试机1，吸取失败");
                     break;
                 case "MsgRev: 测试机2，吸取失败":
-                    ShowAlarmTextGrid("测试机2，吸取失败");
+                    ShowAlarmTextGrid("测试机2，吸取失败\n请将产品放回原位");
                     //addAlarm("测试机2，吸取失败");
                     alarmTableItemsList[1].吸取失败 += 1;
                     WriteAlarmRecord();
                     SaveCSVfileAlarm("测试机2，吸取失败");
                     break;
                 case "MsgRev: 测试机3，吸取失败":
-                    ShowAlarmTextGrid("测试机3，吸取失败");
+                    ShowAlarmTextGrid("测试机3，吸取失败\n请将产品放回原位");
                     //addAlarm("测试机3，吸取失败");
                     alarmTableItemsList[2].吸取失败 += 1;
                     WriteAlarmRecord();
                     SaveCSVfileAlarm("测试机3，吸取失败");
                     break;
                 case "MsgRev: 测试机4，吸取失败":
-                    ShowAlarmTextGrid("测试机4，吸取失败");
+                    ShowAlarmTextGrid("测试机4，吸取失败\n请将产品放回原位");
                     //addAlarm("测试机4，吸取失败");
                     alarmTableItemsList[3].吸取失败 += 1;
                     WriteAlarmRecord();
