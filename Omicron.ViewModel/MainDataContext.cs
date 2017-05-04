@@ -484,7 +484,7 @@ namespace Omicron.ViewModel
 
         int AlarmLastDayofYear = 0;
         bool Alarm_allowClean = true;
-
+        string lastAlarmString = "";
 
         #endregion
         #region 构造函数
@@ -1717,21 +1717,21 @@ namespace Omicron.ViewModel
             if (f > PassMid)
             {
                 strs[0] = "良率" + f.ToString() + "% 优秀";
-                strs[1] = "Green";
+                strs[1] = "Blue";
             }
             else
             {
                 if (f > PassLowLimit)
                 {
                     strs[0] = "良率" + f.ToString() + "% 正常";
-                    strs[1] = "Gold";
+                    strs[1] = "Green";
                 }
                 else
                 {
                     if (f == 0)
                     {
                         strs[0] = "良率" + f.ToString() + "% 未知";
-                        strs[1] = "Blue";
+                        strs[1] = "Gold";
                     }
                     else
                     {
@@ -3145,74 +3145,114 @@ namespace Omicron.ViewModel
             switch (str)
             {
                 case "MsgRev: 测试机1，吸取失败":
+                    if (lastAlarmString != str)
+                    {
+                        lastAlarmString = str;
+                        alarmTableItemsList[0].吸取失败 += 1;
+                        WriteAlarmRecord();
+                        SaveCSVfileAlarm("测试机1，吸取失败");
+                    }
                     ShowAlarmTextGrid("测试机1，吸取失败\n请将产品放回原位");
                     //addAlarm("测试机1，吸取失败");
-                    alarmTableItemsList[0].吸取失败 += 1;
-                    WriteAlarmRecord();
-                    SaveCSVfileAlarm("测试机1，吸取失败");
                     break;
                 case "MsgRev: 测试机2，吸取失败":
+                    if (lastAlarmString != str)
+                    {
+                        lastAlarmString = str;
+                        alarmTableItemsList[1].吸取失败 += 1;
+                        WriteAlarmRecord();
+                        SaveCSVfileAlarm("测试机2，吸取失败");
+                    }
                     ShowAlarmTextGrid("测试机2，吸取失败\n请将产品放回原位");
                     //addAlarm("测试机2，吸取失败");
-                    alarmTableItemsList[1].吸取失败 += 1;
-                    WriteAlarmRecord();
-                    SaveCSVfileAlarm("测试机2，吸取失败");
                     break;
                 case "MsgRev: 测试机3，吸取失败":
+                    if (lastAlarmString != str)
+                    {
+                        lastAlarmString = str;
+                        alarmTableItemsList[2].吸取失败 += 1;
+                        WriteAlarmRecord();
+                        SaveCSVfileAlarm("测试机3，吸取失败");
+                    }
                     ShowAlarmTextGrid("测试机3，吸取失败\n请将产品放回原位");
                     //addAlarm("测试机3，吸取失败");
-                    alarmTableItemsList[2].吸取失败 += 1;
-                    WriteAlarmRecord();
-                    SaveCSVfileAlarm("测试机3，吸取失败");
                     break;
                 case "MsgRev: 测试机4，吸取失败":
+                    if (lastAlarmString != str)
+                    {
+                        lastAlarmString = str;
+                        alarmTableItemsList[3].吸取失败 += 1;
+                        WriteAlarmRecord();
+                        SaveCSVfileAlarm("测试机4，吸取失败");
+                    }
                     ShowAlarmTextGrid("测试机4，吸取失败\n请将产品放回原位");
                     //addAlarm("测试机4，吸取失败");
-                    alarmTableItemsList[3].吸取失败 += 1;
-                    WriteAlarmRecord();
-                    SaveCSVfileAlarm("测试机4，吸取失败");
                     break;
                 case "MsgRev: 上料盘1，吸取失败":
+                    if (lastAlarmString != str)
+                    {
+                        lastAlarmString = str;
+                        SaveCSVfileAlarm("上料盘1，吸取失败");
+                        alarmTableItemsList[4].吸取失败 += 1;
+                        WriteAlarmRecord();
+                    }
                     ShowAlarmTextGrid("上料盘1，吸取失败\n请将产品放回原位");
                     //addAlarm("上料盘，吸取失败");
-                    SaveCSVfileAlarm("上料盘1，吸取失败");
-                    alarmTableItemsList[4].吸取失败 += 1;
-                    WriteAlarmRecord();
                     break;
                 case "MsgRev: 上料盘2，吸取失败":
+                    if (lastAlarmString != str)
+                    {
+                        lastAlarmString = str;
+                        SaveCSVfileAlarm("上料盘2，吸取失败");
+                        alarmTableItemsList[5].吸取失败 += 1;
+                        WriteAlarmRecord();
+                    }
                     ShowAlarmTextGrid("上料盘2，吸取失败\n请将产品放回原位");
                     //addAlarm("上料盘，吸取失败");
-                    SaveCSVfileAlarm("上料盘2，吸取失败");
-                    alarmTableItemsList[5].吸取失败 += 1;
-                    WriteAlarmRecord();
                     break;
                 case "MsgRev: 上料盘3，吸取失败":
+                    if (lastAlarmString != str)
+                    {
+                        lastAlarmString = str;
+                        SaveCSVfileAlarm("上料盘3，吸取失败");
+                        alarmTableItemsList[6].吸取失败 += 1;
+                        WriteAlarmRecord();
+                    }
                     ShowAlarmTextGrid("上料盘3，吸取失败\n请将产品放回原位");
                     //addAlarm("上料盘，吸取失败");
-                    SaveCSVfileAlarm("上料盘3，吸取失败");
-                    alarmTableItemsList[6].吸取失败 += 1;
-                    WriteAlarmRecord();
                     break;
                 case "MsgRev: 上料盘4，吸取失败":
+                    if (lastAlarmString != str)
+                    {
+                        lastAlarmString = str;
+                        SaveCSVfileAlarm("上料盘4，吸取失败");
+                        alarmTableItemsList[7].吸取失败 += 1;
+                        WriteAlarmRecord();
+                    }
                     ShowAlarmTextGrid("上料盘4，吸取失败\n请将产品放回原位");
                     //addAlarm("上料盘，吸取失败");
-                    SaveCSVfileAlarm("上料盘4，吸取失败");
-                    alarmTableItemsList[7].吸取失败 += 1;
-                    WriteAlarmRecord();
                     break;
                 case "MsgRev: 上料盘5，吸取失败":
+                    if (lastAlarmString != str)
+                    {
+                        lastAlarmString = str;
+                        SaveCSVfileAlarm("上料盘5，吸取失败");
+                        alarmTableItemsList[8].吸取失败 += 1;
+                        WriteAlarmRecord();
+                    }
                     ShowAlarmTextGrid("上料盘5，吸取失败\n请将产品放回原位");
                     //addAlarm("上料盘，吸取失败");
-                    SaveCSVfileAlarm("上料盘5，吸取失败");
-                    alarmTableItemsList[8].吸取失败 += 1;
-                    WriteAlarmRecord();
                     break;
                 case "MsgRev: 上料盘6，吸取失败":
+                    if (lastAlarmString != str)
+                    {
+                        lastAlarmString = str;
+                        SaveCSVfileAlarm("上料盘6，吸取失败");
+                        alarmTableItemsList[9].吸取失败 += 1;
+                        WriteAlarmRecord();
+                    }
                     ShowAlarmTextGrid("上料盘6，吸取失败\n请将产品放回原位");
                     //addAlarm("上料盘，吸取失败");
-                    SaveCSVfileAlarm("上料盘6，吸取失败");
-                    alarmTableItemsList[9].吸取失败 += 1;
-                    WriteAlarmRecord();
                     break;
                 //case "MsgRev: 蚀刻不良":
                 //    ShowAlarmTextGrid("蚀刻不良");
@@ -3280,32 +3320,48 @@ namespace Omicron.ViewModel
                     SingleTestTimes++;
                     break;
                 case "MsgRev: 测试工位1，产品没放好":
+                    if (lastAlarmString != str)
+                    {
+                        lastAlarmString = str;
+                        alarmTableItemsList[0].产品没放好 += 1;
+                        WriteAlarmRecord();
+                        SaveCSVfileAlarm("测试工位1，产品没放好");
+                    }
                     ShowAlarmTextGrid("测试工位1，产品没放好");
                     //addAlarm("测试工位1，产品没放好");
-                    alarmTableItemsList[0].产品没放好 += 1;
-                    WriteAlarmRecord();
-                    SaveCSVfileAlarm("测试工位1，产品没放好");
                     break;
                 case "MsgRev: 测试工位2，产品没放好":
+                    if (lastAlarmString != str)
+                    {
+                        lastAlarmString = str;
+                        alarmTableItemsList[1].产品没放好 += 1;
+                        WriteAlarmRecord();
+                        SaveCSVfileAlarm("测试工位2，产品没放好");
+                    }
                     ShowAlarmTextGrid("测试工位2，产品没放好");
                     //addAlarm("测试工位2，产品没放好");
-                    alarmTableItemsList[1].产品没放好 += 1;
-                    WriteAlarmRecord();
-                    SaveCSVfileAlarm("测试工位2，产品没放好");
                     break;
                 case "MsgRev: 测试工位3，产品没放好":
+                    if (lastAlarmString != str)
+                    {
+                        lastAlarmString = str;
+                        alarmTableItemsList[2].产品没放好 += 1;
+                        WriteAlarmRecord();
+                        SaveCSVfileAlarm("测试工位3，产品没放好");
+                    }
                     ShowAlarmTextGrid("测试工位3，产品没放好");
                     //addAlarm("测试工位3，产品没放好");
-                    alarmTableItemsList[2].产品没放好 += 1;
-                    WriteAlarmRecord();
-                    SaveCSVfileAlarm("测试工位3，产品没放好");
                     break;
                 case "MsgRev: 测试工位4，产品没放好":
+                    if (lastAlarmString != str)
+                    {
+                        lastAlarmString = str;
+                        alarmTableItemsList[3].产品没放好 += 1;
+                        WriteAlarmRecord();
+                        SaveCSVfileAlarm("测试工位4，产品没放好");
+                    }
                     ShowAlarmTextGrid("测试工位4，产品没放好");
                     //addAlarm("测试工位4，产品没放好");
-                    alarmTableItemsList[3].产品没放好 += 1;
-                    WriteAlarmRecord();
-                    SaveCSVfileAlarm("测试工位4，产品没放好");
                     break;
                 //case "MsgRev: 测试工位1，B爪手掉料":
                 //    ShowAlarmTextGrid("测试工位1，B爪手掉料");
