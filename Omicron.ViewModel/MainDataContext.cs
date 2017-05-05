@@ -486,6 +486,8 @@ namespace Omicron.ViewModel
         bool Alarm_allowClean = true;
         string lastAlarmString = "";
 
+        string AlarmLastDateNameStr = "";
+
         #endregion
         #region 构造函数
         public MainDataContext()
@@ -1332,7 +1334,14 @@ namespace Omicron.ViewModel
         }
         private void SaveCSVfileAlarm(string str)
         {
-            string filepath = AlarmSavePath + "\\Alarm" + DateTime.Now.ToLongDateString().ToString() + ".csv";
+            //AlarmLastDayofYear = DateTime.Now.DayOfYear;
+            if (AlarmLastDateNameStr != DateTime.Now.ToLongDateString() && (DateTime.Now.Hour >= 8 || (DateTime.Now.DayOfYear - AlarmLastDayofYear) * 24 + DateTime.Now.Hour > 24))
+            {
+                AlarmLastDateNameStr = DateTime.Now.ToLongDateString();
+                Inifile.INIWriteValue(iniAlarmRecordPath, "Alarm", "AlarmLastDateNameStr", AlarmLastDateNameStr);
+            }
+            string Bancistr = DateTime.Now.Hour >= 8 && DateTime.Now.Hour < 20 ? "白班" : "夜班";
+            string filepath = AlarmSavePath + "\\Alarm" + AlarmLastDateNameStr + Bancistr + ".csv";
             if (!Directory.Exists(AlarmSavePath))
             {
                 Directory.CreateDirectory(AlarmSavePath);
@@ -1731,7 +1740,7 @@ namespace Omicron.ViewModel
                     if (f == 0)
                     {
                         strs[0] = "良率" + f.ToString() + "% 未知";
-                        strs[1] = "Gold";
+                        strs[1] = "Black";
                     }
                     else
                     {
@@ -3144,6 +3153,9 @@ namespace Omicron.ViewModel
             Msg = messagePrint.AddMessage(str);
             switch (str)
             {
+                case "MsgRev: 请确认，不得取走上料盘产品":
+                    ShowAlarmTextGrid("请确认，\n不得取走上料盘产品");
+                    break;
                 case "MsgRev: 测试机1，吸取失败":
                     if (lastAlarmString != str)
                     {
@@ -4018,7 +4030,9 @@ namespace Omicron.ViewModel
             try
             {
                 AlarmLastDayofYear = int.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Alarm", "AlarmLastDayofYear", "0"));
-                
+                AlarmLastDateNameStr = Inifile.INIGetStringValue(iniAlarmRecordPath, "Alarm", "AlarmLastDayofYear", "2017年5月5日");
+
+
                 alarmTableItemsList[0].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴1", "吸取失败", "100"));
                 alarmTableItemsList[0].产品没放好 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴1", "产品没放好", "0"));
                 alarmTableItemsList[0].测试机超时 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴1", "测试机超时", "0"));
@@ -4528,6 +4542,11 @@ namespace Omicron.ViewModel
         {
             bool TakePhoteFlage = false, _TakePhoteFlage = false;
             bool _IsShieldTheDoor = false;
+            bool m207 = false, M207 = false;
+            bool m1220 = false, M1220 = false;
+            bool m263 = false, M263 = false;
+            bool m514 = false, M514 = false;
+            bool m911 = false, M911 = false;
 
             bool beckhoff_SuckFailedFlag = false;
 
@@ -4561,7 +4580,55 @@ namespace Omicron.ViewModel
                 }
                 else
                 {
-                   
+                    M207 = XinjiePLC.readM(207);
+                    if (m207 != M207)
+                    {
+                        m207 = M207;
+                        if (M207)
+                        {
+                            ShowAlarmTextGrid("上料，产品，吸取失败");
+                        }                        
+                    }
+
+                    M263 = XinjiePLC.readM(263);
+                    if (m263 != M263)
+                    {
+                        m263 = M263;
+                        if (M263)
+                        {
+                            ShowAlarmTextGrid("上料，空盘吸取失败");
+                        }
+                    }
+
+                    M514 = XinjiePLC.readM(514);
+                    if (m514 != M514)
+                    {
+                        m514 = M514;
+                        if (M514)
+                        {
+                            ShowAlarmTextGrid("拍照吸取失败");
+                        }
+                    }
+
+                    M911= XinjiePLC.readM(911);
+                    if (m911 != M911)
+                    {
+                        m911 = M911;
+                        if (M911)
+                        {
+                            ShowAlarmTextGrid("下料，空盘吸取失败");
+                        }
+                    }
+
+                    M1220 = XinjiePLC.readM(1220);
+                    if (m1220 != M1220)
+                    {
+                        m1220 = M1220;
+                        if (M1220)
+                        {
+                            AlarmTextGridShow = "Collapsed";
+                        }                        
+                    }
 
                     EStop = XinjiePLC.readM(1206);
                     if (_EStop != EStop)
