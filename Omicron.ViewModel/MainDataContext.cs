@@ -38,6 +38,7 @@ namespace Omicron.ViewModel
         public virtual string SampleTestPageVisibility { set; get; } = "Collapsed";
         public virtual string SampleTestPage1Visibility { set; get; } = "Collapsed";
         public virtual string AlarmRecordPageVisibility { set; get; } = "Collapsed";
+        public virtual string HelpPageVisibility { set; get; } = "Collapsed";
         public virtual bool IsPLCConnect { set; get; } = false;
         public virtual bool IsTCPConnect { set; get; } = false;
         public virtual bool IsShieldTheDoor { set; get; } = false;
@@ -702,6 +703,7 @@ namespace Omicron.ViewModel
             SampleTestPageVisibility = "Collapsed";
             AlarmRecordPageVisibility = "Collapsed";
             SampleTestPage1Visibility = "Collapsed";
+            HelpPageVisibility = "Collapsed";
             SamCheckinIsEnabled = false;
             isLogin = false;
             Barsamuser_Psw = "";
@@ -722,6 +724,24 @@ namespace Omicron.ViewModel
             SampleTestPageVisibility = "Collapsed";
             AlarmRecordPageVisibility = "Collapsed";
             SampleTestPage1Visibility = "Collapsed";
+            HelpPageVisibility = "Collapsed";
+            //MaopaoPaixu();
+        }
+        public void ChoseHelpPage()
+        {
+            ParameterPageVisibility = "Collapsed";
+            AboutPageVisibility = "Collapsed";
+            HomePageVisibility = "Collapsed";
+            CameraHcPageVisibility = "Collapsed";
+            ScanPageVisibility = "Collapsed";
+            OperaterActionPageVisibility = "Collapsed";
+            BarcodeDisplayPageVisibility = "Collapsed";
+            TestRecordPageVisibility = "Collapsed";
+            TwincatNcPageVisibility = "Collapsed";
+            SampleTestPageVisibility = "Collapsed";
+            AlarmRecordPageVisibility = "Collapsed";
+            SampleTestPage1Visibility = "Collapsed";
+            HelpPageVisibility = "Visible";
             //MaopaoPaixu();
         }
         public void ChoseParameterPage()
@@ -738,6 +758,7 @@ namespace Omicron.ViewModel
             SampleTestPageVisibility = "Collapsed";
             AlarmRecordPageVisibility = "Collapsed";
             SampleTestPage1Visibility = "Collapsed";
+            HelpPageVisibility = "Collapsed";
         }
         public void ChoseOperaterActionPage()
         {
@@ -753,6 +774,7 @@ namespace Omicron.ViewModel
             SampleTestPageVisibility = "Collapsed";
             AlarmRecordPageVisibility = "Collapsed";
             SampleTestPage1Visibility = "Collapsed";
+            HelpPageVisibility = "Collapsed";
         }
         public void ChoseCameraPage()
         {
@@ -768,6 +790,7 @@ namespace Omicron.ViewModel
             SampleTestPageVisibility = "Collapsed";
             AlarmRecordPageVisibility = "Collapsed";
             SampleTestPage1Visibility = "Collapsed";
+            HelpPageVisibility = "Collapsed";
         }
         public void ChoseCameraHcPage()
         {
@@ -783,6 +806,7 @@ namespace Omicron.ViewModel
             SampleTestPageVisibility = "Collapsed";
             AlarmRecordPageVisibility = "Collapsed";
             SampleTestPage1Visibility = "Collapsed";
+            HelpPageVisibility = "Collapsed";
         }
         //public void ChoseScanCameraPage()
         //{
@@ -809,6 +833,7 @@ namespace Omicron.ViewModel
             SampleTestPageVisibility = "Collapsed";
             AlarmRecordPageVisibility = "Collapsed";
             SampleTestPage1Visibility = "Collapsed";
+            HelpPageVisibility = "Collapsed";
         }
         public void ChoseTwincatNcPage()
         {
@@ -824,6 +849,7 @@ namespace Omicron.ViewModel
             SampleTestPageVisibility = "Collapsed";
             AlarmRecordPageVisibility = "Collapsed";
             SampleTestPage1Visibility = "Collapsed";
+            HelpPageVisibility = "Collapsed";
         }
         public void ChoseBarcodeDisplayPage()
         {
@@ -839,6 +865,7 @@ namespace Omicron.ViewModel
             SampleTestPageVisibility = "Collapsed";
             AlarmRecordPageVisibility = "Collapsed";
             SampleTestPage1Visibility = "Collapsed";
+            HelpPageVisibility = "Collapsed";
         }
         public void ChoseTestRecordPage()
         {
@@ -854,6 +881,7 @@ namespace Omicron.ViewModel
             SampleTestPageVisibility = "Collapsed";
             AlarmRecordPageVisibility = "Collapsed";
             SampleTestPage1Visibility = "Collapsed";
+            HelpPageVisibility = "Collapsed";
         }
         public void ChoseAlarmRecordPage()
         {
@@ -869,6 +897,7 @@ namespace Omicron.ViewModel
             SampleTestPageVisibility = "Collapsed";
             AlarmRecordPageVisibility = "Visible";
             SampleTestPage1Visibility = "Collapsed";
+            HelpPageVisibility = "Collapsed";
         }
         public void ChoseSampleTestPage()
         {
@@ -884,6 +913,7 @@ namespace Omicron.ViewModel
             SampleTestPageVisibility = "Visible";
             AlarmRecordPageVisibility = "Collapsed";
             SampleTestPage1Visibility = "Collapsed";
+            HelpPageVisibility = "Collapsed";
         }
         public void ChoseSampleTestPage1()
         {
@@ -899,6 +929,7 @@ namespace Omicron.ViewModel
             SampleTestPageVisibility = "Collapsed";
             AlarmRecordPageVisibility = "Collapsed";
             SampleTestPage1Visibility = "Visible";
+            HelpPageVisibility = "Collapsed";
         }
         public async void ShieldDoorFunction()
         {

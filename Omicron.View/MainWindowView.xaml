@@ -37,7 +37,7 @@
             </MenuItem>
             <MenuItem Header="记录" Command="{mvvm:ActionAuto ChoseTestRecordPage}"></MenuItem>
             <MenuItem Header="报警" Command="{mvvm:ActionAuto ChoseAlarmRecordPage}"></MenuItem>
-            <MenuItem Header="帮助"></MenuItem>
+            <MenuItem Header="帮助" Command="{mvvm:ActionAuto ChoseHelpPage}"></MenuItem>
             <MenuItem Header="关于" Command="{mvvm:ActionAuto ChoseAboutPage}"></MenuItem>
             <MenuItem Header="{Binding LoginButtonString}" Command="{mvvm:ActionAuto LoginAction}"></MenuItem>
         </Menu>
@@ -77,6 +77,9 @@
             </Grid>
             <Grid Visibility="{Binding SampleTestPage1Visibility}">
                 <local:SampleTestPage1></local:SampleTestPage1>
+            </Grid>
+            <Grid Visibility="{Binding HelpPageVisibility}">
+                <local:HelpPage></local:HelpPage>
             </Grid>
         </Grid>
         
