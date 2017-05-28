@@ -64,7 +64,8 @@ namespace Omicron.Model
             TestCommandStringReadline();
             TestTimeout = 100000;
             TesterStatusInit();
-            RunLoop();
+            //RunLoop();
+            Async.RunFuncAsync(RunLoop, null);
         }
         #endregion
         #region 功能函数
@@ -357,7 +358,7 @@ namespace Omicron.Model
         /// <扫描周期>
         /// 100ms
         /// </扫描周期>
-        private async void RunLoop()
+        private void RunLoop()
         {
             string s;
             string[] ss;
@@ -379,7 +380,8 @@ namespace Omicron.Model
                             case 1://读PrePass；读PreNg
                                 bool isPrePassSuccuss = false;
                                 bool isPreNgSuccuss = false;
-                                await Task.Delay(100);
+                                //await Task.Delay(100);
+                                System.Threading.Thread.Sleep(100);
                                 s = udp.UdpSendthenReceive(PassCountStr[i]);
                                 ss = s.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
                                 if (ss[0] != "nil" && ss[0] != "Udp 发送或接收错误")
@@ -394,7 +396,8 @@ namespace Omicron.Model
                                         Log.Default.Error("Pass转码错误", e.Message);
                                     }
                                 }
-                                await Task.Delay(100);
+                                //await Task.Delay(100);
+                                System.Threading.Thread.Sleep(100);
                                 s = udp.UdpSendthenReceive(FailCountStr[i]);
                                 ss = s.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
                                 if (ss[0] != "nil" && ss[0] != "Udp 发送或接收错误")
@@ -415,7 +418,8 @@ namespace Omicron.Model
                                 }
                                 break;
                             case 2://写条码
-                                await Task.Delay(100);
+                                //await Task.Delay(100);
+                                System.Threading.Thread.Sleep(100);
                                 s = udp.UdpSendthenReceive("setvalue:(AXValue:" + TesterBracode[i] + ")" + BarcodeStr[i]);
                                 if (s == "SetValue Success")
                                 {
@@ -423,7 +427,8 @@ namespace Omicron.Model
                                 }
                                 break;
                             case 3://写按钮
-                                await Task.Delay(100);
+                                //await Task.Delay(100);
+                                System.Threading.Thread.Sleep(100);
                                 s = udp.UdpSendthenReceive(StartStr[i]);
                                 if (s == "Action Success")
                                 {
@@ -431,7 +436,8 @@ namespace Omicron.Model
                                 }
                                 break;
                             case 4://读Pass；读Ng
-                                await Task.Delay(100);
+                                //await Task.Delay(100);
+                                System.Threading.Thread.Sleep(100);
                                 s = udp.UdpSendthenReceive(PassCountStr[i]);
                                 ss = s.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
                                 if (ss[0] != "nil" && ss[0] != "Udp 发送或接收错误")
@@ -446,7 +452,8 @@ namespace Omicron.Model
                                         Log.Default.Error("Pass转码错误", e.Message);
                                     }
                                 }
-                                await Task.Delay(100);
+                                //await Task.Delay(100);
+                                System.Threading.Thread.Sleep(100);
                                 s = udp.UdpSendthenReceive(FailCountStr[i]);
                                 ss = s.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
                                 if (ss[0] != "nil" && ss[0] != "Udp 发送或接收错误")
@@ -467,7 +474,8 @@ namespace Omicron.Model
                                 }
                                 break;
                             case 5://完成
-                                await Task.Delay(100);
+                                //await Task.Delay(100);
+                                System.Threading.Thread.Sleep(100);
                                 break;
                             default:
                                 break;
@@ -479,7 +487,8 @@ namespace Omicron.Model
 
                     }
                 }
-                await Task.Delay(100);
+                //await Task.Delay(100);
+                System.Threading.Thread.Sleep(100);
             }
         }
         #endregion
