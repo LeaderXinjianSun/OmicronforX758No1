@@ -433,6 +433,8 @@ namespace Omicron.ViewModel
         public virtual double PassMid { set; get; }
         public virtual double PassLowLimit { set; get; }
 
+        public virtual double FlexTestTimeout { set; get; }
+
         public virtual string PassStatusDisplay1 { set; get; }
         public virtual string PassStatusDisplay2 { set; get; }
         public virtual string PassStatusDisplay3 { set; get; }
@@ -3976,6 +3978,8 @@ namespace Omicron.ViewModel
 
                 PassMid = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "PassYield", "PassMid", "98"));
                 PassLowLimit = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "PassYield", "PassLowLimit", "94"));
+
+                FlexTestTimeout = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "FlexTest", "FlexTestTimeout", "100"));
                 return true;
             }
             catch (Exception ex)
@@ -4046,6 +4050,7 @@ namespace Omicron.ViewModel
 
                 Inifile.INIWriteValue(iniParameterPath, "PassYield", "PassMid", PassMid.ToString());
                 Inifile.INIWriteValue(iniParameterPath, "PassYield", "PassLowLimit", PassLowLimit.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "FlexTest", "FlexTestTimeout", FlexTestTimeout.ToString());
 
                 return true;
             }

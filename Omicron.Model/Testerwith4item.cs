@@ -35,6 +35,7 @@ namespace Omicron.Model
         public TestStatus[] testStatus { set; get; } = new TestStatus[4] { TestStatus.PreTest, TestStatus.PreTest, TestStatus.PreTest, TestStatus.PreTest };
         private bool[] TestActionSwitch = new bool[4];
         private short[] StepFlag = new short[4];
+        public string[] testRemarks = { "Normal", "Normal", "Normal", "Normal" };
 
         private string iniTesterResutPath = System.Environment.CurrentDirectory + "\\TesterResut.ini";
         private string iniParameterPath = System.Environment.CurrentDirectory + "\\Parameter.ini";
@@ -45,12 +46,15 @@ namespace Omicron.Model
         int[] preFailCount = new int[4] { 0, 0, 0, 0 };
         int[] pc = new int[4] { 0, 0, 0, 0 };
         int[] fc = new int[4] { 0, 0, 0, 0 };
+        string[] errorcode = new string[4] { "", "", "", "" };
+        double timeout;
 
         #region Mac命令
         public string[] StartStr { set; get; } = new string[4] { "", "", "", "" };
         public string[] BarcodeStr { set; get; } = new string[4] { "", "", "", "" };
         public string[] PassCountStr { set; get; } = new string[4] { "", "", "", "" };
         public string[] FailCountStr { set; get; } = new string[4] { "", "", "", "" };
+        public string[] ErrorItemStr { set; get; } = new string[4] { "", "", "", "" };
         public string[] AppPathStr { set; get; } = new string[4] { "", "", "", "" };
         #endregion
         #endregion
@@ -62,8 +66,10 @@ namespace Omicron.Model
             Index = index;
             udp = new Udp(TestPcIP, TestPcRemotePort, 12000 + Index, 5000);
             TestCommandStringReadline();
-            TestTimeout = 100000;
+            
             TesterStatusInit();
+            timeout = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "FlexTest", "FlexTestTimeout", "100"));
+            TestTimeout = (int)(timeout * 1000);
             //RunLoop();
             Async.RunFuncAsync(RunLoop, null);
         }
@@ -83,6 +89,7 @@ namespace Omicron.Model
                 StartStr[i] = srd.ReadLine();
                 PassCountStr[i] = srd.ReadLine();
                 FailCountStr[i] = srd.ReadLine();
+                ErrorItemStr[i] = srd.ReadLine();
                 AppPathStr[i] = srd.ReadLine();
             }
             
@@ -266,7 +273,8 @@ namespace Omicron.Model
                     sw.Start();
                     testResult[0] = TestResult.Unknow;
                     testStatus[0] = TestStatus.Testing;
-                    while (StepFlag[0] != 5)
+                    testRemarks[0] = "Normal";
+                    while (StepFlag[0] != 6)
                     {
                         if (mResult == 2)
                         {
@@ -291,6 +299,14 @@ namespace Omicron.Model
                         }
                     }
 
+                    if (errorcode[0].Contains("5177") || errorcode[0].Contains("5315") || errorcode[0].Contains("5316"))
+                    {
+                        testRemarks[0] = "Noise";
+                    }
+                    else
+                    {
+                        testRemarks[0] = "Normal";
+                    }
                 });
             };
             Task taskDelay = Task.Delay(TestTimeout);
@@ -301,6 +317,7 @@ namespace Omicron.Model
                 mResult = 2;
             }
             UpdateTester(mResult, 0);
+
             callback(Index * 2 + 0);
         }
         public async void Start2(StartProcessedDelegate callback)
@@ -318,7 +335,8 @@ namespace Omicron.Model
                     sw.Start();
                     testResult[1] = TestResult.Unknow;
                     testStatus[1] = TestStatus.Testing;
-                    while (StepFlag[1] != 5)
+                    testRemarks[1] = "Normal";
+                    while (StepFlag[1] != 6)
                     {
                         if (mResult == 2)
                         {
@@ -340,7 +358,17 @@ namespace Omicron.Model
                         if (fc[1] == preFailCount[1] + 1)
                         {
                             mResult = 0;
+
                         }
+                    }
+
+                    if (errorcode[1].Contains("5177") || errorcode[1].Contains("5315") || errorcode[1].Contains("5316"))
+                    {
+                        testRemarks[1] = "Noise";
+                    }
+                    else
+                    {
+                        testRemarks[1] = "Normal";
                     }
 
                 });
@@ -473,7 +501,17 @@ namespace Omicron.Model
                                     StepFlag[i] = 5;
                                 }
                                 break;
-                            case 5://完成
+                            case 5://读界面不良项目
+                                System.Threading.Thread.Sleep(100);
+                                s = udp.UdpSendthenReceive(ErrorItemStr[i]);
+                                ss = s.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                                if (ss[0] != "nil" && ss[0] != "Udp 发送或接收错误")
+                                {
+                                    errorcode[i] = ss[0];
+                                    StepFlag[i] = 6;
+                                }
+                                break;
+                            case 6://完成
                                 //await Task.Delay(100);
                                 System.Threading.Thread.Sleep(100);
                                 break;

@@ -157,6 +157,11 @@
                     <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PassLowLimit}"></TextBox>
                     <TextBlock Style="{StaticResource TextBlockBase}" Text="%"></TextBlock>
                 </StackPanel>
+                <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource TextBlockBase}" Text="治具超时时间： "></TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding FlexTestTimeout}"></TextBox>
+                    <TextBlock Style="{StaticResource TextBlockBase}" Text="s"></TextBlock>
+                </StackPanel>
             </StackPanel>
         </GroupBox>
         <GroupBox Grid.Row="2" Grid.Column="1" Header="文档路径">
