@@ -522,7 +522,7 @@ namespace Omicron.Model
             {
                 if (testerwith4item[index / 2].testStatus[index % 2] == TestStatus.Tested)
                 {
-                    ModelPrint("测试机 " + (index + 1).ToString() + " 测试完成 " + testerwith4item[index / 2].testResult[index % 2].ToString() + testerwith4item[index / 2].testRemarks[index % 2]);
+                    ModelPrint("测试机 " + (index + 1).ToString() + " 测试完成 " + testerwith4item[index / 2].testResult[index % 2].ToString() + ";" + testerwith4item[index / 2].testRemarks[index % 2]);
                     string r = await TestSentNet.SendAsync("TestResult;" + testerwith4item[index / 2].testResult[index % 2].ToString() + ";" + (index + 1).ToString() + ";" + testerwith4item[index / 2].testRemarks[index % 2]);
                     if (r == "error")
                     {
