@@ -445,6 +445,8 @@ namespace Omicron.ViewModel
         public virtual string PassStatusColor3 { set; get; }
         public virtual string PassStatusColor4 { set; get; }
 
+        public virtual bool IsCheckUploadStatus { set; get; }
+
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -1248,13 +1250,20 @@ namespace Omicron.ViewModel
 
             Inifile.INIWriteValue(iniParameterPath, "Tester", "NGContinueNum", NGContinueNum.ToString());
 
-            str = "BarcodeMode;" + BarcodeMode.ToString();
+            //str = "BarcodeMode;" + BarcodeMode.ToString();
+            //if (epsonRC90.TestSendStatus)
+            //{
+            //    await epsonRC90.TestSentNet.SendAsync(str);
+            //    Msg = messagePrint.AddMessage(str);
+            //}
+            //Inifile.INIWriteValue(iniParameterPath, "BarcodeMode", "BarcodeMode", BarcodeMode.ToString());
+            str = "CheckUpload;" + IsCheckUploadStatus.ToString();
             if (epsonRC90.TestSendStatus)
             {
                 await epsonRC90.TestSentNet.SendAsync(str);
                 Msg = messagePrint.AddMessage(str);
             }
-            Inifile.INIWriteValue(iniParameterPath, "BarcodeMode", "BarcodeMode", BarcodeMode.ToString());
+            Inifile.INIWriteValue(iniParameterPath, "Upload", "IsCheckUploadStatus", IsCheckUploadStatus.ToString());
 
             if (num < 2)
             {
@@ -3361,9 +3370,27 @@ namespace Omicron.ViewModel
                     //WriteAlarmRecord();
                     //SaveCSVfileAlarm("测试机4，连续NG");
                     break;
-                case "MsgRev: 单穴测试，一次完成":
-                    SingleTestTimes++;
+                case "MsgRev: Noise下料盘，换料":
+                    ShowAlarmTextGrid("Noise下料盘，换料");
                     break;
+                case "MsgRev: Ng下料盘，换料":
+                    ShowAlarmTextGrid("Ng下料盘，换料");
+                    break;
+                case "MsgRev: 测试机1，上传软体异常":
+                    ShowAlarmTextGrid("测试机1，上传软体异常");
+                    break;
+                case "MsgRev: 测试机2，上传软体异常":
+                    ShowAlarmTextGrid("测试机2，上传软体异常");
+                    break;
+                case "MsgRev: 测试机3，上传软体异常":
+                    ShowAlarmTextGrid("测试机3，上传软体异常");
+                    break;
+                case "MsgRev: 测试机4，上传软体异常":
+                    ShowAlarmTextGrid("测试机4，上传软体异常");
+                    break;
+                //case "MsgRev: 单穴测试，一次完成":
+                //    SingleTestTimes++;
+                //    break;
                 case "MsgRev: 测试工位1，产品没放好":
                     if (lastAlarmString != str)
                     {
@@ -3980,6 +4007,7 @@ namespace Omicron.ViewModel
                 PassLowLimit = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "PassYield", "PassLowLimit", "94"));
 
                 FlexTestTimeout = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "FlexTest", "FlexTestTimeout", "100"));
+                IsCheckUploadStatus = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Upload", "IsCheckUploadStatus", "False"));
                 return true;
             }
             catch (Exception ex)
@@ -4052,6 +4080,9 @@ namespace Omicron.ViewModel
                 Inifile.INIWriteValue(iniParameterPath, "PassYield", "PassLowLimit", PassLowLimit.ToString());
                 Inifile.INIWriteValue(iniParameterPath, "FlexTest", "FlexTestTimeout", FlexTestTimeout.ToString());
 
+                Inifile.INIWriteValue(iniParameterPath, "Upload", "IsCheckUploadStatus", IsCheckUploadStatus.ToString());
+
+
                 return true;
             }
             catch (Exception ex)
@@ -4095,6 +4126,8 @@ namespace Omicron.ViewModel
                 alarmTableItemsList[7].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "上料盘位4", "吸取失败", "0"));
                 alarmTableItemsList[8].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "上料盘位5", "吸取失败", "0"));
                 alarmTableItemsList[9].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "上料盘位6", "吸取失败", "0"));
+
+
             }
             catch (Exception ex)
             {

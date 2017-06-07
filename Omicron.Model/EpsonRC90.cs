@@ -64,6 +64,8 @@ namespace Omicron.Model
         //private string barcodeString = "";
         private string BarcodeString = "";
         private string TestRecordSavePath = "";
+        public UploadSoftwareStatus[] uploadSoftwareStatus = new UploadSoftwareStatus[4];
+        private bool isCheckUpload = false;
         #endregion
         #region 事件定义
         public delegate void PrintEventHandler(string ModelMessageStr);
@@ -132,6 +134,11 @@ namespace Omicron.Model
                 }
 
                 TestRecordSavePath = Inifile.INIGetStringValue(iniParameterPath, "SavePath", "TestRecordSavePath", "C:\\");
+                isCheckUpload = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Upload", "IsCheckUploadStatus", "False"));
+                for (int i = 0; i < 4; i++)
+                {
+                    uploadSoftwareStatus[i] = new UploadSoftwareStatus(i);
+                }
                 Async.RunFuncAsync(checkCtrlNet, null);
                 Async.RunFuncAsync(checkTestSentNet, null);
                 Async.RunFuncAsync(checkTestReceiveNet, null);
@@ -495,6 +502,9 @@ namespace Omicron.Model
                                 case "ResetCMD":
                                     EPSONCommTwincat(s);
                                     break;
+                                case "StatusOfUpload":
+                                    AnswerStatusOfUpload();
+                                    break;
                                 default:
                                     ModelPrint("无效指令： " + s);
                                     break;
@@ -510,6 +520,26 @@ namespace Omicron.Model
                 }
             }
         }
+        private async void AnswerStatusOfUpload()
+        {
+            string str = "StatusOfUpload";
+            for (int i = 0; i < 4; i++)
+            {
+                if (uploadSoftwareStatus[i].status)
+                {
+                    str += ";1";
+                }
+                else
+                {
+                    str += ";0";
+                }
+            }
+
+            if (TestSendStatus)
+            {
+                await TestSentNet.SendAsync(str);
+            }
+        }
         public async void StartProcess(int index)
         {
             TestFinished(index);
@@ -523,6 +553,10 @@ namespace Omicron.Model
                 if (testerwith4item[index / 2].testStatus[index % 2] == TestStatus.Tested)
                 {
                     ModelPrint("测试机 " + (index + 1).ToString() + " 测试完成 " + testerwith4item[index / 2].testResult[index % 2].ToString() + ";" + testerwith4item[index / 2].testRemarks[index % 2]);
+                    if (testerwith4item[index / 2].testResult[index % 2] == TestResult.Pass)
+                    {
+                        Async.RunFuncAsync(uploadSoftwareStatus[index].StartCommand,null);
+                    }
                     string r = await TestSentNet.SendAsync("TestResult;" + testerwith4item[index / 2].testResult[index % 2].ToString() + ";" + (index + 1).ToString() + ";" + testerwith4item[index / 2].testRemarks[index % 2]);
                     if (r == "error")
                     {

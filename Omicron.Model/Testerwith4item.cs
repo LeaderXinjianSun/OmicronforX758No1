@@ -48,6 +48,7 @@ namespace Omicron.Model
         int[] fc = new int[4] { 0, 0, 0, 0 };
         string[] errorcode = new string[4] { "", "", "", "" };
         double timeout;
+        
 
         #region Mac命令
         public string[] StartStr { set; get; } = new string[4] { "", "", "", "" };
@@ -66,6 +67,8 @@ namespace Omicron.Model
             Index = index;
             udp = new Udp(TestPcIP, TestPcRemotePort, 12000 + Index, 5000);
             TestCommandStringReadline();
+
+
             
             TesterStatusInit();
             timeout = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "FlexTest", "FlexTestTimeout", "100"));
@@ -530,5 +533,89 @@ namespace Omicron.Model
             }
         }
         #endregion
+    }
+    public class UploadSoftwareStatus
+    {
+        public bool status { set; get; } = true;
+        public bool start { set; get; } = false;
+        public int index { set; get; } = 0;
+        public string numStr { set; get; } = "null";
+        private string iniFilepath = @"d:\test.ini";
+        private string sectionName = "";
+        int timed;
+        string numStrNew;
+        public UploadSoftwareStatus(int i)
+        {
+            index = i;
+            switch (index)
+            {
+                case 0:
+                    sectionName = "A";
+                    break;
+                case 1:
+                    sectionName = "B";
+                    break;
+                case 2:
+                    sectionName = "C";
+                    break;
+                case 3:
+                    sectionName = "D";
+                    break;
+                default:
+                    break;
+            }
+            Async.RunFuncAsync(run,null);
+        }
+        private void run()
+        {
+            try
+            {
+                numStr = Inifile.INIGetStringValue(iniFilepath, sectionName, "upload", "0");
+            }
+            catch (Exception ex)
+            {
+                Log.Default.Error("UploadSoftwareStatus.ReadIniFail1", ex.Message);
+            }
+            status = true;
+            timed = 60000;
+            while (true)
+            {
+                if (start)
+                {
+                    try
+                    {
+                        numStrNew = Inifile.INIGetStringValue(iniFilepath, sectionName, "upload", "0");
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Default.Error("UploadSoftwareStatus.ReadIniFail2", ex.Message);
+                    }
+                    if (numStr != numStrNew)
+                    {
+                        status = true;
+                        numStr = numStrNew;
+                        timed = 60000;
+                        start = false;
+                    }
+                    else
+                    {
+                        status = false;
+                        timed = 100;
+                    }
+                }
+                else
+                {
+                    timed = 60000;
+                }                     
+
+                System.Threading.Thread.Sleep(timed);
+            }
+            
+        }
+        public void StartCommand()
+        {
+            System.Threading.Thread.Sleep(20000);
+            start = true;
+        }
     }
 }

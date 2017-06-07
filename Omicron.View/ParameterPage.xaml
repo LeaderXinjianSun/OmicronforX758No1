@@ -18,8 +18,8 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.7*"></RowDefinition>
             <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition Height="0.4*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -161,6 +161,7 @@
                     <TextBlock Style="{StaticResource TextBlockBase}" Text="治具超时时间： "></TextBlock>
                     <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding FlexTestTimeout}"></TextBox>
                     <TextBlock Style="{StaticResource TextBlockBase}" Text="s"></TextBlock>
+                    <CheckBox Content="监控上传软体"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding IsCheckUploadStatus}"></CheckBox>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
