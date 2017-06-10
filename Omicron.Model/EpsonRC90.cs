@@ -306,7 +306,7 @@ namespace Omicron.Model
         {
             while (true)
             {
-                await Task.Delay(100);
+                //await Task.Delay(100);
                 if (TestReceiveStatus == true)
                 {
                     string s = await TestReceiveNet.ReceiveAsync();
@@ -525,7 +525,7 @@ namespace Omicron.Model
             string str = "StatusOfUpload";
             for (int i = 0; i < 4; i++)
             {
-                if (uploadSoftwareStatus[i].status)
+                if (uploadSoftwareStatus[i].status || !isCheckUpload)
                 {
                     str += ";1";
                 }
@@ -595,7 +595,7 @@ namespace Omicron.Model
         {
             while (true)
             {
-                await Task.Delay(100);
+                //await Task.Delay(100);
                 if (MsgReceiveStatus == true)
                 {
                     string s = await MsgReceiveNet.ReceiveAsync();
