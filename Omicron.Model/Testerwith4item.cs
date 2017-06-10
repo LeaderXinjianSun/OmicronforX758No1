@@ -600,7 +600,7 @@ namespace Omicron.Model
                     else
                     {
                         status = false;
-                        timed = 100;
+                        timed = 1000;
                     }
                 }
                 else

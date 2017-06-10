@@ -72,10 +72,10 @@
                     <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding EpsonTestSendFlexPort}"></TextBox>
                 </StackPanel>
                 <StackPanel Style="{StaticResource ParameterHorizontalStackPanel}">
-                    <Ellipse Style="{StaticResource EllipseTestRevFlex}"></Ellipse>
+                    <Ellipse Style="{StaticResource EllipseTestRev}"></Ellipse>
                     <TextBlock Style="{StaticResource TextBlockParameterLoneName}">测试收Port:</TextBlock>
                     <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding EpsonTestReceivePort}"></TextBox>
-                    <Ellipse Style="{StaticResource EllipseTestRev}"></Ellipse>
+                    <Ellipse Style="{StaticResource EllipseTestRevFlex}"></Ellipse>
                     <TextBlock Style="{StaticResource TextBlockParameterLoneName}">治具收Port:</TextBlock>
                     <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding EpsonTestReceiveFlexPort}"></TextBox>
                 </StackPanel>
