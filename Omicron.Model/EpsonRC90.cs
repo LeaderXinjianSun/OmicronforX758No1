@@ -17,10 +17,15 @@ namespace Omicron.Model
         public string IP { set; get; } = "192.168.1.2";
         public int TestSentPort { set; get; } = 2000;
         public int TestReceivePort { set; get; } = 2001;
+        public int TestSentFlexPort { set; get; } = 2004;
+        public int TestReceiveFlexPort { set; get; } = 2005;
         public int MsgReceivePort { set; get; } = 2002;
         public int CtrlPort { set; get; } = 5000;
         public bool TestSendStatus { get; set; } = false;
+        public bool TestSendFlexStatus { get; set; } = false;
+        
         public bool TestReceiveStatus { get; set; } = false;
+        public bool TestReceiveFlexStatus { get; set; } = false;
         public bool MsgReceiveStatus { get; set; } = false;
         public bool CtrlStatus { set; get; } = false;
         public double Coord_X { set; get; } = 0;
@@ -55,6 +60,8 @@ namespace Omicron.Model
         public HdevEngine hdevScanEngine = new HdevEngine();
         public TCPIPConnect TestSentNet = new TCPIPConnect();
         public TCPIPConnect TestReceiveNet = new TCPIPConnect();
+        public TCPIPConnect TestSentFlexNet = new TCPIPConnect();
+        public TCPIPConnect TestReceiveFlexNet = new TCPIPConnect();
         public TCPIPConnect MsgReceiveNet = new TCPIPConnect();
         public TCPIPConnect CtrlNet = new TCPIPConnect();
         private string iniParameterPath = System.Environment.CurrentDirectory + "\\Parameter.ini";
@@ -95,7 +102,9 @@ namespace Omicron.Model
                 Scan.ini("COM1");
                 IP = Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonIp", "192.168.1.2");
                 TestSentPort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonTestSendPort", "2000"));
+                TestSentFlexPort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonTestSendFlexPort", "2004"));
                 TestReceivePort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonTestReceivePort", "2001"));
+                TestReceiveFlexPort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonTestReceiveFlexPort", "2005"));
                 MsgReceivePort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonMsgReceivePort", "2002"));
                 CtrlPort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonRemoteControlPort", "5000"));
                 BarcodeMode = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "BarcodeMode", "BarcodeMode", "True"));
@@ -142,10 +151,13 @@ namespace Omicron.Model
                 Async.RunFuncAsync(checkCtrlNet, null);
                 Async.RunFuncAsync(checkTestSentNet, null);
                 Async.RunFuncAsync(checkTestReceiveNet, null);
+                Async.RunFuncAsync(checkTestSentFlexNet, null);
+                Async.RunFuncAsync(checkTestReceiveFlexNet, null);
                 Async.RunFuncAsync(checkMsgReceiveNet, null);
 
                 Async.RunFuncAsync(GetStatus, null);
                 Async.RunFuncAsync(TestRevAnalysis,null);
+                Async.RunFuncAsync(TestRevFlexAnalysis, null);
                 Async.RunFuncAsync(MsgRevAnalysis, null);
                 Async.RunFuncAsync(EpsonRC90Init, null);
             }
@@ -219,6 +231,33 @@ namespace Omicron.Model
                 { await Task.Delay(15000); }
             }
         }
+        public async void checkTestSentFlexNet()
+        {
+            while (true)
+            {
+                TestSentFlexNet.IsOnline();
+                await Task.Delay(400);
+                if (!TestSentFlexNet.tcpConnected)
+                {
+                    await Task.Delay(1000);
+                    TestSentFlexNet.IsOnline();
+                    if (!TestSentFlexNet.tcpConnected)
+                    {
+                        bool r1 = await TestSentFlexNet.Connect(IP, TestSentFlexPort);
+                        if (r1)
+                        {
+                            TestSendFlexStatus = true;
+                            ModelPrint("机械手TestSentFlexNet连接");
+
+                        }
+                        else
+                            TestSendFlexStatus = false;
+                    }
+                }
+                else
+                { await Task.Delay(15000); }
+            }
+        }
         public async void checkTestReceiveNet()
         {
             while (true)
@@ -240,6 +279,33 @@ namespace Omicron.Model
                         }
                         else
                             TestReceiveStatus = false;
+                    }
+                }
+                else
+                { await Task.Delay(15000); }
+            }
+        }
+        public async void checkTestReceiveFlexNet()
+        {
+            while (true)
+            {
+                TestReceiveFlexNet.IsOnline();
+                await Task.Delay(400);
+                if (!TestReceiveFlexNet.tcpConnected)
+                {
+                    await Task.Delay(1000);
+                    TestReceiveFlexNet.IsOnline();
+                    if (!TestReceiveFlexNet.tcpConnected)
+                    {
+                        bool r1 = await TestReceiveFlexNet.Connect(IP, TestReceiveFlexPort);
+                        if (r1)
+                        {
+                            TestReceiveFlexStatus = true;
+                            ModelPrint("机械手TestReceiveFlexNet连接");
+
+                        }
+                        else
+                            TestReceiveFlexStatus = false;
                     }
                 }
                 else
@@ -520,6 +586,150 @@ namespace Omicron.Model
                 }
             }
         }
+        private async void TestRevFlexAnalysis()
+        {
+            while (true)
+            {
+                //await Task.Delay(100);
+                if (TestReceiveFlexStatus == true)
+                {
+                    string s = await TestReceiveFlexNet.ReceiveAsync();
+
+                    string[] ss = s.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    try
+                    {
+                        s = ss[0];
+                    }
+                    catch
+                    {
+                        s = "error";
+                    }
+
+                    if (s == "error")
+                    {
+                        TestReceiveFlexNet.tcpConnected = false;
+                        TestReceiveFlexStatus = false;
+                        ModelPrint("机械手TestReceiveFlexNet断开");
+                    }
+                    else
+                    {
+                        ModelPrint("TestRevFlex: " + s);
+                        try
+                        {
+                            string[] strs = s.Split(',');
+                            switch (strs[0])
+                            {
+                                
+                                case "Start":
+                                    switch (strs[2])
+                                    {
+                                        case "A":
+                                            //Tester.IsInSampleMode = false;
+                                            testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2] = PickBracodeA;
+
+                                            string barstr;
+                                            switch (int.Parse(strs[1]) - 1)
+                                            {
+                                                case 0:
+                                                    barstr = "TesterBracodeAL";
+                                                    TesterBracodeAL = PickBracodeA;
+                                                    break;
+                                                case 1:
+                                                    barstr = "TesterBracodeAR";
+                                                    TesterBracodeAR = PickBracodeA;
+                                                    break;
+                                                case 2:
+                                                    barstr = "TesterBracodeBL";
+                                                    TesterBracodeBL = PickBracodeA;
+                                                    break;
+                                                case 3:
+                                                    barstr = "TesterBracodeBR";
+                                                    TesterBracodeBR = PickBracodeA;
+                                                    break;
+                                                default:
+                                                    barstr = "";
+                                                    break;
+                                            }
+                                            Inifile.INIWriteValue(iniParameterPath, "Barcode", barstr, PickBracodeA);
+                                            //tester[int.Parse(strs[1]) - 1].Start(StartProcess);
+                                            switch ((int.Parse(strs[1]) - 1) % 2)
+                                            {
+                                                case 0:
+                                                    testerwith4item[(int.Parse(strs[1]) - 1) / 2].Start1(StartProcess);
+                                                    SaveStartBarcodetoCSV(testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2], int.Parse(strs[1]));
+                                                    break;
+                                                case 1:
+                                                    testerwith4item[(int.Parse(strs[1]) - 1) / 2].Start2(StartProcess);
+                                                    SaveStartBarcodetoCSV(testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2], int.Parse(strs[1]));
+                                                    break;
+                                                default:
+
+                                                    break;
+                                            }
+                                            break;
+                                        case "B":
+                                            //Tester.IsInSampleMode = false;
+
+                                            testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2] = PickBracodeB;
+                                            //SaveStartBarcodetoCSV(PickBracodeB, int.Parse(strs[1]));
+                                            switch (int.Parse(strs[1]) - 1)
+                                            {
+                                                case 0:
+                                                    barstr = "TesterBracodeAL";
+                                                    TesterBracodeAL = PickBracodeB;
+                                                    break;
+                                                case 1:
+                                                    barstr = "TesterBracodeAR";
+                                                    TesterBracodeAR = PickBracodeB;
+                                                    break;
+                                                case 2:
+                                                    barstr = "TesterBracodeBL";
+                                                    TesterBracodeBL = PickBracodeB;
+                                                    break;
+                                                case 3:
+                                                    barstr = "TesterBracodeBR";
+                                                    TesterBracodeBR = PickBracodeB;
+                                                    break;
+                                                default:
+                                                    barstr = "";
+                                                    break;
+                                            }
+                                            Inifile.INIWriteValue(iniParameterPath, "Barcode", barstr, PickBracodeB);
+                                            switch ((int.Parse(strs[1]) - 1) % 2)
+                                            {
+                                                case 0:
+                                                    testerwith4item[(int.Parse(strs[1]) - 1) / 2].Start1(StartProcess);
+                                                    SaveStartBarcodetoCSV(testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2], int.Parse(strs[1]));
+                                                    break;
+                                                case 1:
+                                                    testerwith4item[(int.Parse(strs[1]) - 1) / 2].Start2(StartProcess);
+                                                    SaveStartBarcodetoCSV(testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2], int.Parse(strs[1]));
+                                                    break;
+                                                default:
+
+                                                    break;
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    break;
+                               
+                                default:
+                                    ModelPrint("无效指令： " + s);
+                                    break;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ModelPrint("监听机械手Flex命令出错");
+                            Log.Default.Error("EpsonRC90.TestRevFlexAnalysis", ex.Message);
+                        }
+
+                    }
+                }
+            }
+        }
         private async void AnswerStatusOfUpload()
         {
             string str = "StatusOfUpload";
@@ -553,17 +763,17 @@ namespace Omicron.Model
                 if (testerwith4item[index / 2].testStatus[index % 2] == TestStatus.Tested)
                 {
                     ModelPrint("测试机 " + (index + 1).ToString() + " 测试完成 " + testerwith4item[index / 2].testResult[index % 2].ToString() + ";" + testerwith4item[index / 2].testRemarks[index % 2]);
-                    if (testerwith4item[index / 2].testResult[index % 2] == TestResult.Pass)
+                    if (testerwith4item[index / 2].testResult[index % 2] == TestResult.Pass && isCheckUpload)
                     {
                         Async.RunFuncAsync(uploadSoftwareStatus[index].StartCommand,null);
                     }
-                    string r = await TestSentNet.SendAsync("TestResult;" + testerwith4item[index / 2].testResult[index % 2].ToString() + ";" + (index + 1).ToString() + ";" + testerwith4item[index / 2].testRemarks[index % 2]);
+                    string r = await TestSentFlexNet.SendAsync("TestResult;" + testerwith4item[index / 2].testResult[index % 2].ToString() + ";" + (index + 1).ToString() + ";" + testerwith4item[index / 2].testRemarks[index % 2]);
                     if (r == "error")
                     {
-                        Log.Default.Error("TestSent网络出错");
-                        ModelPrint("TestSent网络出错");
-                        TestSentNet.tcpConnected = false;
-                        TestSendStatus = false;
+                        Log.Default.Error("TestSentFlex网络出错");
+                        ModelPrint("TestSentFlex网络出错");
+                        TestSentFlexNet.tcpConnected = false;
+                        TestSendFlexStatus = false;
                     }
                 }
             }

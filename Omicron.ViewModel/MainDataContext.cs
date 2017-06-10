@@ -56,11 +56,15 @@ namespace Omicron.ViewModel
         public virtual string SerialPortCom { set; get; }
         public virtual bool TestSendPortStatus { set; get; } = false;
         public virtual bool TestRevPortStatus { set; get; } = false;
+        public virtual bool TestSendFlexPortStatus { set; get; } = false;
+        public virtual bool TestRevFlexPortStatus { set; get; } = false;
         public virtual bool MsgRevPortStatus { set; get; } = false;
         public virtual bool CtrlPortStatus { set; get; } = false;
         public virtual string EpsonIp { set; get; } = "192.168.1.2";
         public virtual int EpsonTestSendPort { set; get; } = 2000;
         public virtual int EpsonTestReceivePort { set; get; } = 2001;
+        public virtual int EpsonTestSendFlexPort { set; get; } = 2004;
+        public virtual int EpsonTestReceiveFlexPort { set; get; } = 2005;
         public virtual int EpsonMsgReceivePort { set; get; } = 2002;
         public virtual int EpsonRemoteControlPort { set; get; } = 5000;
         public virtual string VisionScriptFileName { set; get; }
@@ -3918,7 +3922,9 @@ namespace Omicron.ViewModel
                 SerialPortCom = Inifile.INIGetStringValue(iniParameterPath, "SerialPort","Com","COM1");
                 EpsonIp = Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonIp", "192.168.1.2");
                 EpsonTestSendPort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonTestSendPort", "2000"));
-                EpsonTestReceivePort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonTestReceivePort", "2001"));
+                EpsonTestSendFlexPort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonTestSendFlexPort", "2004"));
+                EpsonTestReceiveFlexPort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonTestReceivePort", "2001"));
+                EpsonTestReceivePort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonTestReceiveFlexPort", "2005"));
                 EpsonMsgReceivePort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonMsgReceivePort", "2002"));
                 EpsonRemoteControlPort = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Epson", "EpsonRemoteControlPort", "5000"));
                 VisionScriptFileName = Inifile.INIGetStringValue(iniParameterPath, "Camera", "VisionScriptFileName", @"C:\test.vbai");
@@ -4023,7 +4029,9 @@ namespace Omicron.ViewModel
                 Inifile.INIWriteValue(iniParameterPath, "SerialPort", "Com", SerialPortCom);
                 Inifile.INIWriteValue(iniParameterPath, "Epson", "EpsonIp", EpsonIp);
                 Inifile.INIWriteValue(iniParameterPath, "Epson", "EpsonTestSendPort", EpsonTestSendPort.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Epson", "EpsonTestSendFlexPort", EpsonTestSendFlexPort.ToString());
                 Inifile.INIWriteValue(iniParameterPath, "Epson", "EpsonTestReceivePort", EpsonTestReceivePort.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "Epson", "EpsonTestReceiveFlexPort", EpsonTestReceiveFlexPort.ToString());
                 Inifile.INIWriteValue(iniParameterPath, "Epson", "EpsonMsgReceivePort", EpsonMsgReceivePort.ToString());
                 Inifile.INIWriteValue(iniParameterPath, "Epson", "EpsonRemoteControlPort", EpsonRemoteControlPort.ToString());
                 Inifile.INIWriteValue(iniParameterPath, "Mac", "TestPcIPA", TestPcIPA);
@@ -4229,7 +4237,9 @@ namespace Omicron.ViewModel
                 TestRevPortStatus = epsonRC90.TestReceiveStatus;
                 MsgRevPortStatus = epsonRC90.MsgReceiveStatus;
                 CtrlPortStatus = epsonRC90.CtrlStatus;
-                IsTCPConnect = TestSendPortStatus & TestRevPortStatus & MsgRevPortStatus & CtrlPortStatus;
+                TestSendFlexPortStatus = epsonRC90.TestSendFlexStatus;
+                TestRevFlexPortStatus = epsonRC90.TestReceiveFlexStatus;
+                IsTCPConnect = TestSendPortStatus & TestRevPortStatus & TestSendFlexPortStatus & TestRevFlexPortStatus & MsgRevPortStatus & CtrlPortStatus;
 
                 try
                 {

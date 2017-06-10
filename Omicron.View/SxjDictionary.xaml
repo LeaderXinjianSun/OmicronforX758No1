@@ -193,9 +193,23 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
+    <Style TargetType="{x:Type Ellipse}" BasedOn="{StaticResource EllipseBase}" x:Key="EllipseTestSendFlex">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding TestSendFlexPortStatus}" Value="true">
+                <Setter Property="Fill" Value="Green"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
     <Style TargetType="{x:Type Ellipse}" BasedOn="{StaticResource EllipseBase}" x:Key="EllipseTestRev">
         <Style.Triggers>
             <DataTrigger Binding="{Binding TestRevPortStatus}" Value="true">
+                <Setter Property="Fill" Value="Green"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="{x:Type Ellipse}" BasedOn="{StaticResource EllipseBase}" x:Key="EllipseTestRevFlex">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding TestRevFlexPortStatus}" Value="true">
                 <Setter Property="Fill" Value="Green"></Setter>
             </DataTrigger>
         </Style.Triggers>

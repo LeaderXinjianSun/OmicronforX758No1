@@ -18,7 +18,7 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition Height="0.6*"></RowDefinition>
             <RowDefinition Height="0.4*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
@@ -67,11 +67,17 @@
                     <Ellipse Style="{StaticResource EllipseTestSend}"></Ellipse>
                     <TextBlock Style="{StaticResource TextBlockParameterLoneName}">测试发Port:</TextBlock>
                     <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding EpsonTestSendPort}"></TextBox>
+                    <Ellipse Style="{StaticResource EllipseTestSendFlex}"></Ellipse>
+                    <TextBlock Style="{StaticResource TextBlockParameterLoneName}">治具发Port:</TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding EpsonTestSendFlexPort}"></TextBox>
                 </StackPanel>
                 <StackPanel Style="{StaticResource ParameterHorizontalStackPanel}">
-                    <Ellipse Style="{StaticResource EllipseTestRev}"></Ellipse>
+                    <Ellipse Style="{StaticResource EllipseTestRevFlex}"></Ellipse>
                     <TextBlock Style="{StaticResource TextBlockParameterLoneName}">测试收Port:</TextBlock>
                     <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding EpsonTestReceivePort}"></TextBox>
+                    <Ellipse Style="{StaticResource EllipseTestRev}"></Ellipse>
+                    <TextBlock Style="{StaticResource TextBlockParameterLoneName}">治具收Port:</TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding EpsonTestReceiveFlexPort}"></TextBox>
                 </StackPanel>
                 <StackPanel Style="{StaticResource ParameterHorizontalStackPanel}">
                     <Ellipse Style="{StaticResource EllipseMsgRev}"></Ellipse>
