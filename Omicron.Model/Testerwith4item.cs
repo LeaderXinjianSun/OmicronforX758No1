@@ -568,6 +568,7 @@ namespace Omicron.Model
         }
         private void run()
         {
+            bool WriteFileFlag = false;
             try
             {
                 numStr = Inifile.INIGetStringValue(iniFilepath, sectionName, "upload", "0");
@@ -577,7 +578,7 @@ namespace Omicron.Model
                 Log.Default.Error("UploadSoftwareStatus.ReadIniFail1", ex.Message);
             }
             status = true;
-            timed = 60000;
+            timed = 2000;
             while (true)
             {
                 if (start)
@@ -594,18 +595,25 @@ namespace Omicron.Model
                     {
                         status = true;
                         numStr = numStrNew;
-                        timed = 60000;
+                        timed = 2000;
                         start = false;
+                        WriteFileFlag = false;
                     }
                     else
                     {
+                        if (!WriteFileFlag)
+                        {
+                            Inifile.INIWriteValue(iniFilepath, sectionName, "upload", "0");
+                            numStr = "0";
+                            WriteFileFlag = true;
+                        }
                         status = false;
                         timed = 1000;
                     }
                 }
                 else
                 {
-                    timed = 60000;
+                    timed = 2000;
                 }                     
 
                 System.Threading.Thread.Sleep(timed);
