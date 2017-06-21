@@ -584,6 +584,10 @@ namespace Omicron.Model
 
                     }
                 }
+                else
+                {
+                    await Task.Delay(100);
+                }
             }
         }
         private async void TestRevFlexAnalysis()
@@ -728,6 +732,10 @@ namespace Omicron.Model
 
                     }
                 }
+                else
+                {
+                    await Task.Delay(100);
+                }
             }
         }
         private async void AnswerStatusOfUpload()
@@ -830,6 +838,10 @@ namespace Omicron.Model
                     {
                         ModelPrint("MsgRev: " + s);
                     }
+                }
+                else
+                {
+                    await Task.Delay(100);
                 }
             }
         }
