@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="377701925">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="390084350">
 <procedure name="main">
 <interface/>
 <body>
@@ -8,9 +8,9 @@
 <l>    if(AcqHandle &gt; 0)</l>
 <l>    endif</l>
 <l>catch(exception)</l>
-<l>    open_framegrabber ('DirectShow', 1, 1, 0, 0, 0, 0, 'default', 8, 'gray', -1, 'false', 'default', 'DMK 72AUC02', 0, -1, AcqHandle)</l>
-<l>    set_framegrabber_param (AcqHandle, 'grab_timeout', 3000)</l>
-<l>    set_framegrabber_param (AcqHandle, 'exposure', -6)</l>
+<l>    open_framegrabber ('GigEVision', 0, 0, 0, 0, 0, 0, 'progressive', -1, 'default', -1, 'false', 'default', 'X758', 0, -1, AcqHandle)</l>
+<l>    set_framegrabber_param (AcqHandle, 'ExposureTime', 10000.0)</l>
+<l>    set_framegrabber_param (AcqHandle, 'grab_timeout', 5000)</l>
 <l>    grab_image (Image, AcqHandle)</l>
 <l>endtry</l>
 <c></c>
@@ -18,16 +18,16 @@
 <l>    grab_image (Image, AcqHandle)</l>
 <l>catch(exceptiongrab)</l>
 <l>    close_framegrabber (AcqHandle)</l>
-<l>    open_framegrabber ('DirectShow', 1, 1, 0, 0, 0, 0, 'default', 8, 'gray', -1, 'false', 'default', 'DMK 72AUC02', 0, -1, AcqHandle)</l>
+<l>    open_framegrabber ('GigEVision', 0, 0, 0, 0, 0, 0, 'progressive', -1, 'default', -1, 'false', 'default', 'X758', 0, -1, AcqHandle)</l>
 <l>    grab_image (Image, AcqHandle)</l>
 <l>endtry</l>
 <c></c>
-<l>gen_rectangle1 (Rectangle6, 744, 194, 906, 380)</l>
-<l>gen_rectangle1 (Rectangle1, 1047, 799, 1189, 1002)</l>
-<l>gen_rectangle1 (Rectangle5, 749, 919, 891, 1101)</l>
-<l>gen_rectangle1 (Rectangle2, 1037, 1527, 1189, 1726)</l>
-<l>gen_rectangle1 (Rectangle4, 739, 1652, 885, 1846)</l>
-<l>gen_rectangle1 (Rectangle3, 1017, 2269, 1174, 2455)</l>
+<l>gen_rectangle1 (Rectangle6, 685, 115, 822, 346)</l>
+<l>gen_rectangle1 (Rectangle1, 989, 759, 1116, 974)</l>
+<l>gen_rectangle1 (Rectangle5, 695, 879, 827, 1085)</l>
+<l>gen_rectangle1 (Rectangle2, 1000, 1500, 1121, 1721)</l>
+<l>gen_rectangle1 (Rectangle4, 700, 1609, 837, 1828)</l>
+<l>gen_rectangle1 (Rectangle3, 1000, 2222, 1116, 2444)</l>
 <l>reduce_domain (Image, Rectangle1, ImageReduced1)</l>
 <l>reduce_domain (Image, Rectangle2, ImageReduced2)</l>
 <l>reduce_domain (Image, Rectangle3, ImageReduced3)</l>
@@ -88,6 +88,8 @@
 <l>endif</l>
 <c as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,4]" as_ord="1">* Do something</c>
 <l>*close_framegrabber (AcqHandle)</l>
+<c></c>
+<c></c>
 <c></c>
 <c></c>
 <c></c>

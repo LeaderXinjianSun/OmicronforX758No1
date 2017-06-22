@@ -3208,7 +3208,8 @@ namespace Omicron.ViewModel
                         lastAlarmString = str;
                         alarmTableItemsList[0].吸取失败 += 1;
                         WriteAlarmRecord();
-                        SaveCSVfileAlarm("测试机1，吸取失败");
+                        //SaveCSVfileAlarm("测试机1，吸取失败");
+                        SaveCSVfileAlarm("Tester1 Suck Fail");
                     }
                     ShowAlarmTextGrid("测试机1，吸取失败\n请将产品放回原位");
                     //addAlarm("测试机1，吸取失败");
@@ -3219,7 +3220,8 @@ namespace Omicron.ViewModel
                         lastAlarmString = str;
                         alarmTableItemsList[1].吸取失败 += 1;
                         WriteAlarmRecord();
-                        SaveCSVfileAlarm("测试机2，吸取失败");
+                        //SaveCSVfileAlarm("测试机2，吸取失败");
+                        SaveCSVfileAlarm("Tester2 Suck Fail");
                     }
                     ShowAlarmTextGrid("测试机2，吸取失败\n请将产品放回原位");
                     //addAlarm("测试机2，吸取失败");
@@ -3230,7 +3232,8 @@ namespace Omicron.ViewModel
                         lastAlarmString = str;
                         alarmTableItemsList[2].吸取失败 += 1;
                         WriteAlarmRecord();
-                        SaveCSVfileAlarm("测试机3，吸取失败");
+                        //SaveCSVfileAlarm("测试机3，吸取失败");
+                        SaveCSVfileAlarm("Tester3 Suck Fail");
                     }
                     ShowAlarmTextGrid("测试机3，吸取失败\n请将产品放回原位");
                     //addAlarm("测试机3，吸取失败");
@@ -3241,7 +3244,8 @@ namespace Omicron.ViewModel
                         lastAlarmString = str;
                         alarmTableItemsList[3].吸取失败 += 1;
                         WriteAlarmRecord();
-                        SaveCSVfileAlarm("测试机4，吸取失败");
+                        //SaveCSVfileAlarm("测试机4，吸取失败");
+                        SaveCSVfileAlarm("Tester4 Suck Fail");
                     }
                     ShowAlarmTextGrid("测试机4，吸取失败\n请将产品放回原位");
                     //addAlarm("测试机4，吸取失败");
@@ -3250,7 +3254,8 @@ namespace Omicron.ViewModel
                     if (lastAlarmString != str)
                     {
                         lastAlarmString = str;
-                        SaveCSVfileAlarm("上料盘1，吸取失败");
+                        //SaveCSVfileAlarm("上料盘1，吸取失败");
+                        SaveCSVfileAlarm("FPC AdjustPanel Position1 Suck Fail");
                         alarmTableItemsList[4].吸取失败 += 1;
                         WriteAlarmRecord();
                     }
@@ -3261,7 +3266,8 @@ namespace Omicron.ViewModel
                     if (lastAlarmString != str)
                     {
                         lastAlarmString = str;
-                        SaveCSVfileAlarm("上料盘2，吸取失败");
+                        //SaveCSVfileAlarm("上料盘2，吸取失败");
+                        SaveCSVfileAlarm("FPC AdjustPanel Position2 Suck Fail");
                         alarmTableItemsList[5].吸取失败 += 1;
                         WriteAlarmRecord();
                     }
@@ -3272,7 +3278,8 @@ namespace Omicron.ViewModel
                     if (lastAlarmString != str)
                     {
                         lastAlarmString = str;
-                        SaveCSVfileAlarm("上料盘3，吸取失败");
+                        //SaveCSVfileAlarm("上料盘3，吸取失败");
+                        SaveCSVfileAlarm("FPC AdjustPanel Position3 Suck Fail");
                         alarmTableItemsList[6].吸取失败 += 1;
                         WriteAlarmRecord();
                     }
@@ -3283,7 +3290,8 @@ namespace Omicron.ViewModel
                     if (lastAlarmString != str)
                     {
                         lastAlarmString = str;
-                        SaveCSVfileAlarm("上料盘4，吸取失败");
+                        //SaveCSVfileAlarm("上料盘4，吸取失败");
+                        SaveCSVfileAlarm("FPC AdjustPanel Position4 Suck Fail");
                         alarmTableItemsList[7].吸取失败 += 1;
                         WriteAlarmRecord();
                     }
@@ -3294,7 +3302,8 @@ namespace Omicron.ViewModel
                     if (lastAlarmString != str)
                     {
                         lastAlarmString = str;
-                        SaveCSVfileAlarm("上料盘5，吸取失败");
+                        //SaveCSVfileAlarm("上料盘5，吸取失败");
+                        SaveCSVfileAlarm("FPC AdjustPanel Position5 Suck Fail");
                         alarmTableItemsList[8].吸取失败 += 1;
                         WriteAlarmRecord();
                     }
@@ -3305,7 +3314,8 @@ namespace Omicron.ViewModel
                     if (lastAlarmString != str)
                     {
                         lastAlarmString = str;
-                        SaveCSVfileAlarm("上料盘6，吸取失败");
+                        //SaveCSVfileAlarm("上料盘6，吸取失败");
+                        SaveCSVfileAlarm("FPC AdjustPanel Position6 Suck Fail");
                         alarmTableItemsList[9].吸取失败 += 1;
                         WriteAlarmRecord();
                     }
@@ -3401,7 +3411,8 @@ namespace Omicron.ViewModel
                         lastAlarmString = str;
                         alarmTableItemsList[0].产品没放好 += 1;
                         WriteAlarmRecord();
-                        SaveCSVfileAlarm("测试工位1，产品没放好");
+                        //SaveCSVfileAlarm("测试工位1，产品没放好");
+                        SaveCSVfileAlarm("Tester1 Release FPC Fail");
                     }
                     ShowAlarmTextGrid("测试工位1，产品没放好");
                     //addAlarm("测试工位1，产品没放好");
@@ -3412,7 +3423,8 @@ namespace Omicron.ViewModel
                         lastAlarmString = str;
                         alarmTableItemsList[1].产品没放好 += 1;
                         WriteAlarmRecord();
-                        SaveCSVfileAlarm("测试工位2，产品没放好");
+                        //SaveCSVfileAlarm("测试工位2，产品没放好");
+                        SaveCSVfileAlarm("Tester2 Release FPC Fail");
                     }
                     ShowAlarmTextGrid("测试工位2，产品没放好");
                     //addAlarm("测试工位2，产品没放好");
@@ -3423,7 +3435,8 @@ namespace Omicron.ViewModel
                         lastAlarmString = str;
                         alarmTableItemsList[2].产品没放好 += 1;
                         WriteAlarmRecord();
-                        SaveCSVfileAlarm("测试工位3，产品没放好");
+                        //SaveCSVfileAlarm("测试工位3，产品没放好");
+                        SaveCSVfileAlarm("Tester3 Release FPC Fail");
                     }
                     ShowAlarmTextGrid("测试工位3，产品没放好");
                     //addAlarm("测试工位3，产品没放好");
@@ -3434,7 +3447,8 @@ namespace Omicron.ViewModel
                         lastAlarmString = str;
                         alarmTableItemsList[3].产品没放好 += 1;
                         WriteAlarmRecord();
-                        SaveCSVfileAlarm("测试工位4，产品没放好");
+                        //SaveCSVfileAlarm("测试工位4，产品没放好");
+                        SaveCSVfileAlarm("Tester4 Release FPC Fail");
                     }
                     ShowAlarmTextGrid("测试工位4，产品没放好");
                     //addAlarm("测试工位4，产品没放好");

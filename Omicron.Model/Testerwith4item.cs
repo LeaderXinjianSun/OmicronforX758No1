@@ -39,6 +39,9 @@ namespace Omicron.Model
 
         private string iniTesterResutPath = System.Environment.CurrentDirectory + "\\TesterResut.ini";
         private string iniParameterPath = System.Environment.CurrentDirectory + "\\Parameter.ini";
+        private string iniFilepath = @"d:\test.ini";
+        private string sectionName1 = "";
+        private string sectionName2 = "";
 
         public Udp udp;
 
@@ -65,6 +68,19 @@ namespace Omicron.Model
             TestPcIP = ip;
             TestPcRemotePort = port;
             Index = index;
+            switch (index)
+            {
+                case 0:
+                    sectionName1 = "A";
+                    sectionName2 = "B";
+                    break;
+                case 1:
+                    sectionName1 = "C";
+                    sectionName2 = "D";
+                    break;
+                default:
+                    break;
+            }
             udp = new Udp(TestPcIP, TestPcRemotePort, 12000 + Index, 5000);
             TestCommandStringReadline();
 
@@ -265,11 +281,13 @@ namespace Omicron.Model
         {
             Stopwatch sw = new Stopwatch();
             int mResult = -2;
+            String inibar = "";
             Func<Task> startTask = () =>
             {
                 return Task.Run(async () =>
                 {
                     //开始动作
+                    
                     StepFlag[0] = 0;
                     TestActionSwitch[0] = true;
                     
@@ -304,7 +322,28 @@ namespace Omicron.Model
 
                     if (errorcode[0].Contains("5177") || errorcode[0].Contains("5315") || errorcode[0].Contains("5316"))
                     {
-                        testRemarks[0] = "Noise";
+                        inibar = Inifile.INIGetStringValue(iniFilepath, sectionName1, "bar", "ABCDEFG");
+                        while (inibar != TesterBracode[0])
+                        {
+                            await Task.Delay(500);
+                            inibar = Inifile.INIGetStringValue(iniFilepath, sectionName1, "bar", "ABCDEFG");
+                            if (mResult == 2)
+                            {                                    
+                                return;
+                            }
+                        }
+                        if (inibar == TesterBracode[0]) 
+                        {
+                            string failitem = Inifile.INIGetStringValue(iniFilepath, sectionName1, "FIRST_FAILED_SPEC", "ABCDEFG");
+                            if (failitem == "VD_CM_RMS" || failitem == "CORR2_VD_RMS_Shape" || failitem == "CORR2_DI_DQ_Median" || failitem == "CORR2_DI_DQ_noCM_Median")
+                            {                                
+                                testRemarks[0] = "Noise";
+                            }
+                            else
+                            {
+                                testRemarks[0] = "Normal";
+                            }
+                        }                        
                     }
                     else
                     {
@@ -327,11 +366,13 @@ namespace Omicron.Model
         {
             Stopwatch sw = new Stopwatch();
             int mResult = -2;
+            String inibar = "";
             Func<Task> startTask = () =>
             {
                 return Task.Run(async () =>
                 {
                     //开始动作
+                    
                     StepFlag[1] = 0;
                     TestActionSwitch[1] = true;
                     
@@ -367,7 +408,28 @@ namespace Omicron.Model
 
                     if (errorcode[1].Contains("5177") || errorcode[1].Contains("5315") || errorcode[1].Contains("5316"))
                     {
-                        testRemarks[1] = "Noise";
+                        inibar = Inifile.INIGetStringValue(iniFilepath, sectionName2, "bar", "ABCDEFG");
+                        while (inibar != TesterBracode[1])
+                        {
+                            await Task.Delay(500);
+                            inibar = Inifile.INIGetStringValue(iniFilepath, sectionName2, "bar", "ABCDEFG");
+                            if (mResult == 2)
+                            {
+                                return;
+                            }
+                        }
+                        if (inibar == TesterBracode[1])
+                        {
+                            string failitem = Inifile.INIGetStringValue(iniFilepath, sectionName2, "FIRST_FAILED_SPEC", "ABCDEFG");
+                            if (failitem == "VD_CM_RMS" || failitem == "CORR2_VD_RMS_Shape" || failitem == "CORR2_DI_DQ_Median" || failitem == "CORR2_DI_DQ_noCM_Median")
+                            {
+                                testRemarks[1] = "Noise";
+                            }
+                            else
+                            {
+                                testRemarks[1] = "Normal";
+                            }
+                        }
                     }
                     else
                     {
