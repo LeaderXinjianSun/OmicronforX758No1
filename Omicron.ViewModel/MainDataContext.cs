@@ -3211,7 +3211,7 @@ namespace Omicron.ViewModel
                         //SaveCSVfileAlarm("测试机1，吸取失败");
                         SaveCSVfileAlarm("Tester1 Suck Fail");
                     }
-                    ShowAlarmTextGrid("测试机1，吸取失败\n请将产品放回原位");
+                    ShowAlarmTextGrid("测试机1，吸取失败\n请将产品手动取出");
                     //addAlarm("测试机1，吸取失败");
                     break;
                 case "MsgRev: 测试机2，吸取失败":
@@ -3223,7 +3223,7 @@ namespace Omicron.ViewModel
                         //SaveCSVfileAlarm("测试机2，吸取失败");
                         SaveCSVfileAlarm("Tester2 Suck Fail");
                     }
-                    ShowAlarmTextGrid("测试机2，吸取失败\n请将产品放回原位");
+                    ShowAlarmTextGrid("测试机2，吸取失败\n请将产品手动取出");
                     //addAlarm("测试机2，吸取失败");
                     break;
                 case "MsgRev: 测试机3，吸取失败":
@@ -3235,7 +3235,7 @@ namespace Omicron.ViewModel
                         //SaveCSVfileAlarm("测试机3，吸取失败");
                         SaveCSVfileAlarm("Tester3 Suck Fail");
                     }
-                    ShowAlarmTextGrid("测试机3，吸取失败\n请将产品放回原位");
+                    ShowAlarmTextGrid("测试机3，吸取失败\n请将产品手动取出");
                     //addAlarm("测试机3，吸取失败");
                     break;
                 case "MsgRev: 测试机4，吸取失败":
@@ -3247,7 +3247,7 @@ namespace Omicron.ViewModel
                         //SaveCSVfileAlarm("测试机4，吸取失败");
                         SaveCSVfileAlarm("Tester4 Suck Fail");
                     }
-                    ShowAlarmTextGrid("测试机4，吸取失败\n请将产品放回原位");
+                    ShowAlarmTextGrid("测试机4，吸取失败\n请将产品手动取出");
                     //addAlarm("测试机4，吸取失败");
                     break;
                 case "MsgRev: 上料盘1，吸取失败":
@@ -3414,7 +3414,7 @@ namespace Omicron.ViewModel
                         //SaveCSVfileAlarm("测试工位1，产品没放好");
                         SaveCSVfileAlarm("Tester1 Release FPC Fail");
                     }
-                    ShowAlarmTextGrid("测试工位1，产品没放好");
+                    ShowAlarmTextGrid("测试工位1，产品没放好\n请将产品手动取出");
                     //addAlarm("测试工位1，产品没放好");
                     break;
                 case "MsgRev: 测试工位2，产品没放好":
@@ -3426,7 +3426,7 @@ namespace Omicron.ViewModel
                         //SaveCSVfileAlarm("测试工位2，产品没放好");
                         SaveCSVfileAlarm("Tester2 Release FPC Fail");
                     }
-                    ShowAlarmTextGrid("测试工位2，产品没放好");
+                    ShowAlarmTextGrid("测试工位2，产品没放好\n请将产品手动取出");
                     //addAlarm("测试工位2，产品没放好");
                     break;
                 case "MsgRev: 测试工位3，产品没放好":
@@ -3438,7 +3438,7 @@ namespace Omicron.ViewModel
                         //SaveCSVfileAlarm("测试工位3，产品没放好");
                         SaveCSVfileAlarm("Tester3 Release FPC Fail");
                     }
-                    ShowAlarmTextGrid("测试工位3，产品没放好");
+                    ShowAlarmTextGrid("测试工位3，产品没放好\n请将产品手动取出");
                     //addAlarm("测试工位3，产品没放好");
                     break;
                 case "MsgRev: 测试工位4，产品没放好":
@@ -3450,7 +3450,7 @@ namespace Omicron.ViewModel
                         //SaveCSVfileAlarm("测试工位4，产品没放好");
                         SaveCSVfileAlarm("Tester4 Release FPC Fail");
                     }
-                    ShowAlarmTextGrid("测试工位4，产品没放好");
+                    ShowAlarmTextGrid("测试工位4，产品没放好\n请将产品手动取出");
                     //addAlarm("测试工位4，产品没放好");
                     break;
                 //case "MsgRev: 测试工位1，B爪手掉料":
