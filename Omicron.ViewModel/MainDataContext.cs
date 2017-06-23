@@ -3199,8 +3199,8 @@ namespace Omicron.ViewModel
             Msg = messagePrint.AddMessage(str);
             switch (str)
             {
-                case "MsgRev: 请确认，不得取走上料盘产品":
-                    ShowAlarmTextGrid("请确认，\n不得取走上料盘产品");
+                case "MsgRev: 请确认，取走上料盘产品":
+                    ShowAlarmTextGrid("请确认，\n取走上料盘产品，不能叠料！");
                     break;
                 case "MsgRev: 测试机1，吸取失败":
                     if (lastAlarmString != str)

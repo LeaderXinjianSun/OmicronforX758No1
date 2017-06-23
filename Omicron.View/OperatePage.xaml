@@ -34,9 +34,9 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Row="1" Style="{StaticResource OperationButtonwithChangeContent}" Command="{mvvm:ActionAuto ShieldDoorFunction}"></Button>
+                    <!--<Button Grid.Row="1" Style="{StaticResource OperationButtonwithChangeContent}" Command="{mvvm:ActionAuto ShieldDoorFunction}"></Button>-->
                     <Button  Grid.Row="1" Grid.Column="1" Style="{StaticResource OperationButton}" Content="排料" Command="{mvvm:ActionAutoWithParam EpsonOpetate}" CommandParameter="5"></Button>
-                    <Button  Grid.Row="1" Grid.Column="2" Style="{StaticResource OperationButton}" Content="消音" Command="{mvvm:ActionAuto NoiseReduce}"></Button>
+                    <!--<Button  Grid.Row="1" Grid.Column="2" Style="{StaticResource OperationButton}" Content="消音" Command="{mvvm:ActionAuto NoiseReduce}"></Button>-->
                     <Button Visibility="Collapsed"  Grid.Row="2" Grid.Column="4" Style="{StaticResource OperationButton}" Content="功能" Command="{mvvm:ActionAuto FunctionTest}"></Button>
                     <Button  Grid.Column="0" Grid.Row="0" Style="{StaticResource OperationButton}" Content="启动" Command="{mvvm:ActionAutoWithParam EpsonOpetate}" CommandParameter="1" IsEnabled="{Binding IsTCPConnect}"></Button>
                     <Button  Grid.Column="1" Grid.Row="0" Style="{StaticResource OperationButton}" Content="暂停" Command="{mvvm:ActionAutoWithParam EpsonOpetate}" CommandParameter="2"></Button>

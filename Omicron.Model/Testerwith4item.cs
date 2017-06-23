@@ -335,7 +335,7 @@ namespace Omicron.Model
                         if (inibar == TesterBracode[0]) 
                         {
                             string failitem = Inifile.INIGetStringValue(iniFilepath, sectionName1, "FIRST_FAILED_SPEC", "ABCDEFG");
-                            if (failitem == "VD_CM_RMS" || failitem == "CORR2_VD_RMS_Shape" || failitem == "CORR2_DI_DQ_Median" || failitem == "CORR2_DI_DQ_noCM_Median")
+                            if (failitem == "VD_CM_RMS" || failitem == "CORR2_VD_RMS_Shape" || failitem == "CORR2_DI_DQ_Median" || failitem == "CORR2_DI_DQ_noCM_Median" || failitem == "NA")
                             {                                
                                 testRemarks[0] = "Noise";
                             }
