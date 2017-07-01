@@ -1790,15 +1790,20 @@ namespace Omicron.ViewModel
         }
         private void SaveSampleRecordLocal(string str)
         {
+            string filepath = "";
             //TestRecordSavePath
             if (!Directory.Exists(TestRecordSavePath + @"\" + DateTime.Now.ToLongDateString().ToString()))
             {
                 Directory.CreateDirectory(TestRecordSavePath + @"\" + DateTime.Now.ToLongDateString().ToString());
             }
-            string filepath = TestRecordSavePath + @"\" + DateTime.Now.ToLongDateString().ToString() + @"\" + (DateTime.Now.ToShortDateString()).Replace("/", "") + (DateTime.Now.ToShortTimeString()).Replace(":", "") + ".csv";
+            
             if (str != "")
             {
-                filepath += str;
+                filepath = TestRecordSavePath + @"\" + DateTime.Now.ToLongDateString().ToString() + @"\" + (DateTime.Now.ToShortDateString()).Replace("/", "") + (DateTime.Now.ToShortTimeString()).Replace(":", "") + str + ".csv";
+            }
+            else
+            {
+                filepath = TestRecordSavePath + @"\" + DateTime.Now.ToLongDateString().ToString() + @"\" + (DateTime.Now.ToShortDateString()).Replace("/", "") + (DateTime.Now.ToShortTimeString()).Replace(":", "") + ".csv";
             }
             if (SampleDt.Rows.Count > 0)
             {
@@ -4648,7 +4653,7 @@ namespace Omicron.ViewModel
                 //}
                 if (IsTestersSample)
                 {
-                    if (DateTime.Now.DayOfYear *24 + DateTime.Now.Hour - LastSampleHour > 12)
+                    if (DateTime.Now.DayOfYear *24 + DateTime.Now.Hour - LastSampleHour >= 12)
                     {
                         SampleTextGridShow = "Visible";
                         SampleTextString = "需要测样本";
@@ -4665,7 +4670,7 @@ namespace Omicron.ViewModel
 
                 if (IsTestersSample && AllowSampleTestCommand)
                 {
-                    if (DateTime.Now.DayOfYear * 24 + DateTime.Now.Hour - LastSampleHour > 14)
+                    if (DateTime.Now.DayOfYear * 24 + DateTime.Now.Hour - LastSampleHour >= 14)
                     {
                         if (IsTestersSample)
                         {

@@ -21,7 +21,7 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Grid>
-            <DataGrid GridLinesVisibility="All" ItemsSource="{Binding testRecord}" AutoGenerateColumns="True"></DataGrid>
+            <DataGrid GridLinesVisibility="All" ItemsSource="{Binding X758SampleResultDataTableItems}" AutoGenerateColumns="True"></DataGrid>
         </Grid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">
             <Button Content="保存" Margin="10,0,0,0" Command="{mvvm:ActionAuto SaveSampleResultManual}"></Button>
