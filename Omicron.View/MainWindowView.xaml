@@ -34,6 +34,7 @@
             <MenuItem Header="样本">
                 <MenuItem Header="数据库" Command="{mvvm:ActionAuto ChoseSampleTestPage}"></MenuItem>
                 <MenuItem Header="不良项" Command="{mvvm:ActionAuto ChoseSampleTestPage1}"></MenuItem>
+                <MenuItem Header="记录" Command="{mvvm:ActionAuto ChoseSampleTestResultPage}"></MenuItem>
             </MenuItem>
             <MenuItem Header="记录" Command="{mvvm:ActionAuto ChoseTestRecordPage}"></MenuItem>
             <MenuItem Header="报警" Command="{mvvm:ActionAuto ChoseAlarmRecordPage}"></MenuItem>
@@ -80,6 +81,9 @@
             </Grid>
             <Grid Visibility="{Binding HelpPageVisibility}">
                 <local:HelpPage></local:HelpPage>
+            </Grid>
+            <Grid Visibility="{Binding SampleTestResultPageVisibility}">
+                <local:SampleTestResultPage></local:SampleTestResultPage>
             </Grid>
         </Grid>
         

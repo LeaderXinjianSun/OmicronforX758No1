@@ -45,6 +45,9 @@
                     <Grid Visibility="{Binding AlarmTextGridShow}" Grid.Row="1" Background="Red">
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Text="{Binding AlarmTextString}" FontSize="36"></TextBlock>
                     </Grid>
+                    <Grid Grid.Row="2" Visibility="{Binding SampleTextGridShow}" Background="Green">
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Text="{Binding SampleTextString}" FontSize="36"></TextBlock>
+                    </Grid>
                 </Grid>
                 <Grid Grid.Row="0" Grid.RowSpan="2">
                     <Grid.RowDefinitions>
