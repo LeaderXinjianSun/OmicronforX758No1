@@ -13,6 +13,446 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid0">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus0}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus0}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid1">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus1}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus1}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid2">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus2}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus2}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid3">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus3}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus3}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid4">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus4}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus4}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid5">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus5}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus5}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid6">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus6}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus6}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid7">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus7}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus7}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid8">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus8}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus8}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid9">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus9}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus9}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid10">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus10}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus10}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid11">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus11}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus11}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid12">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus12}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus12}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid13">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus13}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus13}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid14">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus14}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus14}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid15">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus15}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus15}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid16">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus16}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus16}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid17">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus17}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus17}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid18">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus18}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus18}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid19">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus19}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus19}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid20">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus20}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus20}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid21">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus21}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus21}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid22">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus22}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus22}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid23">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus23}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus23}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid24">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus24}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus24}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid25">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus25}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus25}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid26">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus26}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus26}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid27">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus27}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus27}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid28">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus28}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus28}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid29">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus29}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus29}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid30">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus30}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus30}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid31">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus31}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus31}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid32">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus32}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus32}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid33">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus33}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus33}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid34">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus34}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus34}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid35">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus35}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus35}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid36">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus36}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus36}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid37">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus37}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus37}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid38">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus38}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus38}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Grid" x:Key="SampleProcessDisplayGrid39">
+        <Setter Property="Background" Value="Red"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SampleItemsStatus39}" Value="">
+                <Setter Property="Background" Value="LightGray"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SampleItemsStatus39}" Value="OK">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
     <Style TargetType="Ellipse" BasedOn="{StaticResource EllipseStatusBase}" x:Key="TCPConnectStatus">
         <Style.Triggers>
             <DataTrigger Binding="{Binding IsTCPConnect}" Value="true">
