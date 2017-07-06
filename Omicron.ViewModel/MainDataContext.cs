@@ -602,7 +602,7 @@ namespace Omicron.ViewModel
 
             ReadAlarmRecord();
 
-            //TwinCatVarInit();
+            TwinCatVarInit();
 
 
             Async.RunFuncAsync(UpdateUI, null);
@@ -3224,7 +3224,7 @@ namespace Omicron.ViewModel
             SampleDt.Rows.Add(dr);
             if (ngitem == tresult)
             {
-                SampleDisplayArray[i, j] = "OK";
+                SampleDisplayArray[i, j] = "ok";
             }
             else
             {
@@ -3733,7 +3733,7 @@ namespace Omicron.ViewModel
                     break;
                 case "MsgRev: 样本测试错误":
                     SampleRetestButtonVisibility = "Visible";
-                    ShowAlarmTextGrid("样本测试错误");
+                    ShowAlarmTextGrid("样本测试错误，是否复测？");
                     //addAlarm("样本测试错误");
                     SaveCSVfileAlarm("样本测试错误");
                     //DateTimeUtility.GetLocalTime(ref lastSample);

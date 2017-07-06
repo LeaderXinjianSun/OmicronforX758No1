@@ -19,7 +19,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus0}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus0}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus0}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -30,7 +30,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus1}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus1}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus1}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -41,7 +41,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus2}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus2}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus2}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -52,7 +52,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus3}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus3}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus3}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -63,7 +63,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus4}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus4}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus4}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -74,7 +74,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus5}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus5}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus5}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -85,7 +85,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus6}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus6}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus6}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -96,7 +96,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus7}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus7}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus7}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -107,7 +107,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus8}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus8}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus8}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -118,7 +118,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus9}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus9}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus9}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -129,7 +129,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus10}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus10}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus10}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -140,7 +140,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus11}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus11}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus11}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -151,7 +151,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus12}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus12}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus12}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -162,7 +162,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus13}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus13}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus13}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -173,7 +173,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus14}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus14}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus14}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -184,7 +184,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus15}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus15}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus15}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -195,7 +195,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus16}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus16}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus16}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -206,7 +206,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus17}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus17}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus17}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -217,7 +217,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus18}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus18}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus18}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -228,7 +228,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus19}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus19}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus19}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -239,7 +239,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus20}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus20}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus20}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -250,7 +250,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus21}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus21}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus21}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -261,7 +261,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus22}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus22}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus22}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -272,7 +272,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus23}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus23}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus23}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -283,7 +283,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus24}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus24}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus24}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -294,7 +294,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus25}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus25}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus25}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -305,7 +305,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus26}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus26}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus26}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -316,7 +316,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus27}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus27}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus27}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -327,7 +327,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus28}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus28}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus28}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -338,7 +338,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus29}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus29}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus29}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -349,7 +349,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus30}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus30}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus30}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -360,7 +360,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus31}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus31}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus31}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -371,7 +371,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus32}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus32}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus32}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -382,7 +382,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus33}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus33}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus33}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -393,7 +393,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus34}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus34}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus34}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -404,7 +404,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus35}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus35}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus35}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -415,7 +415,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus36}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus36}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus36}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -426,7 +426,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus37}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus37}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus37}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -437,7 +437,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus38}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus38}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus38}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>
@@ -448,7 +448,7 @@
             <DataTrigger Binding="{Binding SampleItemsStatus39}" Value="">
                 <Setter Property="Background" Value="LightGray"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding SampleItemsStatus39}" Value="OK">
+            <DataTrigger Binding="{Binding SampleItemsStatus39}" Value="ok">
                 <Setter Property="Background" Value="LightGreen"></Setter>
             </DataTrigger>
         </Style.Triggers>

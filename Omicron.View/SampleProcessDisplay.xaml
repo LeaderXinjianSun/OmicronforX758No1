@@ -35,141 +35,185 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Grid Style="{StaticResource SampleProcessDisplayGrid0}">
+            <Grid Grid.Column="1" Grid.Row="1" Style="{StaticResource SampleProcessDisplayGrid0}">
                 <TextBlock Text="{Binding SampleItemsStatus0}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Row="1" Style="{StaticResource SampleProcessDisplayGrid1}">
+            <Grid Grid.Column="1" Grid.Row="2" Style="{StaticResource SampleProcessDisplayGrid1}">
                 <TextBlock Text="{Binding SampleItemsStatus1}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Row="2" Style="{StaticResource SampleProcessDisplayGrid2}">
+            <Grid Grid.Column="1" Grid.Row="3" Style="{StaticResource SampleProcessDisplayGrid2}">
                 <TextBlock Text="{Binding SampleItemsStatus2}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Row="3" Style="{StaticResource SampleProcessDisplayGrid3}">
+            <Grid Grid.Column="1" Grid.Row="4" Style="{StaticResource SampleProcessDisplayGrid3}">
                 <TextBlock Text="{Binding SampleItemsStatus3}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Row="4" Style="{StaticResource SampleProcessDisplayGrid4}">
+            <Grid Grid.Column="1" Grid.Row="5" Style="{StaticResource SampleProcessDisplayGrid4}">
                 <TextBlock Text="{Binding SampleItemsStatus4}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Row="5" Style="{StaticResource SampleProcessDisplayGrid5}">
+            <Grid Grid.Column="1" Grid.Row="6" Style="{StaticResource SampleProcessDisplayGrid5}">
                 <TextBlock Text="{Binding SampleItemsStatus5}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Row="6" Style="{StaticResource SampleProcessDisplayGrid6}">
+            <Grid Grid.Column="1" Grid.Row="7" Style="{StaticResource SampleProcessDisplayGrid6}">
                 <TextBlock Text="{Binding SampleItemsStatus6}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Row="7" Style="{StaticResource SampleProcessDisplayGrid7}">
+            <Grid Grid.Column="1" Grid.Row="8" Style="{StaticResource SampleProcessDisplayGrid7}">
                 <TextBlock Text="{Binding SampleItemsStatus7}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Row="8" Style="{StaticResource SampleProcessDisplayGrid8}">
+            <Grid Grid.Column="1" Grid.Row="9" Style="{StaticResource SampleProcessDisplayGrid8}">
                 <TextBlock Text="{Binding SampleItemsStatus8}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Row="9" Style="{StaticResource SampleProcessDisplayGrid9}">
+            <Grid Grid.Column="1" Grid.Row="10" Style="{StaticResource SampleProcessDisplayGrid9}">
                 <TextBlock Text="{Binding SampleItemsStatus9}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
 
-            <Grid Grid.Column="1" Style="{StaticResource SampleProcessDisplayGrid10}">
+            <Grid Grid.Column="2" Grid.Row="1" Style="{StaticResource SampleProcessDisplayGrid10}">
                 <TextBlock Text="{Binding SampleItemsStatus10}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="1" Grid.Row="1" Style="{StaticResource SampleProcessDisplayGrid11}">
+            <Grid Grid.Column="2" Grid.Row="2" Style="{StaticResource SampleProcessDisplayGrid11}">
                 <TextBlock Text="{Binding SampleItemsStatus11}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="1" Grid.Row="2" Style="{StaticResource SampleProcessDisplayGrid12}">
+            <Grid Grid.Column="2" Grid.Row="3" Style="{StaticResource SampleProcessDisplayGrid12}">
                 <TextBlock Text="{Binding SampleItemsStatus12}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="1" Grid.Row="3" Style="{StaticResource SampleProcessDisplayGrid13}">
+            <Grid Grid.Column="2" Grid.Row="4" Style="{StaticResource SampleProcessDisplayGrid13}">
                 <TextBlock Text="{Binding SampleItemsStatus13}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="1" Grid.Row="4" Style="{StaticResource SampleProcessDisplayGrid14}">
+            <Grid Grid.Column="2" Grid.Row="5" Style="{StaticResource SampleProcessDisplayGrid14}">
                 <TextBlock Text="{Binding SampleItemsStatus14}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="1" Grid.Row="5" Style="{StaticResource SampleProcessDisplayGrid15}">
+            <Grid Grid.Column="2" Grid.Row="6" Style="{StaticResource SampleProcessDisplayGrid15}">
                 <TextBlock Text="{Binding SampleItemsStatus15}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="1" Grid.Row="6" Style="{StaticResource SampleProcessDisplayGrid16}">
+            <Grid Grid.Column="2" Grid.Row="7" Style="{StaticResource SampleProcessDisplayGrid16}">
                 <TextBlock Text="{Binding SampleItemsStatus16}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="1" Grid.Row="7" Style="{StaticResource SampleProcessDisplayGrid17}">
+            <Grid Grid.Column="2" Grid.Row="8" Style="{StaticResource SampleProcessDisplayGrid17}">
                 <TextBlock Text="{Binding SampleItemsStatus17}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="1" Grid.Row="8" Style="{StaticResource SampleProcessDisplayGrid18}">
+            <Grid Grid.Column="2" Grid.Row="9" Style="{StaticResource SampleProcessDisplayGrid18}">
                 <TextBlock Text="{Binding SampleItemsStatus18}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="1" Grid.Row="9" Style="{StaticResource SampleProcessDisplayGrid19}">
+            <Grid Grid.Column="2" Grid.Row="10" Style="{StaticResource SampleProcessDisplayGrid19}">
                 <TextBlock Text="{Binding SampleItemsStatus19}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
 
-            <Grid Grid.Column="2" Style="{StaticResource SampleProcessDisplayGrid20}">
+            <Grid Grid.Column="3" Grid.Row="1" Style="{StaticResource SampleProcessDisplayGrid20}">
                 <TextBlock Text="{Binding SampleItemsStatus20}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="2" Grid.Row="1" Style="{StaticResource SampleProcessDisplayGrid21}">
+            <Grid Grid.Column="3" Grid.Row="2" Style="{StaticResource SampleProcessDisplayGrid21}">
                 <TextBlock Text="{Binding SampleItemsStatus21}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="2" Grid.Row="2" Style="{StaticResource SampleProcessDisplayGrid22}">
+            <Grid Grid.Column="3" Grid.Row="3" Style="{StaticResource SampleProcessDisplayGrid22}">
                 <TextBlock Text="{Binding SampleItemsStatus22}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="2" Grid.Row="3" Style="{StaticResource SampleProcessDisplayGrid23}">
+            <Grid Grid.Column="3" Grid.Row="4" Style="{StaticResource SampleProcessDisplayGrid23}">
                 <TextBlock Text="{Binding SampleItemsStatus23}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="2" Grid.Row="4" Style="{StaticResource SampleProcessDisplayGrid24}">
+            <Grid Grid.Column="3" Grid.Row="5" Style="{StaticResource SampleProcessDisplayGrid24}">
                 <TextBlock Text="{Binding SampleItemsStatus24}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="2" Grid.Row="5" Style="{StaticResource SampleProcessDisplayGrid25}">
+            <Grid Grid.Column="3" Grid.Row="6" Style="{StaticResource SampleProcessDisplayGrid25}">
                 <TextBlock Text="{Binding SampleItemsStatus25}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="2" Grid.Row="6" Style="{StaticResource SampleProcessDisplayGrid26}">
+            <Grid Grid.Column="3" Grid.Row="7" Style="{StaticResource SampleProcessDisplayGrid26}">
                 <TextBlock Text="{Binding SampleItemsStatus26}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="2" Grid.Row="7" Style="{StaticResource SampleProcessDisplayGrid27}">
+            <Grid Grid.Column="3" Grid.Row="8" Style="{StaticResource SampleProcessDisplayGrid27}">
                 <TextBlock Text="{Binding SampleItemsStatus27}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="2" Grid.Row="8" Style="{StaticResource SampleProcessDisplayGrid28}">
+            <Grid Grid.Column="3" Grid.Row="9" Style="{StaticResource SampleProcessDisplayGrid28}">
                 <TextBlock Text="{Binding SampleItemsStatus28}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="2" Grid.Row="9" Style="{StaticResource SampleProcessDisplayGrid29}">
+            <Grid Grid.Column="3" Grid.Row="10" Style="{StaticResource SampleProcessDisplayGrid29}">
                 <TextBlock Text="{Binding SampleItemsStatus29}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
 
-            <Grid Grid.Column="3" Style="{StaticResource SampleProcessDisplayGrid30}">
+            <Grid Grid.Column="4" Grid.Row="1" Style="{StaticResource SampleProcessDisplayGrid30}">
                 <TextBlock Text="{Binding SampleItemsStatus30}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="3" Grid.Row="1" Style="{StaticResource SampleProcessDisplayGrid31}">
+            <Grid Grid.Column="4" Grid.Row="2" Style="{StaticResource SampleProcessDisplayGrid31}">
                 <TextBlock Text="{Binding SampleItemsStatus31}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="3" Grid.Row="2" Style="{StaticResource SampleProcessDisplayGrid32}">
+            <Grid Grid.Column="4" Grid.Row="3" Style="{StaticResource SampleProcessDisplayGrid32}">
                 <TextBlock Text="{Binding SampleItemsStatus32}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="3" Grid.Row="3" Style="{StaticResource SampleProcessDisplayGrid33}">
+            <Grid Grid.Column="4" Grid.Row="4" Style="{StaticResource SampleProcessDisplayGrid33}">
                 <TextBlock Text="{Binding SampleItemsStatus33}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="3" Grid.Row="4" Style="{StaticResource SampleProcessDisplayGrid34}">
+            <Grid Grid.Column="4" Grid.Row="5" Style="{StaticResource SampleProcessDisplayGrid34}">
                 <TextBlock Text="{Binding SampleItemsStatus34}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="3" Grid.Row="5" Style="{StaticResource SampleProcessDisplayGrid35}">
+            <Grid Grid.Column="4" Grid.Row="6" Style="{StaticResource SampleProcessDisplayGrid35}">
                 <TextBlock Text="{Binding SampleItemsStatus35}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="3" Grid.Row="6" Style="{StaticResource SampleProcessDisplayGrid36}">
+            <Grid Grid.Column="4" Grid.Row="7" Style="{StaticResource SampleProcessDisplayGrid36}">
                 <TextBlock Text="{Binding SampleItemsStatus36}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="3" Grid.Row="7" Style="{StaticResource SampleProcessDisplayGrid37}">
+            <Grid Grid.Column="4" Grid.Row="8" Style="{StaticResource SampleProcessDisplayGrid37}">
                 <TextBlock Text="{Binding SampleItemsStatus37}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="3" Grid.Row="8" Style="{StaticResource SampleProcessDisplayGrid38}">
+            <Grid Grid.Column="4" Grid.Row="9" Style="{StaticResource SampleProcessDisplayGrid38}">
                 <TextBlock Text="{Binding SampleItemsStatus38}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Grid>
-            <Grid Grid.Column="3" Grid.Row="9" Style="{StaticResource SampleProcessDisplayGrid39}">
+            <Grid Grid.Column="4" Grid.Row="10" Style="{StaticResource SampleProcessDisplayGrid39}">
                 <TextBlock Text="{Binding SampleItemsStatus39}" VerticalAlignment="Center" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
+            </Grid>
+            <Grid Grid.Row="1">
+                <TextBlock Text="{Binding SampleNgitem1}" VerticalAlignment="Center" TextAlignment="Center" FontSize="15"></TextBlock>
+            </Grid>
+            <Grid Grid.Row="2">
+                <TextBlock Text="{Binding SampleNgitem2}" VerticalAlignment="Center" TextAlignment="Center" FontSize="15"></TextBlock>
+            </Grid>
+            <Grid Grid.Row="3">
+                <TextBlock Text="{Binding SampleNgitem3}" VerticalAlignment="Center" TextAlignment="Center" FontSize="15"></TextBlock>
+            </Grid>
+            <Grid Grid.Row="4">
+                <TextBlock Text="{Binding SampleNgitem4}" VerticalAlignment="Center" TextAlignment="Center" FontSize="15"></TextBlock>
+            </Grid>
+            <Grid Grid.Row="5">
+                <TextBlock Text="{Binding SampleNgitem5}" VerticalAlignment="Center" TextAlignment="Center" FontSize="15"></TextBlock>
+            </Grid>
+            <Grid Grid.Row="6">
+                <TextBlock Text="{Binding SampleNgitem6}" VerticalAlignment="Center" TextAlignment="Center" FontSize="15"></TextBlock>
+            </Grid>
+            <Grid Grid.Row="7">
+                <TextBlock Text="{Binding SampleNgitem7}" VerticalAlignment="Center" TextAlignment="Center" FontSize="15"></TextBlock>
+            </Grid>
+            <Grid Grid.Row="8">
+                <TextBlock Text="{Binding SampleNgitem8}" VerticalAlignment="Center" TextAlignment="Center" FontSize="15"></TextBlock>
+            </Grid>
+            <Grid Grid.Row="9">
+                <TextBlock Text="{Binding SampleNgitem9}" VerticalAlignment="Center" TextAlignment="Center" FontSize="15"></TextBlock>
+            </Grid>
+            <Grid Grid.Row="10">
+                <TextBlock Text="{Binding SampleNgitem10}" VerticalAlignment="Center" TextAlignment="Center" FontSize="15"></TextBlock>
+            </Grid>
+            <Grid Grid.Column="1">
+                <TextBlock Text="治具A左" VerticalAlignment="Center" TextAlignment="Center" FontSize="20"></TextBlock>
+            </Grid>
+            <Grid Grid.Column="2">
+                <TextBlock Text="治具A右" VerticalAlignment="Center" TextAlignment="Center" FontSize="20"></TextBlock>
+            </Grid>
+            <Grid Grid.Column="3">
+                <TextBlock Text="治具B左" VerticalAlignment="Center" TextAlignment="Center" FontSize="20"></TextBlock>
+            </Grid>
+            <Grid Grid.Column="4">
+                <TextBlock Text="治具B右" VerticalAlignment="Center" TextAlignment="Center" FontSize="20"></TextBlock>
             </Grid>
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="3*"></RowDefinition>
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0" Orientation="Vertical">
@@ -183,19 +227,78 @@
                 </StackPanel>
             </StackPanel>
             <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <StackPanel Orientation="Horizontal">
-                        <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="1" FontSize="18" IsChecked="{Binding SampleHave1}" Command="{mvvm:ActionAutoWithParam SampleHaveUpdateAction}" CommandParameter="1"></ToggleButton>
-                        <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="2" FontSize="18" IsChecked="{Binding SampleHave2}" Command="{mvvm:ActionAutoWithParam SampleHaveUpdateAction}" CommandParameter="2"></ToggleButton>
-                        <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="3" FontSize="18" IsChecked="{Binding SampleHave3}" Command="{mvvm:ActionAutoWithParam SampleHaveUpdateAction}" CommandParameter="3"></ToggleButton>
-                        <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="4" FontSize="18" IsChecked="{Binding SampleHave4}" Command="{mvvm:ActionAutoWithParam SampleHaveUpdateAction}" CommandParameter="4"></ToggleButton>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="5" FontSize="18" IsChecked="{Binding SampleHave5}" Command="{mvvm:ActionAutoWithParam SampleHaveUpdateAction}" CommandParameter="5"></ToggleButton>
-                        <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="6" FontSize="18" IsChecked="{Binding SampleHave6}" Command="{mvvm:ActionAutoWithParam SampleHaveUpdateAction}" CommandParameter="6"></ToggleButton>
-                        <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="7" FontSize="18" IsChecked="{Binding SampleHave7}" Command="{mvvm:ActionAutoWithParam SampleHaveUpdateAction}" CommandParameter="7"></ToggleButton>
-                        <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="8" FontSize="18" IsChecked="{Binding SampleHave8}" Command="{mvvm:ActionAutoWithParam SampleHaveUpdateAction}" CommandParameter="8"></ToggleButton>
-                    </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="7" FontSize="18" IsChecked="{Binding SampleHave7}" Command="{mvvm:ActionAutoWithParam SampleHaveUpdateAction}" CommandParameter="7"></ToggleButton>
+                    <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="8" FontSize="18" IsChecked="{Binding SampleHave8}" Command="{mvvm:ActionAutoWithParam SampleHaveUpdateAction}" CommandParameter="8"></ToggleButton>
                 </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="5" FontSize="18" IsChecked="{Binding SampleHave5}" Command="{mvvm:ActionAutoWithParam SampleHaveUpdateAction}" CommandParameter="5"></ToggleButton>
+                    <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="6" FontSize="18" IsChecked="{Binding SampleHave6}" Command="{mvvm:ActionAutoWithParam SampleHaveUpdateAction}" CommandParameter="6"></ToggleButton>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="3" FontSize="18" IsChecked="{Binding SampleHave3}" Command="{mvvm:ActionAutoWithParam SampleHaveUpdateAction}" CommandParameter="3"></ToggleButton>
+                    <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="4" FontSize="18" IsChecked="{Binding SampleHave4}" Command="{mvvm:ActionAutoWithParam SampleHaveUpdateAction}" CommandParameter="4"></ToggleButton>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="1" FontSize="18" IsChecked="{Binding SampleHave1}" Command="{mvvm:ActionAutoWithParam SampleHaveUpdateAction}" CommandParameter="1"></ToggleButton>
+                    <ToggleButton Style="{DynamicResource MetroToggleButtonSVN}" Content="2" FontSize="18" IsChecked="{Binding SampleHave2}" Command="{mvvm:ActionAutoWithParam SampleHaveUpdateAction}" CommandParameter="2"></ToggleButton>
+
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Visibility="{Binding AlarmTextGridShow}" Background="Red">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Text="{Binding AlarmTextString}" FontSize="26"></TextBlock>
+            </Grid>
+            <StackPanel Grid.Row="1" Margin="5,20,5,0" Orientation="Horizontal">
+                <StackPanel Style="{StaticResource EpsonStatusStackPanel}">
+                    <TextBlock Style="{StaticResource EpsonStatusTextBlock}" Text="自动" ></TextBlock>
+                    <Ellipse Style="{StaticResource EpsonStatusAutoColor}"></Ellipse>
+                </StackPanel>
+                <StackPanel Style="{StaticResource EpsonStatusStackPanel}">
+                    <TextBlock Style="{StaticResource EpsonStatusTextBlock}" Text="警告" ></TextBlock>
+                    <Ellipse Style="{StaticResource EpsonStatusWarningColor}"></Ellipse>
+                </StackPanel>
+                <StackPanel Style="{StaticResource EpsonStatusStackPanel}">
+                    <TextBlock Style="{StaticResource EpsonStatusTextBlock}" Text="错误" ></TextBlock>
+                    <Ellipse Style="{StaticResource EpsonStatusSErrorColor}"></Ellipse>
+                </StackPanel>
+                <StackPanel Style="{StaticResource EpsonStatusStackPanel}">
+                    <TextBlock Style="{StaticResource EpsonStatusTextBlock}" Text="门" ></TextBlock>
+                    <Ellipse Style="{StaticResource EpsonStatusSafeGuardColor}"></Ellipse>
+                </StackPanel>
+                <StackPanel Style="{StaticResource EpsonStatusStackPanel}">
+                    <TextBlock Style="{StaticResource EpsonStatusTextBlock}" Text="停止" ></TextBlock>
+                    <Ellipse Style="{StaticResource EpsonStatusEStopColor}"></Ellipse>
+                </StackPanel>
+                <StackPanel Style="{StaticResource EpsonStatusStackPanel}">
+                    <TextBlock Style="{StaticResource EpsonStatusTextBlock}" Text="异常" ></TextBlock>
+                    <Ellipse Style="{StaticResource EpsonStatusErrorColor}"></Ellipse>
+                </StackPanel>
+                <StackPanel Style="{StaticResource EpsonStatusStackPanel}">
+                    <TextBlock Style="{StaticResource EpsonStatusTextBlock}" Text="暂停" ></TextBlock>
+                    <Ellipse Style="{StaticResource EpsonStatusPausedColor}"></Ellipse>
+                </StackPanel>
+                <StackPanel Style="{StaticResource EpsonStatusStackPanel}">
+                    <TextBlock Style="{StaticResource EpsonStatusTextBlock}" Text="运行" ></TextBlock>
+                    <Ellipse Style="{StaticResource EpsonStatusRunningColor}"></Ellipse>
+                </StackPanel>
+                <StackPanel Style="{StaticResource EpsonStatusStackPanel}">
+                    <TextBlock Style="{StaticResource EpsonStatusTextBlock}" Text="准备" ></TextBlock>
+                    <Ellipse Style="{StaticResource EpsonStatusReadyColor}"></Ellipse>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                <Button Style="{StaticResource OperationButton}" Content="继续" Command="{mvvm:ActionAutoWithParam EpsonOpetate}" CommandParameter="3"></Button>
+                <Button Style="{StaticResource OperationButton}" Content="暂停" Command="{mvvm:ActionAutoWithParam EpsonOpetate}" CommandParameter="2"></Button>
+                
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>
