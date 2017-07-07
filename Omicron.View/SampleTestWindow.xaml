@@ -7,8 +7,8 @@
              xmlns:local="clr-namespace:Omicron.View"
              mc:Ignorable="d" 
              Title="样本模式" WindowStartupLocation="CenterScreen"
-             d:DesignHeight="300" d:DesignWidth="300">
+             Height="768" Width="1024" IsCloseButtonEnabled="False" >
     <Grid>
-            
+        <local:SampleProcessDisplay></local:SampleProcessDisplay>    
     </Grid>
 </control:MetroWindow>

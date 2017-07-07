@@ -23,6 +23,31 @@ namespace Omicron.View
         public MainWindowView()
         {
             InitializeComponent();
+            this.SetBinding(ShowSampleTestWindowProperty, "ShowSampleTestWindow");
+        }
+        public static SampleTestWindow SampleTestWindow = null;
+
+        public static readonly DependencyProperty ShowSampleTestWindowProperty =
+            DependencyProperty.Register("ShowSampleTestWindow", typeof(bool), typeof(MainWindowView), new PropertyMetadata(
+                new PropertyChangedCallback((d, e) =>
+                {
+                    if (SampleTestWindow != null)
+                    {
+                        if (SampleTestWindow.HasShow)
+                            return;
+                    }
+                    var mMainWindow = d as MainWindowView;
+                    SampleTestWindow = new SampleTestWindow();// { Owner = this }.Show();
+                    SampleTestWindow.Owner = Application.Current.MainWindow;
+                    SampleTestWindow.DataContext = mMainWindow.DataContext;
+                    SampleTestWindow.SetBinding(SampleTestWindow.QuitSampleTestProperty, "QuitSampleTest");
+                    SampleTestWindow.HasShow = true;
+                    SampleTestWindow.Show();
+                })));
+        public bool ShowSampleTestWindow
+        {
+            get { return (bool)GetValue(ShowSampleTestWindowProperty); }
+            set { SetValue(ShowSampleTestWindowProperty, value); }
         }
     }
 }

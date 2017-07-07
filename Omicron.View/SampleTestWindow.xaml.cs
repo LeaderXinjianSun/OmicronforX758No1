@@ -47,5 +47,6 @@ namespace Omicron.View
             HasShow = false;
             base.OnClosed(e);
         }
+
     }
 }

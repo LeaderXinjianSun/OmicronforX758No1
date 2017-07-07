@@ -500,7 +500,10 @@ namespace Omicron.ViewModel
         public virtual string SampleItemsStatus38 { set; get; }
         public virtual string SampleItemsStatus39 { set; get; }
 
+        public virtual bool ShowSampleTestWindow { set; get; }
+        public virtual bool QuitSampleTest { set; get; }
 
+        public virtual bool SampleWindowCloseEnable { set; get; }
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -602,7 +605,7 @@ namespace Omicron.ViewModel
 
             ReadAlarmRecord();
 
-            //TwinCatVarInit();
+            TwinCatVarInit();
 
 
             Async.RunFuncAsync(UpdateUI, null);
@@ -1243,7 +1246,26 @@ namespace Omicron.ViewModel
                     break;
             }
         }
-
+        public async void SampleWindowOperate(object p)
+        {
+            string s = p.ToString();
+            switch (s)
+            {
+                case "1":
+                    mydialog.changeaccent("red");
+                    bool r = await mydialog.showconfirm("确定要进行测样本吗？");
+                    if (r)
+                    {
+                        ShowSampleTestWindow = !ShowSampleTestWindow;
+                    }
+                    mydialog.changeaccent("blue");
+                    
+                    break;
+                case "2":
+                    QuitSampleTest = !QuitSampleTest;
+                    break;
+            }
+        }
         public void NoiseReduce()
         {
             NeedNoiseReduce = true;
@@ -1638,6 +1660,7 @@ namespace Omicron.ViewModel
                     {
                         await epsonRC90.TestSentNet.SendAsync("GONOGOAction;" + SampleNgitemsNum.ToString());
                         AllowSampleTestCommand = false;
+                        SampleWindowCloseEnable = false;
                         for (int i = 0; i < 4; i++)
                         {
                             for (int j = 0; j < 10; j++)
@@ -3741,7 +3764,7 @@ namespace Omicron.ViewModel
                     break;
                 case "MsgRev: 样本测试，开始":
                     Testerwith4item.IsInSampleMode = true;
-
+                    SampleWindowCloseEnable = false;
                     break;
                 case "MsgRev: 样本测试，结束":
                     DateTimeUtility.GetLocalTime(ref lastSample);
@@ -3766,6 +3789,7 @@ namespace Omicron.ViewModel
                     //LastSampleHour = DateTime.Now.DayOfYear * 24 + DateTime.Now.Hour;
                     Inifile.INIWriteValue(iniParameterPath, "Sample", "LastSampleHour", LastSampleHour.ToString());
                     Testerwith4item.IsInSampleMode = false;
+                    SampleWindowCloseEnable = true;
                     break;
                 case "MsgRev: 样本测试错误":
                     //SampleRetestButtonVisibility = "Visible";
@@ -4514,7 +4538,7 @@ namespace Omicron.ViewModel
             };
             await startTask();
         }
-        public void FunctionTest()
+        public async void FunctionTest()
         {
             //DataRow dr = TestRecodeDT.NewRow();
             //dr["Time"] = DateTime.Now.ToString();
@@ -4528,7 +4552,10 @@ namespace Omicron.ViewModel
             //TestRecord tr = new TestRecord(DateTime.Now.ToString(), "bar", "f", "11.1 s", "1");
             //SaveCSVfileRecord(tr);
             //FuncTStart(FuncPrint);
-            SampleDisplayArray[0,0] = (aaa++).ToString();
+            //SampleDisplayArray[0,0] = (aaa++).ToString();
+            ShowSampleTestWindow = !ShowSampleTestWindow;
+            await Task.Delay(10000);
+            //QuitSampleTest = !QuitSampleTest;
         }
         public void FuncPrint()
         {
@@ -4924,6 +4951,7 @@ namespace Omicron.ViewModel
                             {
                                 await epsonRC90.TestSentNet.SendAsync("GONOGOAction;" + SampleNgitemsNum.ToString());
                                 AllowSampleTestCommand = false;
+                                SampleWindowCloseEnable = false;
                                 for (int i = 0; i < 4; i++)
                                 {
                                     for (int j = 0; j < 10; j++)

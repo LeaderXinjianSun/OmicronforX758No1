@@ -297,8 +297,9 @@
             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                 <Button Style="{StaticResource OperationButton}" Content="继续" Command="{mvvm:ActionAutoWithParam EpsonOpetate}" CommandParameter="3"></Button>
                 <Button Style="{StaticResource OperationButton}" Content="暂停" Command="{mvvm:ActionAutoWithParam EpsonOpetate}" CommandParameter="2"></Button>
-                
+                <Button Margin="80,0,0,0"  VerticalAlignment="Center" Style="{StaticResource OperationButton}" Background="Red"  Content="退出" Command="{mvvm:ActionAutoWithParam SampleWindowOperate}" CommandParameter="2"></Button>
             </StackPanel>
         </Grid>
     </Grid>
 </UserControl>
+<!--IsEnabled="{Binding SampleWindowCloseEnable,FallbackValue=False}"-->
