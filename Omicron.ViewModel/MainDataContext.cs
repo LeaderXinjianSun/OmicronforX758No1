@@ -602,7 +602,7 @@ namespace Omicron.ViewModel
 
             ReadAlarmRecord();
 
-            TwinCatVarInit();
+            //TwinCatVarInit();
 
 
             Async.RunFuncAsync(UpdateUI, null);
@@ -3407,6 +3407,42 @@ namespace Omicron.ViewModel
                 case "MsgRev: 请确认，不得取走上料盘产品":
                     ShowAlarmTextGrid("请确认，\n不得取走上料盘产品！");
                     break;
+                case "MsgRev: 样本盘，吸取失败":
+                    if (lastAlarmString != str)
+                    {
+                        lastAlarmString = str;
+                    }
+                    ShowAlarmTextGrid("样本盘，吸取失败");
+                    //addAlarm("测试机1，吸取失败");
+                    break;
+                case "MsgRev: 测试机1，样本 吸取失败":
+                    if (lastAlarmString != str)
+                    {
+                        lastAlarmString = str;
+                    }
+                    ShowAlarmTextGrid("测试机1，样本 吸取失败\n请将产品放回原位！");
+                    break;
+                case "MsgRev: 测试机2，样本 吸取失败":
+                    if (lastAlarmString != str)
+                    {
+                        lastAlarmString = str;
+                    }
+                    ShowAlarmTextGrid("测试机2，样本 吸取失败\n请将产品放回原位！");
+                    break;
+                case "MsgRev: 测试机3，样本 吸取失败":
+                    if (lastAlarmString != str)
+                    {
+                        lastAlarmString = str;
+                    }
+                    ShowAlarmTextGrid("测试机3，样本 吸取失败\n请将产品放回原位！");
+                    break;
+                case "MsgRev: 测试机4，样本 吸取失败":
+                    if (lastAlarmString != str)
+                    {
+                        lastAlarmString = str;
+                    }
+                    ShowAlarmTextGrid("测试机4，样本 吸取失败\n请将产品放回原位！");
+                    break;
                 case "MsgRev: 测试机1，吸取失败":
                     if (lastAlarmString != str)
                     {
@@ -3732,8 +3768,8 @@ namespace Omicron.ViewModel
                     Testerwith4item.IsInSampleMode = false;
                     break;
                 case "MsgRev: 样本测试错误":
-                    SampleRetestButtonVisibility = "Visible";
-                    ShowAlarmTextGrid("样本测试错误，是否复测？");
+                    //SampleRetestButtonVisibility = "Visible";
+                    ShowAlarmTextGrid("样本测试错误，请复测！");
                     //addAlarm("样本测试错误");
                     SaveCSVfileAlarm("样本测试错误");
                     //DateTimeUtility.GetLocalTime(ref lastSample);
@@ -3798,270 +3834,278 @@ namespace Omicron.ViewModel
         }
         private async void EPSONDBSearchEventProcess(string pickstr)
         {
-            string NgItem = "Error";
-            switch (pickstr)
+            try
             {
-                case "A":
-                    Barsaminfo_Barcode = epsonRC90.PickBracodeA;
-                    DBSearch_Barcode = epsonRC90.PickBracodeA;
-                    if (LookforDt(DBSearch_Barcode, 0))
-                    {
-                        //NgItem = (string)SinglDt.Rows[0]["NGITEM"];
-                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem1)
+                string NgItem = "Error";
+                switch (pickstr)
+                {
+                    case "A":
+                        Barsaminfo_Barcode = epsonRC90.PickBracodeA;
+                        DBSearch_Barcode = epsonRC90.PickBracodeA;
+                        if (LookforDt(DBSearch_Barcode, 0))
                         {
-                            NgItem = "OK";
-                        }
-                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem2)
-                        {
-                            NgItem = "NG";
-                        }
-                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem3)
-                        {
-                            NgItem = "NG1";
-                        }
-                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem4)
-                        {
-                            NgItem = "NG2";
-                        }
-                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem5)
-                        {
-                            NgItem = "NG3";
-                        }
-                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem6)
-                        {
-                            NgItem = "NG4";
-                        }
-                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem7)
-                        {
-                            NgItem = "NG5";
-                        }
-                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem8)
-                        {
-                            NgItem = "NG6";
-                        }
-                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem9)
-                        {
-                            NgItem = "NG7";
-                        }
-                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem10)
-                        {
-                            NgItem = "NG8";
-                        }
-                        //switch ((string)SinglDt.Rows[0]["NGITEM"])
-                        //{
-                        //    case "PASS":
-                        //        NgItem = "OK";
-                        //        break;
-                        //    case "X758FlexOpened":
-                        //        NgItem = "NG";
-                        //        break;
-                        //    case "PixelOpenShortTest_OOS":
-                        //        NgItem = "NG1";
-                        //        break;
-                        //    case "PowerTest_OOS":
-                        //        NgItem = "NG2";
-                        //        break;
-                        //    case "NG3":
-                        //        NgItem = "NG3";
-                        //        break;
-                        //    case "NG4":
-                        //        NgItem = "NG4";
-                        //        break;
-                        //    case "NG5":
-                        //        NgItem = "NG5";
-                        //        break;
-                        //    case "NG6":
-                        //        NgItem = "NG6";
-                        //        break;
-                        //    case "NG7":
-                        //        NgItem = "NG7";
-                        //        break;
-                        //    case "NG8":
-                        //        NgItem = "NG8";
-                        //        break;
-                        //    default:
-                        //        NgItem = "Error";
-                        //        break;
-                        //}
-                        if (epsonRC90.TestSendStatus)
-                        {
-                            await epsonRC90.TestSentNet.SendAsync("SamDBSearch;A;" + NgItem);
-                        }
+                            //NgItem = (string)SinglDt.Rows[0]["NGITEM"];
+                            if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem1)
+                            {
+                                NgItem = "OK";
+                            }
+                            if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem2)
+                            {
+                                NgItem = "NG";
+                            }
+                            if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem3)
+                            {
+                                NgItem = "NG1";
+                            }
+                            if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem4)
+                            {
+                                NgItem = "NG2";
+                            }
+                            if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem5)
+                            {
+                                NgItem = "NG3";
+                            }
+                            if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem6)
+                            {
+                                NgItem = "NG4";
+                            }
+                            if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem7)
+                            {
+                                NgItem = "NG5";
+                            }
+                            if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem8)
+                            {
+                                NgItem = "NG6";
+                            }
+                            if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem9)
+                            {
+                                NgItem = "NG7";
+                            }
+                            if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem10)
+                            {
+                                NgItem = "NG8";
+                            }
+                            //switch ((string)SinglDt.Rows[0]["NGITEM"])
+                            //{
+                            //    case "PASS":
+                            //        NgItem = "OK";
+                            //        break;
+                            //    case "X758FlexOpened":
+                            //        NgItem = "NG";
+                            //        break;
+                            //    case "PixelOpenShortTest_OOS":
+                            //        NgItem = "NG1";
+                            //        break;
+                            //    case "PowerTest_OOS":
+                            //        NgItem = "NG2";
+                            //        break;
+                            //    case "NG3":
+                            //        NgItem = "NG3";
+                            //        break;
+                            //    case "NG4":
+                            //        NgItem = "NG4";
+                            //        break;
+                            //    case "NG5":
+                            //        NgItem = "NG5";
+                            //        break;
+                            //    case "NG6":
+                            //        NgItem = "NG6";
+                            //        break;
+                            //    case "NG7":
+                            //        NgItem = "NG7";
+                            //        break;
+                            //    case "NG8":
+                            //        NgItem = "NG8";
+                            //        break;
+                            //    default:
+                            //        NgItem = "Error";
+                            //        break;
+                            //}
+                            if (epsonRC90.TestSendStatus)
+                            {
+                                await epsonRC90.TestSentNet.SendAsync("SamDBSearch;A;" + NgItem);
+                            }
 
-                    }
-                    else
-                    {
-                        NgItem = "Error";
-                        if (epsonRC90.TestSendStatus)
-                        {
-                            await epsonRC90.TestSentNet.SendAsync("SamDBSearch;A;" + NgItem);
                         }
-                        //bool r = await mydialog.showconfirm("样本数据库查询 失败。是否录入样本");
-                        //SampleAlarm_IsNeedCheckin = true;
-                        //await WaitSampleAlarmIsNeedCheckinProcess();
-                        //if (NeedCheckin)
-                        //{
-                        //    //等待录入操作
-                        //    bool rr = await WaitCheckinProcess();
-                        //    if (rr)
-                        //    {
-                        //        NgItem = SamNgItemsTableNames[SamNgItemsTableIndex];
-                        //        if (epsonRC90.TestSendStatus)
-                        //        {
-                        //            await epsonRC90.TestSentNet.SendAsync("SamDBSearch;A;" + NgItem);
-                        //        }
-                        //    }
-                        //    else
-                        //    {
-                        //        NgItem = "Error";
-                        //        if (epsonRC90.TestSendStatus)
-                        //        {
-                        //            await epsonRC90.TestSentNet.SendAsync("SamDBSearch;A;" + NgItem);
-                        //        }
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    NgItem = "Error";
-                        //    if (epsonRC90.TestSendStatus)
-                        //    {
-                        //        await epsonRC90.TestSentNet.SendAsync("SamDBSearch;A;" + NgItem);
-                        //    }
-                        //}
-                    }
-                    break;
-                case "B":
-                    Barsaminfo_Barcode = epsonRC90.PickBracodeB;
-                    DBSearch_Barcode = epsonRC90.PickBracodeB;
-                    if (LookforDt(DBSearch_Barcode, 0))
-                    {
-                        //NgItem = (string)SinglDt.Rows[0]["NGITEM"];
-                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem1)
+                        else
                         {
-                            NgItem = "OK";
+                            NgItem = "Error";
+                            if (epsonRC90.TestSendStatus)
+                            {
+                                await epsonRC90.TestSentNet.SendAsync("SamDBSearch;A;" + NgItem);
+                            }
+                            //bool r = await mydialog.showconfirm("样本数据库查询 失败。是否录入样本");
+                            //SampleAlarm_IsNeedCheckin = true;
+                            //await WaitSampleAlarmIsNeedCheckinProcess();
+                            //if (NeedCheckin)
+                            //{
+                            //    //等待录入操作
+                            //    bool rr = await WaitCheckinProcess();
+                            //    if (rr)
+                            //    {
+                            //        NgItem = SamNgItemsTableNames[SamNgItemsTableIndex];
+                            //        if (epsonRC90.TestSendStatus)
+                            //        {
+                            //            await epsonRC90.TestSentNet.SendAsync("SamDBSearch;A;" + NgItem);
+                            //        }
+                            //    }
+                            //    else
+                            //    {
+                            //        NgItem = "Error";
+                            //        if (epsonRC90.TestSendStatus)
+                            //        {
+                            //            await epsonRC90.TestSentNet.SendAsync("SamDBSearch;A;" + NgItem);
+                            //        }
+                            //    }
+                            //}
+                            //else
+                            //{
+                            //    NgItem = "Error";
+                            //    if (epsonRC90.TestSendStatus)
+                            //    {
+                            //        await epsonRC90.TestSentNet.SendAsync("SamDBSearch;A;" + NgItem);
+                            //    }
+                            //}
                         }
-                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem2)
+                        break;
+                    case "B":
+                        Barsaminfo_Barcode = epsonRC90.PickBracodeB;
+                        DBSearch_Barcode = epsonRC90.PickBracodeB;
+                        if (LookforDt(DBSearch_Barcode, 0))
                         {
-                            NgItem = "NG";
-                        }
-                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem3)
-                        {
-                            NgItem = "NG1";
-                        }
-                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem4)
-                        {
-                            NgItem = "NG2";
-                        }
-                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem5)
-                        {
-                            NgItem = "NG3";
-                        }
-                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem6)
-                        {
-                            NgItem = "NG4";
-                        }
-                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem7)
-                        {
-                            NgItem = "NG5";
-                        }
-                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem8)
-                        {
-                            NgItem = "NG6";
-                        }
-                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem9)
-                        {
-                            NgItem = "NG7";
-                        }
-                        if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem10)
-                        {
-                            NgItem = "NG8";
-                        }
-                        //switch ((string)SinglDt.Rows[0]["NGITEM"])
-                        //{
-                        //    case "PASS":
-                        //        NgItem = "OK";
-                        //        break;
-                        //    case "X758FlexOpened":
-                        //        NgItem = "NG";
-                        //        break;
-                        //    case "PixelOpenShortTest_OOS":
-                        //        NgItem = "NG1";
-                        //        break;
-                        //    case "PowerTest_OOS":
-                        //        NgItem = "NG2";                             
-                        //        break;
-                        //    case "NG3":
-                        //        NgItem = "NG3";
-                        //        break;
-                        //    case "NG4":
-                        //        NgItem = "NG4";
-                        //        break;
-                        //    case "NG5":
-                        //        NgItem = "NG5";
-                        //        break;
-                        //    case "NG6":
-                        //        NgItem = "NG6";
-                        //        break;
-                        //    case "NG7":
-                        //        NgItem = "NG7";
-                        //        break;
-                        //    case "NG8":
-                        //        NgItem = "NG8";
-                        //        break;
-                        //    default:
-                        //        NgItem = "Error";
-                        //        break;
-                        //}
-                        if (epsonRC90.TestSendStatus)
-                        {
-                            await epsonRC90.TestSentNet.SendAsync("SamDBSearch;B;" + NgItem);
-                        }
+                            //NgItem = (string)SinglDt.Rows[0]["NGITEM"];
+                            if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem1)
+                            {
+                                NgItem = "OK";
+                            }
+                            if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem2)
+                            {
+                                NgItem = "NG";
+                            }
+                            if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem3)
+                            {
+                                NgItem = "NG1";
+                            }
+                            if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem4)
+                            {
+                                NgItem = "NG2";
+                            }
+                            if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem5)
+                            {
+                                NgItem = "NG3";
+                            }
+                            if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem6)
+                            {
+                                NgItem = "NG4";
+                            }
+                            if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem7)
+                            {
+                                NgItem = "NG5";
+                            }
+                            if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem8)
+                            {
+                                NgItem = "NG6";
+                            }
+                            if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem9)
+                            {
+                                NgItem = "NG7";
+                            }
+                            if ((string)SinglDt.Rows[0]["NGITEM"] == SampleNgitem10)
+                            {
+                                NgItem = "NG8";
+                            }
+                            //switch ((string)SinglDt.Rows[0]["NGITEM"])
+                            //{
+                            //    case "PASS":
+                            //        NgItem = "OK";
+                            //        break;
+                            //    case "X758FlexOpened":
+                            //        NgItem = "NG";
+                            //        break;
+                            //    case "PixelOpenShortTest_OOS":
+                            //        NgItem = "NG1";
+                            //        break;
+                            //    case "PowerTest_OOS":
+                            //        NgItem = "NG2";                             
+                            //        break;
+                            //    case "NG3":
+                            //        NgItem = "NG3";
+                            //        break;
+                            //    case "NG4":
+                            //        NgItem = "NG4";
+                            //        break;
+                            //    case "NG5":
+                            //        NgItem = "NG5";
+                            //        break;
+                            //    case "NG6":
+                            //        NgItem = "NG6";
+                            //        break;
+                            //    case "NG7":
+                            //        NgItem = "NG7";
+                            //        break;
+                            //    case "NG8":
+                            //        NgItem = "NG8";
+                            //        break;
+                            //    default:
+                            //        NgItem = "Error";
+                            //        break;
+                            //}
+                            if (epsonRC90.TestSendStatus)
+                            {
+                                await epsonRC90.TestSentNet.SendAsync("SamDBSearch;B;" + NgItem);
+                            }
 
-                    }
-                    else
-                    {
-                        NgItem = "Error";
-                        if (epsonRC90.TestSendStatus)
-                        {
-                            await epsonRC90.TestSentNet.SendAsync("SamDBSearch;B;" + NgItem);
                         }
-                        //bool r = await mydialog.showconfirm("样本数据库查询 失败。是否录入样本");
-                        //SampleAlarm_IsNeedCheckin = true;
-                        //await WaitSampleAlarmIsNeedCheckinProcess();
-                        //if (NeedCheckin)
-                        //{
-                        //    //等待录入操作
-                        //    bool rr = await WaitCheckinProcess();
-                        //    if (rr)
-                        //    {
-                        //        NgItem = SamNgItemsTableNames[SamNgItemsTableIndex];
-                        //        if (epsonRC90.TestSendStatus)
-                        //        {
-                        //            await epsonRC90.TestSentNet.SendAsync("SamDBSearch;B;" + NgItem);
-                        //        }
-                        //    }
-                        //    else
-                        //    {
-                        //        NgItem = "Error";
-                        //        if (epsonRC90.TestSendStatus)
-                        //        {
-                        //            await epsonRC90.TestSentNet.SendAsync("SamDBSearch;B;" + NgItem);
-                        //        }
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    NgItem = "Error";
-                        //    if (epsonRC90.TestSendStatus)
-                        //    {
-                        //        await epsonRC90.TestSentNet.SendAsync("SamDBSearch;B;" + NgItem);
-                        //    }
-                        //}
-                    }
-                    break;
-                default:
-                    break;
+                        else
+                        {
+                            NgItem = "Error";
+                            if (epsonRC90.TestSendStatus)
+                            {
+                                await epsonRC90.TestSentNet.SendAsync("SamDBSearch;B;" + NgItem);
+                            }
+                            //bool r = await mydialog.showconfirm("样本数据库查询 失败。是否录入样本");
+                            //SampleAlarm_IsNeedCheckin = true;
+                            //await WaitSampleAlarmIsNeedCheckinProcess();
+                            //if (NeedCheckin)
+                            //{
+                            //    //等待录入操作
+                            //    bool rr = await WaitCheckinProcess();
+                            //    if (rr)
+                            //    {
+                            //        NgItem = SamNgItemsTableNames[SamNgItemsTableIndex];
+                            //        if (epsonRC90.TestSendStatus)
+                            //        {
+                            //            await epsonRC90.TestSentNet.SendAsync("SamDBSearch;B;" + NgItem);
+                            //        }
+                            //    }
+                            //    else
+                            //    {
+                            //        NgItem = "Error";
+                            //        if (epsonRC90.TestSendStatus)
+                            //        {
+                            //            await epsonRC90.TestSentNet.SendAsync("SamDBSearch;B;" + NgItem);
+                            //        }
+                            //    }
+                            //}
+                            //else
+                            //{
+                            //    NgItem = "Error";
+                            //    if (epsonRC90.TestSendStatus)
+                            //    {
+                            //        await epsonRC90.TestSentNet.SendAsync("SamDBSearch;B;" + NgItem);
+                            //    }
+                            //}
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
+            catch (Exception ex)
+            {
+                Log.Default.Error("EPSONDBSearchEventProcess", ex.Message);
+            }
+
         }
         public void SaveSampleResultManual()
         {
