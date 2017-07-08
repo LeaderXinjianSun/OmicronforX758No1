@@ -3263,7 +3263,7 @@ namespace Omicron.ViewModel
             }
             else
             {
-                SampleDisplayArray[i, j] = ngitem;
+                SampleDisplayArray[i, j] = tresult;
             }
 
         }
@@ -3362,7 +3362,7 @@ namespace Omicron.ViewModel
                     }
                     if (epsonRC90.TestSendStatus && FlexNum > 0)
                     {
-                        SampleDisplayArray[i, j] = (string)item["NGITEM"];
+                        SampleDisplayArray[i, j] = (string)item["TRES"];
                         await epsonRC90.TestSentNet.SendAsync("SelectSampleResultfromDt;"+ FlexNum.ToString() + ";" + NgItem);
                     }
                 }
@@ -3777,6 +3777,7 @@ namespace Omicron.ViewModel
                 case "MsgRev: 样本测试，开始":
                     Testerwith4item.IsInSampleMode = true;
                     SampleWindowCloseEnable = false;
+                    AllowSampleTestCommand = false;
                     break;
                 case "MsgRev: 样本测试，结束":
                     DateTimeUtility.GetLocalTime(ref lastSample);
