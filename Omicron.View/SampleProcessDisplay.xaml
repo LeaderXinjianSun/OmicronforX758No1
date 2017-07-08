@@ -218,12 +218,10 @@
 
             <StackPanel Grid.Row="0" Orientation="Vertical">
                 <StackPanel  Margin="5,10,5,0" Orientation="Horizontal">
-                    <Button Content="测样本" Background="Green" Foreground="White" Command="{mvvm:ActionAutoWithParam XQTActionFunction}" CommandParameter="5"></Button>
-                    <TextBlock Margin="20,5" Text="上次测样本时刻： "></TextBlock>
+                    <Button Height="40" Content="测样本" Background="Green" Foreground="White" Command="{mvvm:ActionAutoWithParam XQTActionFunction}" CommandParameter="5"></Button>
+                    <Button Height="40" Margin="10,0,0,0" Visibility="{Binding SampleRetestButtonVisibility}" Content="复测样本" Background="Green" Foreground="White" Command="{mvvm:ActionAutoWithParam XQTActionFunction}" CommandParameter="6"></Button>
+                    <TextBlock Margin="10,0" VerticalAlignment="Center" Text="上次测样本时刻： "></TextBlock>
                     <TextBlock FontStyle="Italic" Text="{Binding LastSampleTestTimeStr}" VerticalAlignment="Center"></TextBlock>
-                </StackPanel>
-                <StackPanel  Margin="5,10,5,0" Orientation="Horizontal">
-                    <Button Visibility="{Binding SampleRetestButtonVisibility}" Content="复测样本" Background="Green" Foreground="White" Command="{mvvm:ActionAutoWithParam XQTActionFunction}" CommandParameter="6"></Button>
                 </StackPanel>
             </StackPanel>
             <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -297,7 +295,7 @@
             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                 <Button Style="{StaticResource OperationButton}" Content="继续" Command="{mvvm:ActionAutoWithParam EpsonOpetate}" CommandParameter="3"></Button>
                 <Button Style="{StaticResource OperationButton}" Content="暂停" Command="{mvvm:ActionAutoWithParam EpsonOpetate}" CommandParameter="2"></Button>
-                <Button Margin="80,0,0,0"  VerticalAlignment="Center" Style="{StaticResource OperationButton}" Background="Red"  Content="退出" Command="{mvvm:ActionAutoWithParam SampleWindowOperate}" CommandParameter="2"></Button>
+                <Button Margin="80,0,0,0" IsEnabled="{Binding SampleWindowCloseEnable,FallbackValue=True}" VerticalAlignment="Center" Style="{StaticResource OperationButton}" Background="Red"  Content="退出" Command="{mvvm:ActionAutoWithParam SampleWindowOperate}" CommandParameter="2"></Button>
             </StackPanel>
         </Grid>
     </Grid>

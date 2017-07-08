@@ -503,7 +503,7 @@ namespace Omicron.ViewModel
         public virtual bool ShowSampleTestWindow { set; get; }
         public virtual bool QuitSampleTest { set; get; }
 
-        public virtual bool SampleWindowCloseEnable { set; get; }
+        public virtual bool SampleWindowCloseEnable { set; get; } = true;
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -1204,6 +1204,10 @@ namespace Omicron.ViewModel
                     if (epsonRC90.CtrlStatus)
                     {
                         await epsonRC90.CtrlNet.SendAsync("$continue");
+                        if (SampleRetestButtonVisibility == "Visible")
+                        {
+                            SampleRetestButtonVisibility = "Collapsed";
+                        }
                     }
                     if (PLCPause)
                     {
@@ -1671,10 +1675,18 @@ namespace Omicron.ViewModel
                     }
                     break;
                 case "6":
-                    if (epsonRC90.TestSendStatus && IsTestersSample)
+                    //if (epsonRC90.TestSendStatus && IsTestersSample)
+                    //{
+                    //    await epsonRC90.TestSentNet.SendAsync("SamRetest");
+                    //    SampleRetestButtonVisibility = "Collapsed";
+                    //}
+                    AlarmTextGridShow = "Collapsed";
+                    if (epsonRC90.CtrlStatus)
                     {
-                        await epsonRC90.TestSentNet.SendAsync("SamRetest");
+                        await epsonRC90.CtrlNet.SendAsync("$continue");
+  
                         SampleRetestButtonVisibility = "Collapsed";
+
                     }
                     break;
                 case "7":
@@ -3792,10 +3804,10 @@ namespace Omicron.ViewModel
                     SampleWindowCloseEnable = true;
                     break;
                 case "MsgRev: 样本测试错误":
-                    //SampleRetestButtonVisibility = "Visible";
+                    SampleRetestButtonVisibility = "Visible";
                     ShowAlarmTextGrid("样本测试错误，请复测！");
                     //addAlarm("样本测试错误");
-                    SaveCSVfileAlarm("样本测试错误");
+                    //SaveCSVfileAlarm("样本测试错误");
                     //DateTimeUtility.GetLocalTime(ref lastSample);
                     //LastSampleTestTimeStr = lastSample.ToDateTime().ToString();
                     //SaveLastSamplTimetoIni();
