@@ -663,12 +663,12 @@ namespace Omicron.Model
                     }
                     else
                     {
-                        if (!WriteFileFlag)
-                        {
-                            Inifile.INIWriteValue(iniFilepath, sectionName, "upload", "0");
-                            numStr = "0";
-                            WriteFileFlag = true;
-                        }
+                        //if (!WriteFileFlag)
+                        //{
+                        //    Inifile.INIWriteValue(iniFilepath, sectionName, "upload", "0");
+                        //    numStr = "0";
+                        //    WriteFileFlag = true;
+                        //}
                         status = false;
                         timed = 1000;
                     }
@@ -684,7 +684,7 @@ namespace Omicron.Model
         }
         public void StartCommand()
         {
-            System.Threading.Thread.Sleep(20000);
+            System.Threading.Thread.Sleep(30000);
             start = true;
         }
     }

@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Windows.Threading;
 using 臻鼎科技OraDB;
+using System.Diagnostics;
 //using MahApps.Metro.Controls.Dialogs;
 
 namespace Omicron.ViewModel
@@ -506,6 +507,8 @@ namespace Omicron.ViewModel
         public virtual bool SampleWindowCloseEnable { set; get; } = true;
 
         public virtual int TotalAlarmNum { set; get; } = 0;
+        public virtual double SampleWaitTime { set; get; } = 0;
+        public virtual string SampleWaitTimeShow { set; get; } = "Collapsed";
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -560,6 +563,7 @@ namespace Omicron.ViewModel
         //int aaa = 0;
 
         private string[,] SampleDisplayArray = new string[4, 10];
+        private bool SampleWaitTime_Cancel = false;
 
         #endregion
         #region 构造函数
@@ -1682,6 +1686,7 @@ namespace Omicron.ViewModel
                         await epsonRC90.TestSentNet.SendAsync("GONOGOAction;" + SampleNgitemsNum.ToString());
                         AllowSampleTestCommand = false;
                         SampleWindowCloseEnable = false;
+                        SampleWaitTimeShow = "Collapsed";
                         for (int i = 0; i < 4; i++)
                         {
                             for (int j = 0; j < 10; j++)
@@ -1700,6 +1705,7 @@ namespace Omicron.ViewModel
                     AlarmTextGridShow = "Collapsed";
                     if (epsonRC90.CtrlStatus)
                     {
+                        SampleWaitTimeShow = "Collapsed";
                         await epsonRC90.CtrlNet.SendAsync("$continue");
   
                         SampleRetestButtonVisibility = "Collapsed";
@@ -1999,6 +2005,25 @@ namespace Omicron.ViewModel
                 }
             }
             return strs;
+        }
+        private async void SampleCount_down()
+        {
+            Stopwatch sw = new Stopwatch();
+            SampleWaitTime = 30;
+            Func<Task> startTask = () =>
+            {
+                return Task.Run(() =>
+                {
+                    sw.Start();
+                    while (sw.Elapsed.TotalSeconds <= 30 && !EStop)
+                    {                        
+                        System.Threading.Thread.Sleep(100);
+                        SampleWaitTime = Math.Round(30 - sw.Elapsed.TotalSeconds, 1);
+                    }
+                });
+            };
+            await Task.Run(startTask);
+                //await Task.Delay(10);
         }
         #region 数据库
         private void setLocalTime(string strDateTime)
@@ -3810,6 +3835,12 @@ namespace Omicron.ViewModel
                     Testerwith4item.IsInSampleMode = true;
                     SampleWindowCloseEnable = false;
                     AllowSampleTestCommand = false;
+
+                    break;
+
+                case "MsgRev: 延时30秒，等待查询样本测试结果":
+                    SampleWaitTimeShow = "Visible";
+                    SampleCount_down();
                     break;
                 case "MsgRev: 样本测试，结束":
                     DateTimeUtility.GetLocalTime(ref lastSample);
@@ -4601,9 +4632,11 @@ namespace Omicron.ViewModel
             //SaveCSVfileRecord(tr);
             //FuncTStart(FuncPrint);
             //SampleDisplayArray[0,0] = (aaa++).ToString();
-            ShowSampleTestWindow = !ShowSampleTestWindow;
-            await Task.Delay(10000);
+            //ShowSampleTestWindow = !ShowSampleTestWindow;
+            //await Task.Delay(10000);
             //QuitSampleTest = !QuitSampleTest;
+            //SampleWaitTimeShow = "Visible";
+            //SampleCount_down();
         }
         public void FuncPrint()
         {
@@ -5064,6 +5097,7 @@ namespace Omicron.ViewModel
                                 await epsonRC90.TestSentNet.SendAsync("GONOGOAction;" + SampleNgitemsNum.ToString());
                                 AllowSampleTestCommand = false;
                                 SampleWindowCloseEnable = false;
+                                SampleWaitTimeShow = "Collapsed";
                                 for (int i = 0; i < 4; i++)
                                 {
                                     for (int j = 0; j < 10; j++)
