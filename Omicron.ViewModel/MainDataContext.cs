@@ -504,6 +504,8 @@ namespace Omicron.ViewModel
         public virtual bool QuitSampleTest { set; get; }
 
         public virtual bool SampleWindowCloseEnable { set; get; } = true;
+
+        public virtual int TotalAlarmNum { set; get; } = 0;
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -548,10 +550,14 @@ namespace Omicron.ViewModel
         bool Alarm_allowClean = true;
         string lastAlarmString = "";
 
+        int AlarmLastClearHourofYear = 0;
+        bool isIn8or20 = false;
+        bool _isIn8or20 = false;
+
         string AlarmLastDateNameStr = "";
         private int LastSampleHour = -1;
 
-        int aaa = 0;
+        //int aaa = 0;
 
         private string[,] SampleDisplayArray = new string[4, 10];
 
@@ -592,16 +598,16 @@ namespace Omicron.ViewModel
             SampleDt.Columns.Add("CTIME", typeof(string));
             SampleDt.Columns.Add("SR01", typeof(string));
 
-            alarmTableItemsList.Add(new AlarmTableItem("测试机穴1"));
-            alarmTableItemsList.Add(new AlarmTableItem("测试机穴2"));
-            alarmTableItemsList.Add(new AlarmTableItem("测试机穴3"));
-            alarmTableItemsList.Add(new AlarmTableItem("测试机穴4"));
-            alarmTableItemsList.Add(new AlarmTableItem("上料盘位1"));
-            alarmTableItemsList.Add(new AlarmTableItem("上料盘位2"));
-            alarmTableItemsList.Add(new AlarmTableItem("上料盘位3"));
-            alarmTableItemsList.Add(new AlarmTableItem("上料盘位4"));
-            alarmTableItemsList.Add(new AlarmTableItem("上料盘位5"));
-            alarmTableItemsList.Add(new AlarmTableItem("上料盘位6"));
+            alarmTableItemsList.Add(new AlarmTableItem("Station1"));
+            alarmTableItemsList.Add(new AlarmTableItem("Station2"));
+            alarmTableItemsList.Add(new AlarmTableItem("Station3"));
+            alarmTableItemsList.Add(new AlarmTableItem("Station4"));
+            alarmTableItemsList.Add(new AlarmTableItem("LoadPanelPosition1"));
+            alarmTableItemsList.Add(new AlarmTableItem("LoadPanelPosition2"));
+            alarmTableItemsList.Add(new AlarmTableItem("LoadPanelPosition3"));
+            alarmTableItemsList.Add(new AlarmTableItem("LoadPanelPosition4"));
+            alarmTableItemsList.Add(new AlarmTableItem("LoadPanelPosition5"));
+            alarmTableItemsList.Add(new AlarmTableItem("LoadPanelPosition6"));
 
             ReadAlarmRecord();
 
@@ -1442,6 +1448,17 @@ namespace Omicron.ViewModel
             }
 
         }
+        private void AutoClean()
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                CleantoZero(i);
+            }
+            TotalAlarmNum = 0;
+            ClearAlarmRecord();
+
+
+        }
         public void CleantoZero(object p)
         {
             string s = p.ToString();
@@ -1701,8 +1718,8 @@ namespace Omicron.ViewModel
         {
             foreach (var item in alarmTableItemsList)
             {
-                item.产品没放好 = 0;
-                item.吸取失败 = 0;
+                item.ReleaseFail = 0;
+                item.SuckFail = 0;
                 //item.测试机超时 = 0;
                 //item.连续NG = 0;
             }
@@ -3482,8 +3499,10 @@ namespace Omicron.ViewModel
                     if (lastAlarmString != str)
                     {
                         lastAlarmString = str;
-                        alarmTableItemsList[0].吸取失败 += 1;
+                        alarmTableItemsList[0].SuckFail += 1;
+                        TotalAlarmNum++;
                         WriteAlarmRecord();
+                        
                         //SaveCSVfileAlarm("测试机1，吸取失败");
                         SaveCSVfileAlarm("Tester1 Suck Fail");
                     }
@@ -3494,7 +3513,8 @@ namespace Omicron.ViewModel
                     if (lastAlarmString != str)
                     {
                         lastAlarmString = str;
-                        alarmTableItemsList[1].吸取失败 += 1;
+                        alarmTableItemsList[1].SuckFail += 1;
+                        TotalAlarmNum++;
                         WriteAlarmRecord();
                         //SaveCSVfileAlarm("测试机2，吸取失败");
                         SaveCSVfileAlarm("Tester2 Suck Fail");
@@ -3506,7 +3526,8 @@ namespace Omicron.ViewModel
                     if (lastAlarmString != str)
                     {
                         lastAlarmString = str;
-                        alarmTableItemsList[2].吸取失败 += 1;
+                        alarmTableItemsList[2].SuckFail += 1;
+                        TotalAlarmNum++;
                         WriteAlarmRecord();
                         //SaveCSVfileAlarm("测试机3，吸取失败");
                         SaveCSVfileAlarm("Tester3 Suck Fail");
@@ -3518,7 +3539,8 @@ namespace Omicron.ViewModel
                     if (lastAlarmString != str)
                     {
                         lastAlarmString = str;
-                        alarmTableItemsList[3].吸取失败 += 1;
+                        alarmTableItemsList[3].SuckFail += 1;
+                        TotalAlarmNum++;
                         WriteAlarmRecord();
                         //SaveCSVfileAlarm("测试机4，吸取失败");
                         SaveCSVfileAlarm("Tester4 Suck Fail");
@@ -3549,7 +3571,8 @@ namespace Omicron.ViewModel
                         lastAlarmString = str;
                         //SaveCSVfileAlarm("上料盘1，吸取失败");
                         SaveCSVfileAlarm("FPC AdjustPanel Position1 Suck Fail");
-                        alarmTableItemsList[4].吸取失败 += 1;
+                        alarmTableItemsList[4].SuckFail += 1;
+                        TotalAlarmNum++;
                         WriteAlarmRecord();
                     }
                     ShowAlarmTextGrid("上料盘1，吸取失败\n请将产品放回原位");
@@ -3561,7 +3584,8 @@ namespace Omicron.ViewModel
                         lastAlarmString = str;
                         //SaveCSVfileAlarm("上料盘2，吸取失败");
                         SaveCSVfileAlarm("FPC AdjustPanel Position2 Suck Fail");
-                        alarmTableItemsList[5].吸取失败 += 1;
+                        alarmTableItemsList[5].SuckFail += 1;
+                        TotalAlarmNum++;
                         WriteAlarmRecord();
                     }
                     ShowAlarmTextGrid("上料盘2，吸取失败\n请将产品放回原位");
@@ -3573,7 +3597,8 @@ namespace Omicron.ViewModel
                         lastAlarmString = str;
                         //SaveCSVfileAlarm("上料盘3，吸取失败");
                         SaveCSVfileAlarm("FPC AdjustPanel Position3 Suck Fail");
-                        alarmTableItemsList[6].吸取失败 += 1;
+                        alarmTableItemsList[6].SuckFail += 1;
+                        TotalAlarmNum++;
                         WriteAlarmRecord();
                     }
                     ShowAlarmTextGrid("上料盘3，吸取失败\n请将产品放回原位");
@@ -3585,7 +3610,8 @@ namespace Omicron.ViewModel
                         lastAlarmString = str;
                         //SaveCSVfileAlarm("上料盘4，吸取失败");
                         SaveCSVfileAlarm("FPC AdjustPanel Position4 Suck Fail");
-                        alarmTableItemsList[7].吸取失败 += 1;
+                        alarmTableItemsList[7].SuckFail += 1;
+                        TotalAlarmNum++;
                         WriteAlarmRecord();
                     }
                     ShowAlarmTextGrid("上料盘4，吸取失败\n请将产品放回原位");
@@ -3597,7 +3623,8 @@ namespace Omicron.ViewModel
                         lastAlarmString = str;
                         //SaveCSVfileAlarm("上料盘5，吸取失败");
                         SaveCSVfileAlarm("FPC AdjustPanel Position5 Suck Fail");
-                        alarmTableItemsList[8].吸取失败 += 1;
+                        alarmTableItemsList[8].SuckFail += 1;
+                        TotalAlarmNum++;
                         WriteAlarmRecord();
                     }
                     ShowAlarmTextGrid("上料盘5，吸取失败\n请将产品放回原位");
@@ -3609,7 +3636,8 @@ namespace Omicron.ViewModel
                         lastAlarmString = str;
                         //SaveCSVfileAlarm("上料盘6，吸取失败");
                         SaveCSVfileAlarm("FPC AdjustPanel Position6 Suck Fail");
-                        alarmTableItemsList[9].吸取失败 += 1;
+                        alarmTableItemsList[9].SuckFail += 1;
+                        TotalAlarmNum++;
                         WriteAlarmRecord();
                     }
                     ShowAlarmTextGrid("上料盘6，吸取失败\n请将产品放回原位");
@@ -3702,7 +3730,8 @@ namespace Omicron.ViewModel
                     if (lastAlarmString != str)
                     {
                         lastAlarmString = str;
-                        alarmTableItemsList[0].产品没放好 += 1;
+                        alarmTableItemsList[0].ReleaseFail += 1;
+                        TotalAlarmNum++;
                         WriteAlarmRecord();
                         //SaveCSVfileAlarm("测试工位1，产品没放好");
                         SaveCSVfileAlarm("Tester1 Release FPC Fail");
@@ -3714,7 +3743,8 @@ namespace Omicron.ViewModel
                     if (lastAlarmString != str)
                     {
                         lastAlarmString = str;
-                        alarmTableItemsList[1].产品没放好 += 1;
+                        alarmTableItemsList[1].ReleaseFail += 1;
+                        TotalAlarmNum++;
                         WriteAlarmRecord();
                         //SaveCSVfileAlarm("测试工位2，产品没放好");
                         SaveCSVfileAlarm("Tester2 Release FPC Fail");
@@ -3726,7 +3756,8 @@ namespace Omicron.ViewModel
                     if (lastAlarmString != str)
                     {
                         lastAlarmString = str;
-                        alarmTableItemsList[2].产品没放好 += 1;
+                        alarmTableItemsList[2].ReleaseFail += 1;
+                        TotalAlarmNum++;
                         WriteAlarmRecord();
                         //SaveCSVfileAlarm("测试工位3，产品没放好");
                         SaveCSVfileAlarm("Tester3 Release FPC Fail");
@@ -3738,7 +3769,8 @@ namespace Omicron.ViewModel
                     if (lastAlarmString != str)
                     {
                         lastAlarmString = str;
-                        alarmTableItemsList[3].产品没放好 += 1;
+                        alarmTableItemsList[3].ReleaseFail += 1;
+                        TotalAlarmNum++;
                         WriteAlarmRecord();
                         //SaveCSVfileAlarm("测试工位4，产品没放好");
                         SaveCSVfileAlarm("Tester4 Release FPC Fail");
@@ -4452,34 +4484,35 @@ namespace Omicron.ViewModel
             {
                 AlarmLastDayofYear = int.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Alarm", "AlarmLastDayofYear", "0"));
                 AlarmLastDateNameStr = Inifile.INIGetStringValue(iniAlarmRecordPath, "Alarm", "AlarmLastDayofYear", "2017年5月5日");
+                AlarmLastClearHourofYear = AlarmLastDayofYear = int.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Alarm", "AlarmLastClearHourofYear", "0"));
+                TotalAlarmNum = int.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Alarm", "TotalAlarmNum", "0"));
 
-
-                alarmTableItemsList[0].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴1", "吸取失败", "100"));
-                alarmTableItemsList[0].产品没放好 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴1", "产品没放好", "0"));
+                alarmTableItemsList[0].SuckFail = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Station1", "SuckFail", "100"));
+                alarmTableItemsList[0].ReleaseFail = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Station1", "ReleaseFail", "0"));
                 //alarmTableItemsList[0].测试机超时 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴1", "测试机超时", "0"));
                 //alarmTableItemsList[0].连续NG = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴1", "连续NG", "0"));
 
-                alarmTableItemsList[1].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴2", "吸取失败", "0"));
-                alarmTableItemsList[1].产品没放好 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴2", "产品没放好", "0"));
+                alarmTableItemsList[1].SuckFail = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Station2", "SuckFail", "0"));
+                alarmTableItemsList[1].ReleaseFail = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Station2", "ReleaseFail", "0"));
                 //alarmTableItemsList[1].测试机超时 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴2", "测试机超时", "0"));
                 //alarmTableItemsList[1].连续NG = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴2", "连续NG", "0"));
 
-                alarmTableItemsList[2].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴3", "吸取失败", "0"));
-                alarmTableItemsList[2].产品没放好 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴3", "产品没放好", "0"));
+                alarmTableItemsList[2].SuckFail = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Station3", "SuckFail", "0"));
+                alarmTableItemsList[2].ReleaseFail = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Station3", "ReleaseFail", "0"));
                 //alarmTableItemsList[2].测试机超时 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴3", "测试机超时", "0"));
                 //alarmTableItemsList[2].连续NG = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴3", "连续NG", "0"));
 
-                alarmTableItemsList[3].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴4", "吸取失败", "0"));
-                alarmTableItemsList[3].产品没放好 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴4", "产品没放好", "0"));
+                alarmTableItemsList[3].SuckFail = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Station4", "SuckFail", "0"));
+                alarmTableItemsList[3].ReleaseFail = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Station4", "ReleaseFail", "0"));
                 //alarmTableItemsList[3].测试机超时 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴4", "测试机超时", "0"));
                 //alarmTableItemsList[3].连续NG = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "测试机穴4", "连续NG", "0"));
 
-                alarmTableItemsList[4].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "上料盘位1", "吸取失败", "0"));
-                alarmTableItemsList[5].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "上料盘位2", "吸取失败", "0"));
-                alarmTableItemsList[6].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "上料盘位3", "吸取失败", "0"));
-                alarmTableItemsList[7].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "上料盘位4", "吸取失败", "0"));
-                alarmTableItemsList[8].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "上料盘位5", "吸取失败", "0"));
-                alarmTableItemsList[9].吸取失败 = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "上料盘位6", "吸取失败", "0"));
+                alarmTableItemsList[4].SuckFail = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "LoadPanelPosition1", "SuckFail", "0"));
+                alarmTableItemsList[5].SuckFail = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "LoadPanelPosition2", "SuckFail", "0"));
+                alarmTableItemsList[6].SuckFail = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "LoadPanelPosition3", "SuckFail", "0"));
+                alarmTableItemsList[7].SuckFail = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "LoadPanelPosition4", "SuckFail", "0"));
+                alarmTableItemsList[8].SuckFail = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "LoadPanelPosition5", "SuckFail", "0"));
+                alarmTableItemsList[9].SuckFail = ushort.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "LoadPanelPosition6", "SuckFail", "0"));
 
 
             }
@@ -4493,32 +4526,34 @@ namespace Omicron.ViewModel
         {
             try
             {
-                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴1", "吸取失败", alarmTableItemsList[0].吸取失败.ToString());
-                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴1", "产品没放好", alarmTableItemsList[0].产品没放好.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "Station1", "SuckFail", alarmTableItemsList[0].SuckFail.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "Station1", "ReleaseFail", alarmTableItemsList[0].ReleaseFail.ToString());
                 //Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴1", "测试机超时", alarmTableItemsList[0].测试机超时.ToString());
                 //Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴1", "连续NG", alarmTableItemsList[0].连续NG.ToString());
 
-                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴2", "吸取失败", alarmTableItemsList[1].吸取失败.ToString());
-                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴2", "产品没放好", alarmTableItemsList[1].产品没放好.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "Station2", "SuckFail", alarmTableItemsList[1].SuckFail.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "Station2", "ReleaseFail", alarmTableItemsList[1].ReleaseFail.ToString());
                 //Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴2", "测试机超时", alarmTableItemsList[1].测试机超时.ToString());
                 //Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴2", "连续NG", alarmTableItemsList[1].连续NG.ToString());
 
-                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴3", "吸取失败", alarmTableItemsList[2].吸取失败.ToString());
-                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴3", "产品没放好", alarmTableItemsList[2].产品没放好.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "Station3", "SuckFail", alarmTableItemsList[2].SuckFail.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "Station3", "ReleaseFail", alarmTableItemsList[2].ReleaseFail.ToString());
                 //Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴3", "测试机超时", alarmTableItemsList[2].测试机超时.ToString());
                 //Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴3", "连续NG", alarmTableItemsList[2].连续NG.ToString());
 
-                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴4", "吸取失败", alarmTableItemsList[3].吸取失败.ToString());
-                Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴4", "产品没放好", alarmTableItemsList[3].产品没放好.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "Station4", "SuckFail", alarmTableItemsList[3].SuckFail.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "Station4", "ReleaseFail", alarmTableItemsList[3].ReleaseFail.ToString());
                 //Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴4", "测试机超时", alarmTableItemsList[3].测试机超时.ToString());
                 //Inifile.INIWriteValue(iniAlarmRecordPath, "测试机穴4", "连续NG", alarmTableItemsList[3].连续NG.ToString());
 
-                Inifile.INIWriteValue(iniAlarmRecordPath, "上料盘位1", "吸取失败", alarmTableItemsList[4].吸取失败.ToString());
-                Inifile.INIWriteValue(iniAlarmRecordPath, "上料盘位2", "吸取失败", alarmTableItemsList[5].吸取失败.ToString());
-                Inifile.INIWriteValue(iniAlarmRecordPath, "上料盘位3", "吸取失败", alarmTableItemsList[6].吸取失败.ToString());
-                Inifile.INIWriteValue(iniAlarmRecordPath, "上料盘位4", "吸取失败", alarmTableItemsList[7].吸取失败.ToString());
-                Inifile.INIWriteValue(iniAlarmRecordPath, "上料盘位5", "吸取失败", alarmTableItemsList[8].吸取失败.ToString());
-                Inifile.INIWriteValue(iniAlarmRecordPath, "上料盘位6", "吸取失败", alarmTableItemsList[9].吸取失败.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "LoadPanelPosition1", "SuckFail", alarmTableItemsList[4].SuckFail.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "LoadPanelPosition2", "SuckFail", alarmTableItemsList[5].SuckFail.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "LoadPanelPosition3", "SuckFail", alarmTableItemsList[6].SuckFail.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "LoadPanelPosition4", "SuckFail", alarmTableItemsList[7].SuckFail.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "LoadPanelPosition5", "SuckFail", alarmTableItemsList[8].SuckFail.ToString());
+                Inifile.INIWriteValue(iniAlarmRecordPath, "LoadPanelPosition6", "SuckFail", alarmTableItemsList[9].SuckFail.ToString());
+
+                Inifile.INIWriteValue(iniAlarmRecordPath, "Alarm", "TotalAlarmNum", TotalAlarmNum.ToString());
             }
             catch (Exception ex)
             {
@@ -4822,25 +4857,85 @@ namespace Omicron.ViewModel
         }
         private async void DispatcherTimerTickUpdateUi(Object sender, EventArgs e)
         {
-            if ((DateTime.Now.DayOfYear - AlarmLastDayofYear)*24 + DateTime.Now.Hour > 24)
+            //if ((DateTime.Now.DayOfYear - AlarmLastDayofYear)*24 + DateTime.Now.Hour > 24)
+            //{
+            //    Alarm_allowClean = true;
+            //    ClearAlarmRecord();              
+            //}
+            //else
+            //{
+            //    if (Alarm_allowClean && (DateTime.Now.Hour == 8 || DateTime.Now.Hour == 20))
+            //    {
+            //        Alarm_allowClean = false;
+            //        ClearAlarmRecord();
+            //    }
+            //    else
+            //    {
+            //        if (DateTime.Now.Hour != 8 && DateTime.Now.Hour != 20)
+            //        {
+            //            Alarm_allowClean = true;
+            //        }
+            //    }
+            //}
+            if (AlarmLastClearHourofYear > DateTime.Now.DayOfYear * 24 + DateTime.Now.Hour)
             {
-                Alarm_allowClean = true;
-                ClearAlarmRecord();              
+                AlarmLastClearHourofYear = 0;
+                Inifile.INIWriteValue(iniAlarmRecordPath, "Alarm", "AlarmLastClearHourofYear", AlarmLastClearHourofYear.ToString());
             }
-            else
+            isIn8or20 = DateTime.Now.Hour == 8 || DateTime.Now.Hour == 20;
+            if (isIn8or20 != _isIn8or20)
             {
-                if (Alarm_allowClean && (DateTime.Now.Hour == 8 || DateTime.Now.Hour == 20))
+                if (isIn8or20)
                 {
-                    Alarm_allowClean = false;
-                    ClearAlarmRecord();
+                    if (AlarmLastClearHourofYear == DateTime.Now.DayOfYear * 24 + DateTime.Now.Hour)
+                    {
+                        Alarm_allowClean = bool.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Alarm", "Alarm_allowClean", "False"));
+                        if (Alarm_allowClean)
+                        {
+                            AutoClean();
+                            Alarm_allowClean = false;
+                            Inifile.INIWriteValue(iniAlarmRecordPath, "Alarm", "Alarm_allowClean", Alarm_allowClean.ToString());
+                            AlarmLastClearHourofYear = DateTime.Now.DayOfYear * 24 + DateTime.Now.Hour;
+                            Inifile.INIWriteValue(iniAlarmRecordPath, "Alarm", "AlarmLastClearHourofYear", AlarmLastClearHourofYear.ToString());
+                        }
+                    }
+                    else
+                    {
+                        AutoClean();
+                        Alarm_allowClean = true;
+                        Inifile.INIWriteValue(iniAlarmRecordPath, "Alarm", "Alarm_allowClean", Alarm_allowClean.ToString());
+                        AlarmLastClearHourofYear = DateTime.Now.DayOfYear * 24 + DateTime.Now.Hour;
+                        Inifile.INIWriteValue(iniAlarmRecordPath, "Alarm", "AlarmLastClearHourofYear", AlarmLastClearHourofYear.ToString());
+                    }
                 }
                 else
                 {
-                    if (DateTime.Now.Hour != 8 && DateTime.Now.Hour != 20)
-                    {
-                        Alarm_allowClean = true;
-                    }
+                    Alarm_allowClean = true;
+                    Inifile.INIWriteValue(iniAlarmRecordPath, "Alarm", "Alarm_allowClean", Alarm_allowClean.ToString());
                 }
+                _isIn8or20 = isIn8or20;
+            }
+            if (DateTime.Now.DayOfYear * 24 + DateTime.Now.Hour - AlarmLastClearHourofYear > 12)
+            {
+                AutoClean();
+                Alarm_allowClean = true;
+                Inifile.INIWriteValue(iniAlarmRecordPath, "Alarm", "Alarm_allowClean", Alarm_allowClean.ToString());
+                if (DateTime.Now.Hour >=8 && DateTime.Now.Hour <20)
+                {
+                    AlarmLastClearHourofYear = DateTime.Now.DayOfYear * 24 + 8;
+                }
+                else
+                {
+                    if (DateTime.Now.Hour >= 0 && DateTime.Now.Hour < 8)
+                    {
+                        AlarmLastClearHourofYear = (DateTime.Now.DayOfYear-1) * 24 + 20;
+                    }
+                    else
+                    {
+                        AlarmLastClearHourofYear = DateTime.Now.DayOfYear * 24 + 20;
+                    }
+                }                
+                Inifile.INIWriteValue(iniAlarmRecordPath, "Alarm", "AlarmLastClearHourofYear", AlarmLastClearHourofYear.ToString());
             }
 
             if (myTestRecordQueue.Count > 0)
@@ -4937,6 +5032,10 @@ namespace Omicron.ViewModel
                 //        }
                 //    }
                 //}
+                if (LastSampleHour > DateTime.Now.DayOfYear * 24 + DateTime.Now.Hour)
+                {
+                    LastSampleHour = 0;
+                }
                 if (IsTestersSample)
                 {
                     if (DateTime.Now.DayOfYear *24 + DateTime.Now.Hour - LastSampleHour >= 12)
@@ -5366,16 +5465,16 @@ namespace Omicron.ViewModel
     }
     public class AlarmTableItem
     {
-        public string 工位 { set; get; }
-        public ushort 吸取失败 { set; get; }
-        public ushort 产品没放好 { set; get; }
+        public string Station { set; get; }
+        public ushort SuckFail { set; get; }
+        public ushort ReleaseFail { set; get; }
         //public ushort 测试机超时 { set; get; }
         //public ushort 连续NG { set; get; }
         public AlarmTableItem(string position)
         {
-            工位 = position;
-            吸取失败 = 0;
-            产品没放好 = 0;
+            Station = position;
+            SuckFail = 0;
+            ReleaseFail = 0;
             //测试机超时 = 0;
             //连续NG = 0;
         }

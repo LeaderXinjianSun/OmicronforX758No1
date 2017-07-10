@@ -151,7 +151,7 @@
                                             <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Time:" Width="100" Margin="5,0"></TextBlock>
                                             <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding TestTime0}"></TextBlock>
                                             <TextBlock Style="{StaticResource TextBlockBase}" Text="sec" Margin="5,0"></TextBlock>
-                                            <Button HorizontalAlignment="Right" Width="40" Margin="0,0,2,0" Content="清零" Command="{mvvm:ActionAutoWithParam CleantoZero}" CommandParameter="4"></Button>
+                                            <!--<Button HorizontalAlignment="Right" Width="40" Margin="0,0,2,0" Content="清零" Command="{mvvm:ActionAutoWithParam CleantoZero}" CommandParameter="4"></Button>-->
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Count:" Width="100" Margin="5,0"></TextBlock>
@@ -183,7 +183,7 @@
                                         <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Time:" Width="100" Margin="5,0"></TextBlock>
                                         <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding TestTime1}"></TextBlock>
                                         <TextBlock Style="{StaticResource TextBlockBase}" Text="sec" Margin="5,0"></TextBlock>
-                                        <Button HorizontalAlignment="Right" Width="40" Margin="0,0,2,0" Content="清零" Command="{mvvm:ActionAutoWithParam CleantoZero}" CommandParameter="5"></Button>
+                                        <!--<Button HorizontalAlignment="Right" Width="40" Margin="0,0,2,0" Content="清零" Command="{mvvm:ActionAutoWithParam CleantoZero}" CommandParameter="5"></Button>-->
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Count:" Width="100" Margin="5,0"></TextBlock>
@@ -213,7 +213,7 @@
                                         <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Time:" Width="100" Margin="5,0"></TextBlock>
                                         <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding TestTime2}"></TextBlock>
                                         <TextBlock Style="{StaticResource TextBlockBase}" Text="sec" Margin="5,0"></TextBlock>
-                                        <Button HorizontalAlignment="Right" Width="40" Margin="0,0,2,0" Content="清零" Command="{mvvm:ActionAutoWithParam CleantoZero}" CommandParameter="6"></Button>
+                                        <!--<Button HorizontalAlignment="Right" Width="40" Margin="0,0,2,0" Content="清零" Command="{mvvm:ActionAutoWithParam CleantoZero}" CommandParameter="6"></Button>-->
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Count:" Width="100" Margin="5,0"></TextBlock>
@@ -243,7 +243,7 @@
                                         <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Time:" Width="100" Margin="5,0"></TextBlock>
                                         <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding TestTime3}"></TextBlock>
                                         <TextBlock Style="{StaticResource TextBlockBase}" Text="sec" Margin="5,0"></TextBlock>
-                                        <Button HorizontalAlignment="Right" Width="40" Margin="0,0,2,0" Content="清零" Command="{mvvm:ActionAutoWithParam CleantoZero}" CommandParameter="7"></Button>
+                                        <!--<Button HorizontalAlignment="Right" Width="40" Margin="0,0,2,0" Content="清零" Command="{mvvm:ActionAutoWithParam CleantoZero}" CommandParameter="7"></Button>-->
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Count:" Width="100" Margin="5,0"></TextBlock>
@@ -278,7 +278,7 @@
                                             <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Time:" Width="100" Margin="5,0"></TextBlock>
                                             <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding TestTime0}"></TextBlock>
                                             <TextBlock Style="{StaticResource TextBlockBase}" Text="sec" Margin="5,0"></TextBlock>
-                                            <Button HorizontalAlignment="Right" Width="40" Margin="0,0,2,0" Content="清零" Command="{mvvm:ActionAutoWithParam CleantoZero}" CommandParameter="0"></Button>
+                                            <!--<Button HorizontalAlignment="Right" Width="40" Margin="0,0,2,0" Content="清零" Command="{mvvm:ActionAutoWithParam CleantoZero}" CommandParameter="0"></Button>-->
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Count:" Width="100" Margin="5,0"></TextBlock>
@@ -310,7 +310,7 @@
                                         <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Time:" Width="100" Margin="5,0"></TextBlock>
                                         <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding TestTime1}"></TextBlock>
                                         <TextBlock Style="{StaticResource TextBlockBase}" Text="sec" Margin="5,0"></TextBlock>
-                                        <Button HorizontalAlignment="Right" Width="40" Margin="0,0,2,0" Content="清零" Command="{mvvm:ActionAutoWithParam CleantoZero}" CommandParameter="1"></Button>
+                                        <!--<Button HorizontalAlignment="Right" Width="40" Margin="0,0,2,0" Content="清零" Command="{mvvm:ActionAutoWithParam CleantoZero}" CommandParameter="1"></Button>-->
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Count:" Width="100" Margin="5,0"></TextBlock>
@@ -340,7 +340,7 @@
                                         <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Time:" Width="100" Margin="5,0"></TextBlock>
                                         <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding TestTime2}"></TextBlock>
                                         <TextBlock Style="{StaticResource TextBlockBase}" Text="sec" Margin="5,0"></TextBlock>
-                                        <Button HorizontalAlignment="Right" Width="40" Margin="0,0,2,0" Content="清零" Command="{mvvm:ActionAutoWithParam CleantoZero}" CommandParameter="2"></Button>
+                                        <!--<Button HorizontalAlignment="Right" Width="40" Margin="0,0,2,0" Content="清零" Command="{mvvm:ActionAutoWithParam CleantoZero}" CommandParameter="2"></Button>-->
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Count:" Width="100" Margin="5,0"></TextBlock>
@@ -370,7 +370,7 @@
                                         <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Time:" Width="100" Margin="5,0"></TextBlock>
                                         <TextBlock Style="{StaticResource TextBlockBase}" Width="70" Margin="5,0" Text="{Binding TestTime3}"></TextBlock>
                                         <TextBlock Style="{StaticResource TextBlockBase}" Text="sec" Margin="5,0"></TextBlock>
-                                        <Button HorizontalAlignment="Right" Width="40" Margin="0,0,2,0" Content="清零" Command="{mvvm:ActionAutoWithParam CleantoZero}" CommandParameter="3"></Button>
+                                        <!--<Button HorizontalAlignment="Right" Width="40" Margin="0,0,2,0" Content="清零" Command="{mvvm:ActionAutoWithParam CleantoZero}" CommandParameter="3"></Button>-->
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Style="{StaticResource TextBlockBase}" Text="Test Count:" Width="100" Margin="5,0"></TextBlock>

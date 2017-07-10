@@ -22,9 +22,10 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <DataGrid GridLinesVisibility="All" HorizontalContentAlignment="Center" ItemsSource="{Binding alarmTableItems}" AutoGenerateColumns="True"></DataGrid>
-        <StackPanel Orientation="Horizontal" Grid.Row="1">
+        <StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center">
             <Button Margin="10,0" Content="清空" Command="{mvvm:ActionAutoWithParam XQTActionFunction}" CommandParameter="7" VerticalAlignment="Center"></Button>
-            
+            <TextBlock Text="报警总数：" Margin="10,0" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text="{Binding TotalAlarmNum}" VerticalAlignment="Center"></TextBlock>
         </StackPanel>
     </Grid>
 </UserControl>
