@@ -143,7 +143,8 @@ namespace Omicron.Model
                 }
 
                 TestRecordSavePath = Inifile.INIGetStringValue(iniParameterPath, "SavePath", "TestRecordSavePath", "C:\\");
-                isCheckUpload = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Upload", "IsCheckUploadStatus", "False"));
+                //isCheckUpload = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Upload", "IsCheckUploadStatus", "False"));
+                isCheckUpload = true;
                 for (int i = 0; i < 4; i++)
                 {
                     uploadSoftwareStatus[i] = new UploadSoftwareStatus(i);

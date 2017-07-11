@@ -167,7 +167,7 @@
                     <TextBlock Style="{StaticResource TextBlockBase}" Text="治具超时时间： "></TextBlock>
                     <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding FlexTestTimeout}"></TextBox>
                     <TextBlock Style="{StaticResource TextBlockBase}" Text="s"></TextBlock>
-                    <CheckBox Content="监控上传软体"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding IsCheckUploadStatus}"></CheckBox>
+                    <!--<CheckBox Content="监控上传软体"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding IsCheckUploadStatus}"></CheckBox>-->
                 </StackPanel>
             </StackPanel>
         </GroupBox>

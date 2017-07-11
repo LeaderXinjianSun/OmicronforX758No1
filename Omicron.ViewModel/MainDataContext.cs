@@ -4424,7 +4424,8 @@ namespace Omicron.ViewModel
                 PassLowLimit = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "PassYield", "PassLowLimit", "94"));
 
                 FlexTestTimeout = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "FlexTest", "FlexTestTimeout", "100"));
-                IsCheckUploadStatus = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Upload", "IsCheckUploadStatus", "False"));
+                //IsCheckUploadStatus = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Upload", "IsCheckUploadStatus", "False"));
+                IsCheckUploadStatus = true;
                 return true;
             }
             catch (Exception ex)
