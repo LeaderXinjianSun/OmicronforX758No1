@@ -564,6 +564,7 @@ namespace Omicron.ViewModel
 
         private string[,] SampleDisplayArray = new string[4, 10];
         private bool SampleWaitTime_Cancel = false;
+        private ushort UpdateSeverTimes = 0;
 
         #endregion
         #region 构造函数
@@ -2034,7 +2035,7 @@ namespace Omicron.ViewModel
             DateTimeUtility.SetLocalTime(ref st);
         }
         private void ConnectDBTest()
-        {
+        {         
             try
             {
                 OraDB oraDB = new OraDB(SQL_ora_server, SQL_ora_user, SQL_ora_pwd);
@@ -4356,7 +4357,8 @@ namespace Omicron.ViewModel
                 AABReTest = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "ReTest", "AABReTest", "False"));
 
                 IsTestersClean = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "IsTestersClean", "False"));
-                IsTestersSample = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "IsTestersSample", "False"));
+                //IsTestersSample = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "IsTestersSample", "False"));
+                IsTestersSample = true;
 
                 lastchuiqi.wDay = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wDay", "13"));
                 lastchuiqi.wDayOfWeek = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wDayOfWeek", "0"));
@@ -4890,6 +4892,30 @@ namespace Omicron.ViewModel
         }
         private async void DispatcherTimerTickUpdateUi(Object sender, EventArgs e)
         {
+            var yue = DateTime.Now.Month;
+            var day = DateTime.Now.Day;
+            //LoginPassword
+            var password1 = yue + day;
+            string passwordstr = "";
+            for (int i = 0; i < 4 - password1.ToString().Length; i++)
+            {
+                passwordstr += "0";
+            }
+            LoginPassword = passwordstr + password1.ToString();
+            if (UpdateSeverTimes++ > 10)
+            {
+                UpdateSeverTimes = 0;
+                try
+                {
+                    ConnectDBTest();
+                }
+                catch
+                {
+
+
+                }
+            }
+
             //if ((DateTime.Now.DayOfYear - AlarmLastDayofYear)*24 + DateTime.Now.Hour > 24)
             //{
             //    Alarm_allowClean = true;
@@ -5088,7 +5114,7 @@ namespace Omicron.ViewModel
 
                 if (IsTestersSample && AllowSampleTestCommand)
                 {
-                    if (DateTime.Now.DayOfYear * 24 + DateTime.Now.Hour - LastSampleHour >= 14)
+                    if (DateTime.Now.DayOfYear * 24 + DateTime.Now.Hour - LastSampleHour >= 15)
                     {
                         if (IsTestersSample)
                         {
@@ -5196,7 +5222,7 @@ namespace Omicron.ViewModel
             System.Threading.Thread.Sleep(100);
             CameraHcInspect();
             Msg = messagePrint.AddMessage("检测相机初始化完成");
-            ConnectDBTest();
+            //ConnectDBTest();
             //epsonRC90.scanCameraInit();
             //await Task.Delay(100);
             //ScanCameraInspect();

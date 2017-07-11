@@ -139,7 +139,7 @@
                 <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
 
                     <CheckBox Content="清洁"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding IsTestersClean}"></CheckBox>
-                    <CheckBox Content="样本"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding IsTestersSample}"></CheckBox>
+                    <!--<CheckBox Content="样本"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding IsTestersSample}"></CheckBox>-->
                     <control:ToggleSwitch Margin="30,0,0,0" Width="120" Foreground="Red" FontSize="20" OnLabel="GRR" OffSwitchBrush="LightBlue" OnSwitchBrush="Gold" OffLabel="正常" IsChecked="{Binding isGRRMode}"></control:ToggleSwitch>
                 </StackPanel>
                 <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
