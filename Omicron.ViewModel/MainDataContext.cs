@@ -509,6 +509,7 @@ namespace Omicron.ViewModel
         public virtual int TotalAlarmNum { set; get; } = 0;
         public virtual double SampleWaitTime { set; get; } = 0;
         public virtual string SampleWaitTimeShow { set; get; } = "Collapsed";
+        public virtual bool AdminControl { set; get; } = false;
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -517,6 +518,7 @@ namespace Omicron.ViewModel
         private string iniAlarmRecordPath = System.Environment.CurrentDirectory + "\\AlarmRecord.ini";
         private string TwincatParameterPath = System.Environment.CurrentDirectory + "\\TwincatParameter.ini";
         private string iniTesterResutPath = System.Environment.CurrentDirectory + "\\TesterResut.ini";
+        private string iniAdminControl = @"D:\AdminControl.ini";
         private XinjiePlc XinjiePLC;
         private HdevEngine hdevEngine = new HdevEngine();
         //private HdevEngine hdevScanEngine = new HdevEngine();
@@ -4357,8 +4359,8 @@ namespace Omicron.ViewModel
                 AABReTest = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "ReTest", "AABReTest", "False"));
 
                 IsTestersClean = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "IsTestersClean", "False"));
-                //IsTestersSample = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "IsTestersSample", "False"));
-                IsTestersSample = true;
+                IsTestersSample = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "IsTestersSample", "False"));
+                //IsTestersSample = true;
 
                 lastchuiqi.wDay = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wDay", "13"));
                 lastchuiqi.wDayOfWeek = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wDayOfWeek", "0"));
@@ -4424,8 +4426,14 @@ namespace Omicron.ViewModel
                 PassLowLimit = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "PassYield", "PassLowLimit", "94"));
 
                 FlexTestTimeout = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "FlexTest", "FlexTestTimeout", "100"));
-                //IsCheckUploadStatus = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Upload", "IsCheckUploadStatus", "False"));
-                IsCheckUploadStatus = true;
+                IsCheckUploadStatus = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Upload", "IsCheckUploadStatus", "False"));
+                //IsCheckUploadStatus = true;
+                var adminstr = Inifile.INIGetStringValue(iniAdminControl, "Admin", "AdminControl", "False");
+                if (adminstr == "True" || adminstr == "False")
+                {
+                    AdminControl = bool.Parse(adminstr);
+                }
+                
                 return true;
             }
             catch (Exception ex)

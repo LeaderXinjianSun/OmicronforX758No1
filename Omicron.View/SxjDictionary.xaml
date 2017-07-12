@@ -793,6 +793,14 @@
         <Setter Property="Margin" Value="20,0"></Setter>
         <Setter Property="VerticalAlignment" Value="Center"></Setter>
     </Style>
+    <Style TargetType="CheckBox" BasedOn="{StaticResource CheckBoxBase}" x:Key="AdminControl">
+        <Setter Property="Visibility" Value="Visible"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding AdminControl}" Value="False">
+                <Setter Property="Visibility" Value="Collapsed"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
     <Style TargetType="TextBlock" x:Key="LabelBase">
         <Setter Property="FontSize" Value="42"></Setter>
         <Setter Property="Foreground" Value="YellowGreen"></Setter>
