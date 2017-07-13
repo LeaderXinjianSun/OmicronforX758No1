@@ -518,7 +518,7 @@ namespace Omicron.ViewModel
         private string iniAlarmRecordPath = System.Environment.CurrentDirectory + "\\AlarmRecord.ini";
         private string TwincatParameterPath = System.Environment.CurrentDirectory + "\\TwincatParameter.ini";
         private string iniTesterResutPath = System.Environment.CurrentDirectory + "\\TesterResut.ini";
-        private string iniAdminControl = @"D:\AdminControl.ini";
+        private string iniAdminControl = @"C:\WINDOWS\AdminControl.ini";
         private XinjiePlc XinjiePLC;
         private HdevEngine hdevEngine = new HdevEngine();
         //private HdevEngine hdevScanEngine = new HdevEngine();
