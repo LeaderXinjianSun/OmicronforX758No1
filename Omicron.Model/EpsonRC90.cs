@@ -546,7 +546,7 @@ namespace Omicron.Model
                                             testerwith4item[(int.Parse(strs[2]) - 1) / 2].UpdateTester1(1, (int.Parse(strs[2]) - 1) % 2);
                                             if (IsCheckINI)
                                             {
-                                                CheckiniAction(testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2], int.Parse(strs[2]) - 1);
+                                                CheckiniAction(testerwith4item[(int.Parse(strs[2]) - 1) / 2].TesterBracode[(int.Parse(strs[2]) - 1) % 2], int.Parse(strs[2]) - 1);
                                             }
                                             break;
                                         case "NG":
@@ -781,7 +781,7 @@ namespace Omicron.Model
 
             for (int i = 0; i < 4; i++)
             {
-                if ((testerwith4item[i / 2].TestCount_Nomal[i % 2] >= PassLowLimitStopNum && testerwith4item[i / 2].Yield_Nomal[i % 2] < PassLowLimitStop) || !IsPassLowLimitStop)
+                if ( testerwith4item[i / 2].Yield_Nomal[i % 2] > PassLowLimitStop || !IsPassLowLimitStop || testerwith4item[i / 2].TestCount_Nomal[i % 2] < PassLowLimitStopNum)
                 {
                     str += ";1";
                 }
@@ -846,6 +846,7 @@ namespace Omicron.Model
             {
                 await TestSentNet.SendAsync("CheckBarcodeResult;1");
             }
+            
         }
         public async void StartProcess(int index)
         {
