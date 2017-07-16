@@ -8,6 +8,7 @@ using SxjLibrary;
 using ViewROI;
 using HalconDotNet;
 using System.IO;
+using System.Diagnostics;
 
 namespace Omicron.Model
 {
@@ -73,6 +74,10 @@ namespace Omicron.Model
         private string TestRecordSavePath = "";
         public UploadSoftwareStatus[] uploadSoftwareStatus = new UploadSoftwareStatus[4];
         private bool isCheckUpload = false;
+        double PassLowLimitStop;
+        int PassLowLimitStopNum;
+        bool IsPassLowLimitStop;
+        bool IsCheckINI;
         #endregion
         #region 事件定义
         public delegate void PrintEventHandler(string ModelMessageStr);
@@ -144,6 +149,10 @@ namespace Omicron.Model
 
                 TestRecordSavePath = Inifile.INIGetStringValue(iniParameterPath, "SavePath", "TestRecordSavePath", "C:\\");
                 isCheckUpload = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Upload", "IsCheckUploadStatus", "False"));
+                PassLowLimitStop = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "PassYield", "PassLowLimitStop", "85"));
+                PassLowLimitStopNum = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "PassYield", "PassLowLimitStopNum", "100"));
+                IsPassLowLimitStop = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "PassYield", "IsPassLowLimitStop", "False"));
+                IsCheckINI = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "CheckINI", "IsCheckINI", "False"));
                 //isCheckUpload = true;
                 for (int i = 0; i < 4; i++)
                 {
@@ -535,6 +544,10 @@ namespace Omicron.Model
                                     {
                                         case "OK":
                                             testerwith4item[(int.Parse(strs[2]) - 1) / 2].UpdateTester1(1, (int.Parse(strs[2]) - 1) % 2);
+                                            if (IsCheckINI)
+                                            {
+                                                CheckiniAction(testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2], int.Parse(strs[2]) - 1);
+                                            }
                                             break;
                                         case "NG":
                                             testerwith4item[(int.Parse(strs[2]) - 1) / 2].UpdateTester1(0, (int.Parse(strs[2]) - 1) % 2);
@@ -571,6 +584,9 @@ namespace Omicron.Model
                                     break;
                                 case "StatusOfUpload":
                                     AnswerStatusOfUpload();
+                                    break;
+                                case "StatusOfYield":
+                                    AnswerStatusOfYield();
                                     break;
                                 default:
                                     ModelPrint("无效指令： " + s);
@@ -759,6 +775,78 @@ namespace Omicron.Model
                 await TestSentNet.SendAsync(str);
             }
         }
+        private async void AnswerStatusOfYield()
+        {
+            string str = "StatusOfYield";
+
+            for (int i = 0; i < 4; i++)
+            {
+                if ((testerwith4item[i / 2].TestCount_Nomal[i % 2] >= PassLowLimitStopNum && testerwith4item[i / 2].Yield_Nomal[i % 2] < PassLowLimitStop) || !IsPassLowLimitStop)
+                {
+                    str += ";1";
+                }
+                else
+                {
+                    str += ";0";
+                }
+            }
+
+            if (TestSendStatus)
+            {
+                await TestSentNet.SendAsync(str);
+            }
+        }
+        private async void CheckiniAction(string barcode, int index)
+        {
+            string iniFilepath = @"d:\test.ini";
+            string sectionName = "";
+            Stopwatch sw = new Stopwatch();
+            switch (index)
+            {
+                case 0:
+                    sectionName = "A";
+                    break;
+                case 1:
+                    sectionName = "B";
+                    break;
+                case 2:
+                    sectionName = "C";
+                    break;
+                case 3:
+                    sectionName = "D";
+                    break;
+                default:
+                    break;
+            }
+            sw.Start();
+            await ((Func<Task>)(() =>
+            {
+                return Task.Run(() =>
+                {
+                    while (true)
+                    {
+                        System.Threading.Thread.Sleep(1000);
+                        ModelPrint((index+1).ToString() + "条码比对中 " + Math.Round(sw.Elapsed.TotalSeconds, 1).ToString());
+                        string bar1 = Inifile.INIGetStringValue(iniFilepath, sectionName, "bar", "999");
+                        if (bar1 == barcode || sw.Elapsed.TotalSeconds > 30 || !IsCheckINI)
+                        {
+                            
+                            break;
+                        }
+                        
+                    }
+                });
+            }))();
+            sw.Stop();
+            if (sw.Elapsed.TotalSeconds > 30)
+            {
+                await TestSentNet.SendAsync("CheckBarcodeResult;2");
+            }
+            else
+            {
+                await TestSentNet.SendAsync("CheckBarcodeResult;1");
+            }
+        }
         public async void StartProcess(int index)
         {
             TestFinished(index);
@@ -774,7 +862,7 @@ namespace Omicron.Model
                     ModelPrint("测试机 " + (index + 1).ToString() + " 测试完成 " + testerwith4item[index / 2].testResult[index % 2].ToString() + ";" + testerwith4item[index / 2].testRemarks[index % 2]);
                     if (testerwith4item[index / 2].testResult[index % 2] == TestResult.Pass && isCheckUpload)
                     {
-                        Async.RunFuncAsync(uploadSoftwareStatus[index].StartCommand,null);
+                        Async.RunFuncAsync(uploadSoftwareStatus[index].StartCommand, null);
                     }
                     string r = await TestSentFlexNet.SendAsync("TestResult;" + testerwith4item[index / 2].testResult[index % 2].ToString() + ";" + (index + 1).ToString() + ";" + testerwith4item[index / 2].testRemarks[index % 2]);
                     if (r == "error")
@@ -787,7 +875,7 @@ namespace Omicron.Model
                 }
             }
         }
-        private void SaveStartBarcodetoCSV(string bar,int index_ii)
+        private void SaveStartBarcodetoCSV(string bar, int index_ii)
         {
             if (!Directory.Exists(TestRecordSavePath + @"\Barcode\" + DateTime.Now.ToLongDateString().ToString()))
             {

@@ -114,7 +114,7 @@
             </StackPanel>
         </GroupBox>
         <GroupBox Header="测试机选择" FontSize="18" Grid.Column="0" Grid.Row="2">
-            <StackPanel Margin="0,20,0,8" Orientation="Vertical">
+            <StackPanel Orientation="Vertical">
                 <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
                     <CheckBox x:Name="CheckBox1" Content="测试机A" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedAL}"></CheckBox>
                     <!--<CheckBox x:Name="CheckBox2" Content="测试机AR" Style="{StaticResource CheckBoxBase}" IsChecked="{Binding TestCheckedAR}"></CheckBox>-->
@@ -134,7 +134,7 @@
                 <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
 
                     <CheckBox x:Name="CheckBox5"  Content="AAB复测测试模式"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding AABReTest}"></CheckBox>
-
+                    <CheckBox Content="INI条码比对"  Style="{StaticResource AdminControl}" IsChecked="{Binding IsCheckINI}"></CheckBox>
                 </StackPanel>
                 <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
 
@@ -154,14 +154,23 @@
                     <ComboBox Width="80" SelectedIndex="{Binding PcsGrrNeedCount}" ItemsSource="{Binding PcsGrrNeedCounts}"></ComboBox>
                 </StackPanel>
                 <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource TextBlockBase}" Text="良率阀值： "></TextBlock>
+                    <TextBlock Style="{StaticResource TextBlockBase}" Text="良率高线： "></TextBlock>
                     <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PassMid}"></TextBox>
                     <TextBlock Style="{StaticResource TextBlockBase}" Text="%"></TextBlock>
                 </StackPanel>
                 <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource TextBlockBase}" Text="良率报警： "></TextBlock>
+                    <TextBlock Style="{StaticResource TextBlockBase}" Text="良率低线： "></TextBlock>
                     <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PassLowLimit}"></TextBox>
                     <TextBlock Style="{StaticResource TextBlockBase}" Text="%"></TextBlock>
+                </StackPanel>
+                <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource TextBlockBase}" Text="良率停机： "></TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PassLowLimitStop}"></TextBox>
+                    <TextBlock Style="{StaticResource TextBlockBase}" Text="%"></TextBlock>
+                    <TextBlock Style="{StaticResource TextBlockBase}" Text="投产数量： " Margin="10,0,0,0"></TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding PassLowLimitStopNum}"></TextBox>
+                    <TextBlock Style="{StaticResource TextBlockBase}" Text="pcs"></TextBlock>
+                    <CheckBox Style="{StaticResource AdminControl}" IsChecked="{Binding IsPassLowLimitStop}"></CheckBox>
                 </StackPanel>
                 <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
                     <TextBlock Style="{StaticResource TextBlockBase}" Text="治具超时时间： "></TextBlock>

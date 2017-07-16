@@ -442,6 +442,10 @@ namespace Omicron.ViewModel
 
         public virtual double PassMid { set; get; }
         public virtual double PassLowLimit { set; get; }
+        public virtual double PassLowLimitStop { set; get; }
+        public virtual int PassLowLimitStopNum { set; get; }
+        public virtual bool IsPassLowLimitStop { set; get; }
+
 
         public virtual double FlexTestTimeout { set; get; }
 
@@ -510,6 +514,8 @@ namespace Omicron.ViewModel
         public virtual double SampleWaitTime { set; get; } = 0;
         public virtual string SampleWaitTimeShow { set; get; } = "Collapsed";
         public virtual bool AdminControl { set; get; } = false;
+        public virtual bool IsCheckINI { set; get; }
+
         #endregion
         #region 变量定义区域
         private MessagePrint messagePrint = new MessagePrint();
@@ -1433,6 +1439,22 @@ namespace Omicron.ViewModel
                 Msg = messagePrint.AddMessage(str);
             }
             Inifile.INIWriteValue(iniParameterPath, "Upload", "IsCheckUploadStatus", IsCheckUploadStatus.ToString());
+
+            str = "IsPassLowLimitStop;" + IsPassLowLimitStop.ToString();
+            if (epsonRC90.TestSendStatus)
+            {
+                await epsonRC90.TestSentNet.SendAsync(str);
+                Msg = messagePrint.AddMessage(str);
+            }
+            Inifile.INIWriteValue(iniParameterPath, "PassYield", "IsPassLowLimitStop", IsPassLowLimitStop.ToString());
+
+            str = "IsCheckINI;" + IsCheckINI.ToString();
+            if (epsonRC90.TestSendStatus)
+            {
+                await epsonRC90.TestSentNet.SendAsync(str);
+                Msg = messagePrint.AddMessage(str);
+            }
+            Inifile.INIWriteValue(iniParameterPath, "CheckINI", "IsCheckINI", IsCheckINI.ToString());
 
             if (num < 2)
             {
@@ -3751,6 +3773,21 @@ namespace Omicron.ViewModel
                 case "MsgRev: 测试机4，上传软体异常":
                     ShowAlarmTextGrid("测试机4，上传软体异常");
                     break;
+                case "MsgRev: 测试机1，良率异常":
+                    ShowAlarmTextGrid("测试机1，良率超下限\n请联系工程师处理");
+                    break;
+                case "MsgRev: 测试机2，良率异常":
+                    ShowAlarmTextGrid("测试机2，良率超下限\n请联系工程师处理");
+                    break;
+                case "MsgRev: 测试机3，良率异常":
+                    ShowAlarmTextGrid("测试机3，良率超下限\n请联系工程师处理");
+                    break;
+                case "MsgRev: 测试机4，良率异常":
+                    ShowAlarmTextGrid("测试机4，良率超下限\n请联系工程师处理");
+                    break;
+                case "MsgRev: 产品记录异常":
+                    ShowAlarmTextGrid("比对INI记录异常\n请从吸嘴去下该产品");
+                    break;
                 //case "MsgRev: 单穴测试，一次完成":
                 //    SingleTestTimes++;
                 //    break;
@@ -4424,11 +4461,15 @@ namespace Omicron.ViewModel
 
                 PassMid = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "PassYield", "PassMid", "98"));
                 PassLowLimit = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "PassYield", "PassLowLimit", "94"));
+                PassLowLimitStop = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "PassYield", "PassLowLimitStop", "85"));
+                PassLowLimitStopNum = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "PassYield", "PassLowLimitStopNum", "100"));
+                IsPassLowLimitStop = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "PassYield", "IsPassLowLimitStop", "False"));
 
                 FlexTestTimeout = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "FlexTest", "FlexTestTimeout", "100"));
                 IsCheckUploadStatus = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Upload", "IsCheckUploadStatus", "False"));
+                IsCheckINI = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "CheckINI", "IsCheckINI", "False"));
                 //IsCheckUploadStatus = true;
-                var adminstr = Inifile.INIGetStringValue(iniAdminControl, "Admin", "AdminControl", "False");
+                var adminstr = Inifile.INIGetStringValue(iniAdminControl, "Admin", "AdminControl", "False");                
                 if (adminstr == "True" || adminstr == "False")
                 {
                     AdminControl = bool.Parse(adminstr);
@@ -4506,10 +4547,13 @@ namespace Omicron.ViewModel
 
                 Inifile.INIWriteValue(iniParameterPath, "PassYield", "PassMid", PassMid.ToString());
                 Inifile.INIWriteValue(iniParameterPath, "PassYield", "PassLowLimit", PassLowLimit.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "PassYield", "PassLowLimitStop", PassLowLimitStop.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "PassYield", "PassLowLimitStopNum", PassLowLimitStopNum.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "PassYield", "IsPassLowLimitStop", IsPassLowLimitStop.ToString());
                 Inifile.INIWriteValue(iniParameterPath, "FlexTest", "FlexTestTimeout", FlexTestTimeout.ToString());
 
                 Inifile.INIWriteValue(iniParameterPath, "Upload", "IsCheckUploadStatus", IsCheckUploadStatus.ToString());
-
+                Inifile.INIWriteValue(iniParameterPath, "CheckINI", "IsCheckINI", IsCheckINI.ToString());
 
                 return true;
             }

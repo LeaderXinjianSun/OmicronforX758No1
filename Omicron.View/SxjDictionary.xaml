@@ -792,6 +792,7 @@
     <Style TargetType="CheckBox" x:Key="CheckBoxBase">
         <Setter Property="Margin" Value="20,0"></Setter>
         <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
     </Style>
     <Style TargetType="CheckBox" BasedOn="{StaticResource CheckBoxBase}" x:Key="AdminControl">
         <Setter Property="Visibility" Value="Visible"></Setter>
