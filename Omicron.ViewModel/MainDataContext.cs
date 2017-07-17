@@ -508,6 +508,9 @@ namespace Omicron.ViewModel
         public virtual bool ShowSampleTestWindow { set; get; }
         public virtual bool QuitSampleTest { set; get; }
 
+        public virtual bool ShowYieldAdminControlWindow { set; get; }
+        public virtual bool QuitYieldAdminControl { set; get; }
+
         public virtual bool SampleWindowCloseEnable { set; get; } = true;
 
         public virtual int TotalAlarmNum { set; get; } = 0;
@@ -515,6 +518,20 @@ namespace Omicron.ViewModel
         public virtual string SampleWaitTimeShow { set; get; } = "Collapsed";
         public virtual bool AdminControl { set; get; } = false;
         public virtual bool IsCheckINI { set; get; }
+
+        public virtual string AdminButtonVisibility { set; get; } = "Collapsed";
+        public virtual string AdminPasswordstr { set; get; } = "";
+        public virtual string AdminPasswordPageVisibility { set; get; } = "Collapsed";
+        public virtual string AdminOperatePageVisibility { set; get; } = "Collapsed";
+        public virtual ushort YieldAddNum1 { set; get; }
+        public virtual ushort YieldAddNum2 { set; get; }
+        public virtual ushort YieldAddNum3 { set; get; }
+        public virtual ushort YieldAddNum4 { set; get; }
+        public virtual bool YieldAddNum1Enable { set; get; }
+        public virtual bool YieldAddNum2Enable { set; get; }
+        public virtual bool YieldAddNum3Enable { set; get; }
+        public virtual bool YieldAddNum4Enable { set; get; }
+
 
         #endregion
         #region 变量定义区域
@@ -1286,6 +1303,77 @@ namespace Omicron.ViewModel
                     break;
                 case "2":
                     QuitSampleTest = !QuitSampleTest;
+                    break;
+            }
+        }
+        public void AdminWindowOperate(object p)
+        {
+            string s = p.ToString();
+            switch (s)
+            {
+                case "1":
+
+                    ShowYieldAdminControlWindow = !ShowYieldAdminControlWindow;
+                    AdminPasswordPageVisibility = "Visible";
+                    AdminOperatePageVisibility = "Collapsed";
+
+                    break;
+                //case "2":
+                    
+                //    break;
+                case "3":
+                    
+                    if (AdminPasswordstr == LoginPassword)
+                    {
+                        AdminPasswordPageVisibility = "Collapsed";
+                        AdminOperatePageVisibility = "Visible";
+                        //Yield0_Nomal
+                        //PassLowLimitStop
+                        //PassLowLimitStopNum
+                        YieldAddNum4 = YieldAddNum3 = YieldAddNum2 = YieldAddNum1 = 0;
+                        YieldAddNum1Enable = Yield0_Nomal < PassLowLimitStop && TestCount0_Nomal > PassLowLimitStopNum + epsonRC90.AdminAddNum[0];
+                        if (YieldAddNum1Enable)
+                        {
+                            YieldAddNum1 = (ushort)(TestCount0_Nomal / 10);
+                        }
+                        YieldAddNum2Enable = Yield1_Nomal < PassLowLimitStop && TestCount1_Nomal > PassLowLimitStopNum + epsonRC90.AdminAddNum[1];
+                        if (YieldAddNum2Enable)
+                        {
+                            YieldAddNum2 = (ushort)(TestCount1_Nomal / 10);
+                        }
+                        YieldAddNum3Enable = Yield2_Nomal < PassLowLimitStop && TestCount2_Nomal > PassLowLimitStopNum + epsonRC90.AdminAddNum[2];
+                        if (YieldAddNum3Enable)
+                        {
+                            YieldAddNum3 = (ushort)(TestCount2_Nomal / 10);
+                        }
+                        YieldAddNum4Enable = Yield3_Nomal < PassLowLimitStop && TestCount3_Nomal > PassLowLimitStopNum + epsonRC90.AdminAddNum[3];
+                        if (YieldAddNum4Enable)
+                        {
+                            YieldAddNum4 = (ushort)(TestCount3_Nomal / 10);
+                        }
+                    }
+                    AdminPasswordstr = "";
+                    
+                    break;
+                case "4":
+                    if (YieldAddNum1Enable)
+                    {
+                        epsonRC90.AdminAddNum[0] = YieldAddNum1 > 100 ? (ushort)100 : YieldAddNum1;
+                    }
+                    if (YieldAddNum2Enable)
+                    {
+                        epsonRC90.AdminAddNum[1] = YieldAddNum2 > 100 ? (ushort)100 : YieldAddNum2;
+                    }
+                    if (YieldAddNum3Enable)
+                    {
+                        epsonRC90.AdminAddNum[2] = YieldAddNum3 > 100 ? (ushort)100 : YieldAddNum3;
+                    }
+                    if (YieldAddNum4Enable)
+                    {
+                        epsonRC90.AdminAddNum[3] = YieldAddNum4 > 100 ? (ushort)100 : YieldAddNum4;
+                    }
+                    QuitYieldAdminControl = !QuitYieldAdminControl;
+                    AdminButtonVisibility = "Collapsed";
                     break;
             }
         }
@@ -3775,15 +3863,19 @@ namespace Omicron.ViewModel
                     break;
                 case "MsgRev: 测试机1，良率异常":
                     ShowAlarmTextGrid("测试机1，良率超下限\n请联系工程师处理");
+                    AdminButtonVisibility = "Visible";
                     break;
                 case "MsgRev: 测试机2，良率异常":
                     ShowAlarmTextGrid("测试机2，良率超下限\n请联系工程师处理");
+                    AdminButtonVisibility = "Visible";
                     break;
                 case "MsgRev: 测试机3，良率异常":
                     ShowAlarmTextGrid("测试机3，良率超下限\n请联系工程师处理");
+                    AdminButtonVisibility = "Visible";
                     break;
                 case "MsgRev: 测试机4，良率异常":
                     ShowAlarmTextGrid("测试机4，良率超下限\n请联系工程师处理");
+                    AdminButtonVisibility = "Visible";
                     break;
                 case "MsgRev: 产品记录异常":
                     ShowAlarmTextGrid("比对INI记录异常\n请从吸嘴去下该产品");

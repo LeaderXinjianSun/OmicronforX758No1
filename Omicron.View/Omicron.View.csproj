@@ -116,6 +116,9 @@
     <Compile Include="TwincatNcPage.xaml.cs">
       <DependentUpon>TwincatNcPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="YieldAdminControlWindow.xaml.cs">
+      <DependentUpon>YieldAdminControlWindow.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="AboutPage.xaml">
@@ -203,6 +206,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TwincatNcPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="YieldAdminControlWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

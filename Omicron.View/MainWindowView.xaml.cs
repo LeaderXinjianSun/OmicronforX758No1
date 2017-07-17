@@ -24,6 +24,7 @@ namespace Omicron.View
         {
             InitializeComponent();
             this.SetBinding(ShowSampleTestWindowProperty, "ShowSampleTestWindow");
+            this.SetBinding(ShowYieldAdminControlWindowProperty, "ShowYieldAdminControlWindow");
         }
         public static SampleTestWindow SampleTestWindow = null;
 
@@ -48,6 +49,31 @@ namespace Omicron.View
         {
             get { return (bool)GetValue(ShowSampleTestWindowProperty); }
             set { SetValue(ShowSampleTestWindowProperty, value); }
+        }
+
+        public static YieldAdminControlWindow YieldAdminControlWindow = null;
+
+        public static readonly DependencyProperty ShowYieldAdminControlWindowProperty =
+            DependencyProperty.Register("ShowYieldAdminControlWindow", typeof(bool), typeof(MainWindowView), new PropertyMetadata(
+                new PropertyChangedCallback((d, e) =>
+                {
+                    if (YieldAdminControlWindow != null)
+                    {
+                        if (YieldAdminControlWindow.HasShow)
+                            return;
+                    }
+                    var mMainWindow = d as MainWindowView;
+                    YieldAdminControlWindow = new YieldAdminControlWindow();// { Owner = this }.Show();
+                    YieldAdminControlWindow.Owner = Application.Current.MainWindow;
+                    YieldAdminControlWindow.DataContext = mMainWindow.DataContext;
+                    YieldAdminControlWindow.SetBinding(YieldAdminControlWindow.QuitYieldAdminControlProperty, "QuitYieldAdminControl");
+                    YieldAdminControlWindow.HasShow = true;
+                    YieldAdminControlWindow.Show();
+                })));
+        public bool ShowYieldAdminControlWindow
+        {
+            get { return (bool)GetValue(ShowYieldAdminControlWindowProperty); }
+            set { SetValue(ShowYieldAdminControlWindowProperty, value); }
         }
     }
 }

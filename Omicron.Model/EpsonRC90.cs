@@ -24,7 +24,7 @@ namespace Omicron.Model
         public int CtrlPort { set; get; } = 5000;
         public bool TestSendStatus { get; set; } = false;
         public bool TestSendFlexStatus { get; set; } = false;
-        
+
         public bool TestReceiveStatus { get; set; } = false;
         public bool TestReceiveFlexStatus { get; set; } = false;
         public bool MsgReceiveStatus { get; set; } = false;
@@ -54,7 +54,7 @@ namespace Omicron.Model
         public string TesterBracodeBL { set; get; } = "Null";
         public string TesterBracodeBR { set; get; } = "Null";
 
-        
+
 
         #endregion
         #region 变量
@@ -78,6 +78,7 @@ namespace Omicron.Model
         int PassLowLimitStopNum;
         bool IsPassLowLimitStop;
         bool IsCheckINI;
+        public ushort[] AdminAddNum = new ushort[4] { 0, 0, 0, 0 };
         #endregion
         #region 事件定义
         public delegate void PrintEventHandler(string ModelMessageStr);
@@ -98,6 +99,7 @@ namespace Omicron.Model
         public event ScanP3EventHandler1 ScanP3Update1;
         public delegate void TestFinishedHandler(int index);
         public event TestFinishedHandler TestFinished;
+       
         #endregion
         #region 构造函数
         public EpsonRC90()
@@ -781,7 +783,7 @@ namespace Omicron.Model
 
             for (int i = 0; i < 4; i++)
             {
-                if ( testerwith4item[i / 2].Yield_Nomal[i % 2] > PassLowLimitStop || !IsPassLowLimitStop || testerwith4item[i / 2].TestCount_Nomal[i % 2] < PassLowLimitStopNum)
+                if (testerwith4item[i / 2].Yield_Nomal[i % 2] > PassLowLimitStop || !IsPassLowLimitStop || testerwith4item[i / 2].TestCount_Nomal[i % 2] < PassLowLimitStopNum + AdminAddNum[i])
                 {
                     str += ";1";
                 }

@@ -37,6 +37,7 @@
                     <!--<Button Grid.Row="1" Style="{StaticResource OperationButtonwithChangeContent}" Command="{mvvm:ActionAuto ShieldDoorFunction}"></Button>-->
                     <Button  Grid.Row="1" Grid.Column="1" Style="{StaticResource OperationButton}" Content="排料" Command="{mvvm:ActionAutoWithParam EpsonOpetate}" CommandParameter="5"></Button>
                     <Button  Grid.Row="2" Grid.Column="3" Style="{StaticResource OperationButton}" Content="测样本" Command="{mvvm:ActionAutoWithParam SampleWindowOperate}" CommandParameter="1"></Button>
+                    <Button  Grid.Row="1" Grid.Column="3" Style="{StaticResource OperationButton}" Background="Red" Visibility="{Binding AdminButtonVisibility}" Content="admin" Command="{mvvm:ActionAutoWithParam AdminWindowOperate}" CommandParameter="1"></Button>
                     <!--<Button  Grid.Row="1" Grid.Column="2" Style="{StaticResource OperationButton}" Content="消音" Command="{mvvm:ActionAuto NoiseReduce}"></Button>-->
                     <Button Visibility="Collapsed"  Grid.Row="2" Grid.Column="4" Style="{StaticResource OperationButton}" Content="功能" Command="{mvvm:ActionAuto FunctionTest}"></Button>
                     <Button  Grid.Column="0" Grid.Row="0" Style="{StaticResource OperationButton}" Content="启动" Command="{mvvm:ActionAutoWithParam EpsonOpetate}" CommandParameter="1" IsEnabled="{Binding IsTCPConnect}"></Button>
