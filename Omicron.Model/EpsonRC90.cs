@@ -78,7 +78,7 @@ namespace Omicron.Model
         int PassLowLimitStopNum;
         bool IsPassLowLimitStop;
         bool IsCheckINI;
-        public ushort[] AdminAddNum = new ushort[4] { 0, 0, 0, 0 };
+        public int[] AdminAddNum = new int[4] { 0, 0, 0, 0 };
         #endregion
         #region 事件定义
         public delegate void PrintEventHandler(string ModelMessageStr);
@@ -783,7 +783,7 @@ namespace Omicron.Model
 
             for (int i = 0; i < 4; i++)
             {
-                if (testerwith4item[i / 2].Yield_Nomal[i % 2] > PassLowLimitStop || !IsPassLowLimitStop || testerwith4item[i / 2].TestCount_Nomal[i % 2] < PassLowLimitStopNum + AdminAddNum[i])
+                if (testerwith4item[i / 2].Yield_Nomal[i % 2] >= PassLowLimitStop || !IsPassLowLimitStop || testerwith4item[i / 2].TestCount_Nomal[i % 2] < PassLowLimitStopNum + AdminAddNum[i])
                 {
                     str += ";1";
                 }

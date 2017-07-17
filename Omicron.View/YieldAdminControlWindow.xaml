@@ -21,19 +21,23 @@
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="良率容量1" VerticalAlignment="Center"></TextBlock>
-                    <TextBox Text="{Binding YieldAddNum1}" IsEnabled="{Binding YieldAddNum1Enable}" VerticalContentAlignment="Center" Width="60" FontSize="15" Margin="10,0,0,0"></TextBox>
+                    <TextBox Text="{Binding YieldAddNum1}" VerticalContentAlignment="Center" Width="60" FontSize="15" Margin="10,0,0,0"></TextBox>
+                    <TextBlock Text="{Binding YieldNowNum1}" VerticalAlignment="Center"></TextBlock>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="良率容量2" VerticalAlignment="Center"></TextBlock>
-                    <TextBox Text="{Binding YieldAddNum2}" IsEnabled="{Binding YieldAddNum2Enable}" VerticalContentAlignment="Center" Width="60" FontSize="15" Margin="10,0,0,0"></TextBox>
+                    <TextBox Text="{Binding YieldAddNum2}" VerticalContentAlignment="Center" Width="60" FontSize="15" Margin="10,0,0,0"></TextBox>
+                    <TextBlock Text="{Binding YieldNowNum2}" VerticalAlignment="Center"></TextBlock>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="良率容量3" VerticalAlignment="Center"></TextBlock>
-                    <TextBox Text="{Binding YieldAddNum3}" IsEnabled="{Binding YieldAddNum3Enable}" VerticalContentAlignment="Center" Width="60" FontSize="15" Margin="10,0,0,0"></TextBox>
+                    <TextBox Text="{Binding YieldAddNum3}" VerticalContentAlignment="Center" Width="60" FontSize="15" Margin="10,0,0,0"></TextBox>
+                    <TextBlock Text="{Binding YieldNowNum3}" VerticalAlignment="Center"></TextBlock>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="良率容量4" VerticalAlignment="Center"></TextBlock>
-                    <TextBox Text="{Binding YieldAddNum4}" IsEnabled="{Binding YieldAddNum4Enable}" VerticalContentAlignment="Center" Width="60" FontSize="15" Margin="10,0,0,0"></TextBox>
+                    <TextBox Text="{Binding YieldAddNum4}" VerticalContentAlignment="Center" Width="60" FontSize="15" Margin="10,0,0,0"></TextBox>
+                    <TextBlock Text="{Binding YieldNowNum4}" VerticalAlignment="Center"></TextBlock>
                 </StackPanel>
                 <Button Margin="0,50,0,0" Width="60" Height="30" HorizontalAlignment="Right" Content="确定" FontSize="15" Background="Red" Foreground="White" Command="{mvvm:ActionAutoWithParam AdminWindowOperate}" CommandParameter="4"></Button>
             </StackPanel>

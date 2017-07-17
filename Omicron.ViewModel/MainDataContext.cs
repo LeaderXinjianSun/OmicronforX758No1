@@ -523,14 +523,18 @@ namespace Omicron.ViewModel
         public virtual string AdminPasswordstr { set; get; } = "";
         public virtual string AdminPasswordPageVisibility { set; get; } = "Collapsed";
         public virtual string AdminOperatePageVisibility { set; get; } = "Collapsed";
-        public virtual ushort YieldAddNum1 { set; get; }
-        public virtual ushort YieldAddNum2 { set; get; }
-        public virtual ushort YieldAddNum3 { set; get; }
-        public virtual ushort YieldAddNum4 { set; get; }
+        public virtual int YieldAddNum1 { set; get; }
+        public virtual int YieldAddNum2 { set; get; }
+        public virtual int YieldAddNum3 { set; get; }
+        public virtual int YieldAddNum4 { set; get; }
         public virtual bool YieldAddNum1Enable { set; get; }
         public virtual bool YieldAddNum2Enable { set; get; }
         public virtual bool YieldAddNum3Enable { set; get; }
         public virtual bool YieldAddNum4Enable { set; get; }
+        public virtual int YieldNowNum1 { set; get; }
+        public virtual int YieldNowNum2 { set; get; }
+        public virtual int YieldNowNum3 { set; get; }
+        public virtual int YieldNowNum4 { set; get; }
 
 
         #endregion
@@ -1331,25 +1335,25 @@ namespace Omicron.ViewModel
                         //PassLowLimitStop
                         //PassLowLimitStopNum
                         YieldAddNum4 = YieldAddNum3 = YieldAddNum2 = YieldAddNum1 = 0;
-                        YieldAddNum1Enable = Yield0_Nomal < PassLowLimitStop && TestCount0_Nomal > PassLowLimitStopNum + epsonRC90.AdminAddNum[0];
+                        YieldAddNum1Enable = Yield0_Nomal < PassLowLimitStop && TestCount0_Nomal >= PassLowLimitStopNum + epsonRC90.AdminAddNum[0];
                         if (YieldAddNum1Enable)
                         {
-                            YieldAddNum1 = (ushort)(TestCount0_Nomal / 10);
+                            YieldAddNum1 = (TestCount0_Nomal / 10);
                         }
-                        YieldAddNum2Enable = Yield1_Nomal < PassLowLimitStop && TestCount1_Nomal > PassLowLimitStopNum + epsonRC90.AdminAddNum[1];
+                        YieldAddNum2Enable = Yield1_Nomal < PassLowLimitStop && TestCount1_Nomal >= PassLowLimitStopNum + epsonRC90.AdminAddNum[1];
                         if (YieldAddNum2Enable)
                         {
-                            YieldAddNum2 = (ushort)(TestCount1_Nomal / 10);
+                            YieldAddNum2 = (TestCount1_Nomal / 10);
                         }
-                        YieldAddNum3Enable = Yield2_Nomal < PassLowLimitStop && TestCount2_Nomal > PassLowLimitStopNum + epsonRC90.AdminAddNum[2];
+                        YieldAddNum3Enable = Yield2_Nomal < PassLowLimitStop && TestCount2_Nomal >= PassLowLimitStopNum + epsonRC90.AdminAddNum[2];
                         if (YieldAddNum3Enable)
                         {
-                            YieldAddNum3 = (ushort)(TestCount2_Nomal / 10);
+                            YieldAddNum3 = (TestCount2_Nomal / 10);
                         }
-                        YieldAddNum4Enable = Yield3_Nomal < PassLowLimitStop && TestCount3_Nomal > PassLowLimitStopNum + epsonRC90.AdminAddNum[3];
+                        YieldAddNum4Enable = Yield3_Nomal < PassLowLimitStop && TestCount3_Nomal >= PassLowLimitStopNum + epsonRC90.AdminAddNum[3];
                         if (YieldAddNum4Enable)
                         {
-                            YieldAddNum4 = (ushort)(TestCount3_Nomal / 10);
+                            YieldAddNum4 = (TestCount3_Nomal / 10);
                         }
                     }
                     AdminPasswordstr = "";
@@ -1358,19 +1362,19 @@ namespace Omicron.ViewModel
                 case "4":
                     if (YieldAddNum1Enable)
                     {
-                        epsonRC90.AdminAddNum[0] = YieldAddNum1 > 100 ? (ushort)100 : YieldAddNum1;
+                        epsonRC90.AdminAddNum[0] = YieldAddNum1 > (TestCount0_Nomal / 10) ? (TestCount0_Nomal / 10) : YieldAddNum1;
                     }
                     if (YieldAddNum2Enable)
                     {
-                        epsonRC90.AdminAddNum[1] = YieldAddNum2 > 100 ? (ushort)100 : YieldAddNum2;
+                        epsonRC90.AdminAddNum[1] = YieldAddNum2 > (TestCount1_Nomal / 10) ? (TestCount1_Nomal / 10) : YieldAddNum2;
                     }
                     if (YieldAddNum3Enable)
                     {
-                        epsonRC90.AdminAddNum[2] = YieldAddNum3 > 100 ? (ushort)100 : YieldAddNum3;
+                        epsonRC90.AdminAddNum[2] = YieldAddNum3 > (TestCount2_Nomal / 10) ? (TestCount2_Nomal / 10) : YieldAddNum3;
                     }
                     if (YieldAddNum4Enable)
                     {
-                        epsonRC90.AdminAddNum[3] = YieldAddNum4 > 100 ? (ushort)100 : YieldAddNum4;
+                        epsonRC90.AdminAddNum[3] = YieldAddNum4 > (TestCount3_Nomal / 10) ? (TestCount3_Nomal / 10) : YieldAddNum4;
                     }
                     QuitYieldAdminControl = !QuitYieldAdminControl;
                     AdminButtonVisibility = "Collapsed";
@@ -3878,7 +3882,7 @@ namespace Omicron.ViewModel
                     AdminButtonVisibility = "Visible";
                     break;
                 case "MsgRev: 产品记录异常":
-                    ShowAlarmTextGrid("比对INI记录异常\n请从吸嘴去下该产品");
+                    ShowAlarmTextGrid("比对INI记录异常\n请从吸嘴取下该产品");
                     break;
                 //case "MsgRev: 单穴测试，一次完成":
                 //    SingleTestTimes++;
@@ -4852,6 +4856,10 @@ namespace Omicron.ViewModel
 
                 try
                 {
+                    YieldNowNum1 = PassLowLimitStopNum + epsonRC90.AdminAddNum[0];
+                    YieldNowNum2 = PassLowLimitStopNum + epsonRC90.AdminAddNum[1];
+                    YieldNowNum3 = PassLowLimitStopNum + epsonRC90.AdminAddNum[2];
+                    YieldNowNum4 = PassLowLimitStopNum + epsonRC90.AdminAddNum[3];
                     TestTime0 = epsonRC90.testerwith4item[0].TestSpan[0];
                     TestCount0 = epsonRC90.testerwith4item[0].TestCount[0];
                     PassCount0 = epsonRC90.testerwith4item[0].PassCount[0];
