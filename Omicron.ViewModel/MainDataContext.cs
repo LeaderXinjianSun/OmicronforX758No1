@@ -1362,19 +1362,19 @@ namespace Omicron.ViewModel
                 case "4":
                     if (YieldAddNum1Enable)
                     {
-                        epsonRC90.AdminAddNum[0] = YieldAddNum1 > (TestCount0_Nomal / 10) ? (TestCount0_Nomal / 10) : YieldAddNum1;
+                        epsonRC90.AdminAddNum[0] = TestCount0_Nomal - PassLowLimitStopNum + (YieldAddNum1 > (TestCount0_Nomal / 10) ? (TestCount0_Nomal / 10) : YieldAddNum1);
                     }
                     if (YieldAddNum2Enable)
                     {
-                        epsonRC90.AdminAddNum[1] = YieldAddNum2 > (TestCount1_Nomal / 10) ? (TestCount1_Nomal / 10) : YieldAddNum2;
+                        epsonRC90.AdminAddNum[1] = TestCount1_Nomal - PassLowLimitStopNum + (YieldAddNum2 > (TestCount1_Nomal / 10) ? (TestCount1_Nomal / 10) : YieldAddNum2);
                     }
                     if (YieldAddNum3Enable)
                     {
-                        epsonRC90.AdminAddNum[2] = YieldAddNum3 > (TestCount2_Nomal / 10) ? (TestCount2_Nomal / 10) : YieldAddNum3;
+                        epsonRC90.AdminAddNum[2] = TestCount2_Nomal - PassLowLimitStopNum + (YieldAddNum3 > (TestCount2_Nomal / 10) ? (TestCount2_Nomal / 10) : YieldAddNum3);
                     }
                     if (YieldAddNum4Enable)
                     {
-                        epsonRC90.AdminAddNum[3] = YieldAddNum4 > (TestCount3_Nomal / 10) ? (TestCount3_Nomal / 10) : YieldAddNum4;
+                        epsonRC90.AdminAddNum[3] = TestCount3_Nomal - PassLowLimitStopNum + (YieldAddNum4 > (TestCount3_Nomal / 10) ? (TestCount3_Nomal / 10) : YieldAddNum4);
                     }
                     QuitYieldAdminControl = !QuitYieldAdminControl;
                     AdminButtonVisibility = "Collapsed";
