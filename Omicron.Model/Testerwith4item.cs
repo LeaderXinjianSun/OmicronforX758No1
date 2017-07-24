@@ -14,6 +14,7 @@ namespace Omicron.Model
     public class Testerwith4item
     {
         public static bool IsInSampleMode { set; get; } = false;
+        public static List<string> BarcodeList { set; get; } = new List<string>();
         #region 属性定义
         public string TestPcIP { set; get; } = "192.168.1.100";
         public int TestPcRemotePort { set; get; } = 8000;
@@ -226,7 +227,27 @@ namespace Omicron.Model
                     testResult[index_i] = TestResult.Ng;
                     if (!IsInSampleMode)
                     {
-                        FailCount_Nomal[index_i]++;
+                        ushort barstrnum = 0;
+                        if (BarcodeList.Count > 0)
+                        {
+                            foreach (string barcode in BarcodeList)
+                            {
+                                if (TesterBracode[index_i] == barcode)
+                                {
+                                    barstrnum++;
+                                }
+                                
+                            }
+                        }
+                        if (barstrnum < 3)
+                        {
+                            FailCount_Nomal[index_i]++;
+                        }
+                        else
+                        {
+                            PassCount_Nomal[index_i]++;
+                        }
+                        
                     }
                     
                     break;
@@ -251,6 +272,7 @@ namespace Omicron.Model
             if (!IsInSampleMode)
             {
                 TestCount_Nomal[index_i]++;
+                BarcodeList.Add(TesterBracode[index_i]);
             }
             if (!IsInSampleMode)
             {

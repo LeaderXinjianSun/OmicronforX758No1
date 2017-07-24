@@ -645,10 +645,11 @@ namespace Omicron.ViewModel
 
             ReadAlarmRecord();
 
-            TwinCatVarInit();
+            //TwinCatVarInit();
 
 
             Async.RunFuncAsync(UpdateUI, null);
+            epsonRC90.InitBarcodeList();
         }
         private void TwinCatVarInit()
         {

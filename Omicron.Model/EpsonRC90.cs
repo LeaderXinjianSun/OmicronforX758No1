@@ -9,6 +9,7 @@ using ViewROI;
 using HalconDotNet;
 using System.IO;
 using System.Diagnostics;
+using System.Data;
 
 namespace Omicron.Model
 {
@@ -148,7 +149,6 @@ namespace Omicron.Model
                     }
                     
                 }
-
                 TestRecordSavePath = Inifile.INIGetStringValue(iniParameterPath, "SavePath", "TestRecordSavePath", "C:\\");
                 isCheckUpload = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Upload", "IsCheckUploadStatus", "False"));
                 PassLowLimitStop = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "PassYield", "PassLowLimitStop", "85"));
@@ -176,6 +176,44 @@ namespace Omicron.Model
             catch (Exception ex)
             {
                 Log.Default.Error("EpsonRC90.EpsonRC90()", ex.Message);
+            }
+        }
+        public void InitBarcodeList()
+        {
+            string filepath = TestRecordSavePath + "\\" + DateTime.Now.ToLongDateString().ToString() + ".csv";
+            if (File.Exists(filepath))
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1;
+                dt.Columns.Add("Time", typeof(string));
+                dt.Columns.Add("Barcode", typeof(string));
+                dt.Columns.Add("Result", typeof(string));
+                dt.Columns.Add("Cycle", typeof(string));
+                dt.Columns.Add("Index", typeof(string));
+                try
+                {
+                    dt1 = Csvfile.csv2dt(filepath, 1, dt);
+                    if (dt1.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in dt1.Rows)
+                        {
+                            Testerwith4item.BarcodeList.Add(item["Barcode"].ToString());
+                        }
+                        ModelPrint("读取本地条码记录完成");
+                    }
+                    else
+                    {
+                        ModelPrint("本地文件无条码记录");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Default.Error("InitBarcodeList", ex.Message);
+                }
+            }
+            else
+            {
+                ModelPrint("无当日本地记录文件");
             }
         }
         #endregion
