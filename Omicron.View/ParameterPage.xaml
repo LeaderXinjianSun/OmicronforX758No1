@@ -201,6 +201,7 @@
                 </StackPanel>
                 <StackPanel Margin="5,10,5,0" Orientation="Horizontal">
                     <CheckBox Content="放料NG自动取出"  Style="{StaticResource AdminControl}" IsChecked="{Binding IsReleaseFailContinue}"></CheckBox>
+                    <CheckBox Content="扫码条码比对"  Style="{StaticResource AdminControl}" IsChecked="{Binding isScanCheckFlag}"></CheckBox>
                 </StackPanel>
                 
                 <!--<StackPanel Orientation="Horizontal">

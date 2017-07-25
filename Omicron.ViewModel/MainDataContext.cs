@@ -188,6 +188,7 @@ namespace Omicron.ViewModel
         public virtual int NGContinueNum { set; get; }
         public virtual int NGOverlayNum { set; get; }
         public virtual bool IsReleaseFailContinue { set; get; }
+        public virtual bool isScanCheckFlag { set; get; }
 
         public virtual string AlarmTextString { set; get; }
         public virtual string AlarmTextGridShow { set; get; } = "Collapsed";
@@ -1569,6 +1570,14 @@ namespace Omicron.ViewModel
             }
             Inifile.INIWriteValue(iniParameterPath, "ReleaseFail", "IsReleaseFailContinue", IsReleaseFailContinue.ToString());
 
+            str = "isScanCheckFlag;" + isScanCheckFlag.ToString();
+            if (epsonRC90.TestSendStatus)
+            {
+                await epsonRC90.TestSentNet.SendAsync(str);
+                Msg = messagePrint.AddMessage(str);
+            }
+            Inifile.INIWriteValue(iniParameterPath, "CheckScan", "isScanCheckFlag", isScanCheckFlag.ToString());
+
             if (num < 2)
             {
                 AABReTest = false;
@@ -1722,11 +1731,21 @@ namespace Omicron.ViewModel
         }
         private void SaveCSVfileAlarm(string str)
         {
-            //AlarmLastDayofYear = DateTime.Now.DayOfYear;
-            if (AlarmLastDateNameStr != DateTime.Now.ToLongDateString() && (DateTime.Now.Hour >= 8 || (DateTime.Now.DayOfYear - AlarmLastDayofYear) * 24 + DateTime.Now.Hour > 48))
+            if(DateTime.Now.Hour < 8)
             {
-                AlarmLastDateNameStr = DateTime.Now.ToLongDateString();
-                Inifile.INIWriteValue(iniAlarmRecordPath, "Alarm", "AlarmLastDateNameStr", AlarmLastDateNameStr);
+                if (AlarmLastDateNameStr != DateTime.Now.AddDays(-1).ToLongDateString())
+                {
+                    AlarmLastDateNameStr = DateTime.Now.AddDays(-1).ToLongDateString();
+                    Inifile.INIWriteValue(iniAlarmRecordPath, "Alarm", "AlarmLastDateNameStr", AlarmLastDateNameStr);
+                }
+            }
+            else
+            {
+                if (AlarmLastDateNameStr != DateTime.Now.ToLongDateString())
+                {
+                    AlarmLastDateNameStr = DateTime.Now.ToLongDateString();
+                    Inifile.INIWriteValue(iniAlarmRecordPath, "Alarm", "AlarmLastDateNameStr", AlarmLastDateNameStr);
+                }
             }
             string Bancistr = DateTime.Now.Hour >= 8 && DateTime.Now.Hour < 20 ? "白班" : "夜班";
             string filepath = AlarmSavePath + "\\Alarm" + AlarmLastDateNameStr + Bancistr + ".csv";
@@ -4549,8 +4568,8 @@ namespace Omicron.ViewModel
 
                 IsTestersClean = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "IsTestersClean", "False"));
                 IsTestersSample = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "IsTestersSample", "False"));
-                //IsTestersSample = true;
-                //Inifile.INIWriteValue(iniParameterPath, "ReleaseFail", "IsReleaseFailContinue", IsReleaseFailContinue.ToString());
+                //Inifile.INIWriteValue(iniParameterPath, "CheckScan", "isScanCheckFlag", isScanCheckFlag.ToString());
+                isScanCheckFlag = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "CheckScan", "isScanCheckFlag", "False"));
                 IsReleaseFailContinue = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "ReleaseFail", "IsReleaseFailContinue", "False"));
                 lastchuiqi.wDay = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wDay", "13"));
                 lastchuiqi.wDayOfWeek = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wDayOfWeek", "0"));
@@ -4673,6 +4692,7 @@ namespace Omicron.ViewModel
                 Inifile.INIWriteValue(iniParameterPath, "Sample", "IsTestersSample", IsTestersSample.ToString());
                 //IsReleaseFailContinue
                 Inifile.INIWriteValue(iniParameterPath, "ReleaseFail", "IsReleaseFailContinue", IsReleaseFailContinue.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "CheckScan", "isScanCheckFlag", isScanCheckFlag.ToString());
                 Inifile.INIWriteValue(iniParameterPath, "Oracle", "Server", SQL_ora_server);
                 Inifile.INIWriteValue(iniParameterPath, "Oracle", "User", SQL_ora_user);
                 Inifile.INIWriteValue(iniParameterPath, "Oracle", "Passwold", SQL_ora_pwd);
