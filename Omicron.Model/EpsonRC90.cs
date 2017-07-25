@@ -80,6 +80,7 @@ namespace Omicron.Model
         bool IsPassLowLimitStop;
         bool IsCheckINI;
         public int[] AdminAddNum = new int[4] { 0, 0, 0, 0 };
+        private string ScanCheckPickStr = "";
         #endregion
         #region 事件定义
         public delegate void PrintEventHandler(string ModelMessageStr);
@@ -457,20 +458,52 @@ namespace Omicron.Model
                                     break;
                                 case "ScanP3":
                                     //EpsonScanAction(strs[1], BacodeProcess);
+                                    PickBracodeA = "Null";
+                                    PickBracodeB = "Null";
                                     R750Inspect();
+                                    break;
+                                case "ScanCheck":
+                                    ScanCheckPickStr = strs[1];
+                                    R750Inspect1();
                                     break;
                                 case "SaveBarcode":
                                     switch (strs[2])
                                     {
                                         case "A":
                                             PickBracodeA = testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2];
+                                            testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2] = "Null";
                                             break;
                                         case "B":
                                             PickBracodeB = testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2];
+                                            testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2] = "Null";
                                             break;
                                         default:
                                             break;
                                     }
+                                    string barstr1;
+                                    switch (int.Parse(strs[1]) - 1)
+                                    {
+                                        case 0:
+                                            barstr1 = "TesterBracodeAL";
+                                            TesterBracodeAL = "Null";
+                                            break;
+                                        case 1:
+                                            barstr1 = "TesterBracodeAR";
+                                            TesterBracodeAR = "Null";
+                                            break;
+                                        case 2:
+                                            barstr1 = "TesterBracodeBL";
+                                            TesterBracodeBL = "Null";
+                                            break;
+                                        case 3:
+                                            barstr1 = "TesterBracodeBR";
+                                            TesterBracodeBR = "Null";
+                                            break;
+                                        default:
+                                            barstr1 = "";
+                                            break;
+                                    }
+                                    Inifile.INIWriteValue(iniParameterPath, "Barcode", barstr1, "Null");
                                     break;
                                 case "Start":
                                     switch (strs[2])
@@ -503,6 +536,7 @@ namespace Omicron.Model
                                                     break;
                                             }
                                             Inifile.INIWriteValue(iniParameterPath, "Barcode", barstr, PickBracodeA);
+                                            PickBracodeA = "Null";
                                             //tester[int.Parse(strs[1]) - 1].Start(StartProcess);
                                             switch ((int.Parse(strs[1]) - 1) % 2)
                                             {
@@ -523,6 +557,7 @@ namespace Omicron.Model
                                             //Tester.IsInSampleMode = false;
 
                                             testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2] = PickBracodeB;
+                                            
                                             //SaveStartBarcodetoCSV(PickBracodeB, int.Parse(strs[1]));
                                             switch (int.Parse(strs[1]) - 1)
                                             {
@@ -547,6 +582,7 @@ namespace Omicron.Model
                                                     break;
                                             }
                                             Inifile.INIWriteValue(iniParameterPath, "Barcode", barstr, PickBracodeB);
+                                            PickBracodeB = "Null";
                                             switch ((int.Parse(strs[1]) - 1) % 2)
                                             {
                                                 case 0:
@@ -586,7 +622,18 @@ namespace Omicron.Model
                                             testerwith4item[(int.Parse(strs[2]) - 1) / 2].UpdateTester1(1, (int.Parse(strs[2]) - 1) % 2);
                                             if (IsCheckINI)
                                             {
-                                                CheckiniAction(testerwith4item[(int.Parse(strs[2]) - 1) / 2].TesterBracode[(int.Parse(strs[2]) - 1) % 2], int.Parse(strs[2]) - 1);
+                                                switch (strs[3])
+                                                {
+                                                    case "A":
+                                                        CheckiniAction(PickBracodeA, int.Parse(strs[2]) - 1);
+                                                        break;
+                                                    case "B":
+                                                        CheckiniAction(PickBracodeB, int.Parse(strs[2]) - 1);
+                                                        break;
+                                                    default:
+                                                        break;
+                                                }
+                                                
                                             }
                                             break;
                                         case "NG":
@@ -712,6 +759,7 @@ namespace Omicron.Model
                                                     break;
                                             }
                                             Inifile.INIWriteValue(iniParameterPath, "Barcode", barstr, PickBracodeA);
+                                            PickBracodeA = "Null";
                                             //tester[int.Parse(strs[1]) - 1].Start(StartProcess);
                                             switch ((int.Parse(strs[1]) - 1) % 2)
                                             {
@@ -756,6 +804,7 @@ namespace Omicron.Model
                                                     break;
                                             }
                                             Inifile.INIWriteValue(iniParameterPath, "Barcode", barstr, PickBracodeB);
+                                            PickBracodeB = "Null";
                                             switch ((int.Parse(strs[1]) - 1) % 2)
                                             {
                                                 case 0:
@@ -868,12 +917,19 @@ namespace Omicron.Model
                         System.Threading.Thread.Sleep(1000);
                         ModelPrint((index+1).ToString() + "条码比对中 " + Math.Round(sw.Elapsed.TotalSeconds, 1).ToString());
                         string bar1 = Inifile.INIGetStringValue(iniFilepath, sectionName, "bar", "999");
-                        if (bar1 == barcode || sw.Elapsed.TotalSeconds > 30 || !IsCheckINI)
+                        string rst = Inifile.INIGetStringValue(iniFilepath, sectionName, "result", "999"); 
+                        if ((bar1 == barcode && rst == "PASS") || sw.Elapsed.TotalSeconds > 30 || !IsCheckINI)
                         {
                             
                             break;
                         }
-                        
+                        else
+                        {
+                            if (bar1 == barcode)
+                            {
+                                ModelPrint("条码 " + barcode +" 匹配成功，但结果异常");
+                            }
+                        }
                     }
                 });
             }))();
@@ -1109,6 +1165,10 @@ namespace Omicron.Model
             //return barcodeString;
             //return "Z71A0HB2HP192Z" + getString(2);
         }
+        public void R750Inspect1()
+        {
+            Scan.GetBarCode(ScanCheckCallback);
+        }
         private async void R750InspectCallback(string barcode)
         {
             PickBracodeA = barcode;
@@ -1131,6 +1191,53 @@ namespace Omicron.Model
                 }
             }
             ScanP3Update1(barcode);
+        }
+        private async void ScanCheckCallback(string barcode)
+        {
+            string pickbarcode = "";
+            switch (ScanCheckPickStr)
+            {
+                case "A":
+                    pickbarcode = PickBracodeA;
+                    break;
+                case "B":
+                    pickbarcode = PickBracodeB;
+                    break;
+                default:
+                    break;
+            }
+            
+            
+            if (barcode == "Error")
+            {
+
+                ModelPrint("扫码不良");
+                if (TestSendStatus)
+                {
+                    await TestSentNet.SendAsync("CheckScanResult;Ng");
+                }
+            }
+            else
+            {
+                ModelPrint("扫码成功 " + barcode);
+                if (pickbarcode == barcode)
+                {
+                    ModelPrint("条码比对成功 " + barcode);
+                    if (TestSendStatus)
+                    {
+                        await TestSentNet.SendAsync("CheckScanResult;Pass");
+                    }
+                }
+                else
+                {
+                    ModelPrint("条码比对失败 " + barcode);
+                    if (TestSendStatus)
+                    {
+                        await TestSentNet.SendAsync("CheckScanResult;Ng");
+                    }
+                }
+            }
+            //ScanP3Update1(barcode);
         }
         public string getString(int count)
         {

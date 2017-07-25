@@ -186,6 +186,8 @@ namespace Omicron.ViewModel
         public virtual string AlarmSavePath { set; get; }
 
         public virtual int NGContinueNum { set; get; }
+        public virtual int NGOverlayNum { set; get; }
+        public virtual bool IsReleaseFailContinue { set; get; }
 
         public virtual string AlarmTextString { set; get; }
         public virtual string AlarmTextGridShow { set; get; } = "Collapsed";
@@ -594,6 +596,7 @@ namespace Omicron.ViewModel
         private string[,] SampleDisplayArray = new string[4, 10];
         private bool SampleWaitTime_Cancel = false;
         private ushort UpdateSeverTimes = 0;
+        private bool _AutoClean = false;
 
         #endregion
         #region 构造函数
@@ -645,7 +648,7 @@ namespace Omicron.ViewModel
 
             ReadAlarmRecord();
 
-            //TwinCatVarInit();
+            TwinCatVarInit();
 
 
             Async.RunFuncAsync(UpdateUI, null);
@@ -1518,6 +1521,15 @@ namespace Omicron.ViewModel
 
             Inifile.INIWriteValue(iniParameterPath, "Tester", "NGContinueNum", NGContinueNum.ToString());
 
+            str = "NGOverlayNum;" + NGOverlayNum.ToString();
+            if (epsonRC90.TestSendStatus)
+            {
+                await epsonRC90.TestSentNet.SendAsync(str);
+                Msg = messagePrint.AddMessage(str);
+            }
+
+            Inifile.INIWriteValue(iniParameterPath, "NGOverlay", "NGOverlayNum", NGOverlayNum.ToString());
+
             //str = "BarcodeMode;" + BarcodeMode.ToString();
             //if (epsonRC90.TestSendStatus)
             //{
@@ -1549,6 +1561,14 @@ namespace Omicron.ViewModel
             }
             Inifile.INIWriteValue(iniParameterPath, "CheckINI", "IsCheckINI", IsCheckINI.ToString());
 
+            str = "IsReleaseFailContinue;" + IsReleaseFailContinue.ToString();
+            if (epsonRC90.TestSendStatus)
+            {
+                await epsonRC90.TestSentNet.SendAsync(str);
+                Msg = messagePrint.AddMessage(str);
+            }
+            Inifile.INIWriteValue(iniParameterPath, "ReleaseFail", "IsReleaseFailContinue", IsReleaseFailContinue.ToString());
+
             if (num < 2)
             {
                 AABReTest = false;
@@ -1572,13 +1592,14 @@ namespace Omicron.ViewModel
         }
         private void AutoClean()
         {
+            _AutoClean = true;
             for (int i = 0; i < 8; i++)
             {
                 CleantoZero(i);
             }
             TotalAlarmNum = 0;
             ClearAlarmRecord();
-
+            _AutoClean = false;
 
         }
         public void CleantoZero(object p)
@@ -1615,6 +1636,13 @@ namespace Omicron.ViewModel
                     Inifile.INIWriteValue(iniTesterResutPath, "Tester" + (i - 4).ToString(), "Yield_Nomal", "0");
                     Msg = messagePrint.AddMessage("测试机 " + (i - 4 + 1).ToString() + " 数据清空");
                 }
+                if (!_AutoClean)
+                {
+                    TotalAlarmNum = 0;
+                    ClearAlarmRecord();
+                    DeleteAlarmFile();
+                }
+
 
             }
             catch
@@ -1622,7 +1650,28 @@ namespace Omicron.ViewModel
 
             }
         }
+        private void DeleteAlarmFile()
+        {
+            string Bancistr = DateTime.Now.Hour >= 8 && DateTime.Now.Hour < 20 ? "白班" : "夜班";
+            string filepath = AlarmSavePath + "\\Alarm" + AlarmLastDateNameStr + Bancistr + ".csv";
+            try
+            {
+                if (File.Exists(filepath))
+                {
+                    File.Delete(filepath);
+                }
+                else
+                {
+                    Msg = messagePrint.AddMessage("报警文件不存在");
+                }
 
+            }
+            catch (Exception ex)
+            {
+                Msg = messagePrint.AddMessage("删除报警文件失败");
+                Log.Default.Error("删除报警文件失败", ex.Message);
+            }
+        }
         public void SelectSavePath(object p)
         {
             FolderBrowserDialog dlg = new FolderBrowserDialog();
@@ -4489,13 +4538,16 @@ namespace Omicron.ViewModel
                 TestRecordSavePath = Inifile.INIGetStringValue(iniParameterPath, "SavePath", "TestRecordSavePath", "C:\\");
                 AlarmSavePath = Inifile.INIGetStringValue(iniParameterPath, "SavePath", "AlarmSavePath", "C:\\");
                 NGContinueNum = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Tester", "NGContinueNum", "4"));
+                
+                NGOverlayNum = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "NGOverlay", "NGOverlayNum", "4"));
                 BarcodeMode = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "BarcodeMode", "BarcodeMode", "True"));
                 AABReTest = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "ReTest", "AABReTest", "False"));
 
                 IsTestersClean = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "IsTestersClean", "False"));
                 IsTestersSample = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "Sample", "IsTestersSample", "False"));
                 //IsTestersSample = true;
-
+                //Inifile.INIWriteValue(iniParameterPath, "ReleaseFail", "IsReleaseFailContinue", IsReleaseFailContinue.ToString());
+                IsReleaseFailContinue = bool.Parse(Inifile.INIGetStringValue(iniParameterPath, "ReleaseFail", "IsReleaseFailContinue", "False"));
                 lastchuiqi.wDay = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wDay", "13"));
                 lastchuiqi.wDayOfWeek = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wDayOfWeek", "0"));
                 lastchuiqi.wHour = ushort.Parse(Inifile.INIGetStringValue(iniParameterPath, "Chuiqi", "wHour", "17"));
@@ -4603,8 +4655,9 @@ namespace Omicron.ViewModel
                 Inifile.INIWriteValue(iniParameterPath, "Tester", "TestCheckedBL", TestCheckedBL.ToString());
                 Inifile.INIWriteValue(iniParameterPath, "Tester", "TestCheckedBR", TestCheckedBR.ToString());
 
-                //NGContinueNum
+                //NGContinueNum NGOverlayNum
                 Inifile.INIWriteValue(iniParameterPath, "Tester", "NGContinueNum", NGContinueNum.ToString());
+                Inifile.INIWriteValue(iniParameterPath, "NGOverlay", "NGOverlayNum", NGOverlayNum.ToString());
                 //Inifile.INIWriteValue(iniParameterPath, "Barcode", "PickBracodeA", PickBracodeA);
                 //Inifile.INIWriteValue(iniParameterPath, "Barcode", "TesterBracodeAL", TesterBracodeAL);
                 //Inifile.INIWriteValue(iniParameterPath, "Barcode", "TesterBracodeAR", TesterBracodeAR);
@@ -4614,7 +4667,8 @@ namespace Omicron.ViewModel
                 Inifile.INIWriteValue(iniParameterPath, "ReTest", "AABReTest", AABReTest.ToString());
                 Inifile.INIWriteValue(iniParameterPath, "Chuiqi", "IsTestersClean", IsTestersClean.ToString());
                 Inifile.INIWriteValue(iniParameterPath, "Sample", "IsTestersSample", IsTestersSample.ToString());
-
+                //IsReleaseFailContinue
+                Inifile.INIWriteValue(iniParameterPath, "ReleaseFail", "IsReleaseFailContinue", IsReleaseFailContinue.ToString());
                 Inifile.INIWriteValue(iniParameterPath, "Oracle", "Server", SQL_ora_server);
                 Inifile.INIWriteValue(iniParameterPath, "Oracle", "User", SQL_ora_user);
                 Inifile.INIWriteValue(iniParameterPath, "Oracle", "Passwold", SQL_ora_pwd);

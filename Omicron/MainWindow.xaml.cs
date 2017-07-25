@@ -27,25 +27,25 @@ namespace Omicron
         public MainWindow()
         {
             InitializeComponent();
-            //if (System.Environment.CurrentDirectory != @"C:\Debug")
-            //{
-            //    System.Windows.MessageBox.Show("软件安装目录必须为C:\\Debug");
-            //    System.Windows.Application.Current.Shutdown();
-            //}
-            //else
-            //{
-            //    #region 判断系统是否已启动
+            if (System.Environment.CurrentDirectory != @"C:\Debug")
+            {
+                System.Windows.MessageBox.Show("软件安装目录必须为C:\\Debug");
+                System.Windows.Application.Current.Shutdown();
+            }
+            else
+            {
+                #region 判断系统是否已启动
 
-            //    System.Diagnostics.Process[] myProcesses = System.Diagnostics.Process.GetProcessesByName("Omicron");//获取指定的进程名   
-            //    if (myProcesses.Length > 1) //如果可以获取到知道的进程名则说明已经启动
-            //    {
-            //        System.Windows.MessageBox.Show("不允许重复打开软件");
-            //        System.Windows.Application.Current.Shutdown();
-            //    }
+                System.Diagnostics.Process[] myProcesses = System.Diagnostics.Process.GetProcessesByName("Omicron");//获取指定的进程名   
+                if (myProcesses.Length > 1) //如果可以获取到知道的进程名则说明已经启动
+                {
+                    System.Windows.MessageBox.Show("不允许重复打开软件");
+                    System.Windows.Application.Current.Shutdown();
+                }
 
 
-            //    #endregion
-            //}
+                #endregion
+            }
 
         }
 

@@ -135,6 +135,7 @@
 
                     <CheckBox x:Name="CheckBox5"  Content="AAB复测测试模式"  Style="{StaticResource CheckBoxBase}" IsChecked="{Binding AABReTest}"></CheckBox>
                     <CheckBox Content="INI条码比对"  Style="{StaticResource AdminControl}" IsChecked="{Binding IsCheckINI}"></CheckBox>
+                    
                 </StackPanel>
                 <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
 
@@ -180,7 +181,7 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox Grid.Row="2" Grid.Column="1" Header="文档路径">
+        <GroupBox Grid.Row="2" Grid.Column="1" Header="文档路径" FontSize="18">
             <StackPanel>
                 <StackPanel Margin="5,10,5,0" Orientation="Horizontal">
                     <TextBlock Style="{StaticResource TextBlockBase}" Text="结果保存路径: "></TextBlock>
@@ -192,6 +193,16 @@
                     <TextBox Width="260" Text="{Binding AlarmSavePath}"></TextBox>
                     <Button Margin="10,0,0,0" Content="选择" Width="80" FontSize="14" Height="30" Command="{mvvm:ActionAutoWithParam SelectSavePath}" CommandParameter="1"></Button>
                 </StackPanel>
+                <StackPanel Margin="5,30,5,0" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource TextBlockBase}" Text="NG盘层数："></TextBlock>
+                    <TextBox Style="{StaticResource TextBoxPort}" Text="{Binding NGOverlayNum}"></TextBox>
+                    <TextBlock Style="{StaticResource TextBlockBase}" Text="层"></TextBlock>
+                    
+                </StackPanel>
+                <StackPanel Margin="5,10,5,0" Orientation="Horizontal">
+                    <CheckBox Content="放料NG自动取出"  Style="{StaticResource AdminControl}" IsChecked="{Binding IsReleaseFailContinue}"></CheckBox>
+                </StackPanel>
+                
                 <!--<StackPanel Orientation="Horizontal">
                     <TextBlock Width="120" Text="样本保存路径: "></TextBlock>
                     <TextBox Width="260" Text="{Binding SampleSavePath}"></TextBox>
