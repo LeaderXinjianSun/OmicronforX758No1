@@ -1599,6 +1599,8 @@ namespace Omicron.ViewModel
             }
             TotalAlarmNum = 0;
             ClearAlarmRecord();
+            AlarmLastDayofYear = DateTime.Now.DayOfYear;
+            Inifile.INIWriteValue(iniAlarmRecordPath, "Alarm", "AlarmLastDayofYear", AlarmLastDayofYear.ToString());
             _AutoClean = false;
 
         }
@@ -1721,7 +1723,7 @@ namespace Omicron.ViewModel
         private void SaveCSVfileAlarm(string str)
         {
             //AlarmLastDayofYear = DateTime.Now.DayOfYear;
-            if (AlarmLastDateNameStr != DateTime.Now.ToLongDateString() && (DateTime.Now.Hour >= 8 || (DateTime.Now.DayOfYear - AlarmLastDayofYear) * 24 + DateTime.Now.Hour > 24))
+            if (AlarmLastDateNameStr != DateTime.Now.ToLongDateString() && (DateTime.Now.Hour >= 8 || (DateTime.Now.DayOfYear - AlarmLastDayofYear) * 24 + DateTime.Now.Hour > 48))
             {
                 AlarmLastDateNameStr = DateTime.Now.ToLongDateString();
                 Inifile.INIWriteValue(iniAlarmRecordPath, "Alarm", "AlarmLastDateNameStr", AlarmLastDateNameStr);
@@ -1898,8 +1900,7 @@ namespace Omicron.ViewModel
             }
             WriteAlarmRecord();
     
-            AlarmLastDayofYear = DateTime.Now.DayOfYear;
-            Inifile.INIWriteValue(iniAlarmRecordPath, "Alarm", "AlarmLastDayofYear", AlarmLastDayofYear.ToString());
+
             Msg = messagePrint.AddMessage("清空报警数据");
 
         }
@@ -4720,7 +4721,7 @@ namespace Omicron.ViewModel
             try
             {
                 AlarmLastDayofYear = int.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Alarm", "AlarmLastDayofYear", "0"));
-                AlarmLastDateNameStr = Inifile.INIGetStringValue(iniAlarmRecordPath, "Alarm", "AlarmLastDayofYear", "2017年5月5日");
+                AlarmLastDateNameStr = Inifile.INIGetStringValue(iniAlarmRecordPath, "Alarm", "AlarmLastDateNameStr", "2017年5月5日");
                 AlarmLastClearHourofYear = AlarmLastDayofYear = int.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Alarm", "AlarmLastClearHourofYear", "0"));
                 TotalAlarmNum = int.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Alarm", "TotalAlarmNum", "0"));
 

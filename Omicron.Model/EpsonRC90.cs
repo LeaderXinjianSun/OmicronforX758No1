@@ -918,7 +918,7 @@ namespace Omicron.Model
                         ModelPrint((index+1).ToString() + "条码比对中 " + Math.Round(sw.Elapsed.TotalSeconds, 1).ToString());
                         string bar1 = Inifile.INIGetStringValue(iniFilepath, sectionName, "bar", "999");
                         string rst = Inifile.INIGetStringValue(iniFilepath, sectionName, "result", "999"); 
-                        if ((bar1 == barcode && rst == "PASS") || sw.Elapsed.TotalSeconds > 30 || !IsCheckINI)
+                        if ((bar1 == barcode && rst == "OK") || sw.Elapsed.TotalSeconds > 30 || !IsCheckINI)
                         {
                             
                             break;
