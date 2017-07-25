@@ -3935,6 +3935,9 @@ namespace Omicron.ViewModel
                 case "MsgRev: 产品记录异常":
                     ShowAlarmTextGrid("比对INI记录异常\n请从吸嘴取下该产品");
                     break;
+                case "MsgRev: 条码查询记录异常":
+                    ShowAlarmTextGrid("扫码，对比条码异常\n请从吸嘴取下该产品");
+                    break;
                 //case "MsgRev: 单穴测试，一次完成":
                 //    SingleTestTimes++;
                 //    break;
