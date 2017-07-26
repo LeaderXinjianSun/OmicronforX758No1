@@ -471,39 +471,51 @@ namespace Omicron.Model
                                     {
                                         case "A":
                                             PickBracodeA = testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2];
-                                            testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2] = "Null";
+                                            if (!Testerwith4item.IsInSampleMode)
+                                            {
+                                                testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2] = "Null";
+                                            }
+                                            
                                             break;
                                         case "B":
                                             PickBracodeB = testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2];
-                                            testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2] = "Null";
+                                            if (!Testerwith4item.IsInSampleMode)
+                                            {
+                                                testerwith4item[(int.Parse(strs[1]) - 1) / 2].TesterBracode[(int.Parse(strs[1]) - 1) % 2] = "Null";
+                                            }
+                                                
                                             break;
                                         default:
                                             break;
                                     }
-                                    string barstr1;
-                                    switch (int.Parse(strs[1]) - 1)
+                                    if (!Testerwith4item.IsInSampleMode)
                                     {
-                                        case 0:
-                                            barstr1 = "TesterBracodeAL";
-                                            TesterBracodeAL = "Null";
-                                            break;
-                                        case 1:
-                                            barstr1 = "TesterBracodeAR";
-                                            TesterBracodeAR = "Null";
-                                            break;
-                                        case 2:
-                                            barstr1 = "TesterBracodeBL";
-                                            TesterBracodeBL = "Null";
-                                            break;
-                                        case 3:
-                                            barstr1 = "TesterBracodeBR";
-                                            TesterBracodeBR = "Null";
-                                            break;
-                                        default:
-                                            barstr1 = "";
-                                            break;
+                                        string barstr1;
+                                        switch (int.Parse(strs[1]) - 1)
+                                        {
+                                            case 0:
+                                                barstr1 = "TesterBracodeAL";
+                                                TesterBracodeAL = "Null";
+                                                break;
+                                            case 1:
+                                                barstr1 = "TesterBracodeAR";
+                                                TesterBracodeAR = "Null";
+                                                break;
+                                            case 2:
+                                                barstr1 = "TesterBracodeBL";
+                                                TesterBracodeBL = "Null";
+                                                break;
+                                            case 3:
+                                                barstr1 = "TesterBracodeBR";
+                                                TesterBracodeBR = "Null";
+                                                break;
+                                            default:
+                                                barstr1 = "";
+                                                break;
+                                        }
+                                        Inifile.INIWriteValue(iniParameterPath, "Barcode", barstr1, "Null");
                                     }
-                                    Inifile.INIWriteValue(iniParameterPath, "Barcode", barstr1, "Null");
+
                                     break;
                                 case "Start":
                                     switch (strs[2])
@@ -536,7 +548,11 @@ namespace Omicron.Model
                                                     break;
                                             }
                                             Inifile.INIWriteValue(iniParameterPath, "Barcode", barstr, PickBracodeA);
-                                            PickBracodeA = "Null";
+                                            if (!Testerwith4item.IsInSampleMode)
+                                            {
+                                                PickBracodeA = "Null";
+                                            }
+                                            
                                             //tester[int.Parse(strs[1]) - 1].Start(StartProcess);
                                             switch ((int.Parse(strs[1]) - 1) % 2)
                                             {
@@ -582,7 +598,11 @@ namespace Omicron.Model
                                                     break;
                                             }
                                             Inifile.INIWriteValue(iniParameterPath, "Barcode", barstr, PickBracodeB);
-                                            PickBracodeB = "Null";
+                                            if (!Testerwith4item.IsInSampleMode)
+                                            {
+                                                PickBracodeB = "Null";
+                                            }
+                                            
                                             switch ((int.Parse(strs[1]) - 1) % 2)
                                             {
                                                 case 0:
