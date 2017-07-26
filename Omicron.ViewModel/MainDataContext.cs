@@ -3964,11 +3964,15 @@ namespace Omicron.ViewModel
                     if (lastAlarmString != str)
                     {
                         lastAlarmString = str;
-                        alarmTableItemsList[0].ReleaseFail += 1;
-                        TotalAlarmNum++;
-                        WriteAlarmRecord();
-                        //SaveCSVfileAlarm("测试工位1，产品没放好");
-                        SaveCSVfileAlarm("Tester1 Release FPC Fail");
+                        
+                        if (!Testerwith4item.IsInSampleMode)
+                        {
+                            alarmTableItemsList[0].ReleaseFail += 1;
+                            TotalAlarmNum++;
+                            WriteAlarmRecord();
+
+                            SaveCSVfileAlarm("Tester1 Release FPC Fail");
+                        }
                     }
                     ShowAlarmTextGrid("测试工位1，产品没放好\n请将产品放回原位");
                     //addAlarm("测试工位1，产品没放好");
@@ -3977,11 +3981,15 @@ namespace Omicron.ViewModel
                     if (lastAlarmString != str)
                     {
                         lastAlarmString = str;
-                        alarmTableItemsList[1].ReleaseFail += 1;
-                        TotalAlarmNum++;
-                        WriteAlarmRecord();
-                        //SaveCSVfileAlarm("测试工位2，产品没放好");
-                        SaveCSVfileAlarm("Tester2 Release FPC Fail");
+
+                        if (!Testerwith4item.IsInSampleMode)
+                        {
+                            alarmTableItemsList[1].ReleaseFail += 1;
+                            TotalAlarmNum++;
+                            WriteAlarmRecord();
+                            //SaveCSVfileAlarm("测试工位2，产品没放好");
+                            SaveCSVfileAlarm("Tester2 Release FPC Fail");
+                        }
                     }
                     ShowAlarmTextGrid("测试工位2，产品没放好\n请将产品放回原位");
                     //addAlarm("测试工位2，产品没放好");
@@ -3990,11 +3998,15 @@ namespace Omicron.ViewModel
                     if (lastAlarmString != str)
                     {
                         lastAlarmString = str;
-                        alarmTableItemsList[2].ReleaseFail += 1;
-                        TotalAlarmNum++;
-                        WriteAlarmRecord();
-                        //SaveCSVfileAlarm("测试工位3，产品没放好");
-                        SaveCSVfileAlarm("Tester3 Release FPC Fail");
+
+                        if (!Testerwith4item.IsInSampleMode)
+                        {
+                            alarmTableItemsList[2].ReleaseFail += 1;
+                            TotalAlarmNum++;
+                            WriteAlarmRecord();
+                            //SaveCSVfileAlarm("测试工位3，产品没放好");
+                            SaveCSVfileAlarm("Tester3 Release FPC Fail");
+                        }
                     }
                     ShowAlarmTextGrid("测试工位3，产品没放好\n请将产品放回原位");
                     //addAlarm("测试工位3，产品没放好");
@@ -4003,11 +4015,15 @@ namespace Omicron.ViewModel
                     if (lastAlarmString != str)
                     {
                         lastAlarmString = str;
-                        alarmTableItemsList[3].ReleaseFail += 1;
-                        TotalAlarmNum++;
-                        WriteAlarmRecord();
-                        //SaveCSVfileAlarm("测试工位4，产品没放好");
-                        SaveCSVfileAlarm("Tester4 Release FPC Fail");
+
+                        if (!Testerwith4item.IsInSampleMode)
+                        {
+                            alarmTableItemsList[3].ReleaseFail += 1;
+                            TotalAlarmNum++;
+                            WriteAlarmRecord();
+                            //SaveCSVfileAlarm("测试工位4，产品没放好");
+                            SaveCSVfileAlarm("Tester4 Release FPC Fail");
+                        }
                     }
                     ShowAlarmTextGrid("测试工位4，产品没放好\n请将产品放回原位");
                     //addAlarm("测试工位4，产品没放好");
@@ -4091,7 +4107,7 @@ namespace Omicron.ViewModel
                 case "MsgRev: 样本盘缺料":                 
                     ShowAlarmTextGrid("样本盘缺料");
                     //addAlarm("样本盘缺料");
-                    SaveCSVfileAlarm("样本盘缺料");
+                    //SaveCSVfileAlarm("样本盘缺料");
                     break;
                 case "MsgRev: 测试机有料，请清空":
                     ShowAlarmTextGrid("测试机有料，请清空");
