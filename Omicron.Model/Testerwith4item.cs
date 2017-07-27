@@ -239,7 +239,7 @@ namespace Omicron.Model
                                 
                             }
                         }
-                        if (barstrnum < 3)
+                        if (barstrnum < 1)
                         {
                             FailCount_Nomal[index_i]++;
                         }

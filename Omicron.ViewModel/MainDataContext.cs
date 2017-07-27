@@ -635,6 +635,8 @@ namespace Omicron.ViewModel
             SampleDt.Columns.Add("CDATE", typeof(string));
             SampleDt.Columns.Add("CTIME", typeof(string));
             SampleDt.Columns.Add("SR01", typeof(string));
+            SampleDt.Columns.Add("FL02", typeof(string));
+            SampleDt.Columns.Add("FL03", typeof(string));
 
             alarmTableItemsList.Add(new AlarmTableItem("Station1"));
             alarmTableItemsList.Add(new AlarmTableItem("Station2"));
@@ -2149,7 +2151,7 @@ namespace Omicron.ViewModel
             }
             if (SampleDt.Rows.Count > 0)
             {
-                Csvfile.dt2csv(SampleDt, filepath, "SampleTest", "PARTNUM,SITEM,BARCODE,NGITEM,TRES,MNO,CDATE,CTIME,SR01");
+                Csvfile.dt2csv(SampleDt, filepath, "SampleTest", "PARTNUM,SITEM,BARCODE,NGITEM,TRES,MNO,CDATE,CTIME,SR01,FL02,FL03");
                 if (str != "")
                 {
                     System.Windows.MessageBox.Show("样本记录已保存");
@@ -2299,10 +2301,54 @@ namespace Omicron.ViewModel
                         if (SinglDt.Rows.Count == 0)
                         {
                             Msg = messagePrint.AddMessage("未查询到 " + (string)item["BARCODE"] + "," + (string)item["SR01"] + " 信息");
+                            item["TRES"] = "NoRecord";
                         }
                         else
                         {
                             item["TRES"] = (string)SinglDt.Rows[0]["FL01"];
+                            item["FL02"] = (string)SinglDt.Rows[0]["FL02"];
+                            item["FL03"] = (string)SinglDt.Rows[0]["FL03"];
+                            string mydate = (string)SinglDt.Rows[0]["FL02"];
+                            string mytime = (string)SinglDt.Rows[0]["FL03"];
+                            try
+                            {
+                                DateTime mydatetime = DateTime.ParseExact(mydate + mytime, "yyyyMMddHHmmss",
+           System.Globalization.CultureInfo.InvariantCulture);
+                                if (DateTime.Now.DayOfYear == mydatetime.DayOfYear)
+                                {
+                                    if ((DateTime.Now.Hour - mydatetime.Hour) * 60 + DateTime.Now.Minute - mydatetime.Minute < 30 && (DateTime.Now.Hour - mydatetime.Hour) * 60 + DateTime.Now.Minute - mydatetime.Minute >= 0)
+                                    {
+                                        item["TRES"] = (string)SinglDt.Rows[0]["FL01"];
+                                    }
+                                    else
+                                    {
+                                        item["TRES"] = "NotNew";
+                                    }
+                                }
+                                else
+                                {
+                                    if (DateTime.Now.DayOfYear == mydatetime.DayOfYear + 1)
+                                    {
+                                        if ((24 + DateTime.Now.Hour - mydatetime.Hour) * 60 + DateTime.Now.Minute - mydatetime.Minute < 30 && (24 + DateTime.Now.Hour - mydatetime.Hour) * 60 + DateTime.Now.Minute - mydatetime.Minute >= 0)
+                                        {
+                                            item["TRES"] = (string)SinglDt.Rows[0]["FL01"];
+                                        }
+                                        else
+                                        {
+                                            item["TRES"] = "NotNew";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        item["TRES"] = "NotNew";
+                                    }
+                                }
+                            }
+                            catch 
+                            {
+
+                            }
+
                         }
                     }
                 }
@@ -3481,9 +3527,12 @@ namespace Omicron.ViewModel
             dr["NGITEM"] = ngitem;
             dr["TRES"] = tresult;
             dr["MNO"] = mno.ToUpper();
-            dr["CDATE"] = (DateTime.Now.ToShortDateString()).Replace("/", "");
-            dr["CTIME"] = (DateTime.Now.ToShortTimeString()).Replace(":", "");
+            dr["CDATE"] = DateTime.Now.ToString("yyyyMMdd");
+            dr["CTIME"] = DateTime.Now.ToString("HHmmss");
             dr["SR01"] = bordid.ToUpper();
+            dr["FL02"] = DateTime.Now.ToString("yyyyMMdd");
+            dr["FL03"] = DateTime.Now.ToString("HHmmss");
+
 
             SampleDt.Rows.Add(dr);
             if (ngitem == tresult)
@@ -3514,6 +3563,7 @@ namespace Omicron.ViewModel
                 x758SampleResultData.SR01 = (string)item["SR01"];
                 //插入数据库
                 samInsertAction2(x758SampleResultData);
+
                 if ((string)item["TRES"] != (string)item["NGITEM"])
                 {
                     await Task.Delay(100);
@@ -5279,6 +5329,8 @@ namespace Omicron.ViewModel
                     x758SampleResultData.CDATE = (string)item["CDATE"];
                     x758SampleResultData.CTIME = (string)item["CTIME"];
                     x758SampleResultData.SR01 = (string)item["SR01"];
+                    x758SampleResultData.FL02 = (string)item["FL02"];
+                    x758SampleResultData.FL03 = (string)item["FL03"];
                     X758SampleResultDataTableItems.Add(x758SampleResultData);
                 }
             }
@@ -5765,6 +5817,8 @@ namespace Omicron.ViewModel
         public string CTIME { set; get; }
         //控制板ID
         public string SR01 { set; get; }
+        public string FL02 { set; get; }
+        public string FL03 { set; get; }
     }
     public class AlarmRecord
     {
