@@ -193,8 +193,14 @@ namespace Omicron.Model
             }
 
                 TestCount[index_i]++;
- 
-            Yield[index_i] = Math.Round((double)PassCount[index_i] / (PassCount[index_i] + FailCount[index_i]) * 100, 2);
+            if (PassCount[index_i] + FailCount[index_i] != 0)
+            {
+                Yield[index_i] = Math.Round((double)PassCount[index_i] / (PassCount[index_i] + FailCount[index_i]) * 100, 2);
+            }
+            else
+            {
+                Yield[index_i] = 0;
+            }
             try
             {
                 //Inifile.INIWriteValue(iniTesterResutPath, "Tester" + Index.ToString(), "TestSpan", TestSpan.ToString());
@@ -276,7 +282,14 @@ namespace Omicron.Model
             }
             if (!IsInSampleMode)
             {
-                Yield_Nomal[index_i] = Math.Round((double)PassCount_Nomal[index_i] / (PassCount_Nomal[index_i] + FailCount_Nomal[index_i]) * 100, 2);
+                if (PassCount_Nomal[index_i] + FailCount_Nomal[index_i] != 0)
+                {
+                    Yield_Nomal[index_i] = Math.Round((double)PassCount_Nomal[index_i] / (PassCount_Nomal[index_i] + FailCount_Nomal[index_i]) * 100, 2);
+                }
+                else
+                {
+                    Yield_Nomal[index_i] = 0;
+                }
             }
             
             try
