@@ -2231,7 +2231,7 @@ namespace Omicron.ViewModel
                 {
                     string dbtime = oraDB.sfc_getServerDateTime();
                     setLocalTime(dbtime);
-                    Msg = messagePrint.AddMessage("获取数据库时间： " + dbtime);
+                    //Msg = messagePrint.AddMessage("获取数据库时间： " + dbtime);
 
                     IsDBConnect = true;
                 }
