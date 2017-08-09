@@ -5540,7 +5540,7 @@ namespace Omicron.ViewModel
             bool m514 = false, M514 = false;
             bool m911 = false, M911 = false;
             bool m922 = false, M922 = false;
-
+            bool m281 = false, M281 = false;
             bool beckhoff_SuckFailedFlag = false;
 
             bool _PLCUnload = false;
@@ -5583,6 +5583,15 @@ namespace Omicron.ViewModel
                     //        ShowAlarmTextGrid("上料，产品，吸取失败");
                     //    }                        
                     //}
+                    M281 = XinjiePLC.readM(281);
+                    if (m281 != M281)
+                    {
+                        m281 = M281;
+                        if (M281)
+                        {
+                            ShowAlarmTextGrid("上料，漏吸料\n请将空盘内产品取出");
+                        }
+                    }
 
                     M263 = XinjiePLC.readM(263);
                     if (m263 != M263)
