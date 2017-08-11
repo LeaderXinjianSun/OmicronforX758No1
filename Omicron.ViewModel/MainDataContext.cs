@@ -3639,9 +3639,9 @@ namespace Omicron.ViewModel
                         FlexNum = 4;
                         i = 3;
                     }
+                    SampleDisplayArray[i, j] = (string)item["TRES"];
                     if (epsonRC90.TestSendStatus && FlexNum > 0)
                     {
-                        SampleDisplayArray[i, j] = (string)item["TRES"];
                         await epsonRC90.TestSentNet.SendAsync("SelectSampleResultfromDt;"+ FlexNum.ToString() + ";" + NgItem);
                     }
                 }
