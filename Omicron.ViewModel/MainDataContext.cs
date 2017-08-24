@@ -5414,7 +5414,7 @@ namespace Omicron.ViewModel
 
                 if (IsTestersSample && AllowSampleTestCommand)
                 {
-                    if (DateTime.Now.DayOfYear * 24 + DateTime.Now.Hour - LastSampleHour >= 15)
+                    if (DateTime.Now.DayOfYear * 24 + DateTime.Now.Hour - LastSampleHour >= 18)
                     {
                         if (IsTestersSample)
                         {
