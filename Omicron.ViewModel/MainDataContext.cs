@@ -378,6 +378,7 @@ namespace Omicron.ViewModel
         public virtual TwinCATCoil1 BFO2 { set; get; }
         public virtual TwinCATCoil1 BFO3 { set; get; }
 
+        public virtual TwinCATCoil1 PLCPreSuck { set; get; }
         public virtual string SQL_ora_server { set; get; }
         public virtual string SQL_ora_user { set; get; }
         public virtual string SQL_ora_pwd { set; get; }
@@ -538,7 +539,7 @@ namespace Omicron.ViewModel
         public virtual int YieldNowNum2 { set; get; }
         public virtual int YieldNowNum3 { set; get; }
         public virtual int YieldNowNum4 { set; get; }
-
+        public virtual bool WaitPcsFlag { set; get; }
 
         #endregion
         #region 变量定义区域
@@ -598,6 +599,11 @@ namespace Omicron.ViewModel
         private bool SampleWaitTime_Cancel = false;
         private ushort UpdateSeverTimes = 0;
         private bool _AutoClean = false;
+
+        double waitforinput = 0;
+        int inputtimes = 0;
+
+        ushort WaitPcsSecend = 0;
 
         #endregion
         #region 构造函数
@@ -804,6 +810,8 @@ namespace Omicron.ViewModel
             BFO1 = new TwinCATCoil1(new TwinCATCoil("MAIN.BFO1", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
             BFO2 = new TwinCATCoil1(new TwinCATCoil("MAIN.BFO2", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
             BFO3 = new TwinCATCoil1(new TwinCATCoil("MAIN.BFO3", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
+
+            PLCPreSuck = new TwinCATCoil1(new TwinCATCoil("MAIN.PLCPreSuck", typeof(bool), TwinCATCoil.Mode.Notice), _TwinCATAds);
 
             _TwinCATAds.StartNotice();
         }
@@ -1604,6 +1612,10 @@ namespace Omicron.ViewModel
         private void AutoClean()
         {
             _AutoClean = true;
+            waitforinput = 0;
+            Inifile.INIWriteValue(iniParameterPath, "Summary", "waitforinput", waitforinput.ToString());
+            inputtimes = 0;
+            Inifile.INIWriteValue(iniParameterPath, "Summary", "inputtimes", inputtimes.ToString());
             for (int i = 0; i < 8; i++)
             {
                 CleantoZero(i);
@@ -4712,7 +4724,8 @@ namespace Omicron.ViewModel
                 {
                     AdminControl = bool.Parse(adminstr);
                 }
-                
+                waitforinput = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "Summary", "waitforinput", "0"));
+                inputtimes = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Summary", "inputtimes", "0"));
                 return true;
             }
             catch (Exception ex)
@@ -5190,11 +5203,25 @@ namespace Omicron.ViewModel
         }
         private async void DispatcherTimerTickUpdateUi(Object sender, EventArgs e)
         {
+            
             var yue = DateTime.Now.Month;
             var day = DateTime.Now.Day;
             //LoginPassword
             var password1 = yue + day;
             string passwordstr = "";
+
+            if (WaitPcsSecend++ >  60)
+            {
+                WaitPcsSecend = 0;
+                if (WaitPcsFlag)
+                {
+                    waitforinput += 0.0167;
+                    Inifile.INIWriteValue(iniParameterPath, "Summary", "waitforinput", waitforinput.ToString());
+                }
+            }
+
+
+
             for (int i = 0; i < 4 - password1.ToString().Length; i++)
             {
                 passwordstr += "0";
@@ -5534,14 +5561,16 @@ namespace Omicron.ViewModel
         {
             bool TakePhoteFlage = false, _TakePhoteFlage = false;
             bool _IsShieldTheDoor = false;
-            bool m207 = false, M207 = false;
+            bool m226 = false, M226 = false;
             bool m1220 = false, M1220 = false;
             bool m263 = false, M263 = false;
             bool m514 = false, M514 = false;
             bool m911 = false, M911 = false;
             bool m922 = false, M922 = false;
             bool m281 = false, M281 = false;
+            bool m915 = false, M915 = false;
             bool beckhoff_SuckFailedFlag = false;
+
 
             bool _PLCUnload = false;
             bool _EStop = false;
@@ -5574,15 +5603,20 @@ namespace Omicron.ViewModel
                 }
                 else
                 {
-                    //M207 = XinjiePLC.readM(207);
-                    //if (m207 != M207)
-                    //{
-                    //    m207 = M207;
-                    //    if (M207)
-                    //    {
-                    //        ShowAlarmTextGrid("上料，产品，吸取失败");
-                    //    }                        
-                    //}
+                    M226 = XinjiePLC.readM(226);
+                    if (m226 != M226)
+                    {
+                        m226 = M226;
+                        if (M226)
+                        {
+                            //ShowAlarmTextGrid("上料，产品，吸取失败");
+                            Msg = messagePrint.AddMessage("上料计数加一");
+                            inputtimes++;
+                            Inifile.INIWriteValue(iniParameterPath, "Summary", "inputtimes", inputtimes.ToString());
+
+                        }
+                    }
+                    WaitPcsFlag = XinjiePLC.readM(2113);
                     M281 = XinjiePLC.readM(281);
                     if (m281 != M281)
                     {
@@ -5590,6 +5624,16 @@ namespace Omicron.ViewModel
                         if (M281)
                         {
                             ShowAlarmTextGrid("上料，漏吸料\n请将空盘内产品取出");
+                        }
+                    }
+
+                    M915 = XinjiePLC.readM(915);
+                    if (m915 != M915)
+                    {
+                        m915 = M915;
+                        if (M915)
+                        {
+                            ShowAlarmTextGrid("下料，蓝盘运输失败");
                         }
                     }
 
@@ -5710,6 +5754,8 @@ namespace Omicron.ViewModel
 
                         M420.Value = XinjiePLC.readM(420);
                         M1202.Value = XinjiePLC.readM(1202);
+
+                        XinjiePLC.setM(1209, (bool)PLCPreSuck.Value);
 
                         double deltaY = (double)YPos.Value - (double)WaitPositionY.Value;
                         bool UnloadYSafe = deltaY < 1 && deltaY > -1;

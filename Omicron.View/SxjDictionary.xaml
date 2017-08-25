@@ -825,6 +825,18 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
+    <Style TargetType="TextBlock" x:Key="WaitPcsStyle">
+        <Setter Property="Text" Value="生产"></Setter>
+        <Setter Property="Background" Value="Blue"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=WaitPcsFlag}" Value="True">
+                <Setter Property="Text" Value="待料"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=WaitPcsFlag}" Value="True">
+                <Setter Property="Background" Value="Red"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
     <Style x:Key="MetroToggleButtonSVN"  TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource MetroToggleButton}">
         <Setter Property="Width" Value="50"></Setter>
         <Setter Property="Height" Value="50"></Setter>

@@ -28,7 +28,7 @@
             </Grid.ColumnDefinitions>
             <Grid>
                 <Grid.Background>
-                    <ImageBrush ImageSource="pictures/849378245772160706.jpg"></ImageBrush>
+                    <ImageBrush ImageSource="pictures/sxj.bmp"></ImageBrush>
                 </Grid.Background>
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>

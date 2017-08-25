@@ -110,13 +110,23 @@
             <StatusBarItem>
                 <Ellipse Style="{StaticResource DBConnectStatus}"></Ellipse>
             </StatusBarItem>
+
             <StatusBarItem HorizontalAlignment="Right" Margin="50,0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource WaitPcsStyle}"></TextBlock>
+                    <TextBlock Text="MODE:" Margin="10,0"></TextBlock>
+                    <TextBlock Text="{Binding OperateModeStr}"></TextBlock>
+                </StackPanel>
+
+            </StatusBarItem>
+            <!--<StatusBarItem  Margin="50,0">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="MODE:" Margin="10,0"></TextBlock>
                     <TextBlock Text="{Binding OperateModeStr}"></TextBlock>
                 </StackPanel>
-                
-            </StatusBarItem>
+
+            </StatusBarItem>-->
+
         </StatusBar>
     </Grid>
 </UserControl>
