@@ -5569,6 +5569,7 @@ namespace Omicron.ViewModel
             bool m922 = false, M922 = false;
             bool m281 = false, M281 = false;
             bool m915 = false, M915 = false;
+            bool m282 = false, M282 = false;
             bool beckhoff_SuckFailedFlag = false;
 
 
@@ -5624,6 +5625,16 @@ namespace Omicron.ViewModel
                         if (M281)
                         {
                             ShowAlarmTextGrid("上料，漏吸料\n请将空盘内产品取出");
+                        }
+                    }
+
+                    M282 = XinjiePLC.readM(282);
+                    if (m282 != M282)
+                    {
+                        m282 = M282;
+                        if (M282)
+                        {
+                            ShowAlarmTextGrid("下料，蓝盘光纤异常\n请将料盘上升到位");
                         }
                     }
 
