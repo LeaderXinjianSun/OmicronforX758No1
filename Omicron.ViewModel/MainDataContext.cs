@@ -602,6 +602,7 @@ namespace Omicron.ViewModel
 
         double waitforinput = 0;
         int inputtimes = 0;
+        int downtimes = 0;
 
         ushort WaitPcsSecend = 0;
 
@@ -1613,9 +1614,11 @@ namespace Omicron.ViewModel
         {
             _AutoClean = true;
             waitforinput = 0;
-            Inifile.INIWriteValue(iniParameterPath, "Summary", "waitforinput", waitforinput.ToString());
+            Inifile.INIWriteValue(iniAlarmRecordPath, "Summary", "waitforinput", waitforinput.ToString());
             inputtimes = 0;
-            Inifile.INIWriteValue(iniParameterPath, "Summary", "inputtimes", inputtimes.ToString());
+            Inifile.INIWriteValue(iniAlarmRecordPath, "Summary", "inputtimes", inputtimes.ToString());
+            downtimes = 0;
+            Inifile.INIWriteValue(iniAlarmRecordPath, "Summary", "downtimes", downtimes.ToString());
             for (int i = 0; i < 8; i++)
             {
                 CleantoZero(i);
@@ -4724,8 +4727,9 @@ namespace Omicron.ViewModel
                 {
                     AdminControl = bool.Parse(adminstr);
                 }
-                waitforinput = double.Parse(Inifile.INIGetStringValue(iniParameterPath, "Summary", "waitforinput", "0"));
-                inputtimes = int.Parse(Inifile.INIGetStringValue(iniParameterPath, "Summary", "inputtimes", "0"));
+                waitforinput = double.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Summary", "waitforinput", "0"));
+                inputtimes = int.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Summary", "inputtimes", "0"));
+                downtimes = int.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Summary", "downtimes", "0"));
                 return true;
             }
             catch (Exception ex)
@@ -5216,7 +5220,7 @@ namespace Omicron.ViewModel
                 if (WaitPcsFlag)
                 {
                     waitforinput += 0.0167;
-                    Inifile.INIWriteValue(iniParameterPath, "Summary", "waitforinput", waitforinput.ToString());
+                    Inifile.INIWriteValue(iniAlarmRecordPath, "Summary", "waitforinput", waitforinput.ToString());
                 }
             }
 
@@ -5562,6 +5566,7 @@ namespace Omicron.ViewModel
             bool TakePhoteFlage = false, _TakePhoteFlage = false;
             bool _IsShieldTheDoor = false;
             bool m226 = false, M226 = false;
+            bool m707 = false, M707 = false;
             bool m1220 = false, M1220 = false;
             bool m263 = false, M263 = false;
             bool m514 = false, M514 = false;
@@ -5613,7 +5618,19 @@ namespace Omicron.ViewModel
                             //ShowAlarmTextGrid("上料，产品，吸取失败");
                             Msg = messagePrint.AddMessage("上料计数加一");
                             inputtimes++;
-                            Inifile.INIWriteValue(iniParameterPath, "Summary", "inputtimes", inputtimes.ToString());
+                            Inifile.INIWriteValue(iniAlarmRecordPath, "Summary", "inputtimes", inputtimes.ToString());
+
+                        }
+                    }
+                    if (m707 != M707)
+                    {
+                        m707 = M707;
+                        if (M707)
+                        {
+                            //ShowAlarmTextGrid("上料，产品，吸取失败");
+                            Msg = messagePrint.AddMessage("下料计数加一");
+                            downtimes++;
+                            Inifile.INIWriteValue(iniAlarmRecordPath, "Summary", "downtimes", downtimes.ToString());
 
                         }
                     }
