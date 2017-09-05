@@ -5622,6 +5622,7 @@ namespace Omicron.ViewModel
 
                         }
                     }
+                    M707 = XinjiePLC.readM(707);
                     if (m707 != M707)
                     {
                         m707 = M707;
