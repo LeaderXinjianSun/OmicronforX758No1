@@ -602,7 +602,8 @@ namespace Omicron.ViewModel
 
         double waitforinput = 0;
         int inputtimes = 0;
-        int downtimes = 0;
+        //int downtimes = 0;
+        double downtime = 0;
 
         ushort WaitPcsSecend = 0;
 
@@ -1617,8 +1618,8 @@ namespace Omicron.ViewModel
             Inifile.INIWriteValue(iniAlarmRecordPath, "Summary", "waitforinput", waitforinput.ToString());
             inputtimes = 0;
             Inifile.INIWriteValue(iniAlarmRecordPath, "Summary", "inputtimes", inputtimes.ToString());
-            downtimes = 0;
-            Inifile.INIWriteValue(iniAlarmRecordPath, "Summary", "downtimes", downtimes.ToString());
+            downtime = 0;
+            Inifile.INIWriteValue(iniAlarmRecordPath, "Summary", "downtime", downtime.ToString());
             for (int i = 0; i < 8; i++)
             {
                 CleantoZero(i);
@@ -4729,7 +4730,7 @@ namespace Omicron.ViewModel
                 }
                 waitforinput = double.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Summary", "waitforinput", "0"));
                 inputtimes = int.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Summary", "inputtimes", "0"));
-                downtimes = int.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Summary", "downtimes", "0"));
+                downtime = double.Parse(Inifile.INIGetStringValue(iniAlarmRecordPath, "Summary", "downtime", "0"));
                 return true;
             }
             catch (Exception ex)
@@ -5222,6 +5223,13 @@ namespace Omicron.ViewModel
                     waitforinput += 0.0167;
                     Inifile.INIWriteValue(iniAlarmRecordPath, "Summary", "waitforinput", waitforinput.ToString());
                 }
+                //EpsonStatusPaused
+                if (EpsonStatusPaused)
+                {
+                    downtime += 0.0167;
+                    Inifile.INIWriteValue(iniAlarmRecordPath, "Summary", "downtime", downtime.ToString());
+                }
+
             }
 
 
@@ -5622,19 +5630,19 @@ namespace Omicron.ViewModel
 
                         }
                     }
-                    M707 = XinjiePLC.readM(707);
-                    if (m707 != M707)
-                    {
-                        m707 = M707;
-                        if (M707)
-                        {
-                            //ShowAlarmTextGrid("上料，产品，吸取失败");
-                            Msg = messagePrint.AddMessage("下料计数加一");
-                            downtimes++;
-                            Inifile.INIWriteValue(iniAlarmRecordPath, "Summary", "downtimes", downtimes.ToString());
+                    //M707 = XinjiePLC.readM(707);
+                    //if (m707 != M707)
+                    //{
+                    //    m707 = M707;
+                    //    if (M707)
+                    //    {
+                    //        //ShowAlarmTextGrid("上料，产品，吸取失败");
+                    //        Msg = messagePrint.AddMessage("下料计数加一");
+                    //        downtimes++;
+                    //        Inifile.INIWriteValue(iniAlarmRecordPath, "Summary", "downtimes", downtimes.ToString());
 
-                        }
-                    }
+                    //    }
+                    //}
                     WaitPcsFlag = XinjiePLC.readM(2113);
                     M281 = XinjiePLC.readM(281);
                     if (m281 != M281)
