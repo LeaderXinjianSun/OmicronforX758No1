@@ -5643,7 +5643,7 @@ namespace Omicron.ViewModel
 
                     //    }
                     //}
-                    WaitPcsFlag = XinjiePLC.readM(2113);
+                    WaitPcsFlag = XinjiePLC.readM(1050);
                     M281 = XinjiePLC.readM(281);
                     if (m281 != M281)
                     {
