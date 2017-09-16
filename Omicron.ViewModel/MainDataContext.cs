@@ -4138,19 +4138,19 @@ namespace Omicron.ViewModel
                     LastSampleTestTimeStr = lastSample.ToDateTime().ToString();
                     SaveLastSamplTimetoIni();
                     AllowSampleTestCommand = true;
-                    if (DateTime.Now.Hour >= 8 && DateTime.Now.Hour < 20)
+                    if (DateTime.Now.Hour >= 7 && DateTime.Now.Hour < 19)
                     {
-                        LastSampleHour = DateTime.Now.DayOfYear * 24 + 8;
+                        LastSampleHour = DateTime.Now.DayOfYear * 24 + 7;
                     }
                     else
                     {
-                        if (DateTime.Now.Hour >= 0 && DateTime.Now.Hour < 8)
+                        if (DateTime.Now.Hour >= 0 && DateTime.Now.Hour < 7)
                         {
-                            LastSampleHour = (DateTime.Now.DayOfYear - 1) * 24 + 20;
+                            LastSampleHour = (DateTime.Now.DayOfYear - 1) * 24 + 19;
                         }
                         else
                         {
-                            LastSampleHour = DateTime.Now.DayOfYear * 24 + 20;
+                            LastSampleHour = DateTime.Now.DayOfYear * 24 + 19;
                         }
                     }
                     //LastSampleHour = DateTime.Now.DayOfYear * 24 + DateTime.Now.Hour;
@@ -5453,7 +5453,7 @@ namespace Omicron.ViewModel
 
                 if (IsTestersSample && AllowSampleTestCommand)
                 {
-                    if (DateTime.Now.DayOfYear * 24 + DateTime.Now.Hour - LastSampleHour >= 18)
+                    if (DateTime.Now.DayOfYear * 24 + DateTime.Now.Hour - LastSampleHour >= 19)
                     {
                         if (IsTestersSample)
                         {
