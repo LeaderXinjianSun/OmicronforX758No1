@@ -550,6 +550,7 @@ namespace Omicron.ViewModel
         private string TwincatParameterPath = System.Environment.CurrentDirectory + "\\TwincatParameter.ini";
         private string iniTesterResutPath = System.Environment.CurrentDirectory + "\\TesterResut.ini";
         private string iniAdminControl = @"C:\WINDOWS\AdminControl.ini";
+        private string LimitSwStatusRecord = @"C:\WINDOWS\LimitSwStatus.csv";
         private XinjiePlc XinjiePLC;
         private HdevEngine hdevEngine = new HdevEngine();
         //private HdevEngine hdevScanEngine = new HdevEngine();
@@ -2146,6 +2147,18 @@ namespace Omicron.ViewModel
                     break;
                 default:
                     break;
+            }
+        }
+        private void SaveLimitSwStatusAction(string str)
+        {
+            if (!Directory.Exists(LimitSwStatusRecord))
+            {
+                Directory.CreateDirectory(LimitSwStatusRecord);
+            }
+            if (str != "")
+            {
+                string[] conte = { DateTime.Now.ToString(), str };
+                Csvfile.savetocsv(LimitSwStatusRecord, conte);
             }
         }
         private void SaveSampleRecordLocal(string str)
@@ -5584,7 +5597,23 @@ namespace Omicron.ViewModel
             bool m915 = false, M915 = false;
             bool m282 = false, M282 = false;
             bool beckhoff_SuckFailedFlag = false;
+            bool m1260 = false, M1260 = false;
+            bool m1261 = false, M1261 = false;
+            bool m1262 = false, M1262 = false;
+            bool m1263 = false, M1263 = false;
+            bool m1264 = false, M1264 = false;
+            bool m1265 = false, M1265 = false;
+            bool m1266 = false, M1266 = false;
+            bool m1267 = false, M1267 = false;
 
+            bool m1268 = false, M1268 = false;
+            bool m1269 = false, M1269 = false;
+            bool m1270 = false, M1270 = false;
+            bool m1271 = false, M1271 = false;
+            bool m1272 = false, M1272 = false;
+            bool m1273 = false, M1273 = false;
+            bool m1274 = false, M1274 = false;
+            bool m1275 = false, M1275 = false;
 
             bool _PLCUnload = false;
             bool _EStop = false;
@@ -5723,6 +5752,169 @@ namespace Omicron.ViewModel
                             AlarmTextGridShow = "Collapsed";
                         }                        
                     }
+                    #region 读取上下料极限传感器状态
+                    M1260 = XinjiePLC.readM(1260);
+                    if (m1260 != M1260)
+                    {
+                        m1260 = M1260;
+                        if (M1260)
+                        {
+                            SaveLimitSwStatusAction("上料1模组上光电开关On");
+                            Msg = messagePrint.AddMessage("上料1模组上光电开关On");
+                        }
+                    }
+                    M1261 = XinjiePLC.readM(1261);
+                    if (m1261 != M1261)
+                    {
+                        m1261 = M1261;
+                        if (M1261)
+                        {
+                            SaveLimitSwStatusAction("上料1模组上光电开关Off");
+                            Msg = messagePrint.AddMessage("上料1模组上光电开关Off");
+                        }
+                    }
+                    M1262 = XinjiePLC.readM(1262);
+                    if (m1262 != M1262)
+                    {
+                        m1262 = M1262;
+                        if (M1262)
+                        {
+                            SaveLimitSwStatusAction("上料1模组下光电开关On");
+                            Msg = messagePrint.AddMessage("上料1模组下光电开关On");
+                        }
+                    }
+                    M1263 = XinjiePLC.readM(1263);
+                    if (m1263 != M1263)
+                    {
+                        m1263 = M1263;
+                        if (M1263)
+                        {
+                            SaveLimitSwStatusAction("上料1模组下光电开关Off");
+                            Msg = messagePrint.AddMessage("上料1模组下光电开关Off");
+                        }
+                    }
+                    M1264 = XinjiePLC.readM(1264);
+                    if (m1264 != M1264)
+                    {
+                        m1264 = M1264;
+                        if (M1264)
+                        {
+                            SaveLimitSwStatusAction("上料2模组上光电开关On");
+                            Msg = messagePrint.AddMessage("上料2模组上光电开关On");
+                        }
+                    }
+                    M1265 = XinjiePLC.readM(1265);
+                    if (m1265 != M1265)
+                    {
+                        m1265 = M1265;
+                        if (M1265)
+                        {
+                            SaveLimitSwStatusAction("上料2模组上光电开关Off");
+                            Msg = messagePrint.AddMessage("上料2模组上光电开关Off");
+                        }
+                    }
+                    M1266 = XinjiePLC.readM(1266);
+                    if (m1266 != M1266)
+                    {
+                        m1266 = M1266;
+                        if (M1266)
+                        {
+                            SaveLimitSwStatusAction("上料2模组下光电开关On");
+                            Msg = messagePrint.AddMessage("上料2模组下光电开关On");
+                        }
+                    }
+                    M1267 = XinjiePLC.readM(1267);
+                    if (m1267 != M1267)
+                    {
+                        m1267 = M1267;
+                        if (M1267)
+                        {
+                            SaveLimitSwStatusAction("上料2模组下光电开关Off");
+                            Msg = messagePrint.AddMessage("上料2模组下光电开关Off");
+                        }
+                    }
+                    M1268 = XinjiePLC.readM(1268);
+                    if (m1268 != M1268)
+                    {
+                        m1268 = M1268;
+                        if (M1268)
+                        {
+                            SaveLimitSwStatusAction("下料1模组上光电开关On");
+                            Msg = messagePrint.AddMessage("下料1模组上光电开关On");
+                        }
+                    }
+                    M1269 = XinjiePLC.readM(1269);
+                    if (m1269 != M1269)
+                    {
+                        m1269 = M1269;
+                        if (M1269)
+                        {
+                            SaveLimitSwStatusAction("下料1模组上光电开关Off");
+                            Msg = messagePrint.AddMessage("下料1模组上光电开关Off");
+                        }
+                    }
+                    M1270 = XinjiePLC.readM(1270);
+                    if (m1270 != M1270)
+                    {
+                        m1270 = M1270;
+                        if (M1270)
+                        {
+                            SaveLimitSwStatusAction("下料1模组下光电开关On");
+                            Msg = messagePrint.AddMessage("下料1模组下光电开关On");
+                        }
+                    }
+                    M1271 = XinjiePLC.readM(1271);
+                    if (m1271 != M1271)
+                    {
+                        m1271 = M1271;
+                        if (M1271)
+                        {
+                            SaveLimitSwStatusAction("下料1模组下光电开关Off");
+                            Msg = messagePrint.AddMessage("下料1模组下光电开关Off");
+                        }
+                    }
+                    M1272 = XinjiePLC.readM(1272);
+                    if (m1272 != M1272)
+                    {
+                        m1272 = M1272;
+                        if (M1272)
+                        {
+                            SaveLimitSwStatusAction("下料2模组上光电开关On");
+                            Msg = messagePrint.AddMessage("下料2模组上光电开关On");
+                        }
+                    }
+                    M1273 = XinjiePLC.readM(1273);
+                    if (m1273 != M1273)
+                    {
+                        m1273 = M1273;
+                        if (M1273)
+                        {
+                            SaveLimitSwStatusAction("下料2模组上光电开关Off");
+                            Msg = messagePrint.AddMessage("下料2模组上光电开关Off");
+                        }
+                    }
+                    M1274 = XinjiePLC.readM(1274);
+                    if (m1274 != M1274)
+                    {
+                        m1274 = M1274;
+                        if (M1274)
+                        {
+                            SaveLimitSwStatusAction("下料2模组下光电开关On");
+                            Msg = messagePrint.AddMessage("下料2模组下光电开关On");
+                        }
+                    }
+                    M1275 = XinjiePLC.readM(1275);
+                    if (m1275 != M1275)
+                    {
+                        m1275 = M1275;
+                        if (M1275)
+                        {
+                            SaveLimitSwStatusAction("下料2模组下光电开关Off");
+                            Msg = messagePrint.AddMessage("下料2模组下光电开关Off");
+                        }
+                    }
+                    #endregion
+
 
                     EStop = XinjiePLC.readM(1206);
                     if (_EStop != EStop)
