@@ -42,6 +42,9 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Visibility="{Binding SafeDoorAlarmVisibility}" Background="Yellow">
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Brown" Text="安全门被屏蔽，请小心操作!" FontSize="36"></TextBlock>
+                    </Grid>
                     <Grid Visibility="{Binding AlarmTextGridShow}" Grid.Row="1" Background="Red">
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Text="{Binding AlarmTextString}" FontSize="36"></TextBlock>
                     </Grid>

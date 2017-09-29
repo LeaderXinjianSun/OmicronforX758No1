@@ -42,6 +42,7 @@ namespace Omicron.ViewModel
         public virtual string HelpPageVisibility { set; get; } = "Collapsed";
         public virtual string SampleTestResultPageVisibility { set; get; } = "Collapsed";
         public virtual string SampleProcessDisplayVisibility { set; get; } = "Collapsed";
+        public virtual string SafeDoorAlarmVisibility { set; get; } = "Collapsed";
         public virtual bool IsPLCConnect { set; get; } = false;
         public virtual bool IsTCPConnect { set; get; } = false;
         public virtual bool IsShieldTheDoor { set; get; } = false;
@@ -2151,10 +2152,10 @@ namespace Omicron.ViewModel
         }
         private void SaveLimitSwStatusAction(string str)
         {
-            if (!Directory.Exists(LimitSwStatusRecord))
-            {
-                Directory.CreateDirectory(LimitSwStatusRecord);
-            }
+            //if (!Directory.Exists(LimitSwStatusRecord))
+            //{
+            //    Directory.CreateDirectory(LimitSwStatusRecord);
+            //}
             if (str != "")
             {
                 string[] conte = { DateTime.Now.ToString(), str };
@@ -5614,6 +5615,7 @@ namespace Omicron.ViewModel
             bool m1273 = false, M1273 = false;
             bool m1274 = false, M1274 = false;
             bool m1275 = false, M1275 = false;
+            bool m1200 = false, M1200 = false;
 
             bool _PLCUnload = false;
             bool _EStop = false;
@@ -5751,6 +5753,20 @@ namespace Omicron.ViewModel
                         {
                             AlarmTextGridShow = "Collapsed";
                         }                        
+                    }
+
+                    M1200 = XinjiePLC.readM(1200);
+                    if (m1200 != M1200)
+                    {
+                        m1200 = M1200;
+                        if (M1220)
+                        {
+                            SafeDoorAlarmVisibility = "Visible";
+                        }
+                        else
+                        {
+                            SafeDoorAlarmVisibility = "Collapsed";
+                        }
                     }
                     #region 读取上下料极限传感器状态
                     M1260 = XinjiePLC.readM(1260);
