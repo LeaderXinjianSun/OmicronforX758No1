@@ -355,35 +355,36 @@ namespace Omicron.Model
                         }
                     }
 
-                    if (errorcode[0].Contains("5177") || errorcode[0].Contains("5315") || errorcode[0].Contains("5316"))
-                    {
-                        inibar = Inifile.INIGetStringValue(iniFilepath, sectionName1, "bar", "ABCDEFG");
-                        while (inibar != TesterBracode[0])
-                        {
-                            await Task.Delay(500);
-                            inibar = Inifile.INIGetStringValue(iniFilepath, sectionName1, "bar", "ABCDEFG");
-                            if (mResult == 2)
-                            {                                    
-                                return;
-                            }
-                        }
-                        if (inibar == TesterBracode[0]) 
-                        {
-                            string failitem = Inifile.INIGetStringValue(iniFilepath, sectionName1, "FIRST_FAILED_SPEC", "ABCDEFG");
-                            if (failitem == "VD_CM_RMS" || failitem == "CORR2_VD_RMS_Shape" || failitem == "CORR2_DI_DQ_Median" || failitem == "CORR2_DI_DQ_noCM_Median" || failitem == "NA")
-                            {                                
-                                testRemarks[0] = "Noise";
-                            }
-                            else
-                            {
-                                testRemarks[0] = "Normal";
-                            }
-                        }                        
-                    }
-                    else
-                    {
-                        testRemarks[0] = "Normal";
-                    }
+                    //if (errorcode[0].Contains("5177") || errorcode[0].Contains("5315") || errorcode[0].Contains("5316"))
+                    //{
+                    //    inibar = Inifile.INIGetStringValue(iniFilepath, sectionName1, "bar", "ABCDEFG");
+                    //    while (inibar != TesterBracode[0])
+                    //    {
+                    //        await Task.Delay(500);
+                    //        inibar = Inifile.INIGetStringValue(iniFilepath, sectionName1, "bar", "ABCDEFG");
+                    //        if (mResult == 2)
+                    //        {                                    
+                    //            return;
+                    //        }
+                    //    }
+                    //    if (inibar == TesterBracode[0]) 
+                    //    {
+                    //        string failitem = Inifile.INIGetStringValue(iniFilepath, sectionName1, "FIRST_FAILED_SPEC", "ABCDEFG");
+                    //        if (failitem == "VD_CM_RMS" || failitem == "CORR2_VD_RMS_Shape" || failitem == "CORR2_DI_DQ_Median" || failitem == "CORR2_DI_DQ_noCM_Median" || failitem == "NA")
+                    //        {                                
+                    //            testRemarks[0] = "Noise";
+                    //        }
+                    //        else
+                    //        {
+                    //            testRemarks[0] = "Normal";
+                    //        }
+                    //    }                        
+                    //}
+                    //else
+                    //{
+                    //    testRemarks[0] = "Normal";
+                    //}
+                    testRemarks[0] = "Normal";
                 });
             };
             Task taskDelay = Task.Delay(TestTimeout);
@@ -441,36 +442,36 @@ namespace Omicron.Model
                         }
                     }
 
-                    if (errorcode[1].Contains("5177") || errorcode[1].Contains("5315") || errorcode[1].Contains("5316"))
-                    {
-                        inibar = Inifile.INIGetStringValue(iniFilepath, sectionName2, "bar", "ABCDEFG");
-                        while (inibar != TesterBracode[1])
-                        {
-                            await Task.Delay(500);
-                            inibar = Inifile.INIGetStringValue(iniFilepath, sectionName2, "bar", "ABCDEFG");
-                            if (mResult == 2)
-                            {
-                                return;
-                            }
-                        }
-                        if (inibar == TesterBracode[1])
-                        {
-                            string failitem = Inifile.INIGetStringValue(iniFilepath, sectionName2, "FIRST_FAILED_SPEC", "ABCDEFG");
-                            if (failitem == "VD_CM_RMS" || failitem == "CORR2_VD_RMS_Shape" || failitem == "CORR2_DI_DQ_Median" || failitem == "CORR2_DI_DQ_noCM_Median" || failitem == "NA")
-                            {
-                                testRemarks[1] = "Noise";
-                            }
-                            else
-                            {
-                                testRemarks[1] = "Normal";
-                            }
-                        }
-                    }
-                    else
-                    {
-                        testRemarks[1] = "Normal";
-                    }
-
+                    //if (errorcode[1].Contains("5177") || errorcode[1].Contains("5315") || errorcode[1].Contains("5316"))
+                    //{
+                    //    inibar = Inifile.INIGetStringValue(iniFilepath, sectionName2, "bar", "ABCDEFG");
+                    //    while (inibar != TesterBracode[1])
+                    //    {
+                    //        await Task.Delay(500);
+                    //        inibar = Inifile.INIGetStringValue(iniFilepath, sectionName2, "bar", "ABCDEFG");
+                    //        if (mResult == 2)
+                    //        {
+                    //            return;
+                    //        }
+                    //    }
+                    //    if (inibar == TesterBracode[1])
+                    //    {
+                    //        string failitem = Inifile.INIGetStringValue(iniFilepath, sectionName2, "FIRST_FAILED_SPEC", "ABCDEFG");
+                    //        if (failitem == "VD_CM_RMS" || failitem == "CORR2_VD_RMS_Shape" || failitem == "CORR2_DI_DQ_Median" || failitem == "CORR2_DI_DQ_noCM_Median" || failitem == "NA")
+                    //        {
+                    //            testRemarks[1] = "Noise";
+                    //        }
+                    //        else
+                    //        {
+                    //            testRemarks[1] = "Normal";
+                    //        }
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    testRemarks[1] = "Normal";
+                    //}
+                    testRemarks[1] = "Normal";
                 });
             };
             Task taskDelay = Task.Delay(TestTimeout);
